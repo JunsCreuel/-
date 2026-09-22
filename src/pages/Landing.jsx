@@ -11,9 +11,13 @@ export default function Landing() {
         </p>
       </section>
 
-      <section className="placeholder-page" aria-label="모임찾기">
-        <h2>모임찾기</h2>
-        <p>지금 열려 있는 방 목록은 3단계에서 채워질 예정이에요.</p>
+      <section className="placeholder-page">
+        <h2>노래를 들으며 사연을 남겨보는 첫 화면</h2>
+        <p>
+          노래 재생과 사연 쓰기를 바로 체험할 수 있는 히어로 영역은 방/음악
+          기능이 준비되는 3단계에서 만들 예정이에요. 방 목록은 이제 위 네비
+          "모임찾기"에서만 볼 수 있어요.
+        </p>
       </section>
     </div>
   )

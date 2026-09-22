@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AppProvider } from './store/useApp'
 import Landing from './pages/Landing'
+import RoomList from './pages/RoomList'
 import RoomDetail from './pages/RoomDetail'
 import RoomRequestNew from './pages/RoomRequestNew'
 import MbtiTest from './pages/MbtiTest'
@@ -20,6 +21,7 @@ export default function App() {
             <Route index element={<Landing />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path="rooms" element={<RoomList />} />
             <Route path="room/:roomId" element={<RoomDetail />} />
             <Route
               path="room-request/new"

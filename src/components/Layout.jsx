@@ -18,6 +18,9 @@ export default function Layout() {
           새벽의 댓글창
         </NavLink>
         <nav className="site-nav">
+          <NavLink to="/rooms" className={({ isActive }) => (isActive ? 'active' : undefined)}>
+            모임찾기
+          </NavLink>
           <NavLink to="/room-request/new" className={({ isActive }) => (isActive ? 'active' : undefined)}>
             모임 열기 신청
           </NavLink>
