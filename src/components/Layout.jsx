@@ -2,9 +2,9 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useApp } from '../store/useApp'
 
 export default function Layout() {
-  const { getCurrentUser, logout } = useApp()
+  const { getCurrentUser, authLoading, logout } = useApp()
   const navigate = useNavigate()
-  const user = getCurrentUser()
+  const user = authLoading ? null : getCurrentUser()
 
   function handleLogout() {
     logout()
@@ -30,7 +30,7 @@ export default function Layout() {
           <NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : undefined)}>
             소개
           </NavLink>
-          {user ? (
+          {authLoading ? null : user ? (
             <>
               <span className="nav-user">{user.nickname}님</span>
               <button type="button" className="nav-logout" onClick={handleLogout}>

@@ -9,10 +9,13 @@ export default function Login() {
   const [nickname, setNickname] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
-    const result = login(nickname, password)
+    setSubmitting(true)
+    const result = await login(nickname, password)
+    setSubmitting(false)
     if (!result.ok) {
       setError(result.error)
       return
@@ -50,8 +53,8 @@ export default function Login() {
 
         {error && <p className="auth-error">{error}</p>}
 
-        <button type="submit" className="auth-submit">
-          로그인
+        <button type="submit" className="auth-submit" disabled={submitting}>
+          {submitting ? '로그인하는 중...' : '로그인'}
         </button>
       </form>
 
@@ -60,8 +63,9 @@ export default function Login() {
       </p>
 
       <p className="auth-disclaimer">
-        이 데모의 로그인은 실제 서버 인증이 아니에요. 닉네임과 비밀번호는 이
-        브라우저에만 저장되고, 다른 사람에게 전달되지 않아요.
+        닉네임과 비밀번호로 계정이 만들어지고, 남긴 사연은 이제 다른
+        방문자에게도 보여요. 이메일 등록 없이 가입하는 간이 계정이라
+        비밀번호를 잊으면 복구할 방법이 없으니 꼭 기억해두세요.
       </p>
     </div>
   )

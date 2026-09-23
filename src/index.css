@@ -290,6 +290,17 @@ p {
   background: var(--mint);
 }
 
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
 .auth-switch {
   text-align: center;
   font-size: 0.85rem;
