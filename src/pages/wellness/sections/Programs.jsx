@@ -1,86 +1,119 @@
 import { PHOTOS } from '../data'
 import { Reveal } from '../ui'
 
-const PROGRAMS = [
+// 용호점 시그니처 관리: 두피 · 얼굴 · 온열돔. 사진이 없는 항목은 단색 블록으로 처리한다.
+const SIGNATURE = [
   {
     no: '01',
-    title: '전신웜업케어',
-    sub: '온열돔',
-    photo: { src: PHOTOS.candleLeg, alt: '촛불 아래에서 종아리를 관리하는 손', width: 736, height: 1308 },
-    lines: ['깊고 균일한 온열감 속에서', '발한과 말초 순환까지 케어합니다.', '가장 편안한 휴식을 경험해 보세요.'],
+    title: '두피 관리',
+    sub: 'BASIC · PREMIUM',
+    // 원본이 236×354px 썸네일이라 큰 칸에서 흐려지지 않도록 폭을 제한한다. 큰 원본이 오면 small을 지운다.
+    photo: { src: PHOTOS.scalp, alt: '머리를 뒤로 기대고 두피 관리를 받는 모습', width: 236, height: 354, small: true },
+    tags: ['문제성 두피', '두피 열 다운'],
+    text: '머리가 지끈하고 두피가 답답한 날엔 두피부터 만져 보세요. 머리 꼭대기에 열이 오른 날엔 시원하게 식혀 드리고, 두피가 예민한 분은 천천히 풀어 드려요. 얼굴과 승모까지 이어서 받는 헤드스파 패키지도 있어요.',
   },
   {
     no: '02',
-    title: '바디 케어',
-    sub: '등 · 하체 · 복부 · 전신 후면',
-    photo: { src: PHOTOS.back, alt: '등을 부드럽게 관리하는 두 손', width: 736, height: 986 },
-    lines: ['오래 앉고 오래 서는 하루가 쌓인 곳을', '손으로 풀어 드립니다.', '등·하체 관리는 온열돔과 함께 진행해요.'],
+    title: '얼굴 관리',
+    sub: '',
+    photo: null,
+    soft: true,
+    tags: ['모공개선', '피부 온도 내리기', '수분리프팅'],
+    text: '화장이 들뜨고 얼굴이 푸석한 날엔 얼굴 관리를 받아 보세요. 모공이 신경 쓰이는 날도, 얼굴이 달아올라 열이 오른 날도, 건조해서 당기는 날도 맞는 관리가 있어요.',
   },
   {
     no: '03',
+    title: '전신웜업케어',
+    sub: '온열돔',
+    photo: { src: PHOTOS.candleLeg, alt: '촛불 아래에서 종아리를 관리하는 손', width: 736, height: 1308 },
+    tags: [],
+    text: '그냥 누워 계시면 돼요. 몸이 따뜻하게 풀리는 동안 땀도 나고, 손발 끝까지 따뜻해져요. 오늘은 아무것도 하기 싫은 날에 어울려요.',
+  },
+]
+
+const OTHERS = [
+  {
+    title: '바디 케어',
+    sub: '등 · 하체 · 복부 · 전신 후면',
+    photo: { src: PHOTOS.back, alt: '등을 부드럽게 관리하는 두 손', width: 736, height: 986 },
+    text: '하루 종일 앉아 있거나 서 있던 몸은 등과 다리에 다 쌓여요. 그 자리를 손으로 하나씩 풀어 드려요. 등과 하체는 온열돔으로 먼저 데운 다음에 들어가요.',
+  },
+  {
     title: '림프 케어',
     sub: '림프절 · 풀 바디 웜업 + 아로마테라피',
     photo: { src: PHOTOS.leg, alt: '다리를 부드럽게 쓸어 주는 손', width: 720, height: 1280 },
-    lines: ['무겁고 둔한 날, 겨드랑이 · 서혜부 · 목을 따라', '림프 순환을 부드럽게 케어합니다.'],
-  },
-  {
-    // 사진이 준비되기 전까지는 단색 블록으로 처리한다.
-    no: '04',
-    title: '헤드스파',
-    sub: '두피 · 얼굴 · 승모',
-    photo: null,
-    lines: ['머리부터 승모까지, 쉼을 완성합니다.', '두피 관리는 BASIC · PREMIUM 두 단계로 준비했어요.'],
+    text: '저녁에 다리가 무겁고 양말 자국이 깊게 남는 날, 겨드랑이와 서혜부, 목 쪽을 따라 부드럽게 쓸어 드려요.',
   },
 ]
+
+function Photo({ photo, no, title, soft }) {
+  if (!photo) {
+    return (
+      <div className={`w-photo w-photo--block${soft ? ' is-soft' : ''}`} aria-hidden="true">
+        <span>{no}</span>
+        <em>{title}</em>
+      </div>
+    )
+  }
+  return (
+    <figure className="w-photo">
+      <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+    </figure>
+  )
+}
 
 export default function Programs() {
   return (
     <section id="programs" className="w-section w-section--band">
       <div className="w-container">
         <Reveal as="p" className="w-eyebrow">
-          Program
+          받을 수 있는 관리
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          몸이 필요한 만큼,
+          오늘 제일 힘든 데부터
           <br />
-          골라 받는 관리
+          말씀해 주세요
         </Reveal>
 
+        <Reveal as="p" className="w-prog-head">
+          용호점 시그니처 관리
+        </Reveal>
         <div className="w-programs">
-          {PROGRAMS.map((p) => (
+          {SIGNATURE.map((p) => (
             <article key={p.no} className="w-program">
-              <Reveal mode="toggle" className="w-program__media">
-                {p.photo ? (
-                  <figure className="w-photo">
-                    <img
-                      src={p.photo.src}
-                      alt={p.photo.alt}
-                      width={p.photo.width}
-                      height={p.photo.height}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </figure>
-                ) : (
-                  <div className="w-photo w-photo--block" aria-hidden="true">
-                    <span>{p.no}</span>
-                    <em>{p.title}</em>
-                  </div>
-                )}
+              <Reveal mode="toggle" className={`w-program__media${p.photo?.small ? ' w-program__media--small' : ''}`}>
+                <Photo photo={p.photo} no={p.no} title={p.title} soft={p.soft} />
               </Reveal>
               <Reveal className="w-program__body">
                 <p className="w-program__no">{p.no}</p>
                 <h3>{p.title}</h3>
-                <p className="w-program__sub">{p.sub}</p>
-                <p className="w-program__text">
-                  {p.lines.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </p>
+                {p.sub && <p className="w-program__sub">{p.sub}</p>}
+                <p className="w-program__text">{p.text}</p>
+                {p.tags.length > 0 && (
+                  <ul className="w-tags">
+                    {p.tags.map((tag) => (
+                      <li key={tag}>{tag}</li>
+                    ))}
+                  </ul>
+                )}
               </Reveal>
             </article>
           ))}
         </div>
+
+        <Reveal as="p" className="w-prog-head w-prog-head--later">
+          그 밖의 관리
+        </Reveal>
+        <ul className="w-others">
+          {OTHERS.map((o) => (
+            <Reveal as="li" key={o.title} className="w-other">
+              <Photo photo={o.photo} title={o.title} />
+              <h3>{o.title}</h3>
+              <p className="w-program__sub">{o.sub}</p>
+              <p className="w-other__text">{o.text}</p>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   )

@@ -25,9 +25,7 @@ export default function WellnessFooter() {
             <dl className="w-footer__list">
               <div>
                 <dt>상호</dt>
-                <dd>
-                  {BRAND.ko} <Todo>상호/법인명</Todo>
-                </dd>
+                <dd>{BRAND.company}</dd>
               </div>
               <div>
                 <dt>대표</dt>
@@ -66,29 +64,6 @@ export default function WellnessFooter() {
             </dl>
           </div>
 
-          <div>
-            <h3 className="w-footer__head">CONTACT</h3>
-            <dl className="w-footer__list">
-              <div>
-                <dt>제휴 및 영업제안</dt>
-                <dd>
-                  <Todo>이메일</Todo>
-                </dd>
-              </div>
-              <div>
-                <dt>마케팅 제안</dt>
-                <dd>
-                  <Todo>이메일</Todo>
-                </dd>
-              </div>
-              <div>
-                <dt>CS 관련 문의</dt>
-                <dd>
-                  <Todo>이메일</Todo>
-                </dd>
-              </div>
-            </dl>
-          </div>
         </div>
 
         <p className="w-footer__copy">
