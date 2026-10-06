@@ -1,0 +1,87 @@
+/* 하단 탭(푸터) */
+
+.w-footer {
+  padding: clamp(3rem, 7vw, 5rem) var(--w-gutter);
+  /* 모바일 하단 고정 바에 가려지지 않도록 여백 확보 */
+  padding-bottom: calc(clamp(3rem, 7vw, 5rem) + 4.5rem + env(safe-area-inset-bottom));
+  background: var(--w-green);
+  color: var(--w-ivory);
+  font-size: 0.88rem;
+}
+
+.w-footer__brand {
+  font-family: var(--w-font-en);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+}
+
+.w-footer__policies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin-top: 1.4rem;
+  color: var(--w-on-green-muted);
+}
+
+.w-footer__policies li + li {
+  position: relative;
+}
+
+.w-footer__cols {
+  display: grid;
+  gap: 2.2rem;
+  margin-top: 2.2rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid var(--w-green-soft);
+}
+
+.w-footer__head {
+  margin-bottom: 1rem;
+  color: var(--w-on-green-muted);
+  font-family: var(--w-font-en);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+}
+
+.w-footer__list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.w-footer__list > div {
+  display: grid;
+  gap: 0.1rem 1rem;
+}
+
+.w-footer__list dt {
+  color: var(--w-on-green-muted);
+}
+
+.w-footer__list a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.w-footer__copy {
+  margin-top: 2.4rem;
+  color: var(--w-on-green-muted);
+  font-size: 0.8rem;
+}
+
+@media (min-width: 640px) {
+  .w-footer__list > div {
+    grid-template-columns: 9.5rem 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .w-footer {
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .w-footer__cols {
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4rem;
+  }
+}

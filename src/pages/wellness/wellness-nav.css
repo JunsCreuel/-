@@ -1,0 +1,240 @@
+/* 상단 고정 nav · 지점 스위치 · 모바일 패널 · 모바일 하단 예약 바 */
+
+.w-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--w-ivory) 92%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: box-shadow 0.3s ease;
+}
+
+.w-nav.is-scrolled {
+  box-shadow: 0 2px 20px color-mix(in srgb, var(--w-green) 12%, transparent);
+}
+
+.w-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--w-nav-h);
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--w-gutter);
+}
+
+.w-nav__brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.w-nav__brand-ko {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.w-nav__brand-en {
+  margin-top: 0.15rem;
+  color: var(--w-muted);
+  font-family: var(--w-font-en);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+}
+
+.w-nav__menu {
+  display: none;
+}
+
+.w-nav__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.w-nav__menu button,
+.w-branch__btn {
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* 지점 스위치 — 데스크톱에서만 드롭다운, 모바일은 패널 안에 둔다 */
+
+.w-branch {
+  position: relative;
+  display: none;
+}
+
+.w-branch__btn {
+  min-height: 42px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: var(--w-band);
+  font-weight: 600;
+}
+
+.w-branch__list {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: 0.4rem;
+  border-radius: 16px;
+  background: var(--w-ivory);
+  box-shadow: var(--w-shadow);
+}
+
+.w-branch__list a {
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.w-branch__list a:hover,
+.w-branch__list a[aria-current='page'] {
+  background: var(--w-band);
+  font-weight: 600;
+}
+
+/* 햄버거 */
+
+.w-nav__burger {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+}
+
+.w-nav__burger span {
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--w-green);
+}
+
+/* 모바일 패널 */
+
+.w-nav__panel {
+  padding: 0.5rem var(--w-gutter) 1.5rem;
+  background: var(--w-ivory);
+  box-shadow: 0 16px 24px color-mix(in srgb, var(--w-green) 10%, transparent);
+}
+
+.w-nav__panel-label {
+  margin: 1rem 0 0.4rem;
+  color: var(--w-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+.w-nav__panel-branches {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.w-nav__panel-branches a {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  border-radius: 12px;
+  background: var(--w-band);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.w-nav__panel-branches a[aria-current='page'] {
+  background: var(--w-green);
+  color: var(--w-ivory);
+  font-weight: 600;
+}
+
+.w-nav__panel-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.w-nav__panel-items button {
+  padding: 0.85rem 0.25rem;
+  border: 0;
+  border-bottom: 1px solid var(--w-hair);
+  background: none;
+  color: inherit;
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+/* 모바일 하단 고정 예약 바 */
+
+.w-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 40;
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.7rem var(--w-gutter) calc(0.7rem + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--w-ivory) 94%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -6px 20px color-mix(in srgb, var(--w-green) 10%, transparent);
+}
+
+.w-bar .w-btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 0 1rem;
+}
+
+.w-bar .w-btn--light {
+  flex: 0 0 28%;
+  background: var(--w-band);
+}
+
+/* 태블릿 이상 */
+
+@media (min-width: 900px) {
+  .w-nav__menu {
+    display: flex;
+    gap: 1.9rem;
+  }
+
+  .w-nav__menu button:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+    text-decoration-thickness: 1px;
+  }
+
+  .w-branch {
+    display: block;
+  }
+
+  .w-nav__burger,
+  .w-nav__panel,
+  .w-bar {
+    display: none;
+  }
+}
+
+/* 아주 좁은 화면 */
+
+@media (max-width: 380px) {
+  .w-nav__brand-ko {
+    font-size: 1.05rem;
+  }
+
+  .w-nav__right .w-btn {
+    padding: 0 0.9rem;
+  }
+}
