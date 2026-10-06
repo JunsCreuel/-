@@ -14,8 +14,8 @@
 
 .w-hero__title {
   margin-top: 1.2rem;
-  font-size: clamp(2.2rem, 8.4vw, 4rem);
-  line-height: 1.18;
+  font-size: clamp(1.95rem, 7.2vw, 3.7rem);
+  line-height: 1.22;
 }
 
 .w-hero__sub {
@@ -145,9 +145,9 @@
 
 .w-step__no {
   color: var(--w-muted);
-  font-family: var(--w-font-en);
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
 .w-step h3 {
@@ -590,10 +590,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .w-pain:last-child {
-    grid-column: 1 / -1;
-  }
-
   .w-feel__grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -603,11 +599,13 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 700px) {
   .w-steps {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
+@media (min-width: 800px) {
   .w-program {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
