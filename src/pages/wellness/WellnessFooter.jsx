@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRAND, BRANCHES, mapHref, reserveAction, telHref } from './data'
+import { BRAND, BRANCHES, MARINE_OPEN, OPEN_BRANCHES, mapHref, reserveAction, telHref } from './data'
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
@@ -25,12 +25,17 @@ export default function WellnessFooter({ items }) {
                 대표 : {BRAND.representative} | 사업자등록번호 : {BRAND.bizNo}
               </p>
               <p>
-                {zai.name} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+                {MARINE_OPEN ? zai.name : '주소'} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
               </p>
+              {MARINE_OPEN && (
+                <p>
+                  {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                </p>
+              )}
               <p>
-                {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                영업시간 : {MARINE_OPEN && `${zai.name} `}
+                {zai.hours}
               </p>
-              <p>영업시간 : {zai.name} {zai.hours}</p>
             </div>
 
             <div className="w-footer__cols">
@@ -54,12 +59,12 @@ export default function WellnessFooter({ items }) {
                     </button>
                   </li>
                 ))}
-                <li>
-                  <Link to={zai.path}>{zai.label}</Link>
-                </li>
-                <li>
-                  <Link to={marine.path}>{marine.label}</Link>
-                </li>
+                {OPEN_BRANCHES.length > 1 &&
+                  OPEN_BRANCHES.map((b) => (
+                    <li key={b.id}>
+                      <Link to={b.path}>{b.label}</Link>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
