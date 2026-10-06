@@ -1,14 +1,14 @@
-/* 브랜드 로고. 모든 크기는 원본 로고 이미지(815px) 안의 픽셀 × --u 로 계산해 비율을 지킨다. */
+/* 브랜드 로고. 모든 크기는 원본 로고 이미지(815px) 안의 픽셀 × --u 로 계산해 비율을 지키고, 색은 원본 그대로. */
 
 .w-logo {
   display: inline-flex;
-  color: inherit;
   line-height: 0;
 }
 
 .w-logo__mark {
   display: block;
   flex: none;
+  color: var(--w-logo-mark);
   width: calc(var(--u) * 108);
   height: calc(var(--u) * 103);
 }
@@ -21,7 +21,7 @@
 .w-logo__ko,
 .w-logo__en {
   display: block;
-  background-color: currentColor;
+  background-color: var(--w-logo-text);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -65,6 +65,17 @@
   align-items: center;
   gap: calc(var(--u) * 49);
   margin-top: calc(var(--u) * 44);
+}
+
+/* 어두운 배경(푸터)에서는 원본 색이 묻히므로 밝은 반전 색을 쓴다 */
+
+.w-footer .w-logo__mark {
+  color: var(--w-ivory);
+}
+
+.w-footer .w-logo__ko,
+.w-footer .w-logo__en {
+  background-color: var(--w-ivory);
 }
 
 @media (max-width: 420px) {
