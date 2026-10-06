@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { BRANCHES, mapHref, reserveAction, telHref } from '../data'
+import { scrollToId } from '../scroll'
 import { Reveal, Todo } from '../ui'
 
 // 지점 탭 + 선택한 지점의 오시는 길. 마린시티점 탭은 별도 페이지로 이동한다.
@@ -51,13 +52,15 @@ export default function Visit({ branch }) {
             <div>
               <dt>예약</dt>
               <dd>
-                {reserve.external ? (
-                  <a href={reserve.href} target="_blank" rel="noopener noreferrer">
-                    네이버 예약으로 예약하기
-                  </a>
-                ) : (
+                <button type="button" className="w-linkish" onClick={() => scrollToId('booking')}>
+                  상담 예약
+                </button>
+                {reserve.external && (
                   <>
-                    <a href={reserve.href}>전화로 예약하기</a> <Todo>마린시티점 네이버 예약 링크</Todo>
+                    {' · '}
+                    <a href={reserve.href} target="_blank" rel="noopener noreferrer">
+                      네이버 예약
+                    </a>
                   </>
                 )}
               </dd>
@@ -66,7 +69,7 @@ export default function Visit({ branch }) {
               <dt>지도</dt>
               <dd>
                 <a href={mapHref(branch)} target="_blank" rel="noopener noreferrer">
-                  네이버 지도에서 보기
+                  네이버 지도
                 </a>
               </dd>
             </div>
