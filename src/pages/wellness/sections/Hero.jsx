@@ -13,9 +13,7 @@ export default function Hero() {
             넓혀서 옮겨 왔어요 · 첫 방문 50%
           </Reveal>
           <Reveal as="h1" delay={80} className="w-hero__title">
-            머리는 띵하고 얼굴은 푸석한 채로
-            <br />
-            하루를 버티고 계시죠.
+            머리는 띵하고 얼굴은 푸석한 채로 하루를 버티고 계시죠.
           </Reveal>
           <Reveal as="p" delay={160} className="w-hero__sub">
             두피와 얼굴은 손으로, 몸은 온열돔으로 풀어요. 4년째 해 온 일이고, 이번에 자리를 넓혀 옮겼어요.
