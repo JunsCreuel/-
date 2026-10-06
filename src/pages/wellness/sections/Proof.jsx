@@ -1,3 +1,4 @@
+import T from '../T'
 import { Reveal, Todo } from '../ui'
 
 // 확인된 사실만 숫자로 보여 준다. 근거 없는 만족도/재등록률 같은 수치는 넣지 않는다.
@@ -15,8 +16,16 @@ export default function Proof() {
           <ul className="w-numbers">
             {NUMBERS.map((n, i) => (
               <Reveal as="li" key={n.big} delay={i * 90} className="w-number">
-                <strong>{n.big}</strong>
-                <span>{n.title}</span>
+                <strong>
+                  <T k={`proof.num.${i}.big`} single>
+                    {n.big}
+                  </T>
+                </strong>
+                <span>
+                  <T k={`proof.num.${i}.title`} single>
+                    {n.title}
+                  </T>
+                </span>
               </Reveal>
             ))}
           </ul>
@@ -29,7 +38,9 @@ export default function Proof() {
             Review
           </Reveal>
           <Reveal as="h2" delay={80} className="w-title">
-            다녀가신 분들이 남겨 주신 말
+            <T k="reviews.title" single>
+              다녀가신 분들이 남겨 주신 말
+            </T>
           </Reveal>
           <p className="w-todo-note">
             <Todo>실제 후기 3건 + 사진 노출 동의</Todo>

@@ -1,4 +1,6 @@
+import { useT } from '../content-context'
 import { PHOTOS } from '../data'
+import T from '../T'
 import { Reveal } from '../ui'
 
 // 용호점 시그니처 관리: 두피 · 얼굴 · 온열돔. 사진이 없는 항목은 단색 블록으로 처리한다.
@@ -46,12 +48,13 @@ const OTHERS = [
   },
 ]
 
-function Photo({ photo, no, title, soft }) {
+function Photo({ photo, no, title, titleKey, soft }) {
+  const t = useT()
   if (!photo) {
     return (
       <div className={`w-photo w-photo--block${soft ? ' is-soft' : ''}`} aria-hidden="true">
         <span>{no}</span>
-        <em>{title}</em>
+        <em>{t(titleKey, title)}</em>
       </div>
     )
   }
@@ -67,32 +70,50 @@ export default function Programs() {
     <section id="programs" className="w-section w-section--band">
       <div className="w-container">
         <Reveal as="p" className="w-eyebrow">
-          받을 수 있는 관리
+          <T k="programs.eyebrow" single>
+            받을 수 있는 관리
+          </T>
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          오늘 제일 힘든 데부터
-          <br />
-          말씀해 주세요
+          <T k="programs.title">{'오늘 제일 힘든 데부터\n말씀해 주세요'}</T>
         </Reveal>
 
         <Reveal as="p" className="w-prog-head">
-          용호점 시그니처 관리
+          <T k="programs.sigHead" single>
+            용호점 시그니처 관리
+          </T>
         </Reveal>
         <div className="w-programs">
-          {SIGNATURE.map((p) => (
+          {SIGNATURE.map((p, i) => (
             <article key={p.no} className="w-program">
               <Reveal mode="toggle" className={`w-program__media${p.photo?.small ? ' w-program__media--small' : ''}`}>
-                <Photo photo={p.photo} no={p.no} title={p.title} soft={p.soft} />
+                <Photo photo={p.photo} no={p.no} title={p.title} titleKey={`programs.sig.${i}.title`} soft={p.soft} />
               </Reveal>
               <Reveal className="w-program__body">
                 <p className="w-program__no">{p.no}</p>
-                <h3>{p.title}</h3>
-                {p.sub && <p className="w-program__sub">{p.sub}</p>}
-                <p className="w-program__text">{p.text}</p>
+                <h3>
+                  <T k={`programs.sig.${i}.title`} single>
+                    {p.title}
+                  </T>
+                </h3>
+                {p.sub && (
+                  <p className="w-program__sub">
+                    <T k={`programs.sig.${i}.sub`} single>
+                      {p.sub}
+                    </T>
+                  </p>
+                )}
+                <p className="w-program__text">
+                  <T k={`programs.sig.${i}.text`}>{p.text}</T>
+                </p>
                 {p.tags.length > 0 && (
                   <ul className="w-tags">
-                    {p.tags.map((tag) => (
-                      <li key={tag}>{tag}</li>
+                    {p.tags.map((tag, j) => (
+                      <li key={tag}>
+                        <T k={`programs.sig.${i}.tag.${j}`} single>
+                          {tag}
+                        </T>
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -102,15 +123,27 @@ export default function Programs() {
         </div>
 
         <Reveal as="p" className="w-prog-head w-prog-head--later">
-          그 밖의 관리
+          <T k="programs.otherHead" single>
+            그 밖의 관리
+          </T>
         </Reveal>
         <ul className="w-others">
-          {OTHERS.map((o) => (
+          {OTHERS.map((o, i) => (
             <Reveal as="li" key={o.title} className="w-other">
-              <Photo photo={o.photo} title={o.title} />
-              <h3>{o.title}</h3>
-              <p className="w-program__sub">{o.sub}</p>
-              <p className="w-other__text">{o.text}</p>
+              <Photo photo={o.photo} title={o.title} titleKey={`programs.other.${i}.title`} />
+              <h3>
+                <T k={`programs.other.${i}.title`} single>
+                  {o.title}
+                </T>
+              </h3>
+              <p className="w-program__sub">
+                <T k={`programs.other.${i}.sub`} single>
+                  {o.sub}
+                </T>
+              </p>
+              <p className="w-other__text">
+                <T k={`programs.other.${i}.text`}>{o.text}</T>
+              </p>
             </Reveal>
           ))}
         </ul>

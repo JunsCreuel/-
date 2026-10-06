@@ -1,3 +1,4 @@
+import T from '../T'
 import { Reveal } from '../ui'
 
 // 머리·얼굴 장면과 몸 장면을 절반씩 둔다.
@@ -18,30 +19,34 @@ export default function Problem() {
       <section id="problem" className="w-section w-section--band">
         <div className="w-container">
           <Reveal as="p" className="w-eyebrow">
-            상담하다 보면 이런 말씀을 자주 하세요
+            <T k="problem.eyebrow" single>
+              상담하다 보면 이런 말씀을 자주 하세요
+            </T>
           </Reveal>
           <Reveal as="h2" delay={80} className="w-title">
-            혹시 요즘, 이러세요?
+            <T k="problem.title">혹시 요즘, 이러세요?</T>
           </Reveal>
 
           <ul className="w-pains">
             {PAINS.map((text, i) => (
               <Reveal as="li" key={text} delay={(i % 2) * 70} className="w-pain">
-                {text}
+                <T k={`problem.pain.${i}`}>{text}</T>
               </Reveal>
             ))}
           </ul>
 
           <Reveal as="ul" className="w-who">
-            {WHO.map((text) => (
-              <li key={text}>{text}</li>
+            {WHO.map((text, i) => (
+              <li key={text}>
+                <T k={`problem.who.${i}`} single>
+                  {text}
+                </T>
+              </li>
             ))}
           </Reveal>
 
           <Reveal as="p" className="w-bridge">
-            다들 참고 넘기잖아요.
-            <br />
-            그러다 보면 어느새 그게 내 몸의 기본값이 돼요.
+            <T k="problem.bridge">{'다들 참고 넘기잖아요.\n그러다 보면 어느새 그게 내 몸의 기본값이 돼요.'}</T>
           </Reveal>
         </div>
       </section>
@@ -49,9 +54,7 @@ export default function Problem() {
       <section className="w-section w-section--green w-turn">
         <div className="w-container">
           <Reveal as="p" className="w-turn__text">
-            온열돔은 몸을 데워 줘요.
-            <br />
-            두피와 얼굴, 굳은 어깨는 결국 손이 가야 풀려요.
+            <T k="problem.turn">{'온열돔은 몸을 데워 줘요.\n두피와 얼굴, 굳은 어깨는 결국 손이 가야 풀려요.'}</T>
           </Reveal>
         </div>
       </section>
