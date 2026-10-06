@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { BRAND, BRANCHES, telHref } from './data'
+import { BRAND, BRANCHES, OPEN_BRANCHES, telHref } from './data'
 import { Todo } from './ui'
 
 // 신청 접수가 연결되기 전까지는 false로 둔다. 이 값이 false면 입력한 내용은 어디로도 전송되지 않고,
@@ -151,20 +151,23 @@ export default function ConsultForm({ defaultBranch = 'zai' }) {
         {errText('time')}
       </div>
 
-      <div className="w-field">
-        <label htmlFor="c-branch">
-          방문 지점 <i aria-hidden="true">*</i>
-        </label>
-        <select id="c-branch" value={form.branch} onChange={(e) => set('branch', e.target.value)} aria-required="true" {...err('branch')}>
-          <option value="">선택</option>
-          {Object.values(BRANCHES).map((b) => (
-            <option key={b.id} value={b.id}>
-              {b.label}
-            </option>
-          ))}
-        </select>
-        {errText('branch')}
-      </div>
+      {/* 오픈한 지점이 하나뿐이면 지점 선택 칸을 보이지 않고 그 지점으로 접수한다. */}
+      {OPEN_BRANCHES.length > 1 && (
+        <div className="w-field">
+          <label htmlFor="c-branch">
+            방문 지점 <i aria-hidden="true">*</i>
+          </label>
+          <select id="c-branch" value={form.branch} onChange={(e) => set('branch', e.target.value)} aria-required="true" {...err('branch')}>
+            <option value="">선택</option>
+            {OPEN_BRANCHES.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.label}
+              </option>
+            ))}
+          </select>
+          {errText('branch')}
+        </div>
+      )}
 
       <div className="w-field">
         <label htmlFor="c-interest">관심 관리 (선택)</label>

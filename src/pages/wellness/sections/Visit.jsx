@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import { BRANCHES, mapHref, reserveAction, telHref } from '../data'
+import { OPEN_BRANCHES, mapHref, reserveAction, telHref } from '../data'
 import { scrollToId } from '../scroll'
 import { Reveal, Todo } from '../ui'
 
-// 지점 탭 + 선택한 지점의 오시는 길. 마린시티점 탭은 별도 페이지로 이동한다.
+// 지점 탭 + 선택한 지점의 오시는 길. 오픈한 지점이 둘 이상일 때만 탭을 보여 준다.
 export default function Visit({ branch }) {
   const reserve = reserveAction(branch)
 
@@ -17,18 +17,20 @@ export default function Visit({ branch }) {
           오시는 길
         </Reveal>
 
-        <Reveal as="nav" className="w-tabs" aria-label="지점 선택">
-          {Object.values(BRANCHES).map((b) => (
-            <Link
-              key={b.id}
-              to={b.path}
-              aria-current={b.id === branch.id ? 'page' : undefined}
-              className={b.id === branch.id ? 'is-active' : undefined}
-            >
-              {b.label}
-            </Link>
-          ))}
-        </Reveal>
+        {OPEN_BRANCHES.length > 1 && (
+          <Reveal as="nav" className="w-tabs" aria-label="지점 선택">
+            {OPEN_BRANCHES.map((b) => (
+              <Link
+                key={b.id}
+                to={b.path}
+                aria-current={b.id === branch.id ? 'page' : undefined}
+                className={b.id === branch.id ? 'is-active' : undefined}
+              >
+                {b.label}
+              </Link>
+            ))}
+          </Reveal>
+        )}
 
         <Reveal className="w-visit">
           <h3>{branch.label}</h3>

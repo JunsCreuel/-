@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRANCHES } from './data'
+import { OPEN_BRANCHES } from './data'
 import { scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
@@ -49,7 +49,9 @@ export default function WellnessNav({ branch, items }) {
     setBranchOpen(false)
   }
 
-  const branchLinks = Object.values(BRANCHES).map((b) => (
+  // 지점이 하나뿐이면 지점 전환 메뉴를 보이지 않는다.
+  const hasChoice = OPEN_BRANCHES.length > 1
+  const branchLinks = OPEN_BRANCHES.map((b) => (
     <Link
       key={b.id}
       to={b.path}
@@ -84,19 +86,21 @@ export default function WellnessNav({ branch, items }) {
         </nav>
 
         <div className="w-nav__right">
-          <div className="w-branch" ref={branchRef}>
-            <button
-              type="button"
-              className="w-branch__btn"
-              aria-haspopup="true"
-              aria-expanded={branchOpen}
-              onClick={() => setBranchOpen((v) => !v)}
-            >
-              {branch.name}
-              <span aria-hidden="true"> ▾</span>
-            </button>
-            {branchOpen && <div className="w-branch__list">{branchLinks}</div>}
-          </div>
+          {hasChoice && (
+            <div className="w-branch" ref={branchRef}>
+              <button
+                type="button"
+                className="w-branch__btn"
+                aria-haspopup="true"
+                aria-expanded={branchOpen}
+                onClick={() => setBranchOpen((v) => !v)}
+              >
+                {branch.name}
+                <span aria-hidden="true"> ▾</span>
+              </button>
+              {branchOpen && <div className="w-branch__list">{branchLinks}</div>}
+            </div>
+          )}
 
           <button type="button" className="w-btn w-btn--primary w-btn--sm" onClick={() => scrollToId('booking')}>
             상담 예약
@@ -119,9 +123,13 @@ export default function WellnessNav({ branch, items }) {
 
       {menuOpen && (
         <div id="w-nav-panel" className="w-nav__panel">
-          <p className="w-nav__panel-label">지점 선택</p>
-          <div className="w-nav__panel-branches">{branchLinks}</div>
-          <p className="w-nav__panel-label">메뉴</p>
+          {hasChoice && (
+            <>
+              <p className="w-nav__panel-label">지점 선택</p>
+              <div className="w-nav__panel-branches">{branchLinks}</div>
+              <p className="w-nav__panel-label">메뉴</p>
+            </>
+          )}
           <div className="w-nav__panel-items">
             {items.map((item) => (
               <button key={item.id} type="button" onClick={() => goTo(item.id)}>
