@@ -7,17 +7,15 @@ export function Todo({ children }) {
 
 // 화면에 들어올 때 서서히 나타나는 래퍼.
 // mode="toggle"이면 화면을 벗어날 때 다시 사라져 스크롤마다 fade in/out 된다.
+const CAN_OBSERVE = typeof IntersectionObserver !== 'undefined'
+
 export function Reveal({ as: Tag = 'div', mode = 'once', delay = 0, className = '', children, ...rest }) {
   const ref = useRef(null)
-  const [shown, setShown] = useState(false)
+  const [shown, setShown] = useState(!CAN_OBSERVE)
 
   useEffect(() => {
     const el = ref.current
-    if (!el) return undefined
-    if (!('IntersectionObserver' in window)) {
-      setShown(true)
-      return undefined
-    }
+    if (!el || !CAN_OBSERVE) return undefined
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

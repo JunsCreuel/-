@@ -38,23 +38,25 @@ body.is-wellness {
   overflow-x: clip;
 }
 
+/* 제목의 색·굵기는 기존 앱 전역 h1~h3 규칙(index.css)을 이겨야 하므로 .wellness로 덮고,
+   행간·간격 리셋은 :where()로 우선순위를 0으로 낮춰 클래스로 준 값이 항상 이기게 한다 */
 .wellness h1,
 .wellness h2,
 .wellness h3 {
   color: inherit;
   font-weight: 700;
   letter-spacing: -0.03em;
+}
+
+:where(.wellness) :where(h1, h2, h3) {
   line-height: 1.28;
 }
 
-.wellness p,
-.wellness ul,
-.wellness dl,
-.wellness dd {
+:where(.wellness) :where(p, ul, ol, dl, dd) {
   margin: 0;
 }
 
-.wellness ul {
+:where(.wellness) :where(ul, ol) {
   padding: 0;
   list-style: none;
 }
@@ -148,14 +150,13 @@ body.is-wellness {
   align-items: center;
   justify-content: center;
   min-height: 52px;
-  padding: 0 1.8rem;
+  padding: 0.7rem 1.8rem;
   border: 0;
   border-radius: 999px;
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.3;
   text-align: center;
-  white-space: nowrap;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -181,7 +182,7 @@ body.is-wellness {
 }
 
 .w-btn--sm {
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 1.15rem;
   font-size: 0.9rem;
 }

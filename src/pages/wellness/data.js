@@ -21,6 +21,7 @@ export const BRANCHES = {
     name: '자이점',
     label: '용호 자이점',
     address: '부산 남구 용호동 자이아파트 상가',
+    addressTodo: '상세 주소',
     phone: '010-9419-2121',
     booking: 'https://m.site.naver.com/2fZsm',
   },
