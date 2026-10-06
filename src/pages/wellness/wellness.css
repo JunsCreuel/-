@@ -11,8 +11,10 @@
   --w-logo-text: #1e1b18;
 
   --w-muted: color-mix(in srgb, var(--w-green) 72%, var(--w-ivory));
-  --w-band: color-mix(in srgb, var(--w-green) 6%, var(--w-ivory));
+  --w-band: color-mix(in srgb, var(--w-green) 3.5%, var(--w-ivory));
   --w-hair: color-mix(in srgb, var(--w-green) 14%, var(--w-ivory));
+  --w-line: color-mix(in srgb, var(--w-green) 22%, var(--w-ivory));
+  --w-line-strong: color-mix(in srgb, var(--w-green) 55%, var(--w-ivory));
   --w-on-green-muted: color-mix(in srgb, var(--w-ivory) 74%, var(--w-green));
   --w-green-soft: color-mix(in srgb, var(--w-ivory) 10%, var(--w-green));
   --w-shadow: 0 14px 36px color-mix(in srgb, var(--w-green) 14%, transparent);
@@ -21,7 +23,7 @@
   --w-nav-h: 64px;
   --w-gutter: clamp(1.25rem, 5vw, 3rem);
   --w-max: 1120px;
-  --w-radius: 20px;
+  --w-radius: 0;
   --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
   --w-font-en: Georgia, 'Times New Roman', serif;
 }
@@ -48,8 +50,12 @@ body.is-wellness {
 .wellness h2,
 .wellness h3 {
   color: inherit;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.wellness h3 {
+  font-weight: 600;
 }
 
 :where(.wellness) :where(h1, h2, h3) {
@@ -137,13 +143,12 @@ body.is-wellness {
 
 .w-chip {
   display: inline-block;
-  padding: 0.35rem 0.95rem;
-  border-radius: 999px;
-  background: var(--w-green);
-  color: var(--w-ivory);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--w-line-strong);
+  color: var(--w-green);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
 }
 
 /* 버튼 */
@@ -153,30 +158,26 @@ body.is-wellness {
   align-items: center;
   justify-content: center;
   min-height: 52px;
-  padding: 0.7rem 1.8rem;
+  padding: 0.7rem 2rem;
   border: 0;
-  border-radius: 999px;
-  font-size: 1rem;
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.98rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
   line-height: 1.3;
   text-align: center;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.w-btn:hover {
-  transform: translateY(-2px);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .w-btn--primary {
   background: var(--w-green);
   color: var(--w-ivory);
-  box-shadow: var(--w-shadow-sm);
 }
 
 .w-btn--primary:hover {
-  box-shadow: var(--w-shadow);
+  background: color-mix(in srgb, var(--w-green) 85%, var(--w-ivory));
 }
 
 .w-btn--light {
@@ -184,10 +185,14 @@ body.is-wellness {
   color: var(--w-green);
 }
 
+.w-btn--light:hover {
+  background: color-mix(in srgb, var(--w-ivory) 88%, var(--w-green));
+}
+
 .w-btn--sm {
   min-height: 44px;
-  padding: 0 1.15rem;
-  font-size: 0.9rem;
+  padding: 0 1.2rem;
+  font-size: 0.88rem;
 }
 
 .w-link {
@@ -202,15 +207,24 @@ body.is-wellness {
   text-decoration-thickness: 1px;
 }
 
+.w-linkish {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
 /* 사진 */
 
 .w-photo {
   position: relative;
   margin: 0;
   overflow: hidden;
-  border-radius: var(--w-radius);
   background: var(--w-band);
-  box-shadow: var(--w-shadow);
   aspect-ratio: 4 / 5;
 }
 
@@ -226,7 +240,7 @@ body.is-wellness {
   display: inline-block;
   margin: 0 0.15em;
   padding: 0 0.5em;
-  border-radius: 6px;
+  border-radius: 2px;
   background: var(--w-hair);
   color: var(--w-green);
   font-size: 0.82em;
@@ -264,9 +278,5 @@ body.is-wellness {
 
   .w-btn {
     transition: none;
-  }
-
-  .w-btn:hover {
-    transform: none;
   }
 }
