@@ -27,23 +27,9 @@
 
 .w-nav__brand {
   display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+  align-items: center;
+  min-height: 44px;
   white-space: nowrap;
-}
-
-.w-nav__brand-ko {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.w-nav__brand-en {
-  margin-top: 0.15rem;
-  color: var(--w-muted);
-  font-family: var(--w-font-en);
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
 }
 
 .w-nav__menu {
@@ -230,10 +216,6 @@
 /* 아주 좁은 화면 */
 
 @media (max-width: 380px) {
-  .w-nav__brand-ko {
-    font-size: 1.05rem;
-  }
-
   .w-nav__right .w-btn {
     padding: 0 0.9rem;
   }
