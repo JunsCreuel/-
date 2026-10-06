@@ -61,7 +61,7 @@ export default function Programs() {
         </Reveal>
         <div className="w-programs">
           {SIGNATURE.map((p) => (
-            <article key={p.no} className="w-program">
+            <article key={p.no} className={`w-program${p.photo.small ? ' w-program--small' : ''}`}>
               <Reveal mode="toggle" className={`w-program__media${p.photo.small ? ' w-program__media--small' : ''}`}>
                 <Photo photo={p.photo} />
               </Reveal>
