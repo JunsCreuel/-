@@ -43,6 +43,13 @@ export const BRANCHES = {
   },
 }
 
+// 마린시티점은 아직 오픈 전이라 화면에서 숨긴다(지점 전환·푸터·폼·오시는 길·페이지 주소).
+// 오픈하면 true로 바꾸면 한 번에 다시 노출된다.
+export const MARINE_OPEN = false
+
+// 화면에 노출하는 지점 목록
+export const OPEN_BRANCHES = Object.values(BRANCHES).filter((b) => b.id !== 'marine' || MARINE_OPEN)
+
 // 지도 링크는 주소로 만든 네이버 지도 검색 주소를 쓴다. 장소 고유 링크가 생기면 이 함수만 바꾸면 된다.
 export function mapHref(branch) {
   return `https://map.naver.com/p/search/${encodeURIComponent(branch.mapQuery)}`
