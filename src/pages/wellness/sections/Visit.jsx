@@ -35,14 +35,12 @@ export default function Visit({ branch }) {
             <div>
               <dt>주소</dt>
               <dd>
-                {branch.address} {branch.addressTodo && <Todo>{branch.addressTodo}</Todo>}
+                {branch.address}
               </dd>
             </div>
             <div>
               <dt>영업시간</dt>
-              <dd>
-                <Todo>영업시간 · 휴무일</Todo>
-              </dd>
+              <dd>{branch.hours ?? <Todo>영업시간 · 휴무일</Todo>}</dd>
             </div>
             <div>
               <dt>전화</dt>
