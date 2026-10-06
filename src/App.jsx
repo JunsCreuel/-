@@ -11,6 +11,9 @@ import MbtiResult from './pages/MbtiResult'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import About from './pages/About'
+import WellnessLayout from './pages/wellness/WellnessLayout'
+import WellnessHome from './pages/wellness/WellnessHome'
+import WellnessMarine from './pages/wellness/WellnessMarine'
 
 export default function App() {
   return (
@@ -48,6 +51,11 @@ export default function App() {
               }
             />
             <Route path="about" element={<About />} />
+          </Route>
+          {/* 예뻐졌다 웰니스스튜디오 랜딩 — 기존 앱의 Layout(nav/footer) 밖에서 자체 레이아웃 사용 */}
+          <Route path="wellness" element={<WellnessLayout />}>
+            <Route index element={<WellnessHome />} />
+            <Route path="marine" element={<WellnessMarine />} />
           </Route>
         </Routes>
       </HashRouter>

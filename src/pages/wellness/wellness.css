@@ -1,0 +1,270 @@
+/* 예뻐졌다 WELLNESS STUDIO 랜딩 — 공통 토큰/기본 스타일
+   기존 앱 토큰(src/index.css)과 섞이지 않도록 --w- 접두를 쓰고,
+   색은 딥그린·아이보리 두 가지에서만 파생한다. */
+
+:root {
+  --w-green: #1e2a23;
+  --w-ivory: #f4f0ea;
+
+  --w-muted: color-mix(in srgb, var(--w-green) 72%, var(--w-ivory));
+  --w-band: color-mix(in srgb, var(--w-green) 6%, var(--w-ivory));
+  --w-hair: color-mix(in srgb, var(--w-green) 14%, var(--w-ivory));
+  --w-on-green-muted: color-mix(in srgb, var(--w-ivory) 74%, var(--w-green));
+  --w-green-soft: color-mix(in srgb, var(--w-ivory) 10%, var(--w-green));
+  --w-shadow: 0 14px 36px color-mix(in srgb, var(--w-green) 14%, transparent);
+  --w-shadow-sm: 0 4px 16px color-mix(in srgb, var(--w-green) 10%, transparent);
+
+  --w-nav-h: 64px;
+  --w-gutter: clamp(1.25rem, 5vw, 3rem);
+  --w-max: 1120px;
+  --w-radius: 20px;
+  --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
+  --w-font-en: Georgia, 'Times New Roman', serif;
+}
+
+body.is-wellness {
+  background: var(--w-ivory);
+}
+
+.wellness {
+  min-height: 100vh;
+  background: var(--w-ivory);
+  color: var(--w-green);
+  font-family: var(--w-font);
+  font-size: 1rem;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  overflow-x: clip;
+}
+
+/* 제목의 색·굵기는 기존 앱 전역 h1~h3 규칙(index.css)을 이겨야 하므로 .wellness로 덮고,
+   행간·간격 리셋은 :where()로 우선순위를 0으로 낮춰 클래스로 준 값이 항상 이기게 한다 */
+.wellness h1,
+.wellness h2,
+.wellness h3 {
+  color: inherit;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+:where(.wellness) :where(h1, h2, h3) {
+  line-height: 1.28;
+}
+
+:where(.wellness) :where(p, ul, ol, dl, dd) {
+  margin: 0;
+}
+
+:where(.wellness) :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+
+.wellness img {
+  display: block;
+  max-width: 100%;
+}
+
+.wellness :focus-visible {
+  outline: 2px solid var(--w-green);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.w-section--green :focus-visible,
+.w-footer :focus-visible {
+  outline-color: var(--w-ivory);
+}
+
+.wellness main {
+  padding-top: var(--w-nav-h);
+}
+
+/* 레이아웃 */
+
+.w-section {
+  padding: clamp(3.5rem, 9vw, 7rem) var(--w-gutter);
+  scroll-margin-top: var(--w-nav-h);
+}
+
+.w-section--band {
+  background: var(--w-band);
+}
+
+.w-section--green {
+  background: var(--w-green);
+  color: var(--w-ivory);
+}
+
+.w-container {
+  width: 100%;
+  max-width: var(--w-max);
+  margin-inline: auto;
+}
+
+/* 타이포 */
+
+.w-eyebrow {
+  margin-bottom: 1rem;
+  color: var(--w-muted);
+  font-family: var(--w-font-en);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.w-section--green .w-eyebrow {
+  color: var(--w-on-green-muted);
+}
+
+.w-title {
+  font-size: clamp(1.65rem, 4.6vw, 2.7rem);
+}
+
+.w-lead {
+  margin-top: 1.1rem;
+  color: var(--w-muted);
+  font-size: clamp(1rem, 2.4vw, 1.12rem);
+}
+
+.w-section--green .w-lead {
+  color: var(--w-on-green-muted);
+}
+
+.w-chip {
+  display: inline-block;
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
+  background: var(--w-green);
+  color: var(--w-ivory);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* 버튼 */
+
+.w-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0.7rem 1.8rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.w-btn:hover {
+  transform: translateY(-2px);
+}
+
+.w-btn--primary {
+  background: var(--w-green);
+  color: var(--w-ivory);
+  box-shadow: var(--w-shadow-sm);
+}
+
+.w-btn--primary:hover {
+  box-shadow: var(--w-shadow);
+}
+
+.w-btn--light {
+  background: var(--w-ivory);
+  color: var(--w-green);
+}
+
+.w-btn--sm {
+  min-height: 44px;
+  padding: 0 1.15rem;
+  font-size: 0.9rem;
+}
+
+.w-link {
+  padding: 0.5rem 0.25rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
+/* 사진 */
+
+.w-photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--w-radius);
+  background: var(--w-band);
+  box-shadow: var(--w-shadow);
+  aspect-ratio: 4 / 5;
+}
+
+.w-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 확정 전 값 자리표시 */
+
+.w-todo {
+  display: inline-block;
+  margin: 0 0.15em;
+  padding: 0 0.5em;
+  border-radius: 6px;
+  background: var(--w-hair);
+  color: var(--w-green);
+  font-size: 0.82em;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.w-section--green .w-todo,
+.w-footer .w-todo {
+  background: var(--w-green-soft);
+  color: var(--w-ivory);
+}
+
+/* 스크롤 연동 fade — 모션 감소 설정이면 모두 끈다 */
+
+.w-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+  transition-delay: var(--w-delay, 0ms);
+}
+
+.w-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .w-btn {
+    transition: none;
+  }
+
+  .w-btn:hover {
+    transform: none;
+  }
+}
