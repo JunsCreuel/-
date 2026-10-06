@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRANCHES, reserveAction } from './data'
+import { BRANCHES } from './data'
 import { scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
@@ -10,7 +10,6 @@ export default function WellnessNav({ branch, items }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [branchOpen, setBranchOpen] = useState(false)
   const branchRef = useRef(null)
-  const reserve = reserveAction(branch)
 
   useEffect(() => {
     function onScroll() {
@@ -99,13 +98,9 @@ export default function WellnessNav({ branch, items }) {
             {branchOpen && <div className="w-branch__list">{branchLinks}</div>}
           </div>
 
-          <a
-            className="w-btn w-btn--primary w-btn--sm"
-            href={reserve.href}
-            {...(reserve.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          >
-            {reserve.label}
-          </a>
+          <button type="button" className="w-btn w-btn--primary w-btn--sm" onClick={() => scrollToId('booking')}>
+            상담 예약
+          </button>
 
           <button
             type="button"
