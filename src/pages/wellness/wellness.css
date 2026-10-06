@@ -6,6 +6,10 @@
   --w-green: #1e2a23;
   --w-ivory: #f4f0ea;
 
+  /* 브랜드 로고 원본에서 읽은 색: 마크는 따뜻한 차콜, 가는 글씨는 그보다 조금 더 짙게 */
+  --w-logo-mark: #322e28;
+  --w-logo-text: #1e1b18;
+
   --w-muted: color-mix(in srgb, var(--w-green) 72%, var(--w-ivory));
   --w-band: color-mix(in srgb, var(--w-green) 6%, var(--w-ivory));
   --w-hair: color-mix(in srgb, var(--w-green) 14%, var(--w-ivory));
@@ -72,8 +76,7 @@ body.is-wellness {
   border-radius: 6px;
 }
 
-.w-section--green :focus-visible,
-.w-footer :focus-visible {
+.w-section--green :focus-visible {
   outline-color: var(--w-ivory);
 }
 
@@ -231,8 +234,7 @@ body.is-wellness {
   line-height: 1.7;
 }
 
-.w-section--green .w-todo,
-.w-footer .w-todo {
+.w-section--green .w-todo {
   background: var(--w-green-soft);
   color: var(--w-ivory);
 }

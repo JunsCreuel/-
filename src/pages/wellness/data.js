@@ -10,8 +10,8 @@ export const PHOTOS = {
 
 export const BRAND = {
   company: '예뻐졌다 웰니스 스튜디오',
-  ko: '예뻐졌다 웰니스스튜디오',
-  en: '예뻐졌다 WELLNESS STUDIO',
+  name: 'WELLNESS STUDIO',
+  ko: '예뻐졌다',
   tagline: 'HEALTHY TODAY, BRIGHTER TOMORROW',
 }
 
