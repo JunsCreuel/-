@@ -1,3 +1,4 @@
+import BrandLogo from './BrandLogo'
 import { BRAND, BRANCHES, telHref } from './data'
 import { Todo } from './ui'
 import './wellness-footer.css'
@@ -11,7 +12,7 @@ export default function WellnessFooter() {
   return (
     <footer className="w-footer">
       <div className="w-container">
-        <p className="w-footer__brand">{BRAND.en}</p>
+        <BrandLogo variant="stack" />
 
         <ul className="w-footer__policies" aria-label="약관 및 방침">
           {POLICIES.map((label) => (
@@ -67,7 +68,7 @@ export default function WellnessFooter() {
         </div>
 
         <p className="w-footer__copy">
-          Copyright ⓒ 2026 {BRAND.en}. All rights reserved.
+          Copyright ⓒ 2026 {BRAND.name}. All rights reserved.
         </p>
       </div>
     </footer>

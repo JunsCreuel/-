@@ -1,0 +1,84 @@
+/* 브랜드 로고. 모든 크기는 원본 로고 이미지(815px) 안의 픽셀 × --u 로 계산해 비율을 지키고, 색은 원본 그대로. */
+
+.w-logo {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.w-logo__mark {
+  display: block;
+  flex: none;
+  color: var(--w-logo-mark);
+  width: calc(var(--u) * 108);
+  height: calc(var(--u) * 103);
+}
+
+.w-logo__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.w-logo__ko,
+.w-logo__en {
+  display: block;
+  background-color: var(--w-logo-text);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.w-logo__ko {
+  width: calc(var(--u) * 166);
+  height: calc(var(--u) * 41);
+}
+
+.w-logo__en {
+  width: calc(var(--u) * 630);
+  height: calc(var(--u) * 52);
+}
+
+/* 상단 nav: 마크 옆에 "예뻐졌다"(작게)와 "WELLNESS STUDIO"(크게)를 두 줄로 */
+
+.w-logo--nav {
+  --u: 0.27px;
+  align-items: center;
+  gap: calc(var(--u) * 36);
+}
+
+.w-logo--nav .w-logo__text {
+  align-items: flex-start;
+  gap: calc(var(--u) * 10);
+}
+
+/* 푸터 등: 원본 로고처럼 마크 → 예뻐졌다 → WELLNESS STUDIO 순서로 쌓기 */
+
+.w-logo--stack {
+  --u: 0.46px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.w-logo--stack .w-logo__text {
+  align-items: center;
+  gap: calc(var(--u) * 49);
+  margin-top: calc(var(--u) * 44);
+}
+
+@media (max-width: 420px) {
+  .w-logo--nav {
+    --u: 0.23px;
+  }
+
+  .w-logo--stack {
+    --u: 0.4px;
+  }
+}
+
+@media (max-width: 360px) {
+  .w-logo--nav {
+    --u: 0.2px;
+  }
+}

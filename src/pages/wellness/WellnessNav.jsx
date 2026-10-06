@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import BrandLogo from './BrandLogo'
 import { BRANCHES, reserveAction } from './data'
 import { scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
@@ -66,14 +67,13 @@ export default function WellnessNav({ branch, items }) {
         <Link
           to={branch.path}
           className="w-nav__brand"
-          aria-label="예뻐졌다 WELLNESS STUDIO 처음으로"
+          aria-label="WELLNESS STUDIO 예뻐졌다 처음으로"
           onClick={() => {
             closeAll()
             scrollToTop()
           }}
         >
-          <span className="w-nav__brand-ko">예뻐졌다</span>
-          <span className="w-nav__brand-en">WELLNESS STUDIO</span>
+          <BrandLogo variant="nav" decorative />
         </Link>
 
         <nav className="w-nav__menu" aria-label="주요 메뉴">
