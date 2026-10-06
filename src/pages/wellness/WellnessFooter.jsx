@@ -50,7 +50,7 @@ export default function WellnessFooter() {
               <div>
                 <dt>{zai.name}</dt>
                 <dd>
-                  {zai.address} <Todo>상세 주소</Todo>
+                  {zai.address}
                   <br />
                   TEL <a href={telHref(zai.phone)}>{zai.phone}</a>
                 </dd>
