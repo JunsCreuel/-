@@ -20,9 +20,9 @@ export default function WellnessMarine() {
             마린시티점
           </Reveal>
           <Reveal as="p" delay={160} className="w-hero__sub">
-            예뻐졌다 웰니스스튜디오의
+            해운대 마린시티에도 저희 가게가 하나 더 있어요.
             <br />
-            자매 지점이에요.
+            그쪽이 가까우시면 이쪽으로 오세요.
           </Reveal>
           <Reveal as="p" delay={200} className="w-hero__place">
             {branch.address}

@@ -11,7 +11,7 @@ export default function Offer() {
     <section id="offer" className="w-section w-section--green w-offer">
       <div className="w-container w-offer__inner">
         <Reveal as="p" className="w-eyebrow">
-          확장 이전 오픈 기념
+          이사 기념
         </Reveal>
         <Reveal className="w-offer__big" role="img" aria-label="첫 방문 50%">
           <span aria-hidden="true">첫 방문</span>
@@ -20,14 +20,14 @@ export default function Offer() {
           </strong>
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          처음 오시는 분께,
+          처음 오시는 날,
           <br />
-          가장 따뜻한 첫인사
+          반값으로 와 보세요.
         </Reveal>
         <Reveal as="p" delay={120} className="w-lead">
-          새 공간으로 옮겨 온 기념으로
+          자리를 넓혀 옮긴 기념으로 처음 오시는 분께 인사를 드려요.
           <br />
-          첫 방문 고객께 관리 50% 혜택을 드려요.
+          한 분에 한 번이에요.
         </Reveal>
 
         <Reveal delay={160} className="w-offer__targets">
@@ -37,18 +37,18 @@ export default function Offer() {
               <li key={name}>{name}</li>
             ))}
           </ul>
-          <Todo>대상 관리 범위</Todo>
+          <Todo>대상 관리 범위 — 두피·얼굴 관리 포함 여부</Todo>
         </Reveal>
 
         <Reveal as="p" delay={200} className="w-offer__cond">
-          첫 방문 1인 1회 한정 · 100% 예약제 <Todo>전단지 지참 조건 · 이벤트 종료일</Todo>
+          한 분당 1회 · 100% 예약제 <Todo>전단지 지참 조건 · 이벤트 종료일</Todo>
         </Reveal>
 
         <Reveal delay={240} className="w-offer__cta">
           <a className="w-btn w-btn--light" href={reserve.href} target="_blank" rel="noopener noreferrer">
             첫 방문 50% 예약하기
           </a>
-          <p>관리별 상세 안내는 예약 시 친절히 알려 드려요.</p>
+          <p>관리별 자세한 안내는 예약하실 때 말씀드릴게요.</p>
         </Reveal>
       </div>
     </section>

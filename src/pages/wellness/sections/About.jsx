@@ -1,25 +1,35 @@
 import { Reveal } from '../ui'
 
 const STEPS = [
-  { no: '01', title: '전신웜업', text: '온열돔에 누워 쉬는 동안, 깊고 균일한 온기가 몸 전체를 감쌉니다.' },
-  { no: '02', title: '아웃케어', text: '뭉치고 무거운 곳은 손으로 직접, 집중해서 관리합니다.' },
-  { no: '03', title: '마무리', text: '뉴스킨 제품과 관리 기기로 컨디션을 차분히 정돈합니다.' },
+  {
+    no: '먼저',
+    title: '누워서 데우기',
+    text: '온열돔에는 그냥 누워 계시면 돼요. 몸 안쪽까지 따뜻해지고, 땀이 나는 분도 있어요. 그동안은 아무것도 안 하셔도 됩니다.',
+  },
+  {
+    no: '그다음',
+    title: '손으로 풀기',
+    text: '손이 들어가요. 두피와 얼굴, 어깨와 등처럼 유난히 굳은 곳은 시간을 더 써서 만져요. 끝나고는 뉴스킨 제품으로 마무리하고, 갈바닉이나 웰스파 같은 기기를 같이 쓰기도 해요.',
+  },
 ]
 
-const BEFORE = ['어깨가 올라가 있고', '걸음이 무겁고', '머리가 멍한 느낌']
-const AFTER = ['온기가 남아 몸이 풀리고', '숨이 한결 깊어지고', '발걸음이 가벼운 느낌']
+const BEFORE = ['어깨가 귀 쪽으로 올라가 있어요', '머리가 멍하고 두피가 답답해요', '걸음이 무거워요']
+const AFTER = ['온기가 남아 몸이 풀려 있어요', '머리가 한결 맑고 얼굴이 편안해요', '집 가는 걸음이 가벼워요']
 
 export default function About() {
   return (
     <section id="about" className="w-section">
       <div className="w-container">
         <Reveal as="p" className="w-eyebrow">
-          예뻐졌다 웰니스스튜디오의 방식
+          저희가 하는 방식
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          온열돔으로 데우고,
+          먼저 몸을 데우고,
           <br />
-          손끝으로 마무리합니다.
+          굳은 자리는 손으로 풀어요.
+        </Reveal>
+        <Reveal as="p" delay={120} className="w-lead">
+          예뻐졌다는 말은 몸이 풀린 다음에 오는 거라고 생각해요. 그래서 순서를 이렇게 잡았어요.
         </Reveal>
 
         <ol className="w-steps">
@@ -33,14 +43,14 @@ export default function About() {
         </ol>
 
         <Reveal as="p" className="w-safety">
-          관리 중에는 실시간으로 상태를 살피며 진행합니다.
+          누워 계시는 동안에도 계속 상태를 보고 있어요.
         </Reveal>
 
         <Reveal className="w-feel">
-          <h3 className="w-feel__title">관리 전과 후, 이런 느낌이에요</h3>
+          <h3 className="w-feel__title">관리 전후, 대략 이런 느낌일 수 있어요</h3>
           <div className="w-feel__grid">
             <div className="w-feel__col">
-              <p className="w-feel__label">관리 전</p>
+              <p className="w-feel__label">들어올 땐</p>
               <ul>
                 {BEFORE.map((text) => (
                   <li key={text}>{text}</li>
@@ -48,7 +58,7 @@ export default function About() {
               </ul>
             </div>
             <div className="w-feel__col is-after">
-              <p className="w-feel__label">관리 후</p>
+              <p className="w-feel__label">나갈 땐</p>
               <ul>
                 {AFTER.map((text) => (
                   <li key={text}>{text}</li>
@@ -56,7 +66,7 @@ export default function About() {
               </ul>
             </div>
           </div>
-          <p className="w-feel__note">관리 후 느낌은 개인에 따라 다를 수 있습니다.</p>
+          <p className="w-feel__note">느낌은 사람마다 달라요.</p>
         </Reveal>
       </div>
     </section>
