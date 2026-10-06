@@ -1,8 +1,5 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import ContentProvider from './ContentProvider'
-import EditorBar from './EditorBar'
-import { useContent } from './content-context'
 import { BRANCHES } from './data'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
@@ -25,9 +22,8 @@ const NAV_ITEMS = {
   ],
 }
 
-function LayoutInner() {
+export default function WellnessLayout() {
   const { pathname } = useLocation()
-  const content = useContent()
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
   // 기존 앱과 구분되는 배경색/제목을 이 페이지에 있는 동안만 적용한다.
@@ -50,22 +46,13 @@ function LayoutInner() {
   }, [pathname])
 
   return (
-    <div className={`wellness${content?.editing ? ' is-editing' : ''}`}>
+    <div className="wellness">
       <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} />
       <main>
         <Outlet />
       </main>
       <WellnessFooter />
       <MobileBar branch={branch} />
-      <EditorBar />
     </div>
-  )
-}
-
-export default function WellnessLayout() {
-  return (
-    <ContentProvider>
-      <LayoutInner />
-    </ContentProvider>
   )
 }
