@@ -661,6 +661,12 @@
     gap: 4rem;
   }
 
+  /* 작은 원본 사진은 칸을 채우지 않고 글과 가깝게 붙인다 */
+  .w-program--small {
+    grid-template-columns: minmax(0, 340px) 1fr;
+    gap: clamp(3rem, 6vw, 5.5rem);
+  }
+
   .w-program__media {
     margin: 0;
   }
@@ -699,5 +705,28 @@
 
   .w-hero__media {
     margin-inline: auto 0;
+  }
+}
+
+/* 좁은 화면에서는 줄바꿈 때 구분선이 줄 맨 앞에 남지 않도록 배치를 바꾼다 */
+@media (max-width: 599px) {
+  .w-who {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .w-who li + li::before {
+    content: none;
+  }
+
+  .w-offer__list {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 0.7rem 0;
+  }
+
+  .w-offer__list li:nth-child(odd) {
+    border-left: 0;
   }
 }
