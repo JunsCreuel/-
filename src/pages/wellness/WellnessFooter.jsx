@@ -1,75 +1,84 @@
+import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRAND, BRANCHES, telHref } from './data'
+import { BRAND, BRANCHES, mapHref, reserveAction, telHref } from './data'
+import { scrollToId } from './scroll'
 import { Todo } from './ui'
 import './wellness-footer.css'
 
 // 약관/방침 문서가 준비되기 전까지는 링크 없이 항목만 보여 준다.
 const POLICIES = ['이용약관', '개인정보처리방침', '영상정보처리기기운영관리방침', '사업자정보확인']
 
-export default function WellnessFooter() {
+export default function WellnessFooter({ items }) {
   const { zai, marine } = BRANCHES
+  const naver = reserveAction(zai)
 
   return (
     <footer className="w-footer">
-      <div className="w-container">
-        <BrandLogo variant="stack" />
+      <div className="w-footer__main">
+        <div className="w-container">
+          <BrandLogo variant="nav" />
+          <div className="w-footer__rule" />
 
-        <ul className="w-footer__policies" aria-label="약관 및 방침">
-          {POLICIES.map((label) => (
-            <li key={label}>{label}</li>
-          ))}
-        </ul>
+          <div className="w-footer__grid">
+            <div className="w-footer__info">
+              <p>상호명 : {BRAND.company}</p>
+              <p>
+                대표 : <Todo>대표자명</Todo> | 사업자등록번호 : <Todo>사업자등록번호</Todo>
+              </p>
+              <p>
+                통신판매업 신고 : <Todo>신고번호 / 해당 없음</Todo>
+              </p>
+              <p>
+                {zai.name} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+              </p>
+              <p>
+                {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+              </p>
+              <p>영업시간 : {zai.name} {zai.hours}</p>
+            </div>
 
-        <div className="w-footer__cols">
-          <div>
-            <h3 className="w-footer__head">BUSINESS</h3>
-            <dl className="w-footer__list">
-              <div>
-                <dt>상호</dt>
-                <dd>{BRAND.company}</dd>
-              </div>
-              <div>
-                <dt>대표</dt>
-                <dd>
-                  <Todo>대표자명</Todo>
-                </dd>
-              </div>
-              <div>
-                <dt>사업자등록번호</dt>
-                <dd>
-                  <Todo>사업자등록번호</Todo>
-                </dd>
-              </div>
-              <div>
-                <dt>통신판매업 신고</dt>
-                <dd>
-                  <Todo>신고번호 / 해당 없음</Todo>
-                </dd>
-              </div>
-              <div>
-                <dt>{zai.name}</dt>
-                <dd>
-                  {zai.address}
-                  <br />
-                  TEL <a href={telHref(zai.phone)}>{zai.phone}</a>
-                </dd>
-              </div>
-              <div>
-                <dt>{marine.name}</dt>
-                <dd>
-                  {marine.address}
-                  <br />
-                  TEL <a href={telHref(marine.phone)}>{marine.phone}</a>
-                </dd>
-              </div>
-            </dl>
+            <div className="w-footer__cols">
+              <ul className="w-footer__col">
+                <li>
+                  <a className="is-ext" href={naver.href} target="_blank" rel="noopener noreferrer">
+                    네이버 예약
+                  </a>
+                </li>
+                <li>
+                  <a className="is-ext" href={mapHref(zai)} target="_blank" rel="noopener noreferrer">
+                    네이버 지도
+                  </a>
+                </li>
+              </ul>
+              <ul className="w-footer__col">
+                {items.map((item) => (
+                  <li key={item.id}>
+                    <button type="button" onClick={() => scrollToId(item.id)}>
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <Link to={zai.path}>{zai.label}</Link>
+                </li>
+                <li>
+                  <Link to={marine.path}>{marine.label}</Link>
+                </li>
+              </ul>
+            </div>
           </div>
-
         </div>
+      </div>
 
-        <p className="w-footer__copy">
-          Copyright ⓒ 2026 {BRAND.name}. All rights reserved.
-        </p>
+      <div className="w-footer__bar">
+        <div className="w-container w-footer__bar-inner">
+          <p className="w-footer__copy">COPYRIGHT ⓒ 2026 {BRAND.name} ALL RIGHTS RESERVED</p>
+          <ul className="w-footer__policies" aria-label="약관 및 방침">
+            {POLICIES.map((label) => (
+              <li key={label}>{label}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </footer>
   )

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { BRANCHES } from './data'
+import FloatingInquiry from './FloatingInquiry'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
@@ -9,15 +10,16 @@ import './wellness.css'
 // nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다.
 const NAV_ITEMS = {
   zai: [
-    { id: 'about', label: '소개' },
+    { id: 'about', label: '차별점' },
     { id: 'programs', label: '프로그램' },
     { id: 'reviews', label: '후기' },
     { id: 'offer', label: '이벤트' },
-    { id: 'booking', label: '예약' },
+    { id: 'booking', label: '상담 예약' },
   ],
   marine: [
     { id: 'intro', label: '소개' },
     { id: 'programs', label: '프로그램' },
+    { id: 'booking', label: '상담 예약' },
     { id: 'visit', label: '오시는 길' },
   ],
 }
@@ -51,8 +53,9 @@ export default function WellnessLayout() {
       <main>
         <Outlet />
       </main>
-      <WellnessFooter />
+      <WellnessFooter items={NAV_ITEMS[branch.id]} />
       <MobileBar branch={branch} />
+      <FloatingInquiry />
     </div>
   )
 }
