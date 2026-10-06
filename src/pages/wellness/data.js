@@ -10,6 +10,8 @@ export const PHOTOS = {
 
 export const BRAND = {
   company: '예뻐졌다 웰니스 스튜디오',
+  representative: '남연지',
+  bizNo: '206-44-51061',
   name: 'WELLNESS STUDIO',
   ko: '예뻐졌다',
   tagline: 'HEALTHY TODAY, BRIGHTER TOMORROW',

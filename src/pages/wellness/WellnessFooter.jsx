@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { BRAND, BRANCHES, mapHref, reserveAction, telHref } from './data'
 import { scrollToId } from './scroll'
-import { Todo } from './ui'
 import './wellness-footer.css'
 
 // 약관/방침 문서가 준비되기 전까지는 링크 없이 항목만 보여 준다.
@@ -23,10 +22,7 @@ export default function WellnessFooter({ items }) {
             <div className="w-footer__info">
               <p>상호명 : {BRAND.company}</p>
               <p>
-                대표 : <Todo>대표자명</Todo> | 사업자등록번호 : <Todo>사업자등록번호</Todo>
-              </p>
-              <p>
-                통신판매업 신고 : <Todo>신고번호 / 해당 없음</Todo>
+                대표 : {BRAND.representative} | 사업자등록번호 : {BRAND.bizNo}
               </p>
               <p>
                 {zai.name} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
