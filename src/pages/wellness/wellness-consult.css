@@ -1,0 +1,271 @@
+/* 상담 예약 섹션과 폼, 떠 있는 상담 버튼 — 카드 대신 얇은 선과 밑줄 입력칸으로 구성한다 */
+
+.w-consult {
+  padding: clamp(4rem, 10vw, 8rem) var(--w-gutter);
+  border-top: 1px solid var(--w-hair);
+  background: var(--w-ivory);
+  scroll-margin-top: var(--w-nav-h);
+}
+
+.w-consult__grid {
+  display: grid;
+  gap: clamp(2.2rem, 6vw, 5rem);
+}
+
+.w-consult__media figure {
+  margin: 0;
+}
+
+.w-consult__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.w-consult__media figcaption {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--w-line);
+  color: var(--w-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.w-consult__alt {
+  margin-top: 1.8rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--w-line);
+  color: var(--w-muted);
+  font-size: 0.88rem;
+}
+
+.w-consult__alt a,
+.w-form a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.w-consult__alt .is-ext::after {
+  content: ' ↗';
+  font-size: 0.85em;
+}
+
+/* 폼 */
+
+.w-form {
+  display: grid;
+  gap: 1.7rem;
+  margin-top: 2.4rem;
+}
+
+.w-field {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.w-field label,
+.w-field legend,
+.w-field__label {
+  display: block;
+  margin-bottom: 0.2rem;
+  padding: 0;
+  color: var(--w-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+.w-field i {
+  color: var(--w-green);
+  font-style: normal;
+}
+
+.w-field input[type='text'],
+.w-field select {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.55rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--w-line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--w-green);
+  font: inherit;
+  font-size: 1.05rem;
+}
+
+.w-field input[type='text']:focus,
+.w-field select:focus {
+  outline: none;
+  border-bottom-color: var(--w-green);
+  box-shadow: 0 1px 0 var(--w-green);
+}
+
+.w-field select {
+  padding-right: 1.8rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%231e2a23' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.15rem center;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.w-phone {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.w-phone input[type='text'] {
+  width: 5.2rem;
+  text-align: center;
+}
+
+.w-phone span {
+  color: var(--w-muted);
+}
+
+.w-terms {
+  height: 8.6rem;
+  margin-top: 0.4rem;
+  padding: 0.9rem 1rem;
+  overflow-y: auto;
+  border: 1px solid var(--w-line);
+  background: color-mix(in srgb, var(--w-green) 3%, var(--w-ivory));
+  color: var(--w-muted);
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+.w-terms p + p {
+  margin-top: 0.7rem;
+}
+
+.w-field .w-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin: 1rem 0 0;
+  color: var(--w-green);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.w-check input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0.15rem 0 0;
+  accent-color: var(--w-green);
+}
+
+.w-submit {
+  min-height: 58px;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: var(--w-green);
+  color: var(--w-ivory);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.w-submit:hover {
+  background: color-mix(in srgb, var(--w-green) 88%, var(--w-ivory));
+}
+
+.w-submit:focus-visible {
+  outline-offset: 3px;
+}
+
+.w-form__error {
+  margin-top: 0.4rem;
+  color: #9a3b2e;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.w-field [aria-invalid='true'] {
+  border-bottom-color: #9a3b2e;
+}
+
+.w-form__notice {
+  padding: 1rem 1.1rem;
+  border-left: 3px solid var(--w-green);
+  background: color-mix(in srgb, var(--w-green) 6%, var(--w-ivory));
+  font-size: 0.92rem;
+}
+
+/* 떠 있는 상담 버튼 (데스크톱 전용) */
+
+.w-float {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 45;
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0 1.2rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--w-green);
+  color: var(--w-ivory);
+  box-shadow: var(--w-shadow);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.w-float.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+@media (min-width: 900px) {
+  .w-consult__grid {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+  }
+
+  .w-consult__media {
+    position: sticky;
+    top: calc(var(--w-nav-h) + 2rem);
+  }
+
+  .w-consult__media img {
+    aspect-ratio: 4 / 5;
+  }
+
+  .w-submit {
+    width: auto;
+    min-width: 16rem;
+    padding: 0 2.5rem;
+  }
+
+  .w-float {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w-float {
+    transition: none;
+  }
+}
