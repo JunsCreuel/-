@@ -7,7 +7,8 @@ const SIGNATURE = [
     no: '01',
     title: '두피 관리',
     sub: 'BASIC · PREMIUM',
-    photo: null,
+    // 원본이 236×354px 썸네일이라 큰 칸에서 흐려지지 않도록 폭을 제한한다. 큰 원본이 오면 small을 지운다.
+    photo: { src: PHOTOS.scalp, alt: '머리를 뒤로 기대고 두피 관리를 받는 모습', width: 236, height: 354, small: true },
     tags: ['문제성 두피', '두피 열 다운'],
     text: '머리가 지끈하고 두피가 답답한 날엔 두피부터 만져 보세요. 머리 꼭대기에 열이 오른 날엔 시원하게 식혀 드리고, 두피가 예민한 분은 천천히 풀어 드려요. 얼굴과 승모까지 이어서 받는 헤드스파 패키지도 있어요.',
   },
@@ -80,7 +81,7 @@ export default function Programs() {
         <div className="w-programs">
           {SIGNATURE.map((p) => (
             <article key={p.no} className="w-program">
-              <Reveal mode="toggle" className="w-program__media">
+              <Reveal mode="toggle" className={`w-program__media${p.photo?.small ? ' w-program__media--small' : ''}`}>
                 <Photo photo={p.photo} no={p.no} title={p.title} soft={p.soft} />
               </Reveal>
               <Reveal className="w-program__body">

@@ -250,6 +250,10 @@
   margin-inline: auto;
 }
 
+.w-program__media--small {
+  max-width: 340px;
+}
+
 .w-program__no {
   color: color-mix(in srgb, var(--w-green) 28%, var(--w-band));
   font-family: var(--w-font-en);
