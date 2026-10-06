@@ -2,6 +2,7 @@ const BASE = import.meta.env.BASE_URL
 
 export const PHOTOS = {
   neck: `${BASE}wellness/neck.jpg`,
+  scalp: `${BASE}wellness/scalp.jpg`,
   candleLeg: `${BASE}wellness/candle-leg.jpg`,
   back: `${BASE}wellness/back.jpg`,
   leg: `${BASE}wellness/leg.jpg`,
