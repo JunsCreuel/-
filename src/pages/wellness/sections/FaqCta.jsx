@@ -1,5 +1,5 @@
 import { BRAND, BRANCHES, reserveAction, telHref } from '../data'
-import { Reveal, Todo } from '../ui'
+import { Reveal } from '../ui'
 
 const FAQS = [
   {
@@ -9,7 +9,6 @@ const FAQS = [
   {
     q: '온열돔, 처음인데 괜찮을까요?',
     a: '그냥 누워 계시면 돼요. 누워 계시는 동안에도 계속 상태를 보고 있고요. 불편하시면 바로 말씀해 주세요. 몸에 걱정되는 데가 있으면 예약할 때 미리 알려 주시고요.',
-    todo: '온열돔 이용 제한 안내(임산부·특정 질환 등) 필요 여부',
   },
   {
     q: '예약 안 하고 가도 돼요?',
@@ -36,9 +35,7 @@ export default function FaqCta() {
             {FAQS.map((item) => (
               <details key={item.q} className="w-faq__item" name="w-faq">
                 <summary>{item.q}</summary>
-                <p>
-                  {item.a} {item.todo && <Todo>{item.todo}</Todo>}
-                </p>
+                <p>{item.a}</p>
               </details>
             ))}
           </Reveal>

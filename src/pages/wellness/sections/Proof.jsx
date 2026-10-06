@@ -20,9 +20,6 @@ export default function Proof() {
               </Reveal>
             ))}
           </ul>
-          <p className="w-todo-note">
-            <Todo>선택 카드: 실제 수치(누적 방문 수, 재방문율 등) — 근거가 있을 때만</Todo>
-          </p>
         </div>
       </section>
 

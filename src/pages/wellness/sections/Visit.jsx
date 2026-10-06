@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BRANCHES, reserveAction, telHref } from '../data'
+import { BRANCHES, mapHref, reserveAction, telHref } from '../data'
 import { Reveal, Todo } from '../ui'
 
 // 지점 탭 + 선택한 지점의 오시는 길. 마린시티점 탭은 별도 페이지로 이동한다.
@@ -65,7 +65,9 @@ export default function Visit({ branch }) {
             <div>
               <dt>지도</dt>
               <dd>
-                <Todo>지도 링크</Todo>
+                <a href={mapHref(branch)} target="_blank" rel="noopener noreferrer">
+                  네이버 지도에서 보기
+                </a>
               </dd>
             </div>
           </dl>

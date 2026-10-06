@@ -47,6 +47,7 @@
 .w-footer__list {
   display: grid;
   gap: 0.7rem;
+  max-width: 760px;
 }
 
 .w-footer__list > div {
@@ -80,8 +81,4 @@
     padding-bottom: clamp(3rem, 7vw, 5rem);
   }
 
-  .w-footer__cols {
-    grid-template-columns: 1.6fr 1fr;
-    gap: 4rem;
-  }
 }
