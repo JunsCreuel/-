@@ -14,8 +14,9 @@
 
 .w-hero__title {
   margin-top: 1.2rem;
-  font-size: clamp(1.95rem, 7.2vw, 3.7rem);
-  line-height: 1.22;
+  font-size: clamp(1.95rem, 6.4vw, 3.1rem);
+  line-height: 1.25;
+  text-wrap: balance;
 }
 
 .w-hero__sub {
@@ -219,10 +220,22 @@
 
 /* PROGRAMS — 사진/글 교차 배치 */
 
+.w-prog-head {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  color: var(--w-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.w-prog-head--later {
+  margin-top: clamp(4rem, 9vw, 7rem);
+}
+
 .w-programs {
   display: grid;
   gap: clamp(3rem, 8vw, 6rem);
-  margin-top: clamp(2.5rem, 6vw, 4rem);
+  margin-top: 1.6rem;
 }
 
 .w-program {
@@ -265,6 +278,7 @@
 }
 
 .w-photo--block {
+  aspect-ratio: 4 / 3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -284,6 +298,60 @@
   font-size: 1.2rem;
   font-style: normal;
   letter-spacing: 0.2em;
+}
+
+.w-photo--block.is-soft {
+  background: var(--w-hair);
+  color: var(--w-green);
+}
+
+.w-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+}
+
+.w-tags li {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--w-hair);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.w-others {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+
+.w-other {
+  padding: 1rem 1rem 1.6rem;
+  border-radius: var(--w-radius);
+  background: var(--w-ivory);
+  box-shadow: var(--w-shadow-sm);
+}
+
+.w-other .w-photo {
+  aspect-ratio: 4 / 3;
+  box-shadow: none;
+}
+
+.w-other h3 {
+  margin-top: 1.1rem;
+  padding-inline: 0.4rem;
+  font-size: 1.25rem;
+}
+
+.w-other .w-program__sub,
+.w-other__text {
+  padding-inline: 0.4rem;
+}
+
+.w-other__text {
+  margin-top: 0.8rem;
+  color: var(--w-muted);
 }
 
 /* PROOF — 숫자 · 후기 */
@@ -618,6 +686,10 @@
   .w-program:nth-child(even) .w-program__media {
     order: 2;
     margin-left: auto;
+  }
+
+  .w-others {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .w-reviews {
