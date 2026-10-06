@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom'
-import { BRANCHES, reserveAction, telHref } from './data'
+import { BRANCHES, telHref } from './data'
+import Consult from './sections/Consult'
 import Visit from './sections/Visit'
+import { scrollToId } from './scroll'
 import { Reveal, Todo } from './ui'
 import './wellness-sections.css'
 
 // 마린시티점은 확정된 정보가 주소·전화뿐이라, 나머지는 자리표시로 두고 별도 페이지로 안내한다.
 export default function WellnessMarine() {
   const branch = BRANCHES.marine
-  const reserve = reserveAction(branch)
 
   return (
     <>
@@ -20,17 +21,15 @@ export default function WellnessMarine() {
             마린시티점
           </Reveal>
           <Reveal as="p" delay={160} className="w-hero__sub">
-            해운대 마린시티에도 저희 가게가 하나 더 있어요.
-            <br />
-            그쪽이 가까우시면 이쪽으로 오세요.
+            WELLNESS STUDIO의 자매 지점입니다.
           </Reveal>
           <Reveal as="p" delay={200} className="w-hero__place">
             {branch.address}
           </Reveal>
           <Reveal delay={260} className="w-hero__actions">
-            <a className="w-btn w-btn--primary" href={reserve.href}>
-              전화로 예약하기 {branch.phone}
-            </a>
+            <button type="button" className="w-btn w-btn--primary" onClick={() => scrollToId('booking')}>
+              상담 예약하기
+            </button>
             <Link className="w-link" to={BRANCHES.zai.path}>
               용호 자이점 보기 →
             </Link>
@@ -62,6 +61,7 @@ export default function WellnessMarine() {
         </div>
       </section>
 
+      <Consult branch={branch} />
       <Visit branch={branch} />
     </>
   )

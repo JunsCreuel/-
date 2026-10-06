@@ -1,6 +1,7 @@
 import { BRANCHES } from './data'
 import About from './sections/About'
-import FaqCta from './sections/FaqCta'
+import Consult from './sections/Consult'
+import Faq from './sections/Faq'
 import Hero from './sections/Hero'
 import Offer from './sections/Offer'
 import Problem from './sections/Problem'
@@ -19,7 +20,8 @@ export default function WellnessHome() {
       <Programs />
       <Proof />
       <Offer />
-      <FaqCta />
+      <Faq />
+      <Consult branch={BRANCHES.zai} />
       <Visit branch={BRANCHES.zai} />
     </>
   )
