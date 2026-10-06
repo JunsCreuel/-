@@ -9,12 +9,6 @@
   font-size: 0.88rem;
 }
 
-.w-footer__brand {
-  font-family: var(--w-font-en);
-  font-size: 1.1rem;
-  letter-spacing: 0.08em;
-}
-
 .w-footer__policies {
   display: flex;
   flex-wrap: wrap;

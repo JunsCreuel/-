@@ -37,7 +37,7 @@ export default function WellnessLayout() {
   }, [])
 
   useEffect(() => {
-    document.title = `예뻐졌다 웰니스스튜디오 · ${branch.name}`
+    document.title = `WELLNESS STUDIO 예뻐졌다 · ${branch.name}`
   }, [branch.name])
 
   // 지점 페이지를 오갈 때 항상 맨 위에서 시작한다.

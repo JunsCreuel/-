@@ -14,7 +14,7 @@ export default function WellnessMarine() {
       <section id="intro" className="w-hero w-hero--simple">
         <div className="w-container w-hero__text">
           <Reveal as="p" className="w-eyebrow">
-            예뻐졌다 웰니스스튜디오
+            WELLNESS STUDIO
           </Reveal>
           <Reveal as="h1" delay={80} className="w-hero__title">
             마린시티점
