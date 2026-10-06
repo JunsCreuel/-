@@ -67,17 +67,6 @@
   margin-top: calc(var(--u) * 44);
 }
 
-/* 어두운 배경(푸터)에서는 원본 색이 묻히므로 밝은 반전 색을 쓴다 */
-
-.w-footer .w-logo__mark {
-  color: var(--w-ivory);
-}
-
-.w-footer .w-logo__ko,
-.w-footer .w-logo__en {
-  background-color: var(--w-ivory);
-}
-
 @media (max-width: 420px) {
   .w-logo--nav {
     --u: 0.23px;
