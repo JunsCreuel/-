@@ -1,4 +1,6 @@
+import { useContent } from '../content-context'
 import { BRAND, BRANCHES, reserveAction, telHref } from '../data'
+import T from '../T'
 import { Reveal } from '../ui'
 
 const FAQS = [
@@ -19,6 +21,9 @@ const FAQS = [
 export default function FaqCta() {
   const { zai } = BRANCHES
   const reserve = reserveAction(zai)
+  const content = useContent()
+  // 수정 모드에서는 답변도 바로 고칠 수 있도록 모두 펼쳐 둔다.
+  const open = content?.editing ? true : undefined
 
   return (
     <>
@@ -28,14 +33,22 @@ export default function FaqCta() {
             FAQ
           </Reveal>
           <Reveal as="h2" delay={80} className="w-title">
-            자주 물어보시는 것들
+            <T k="faq.title" single>
+              자주 물어보시는 것들
+            </T>
           </Reveal>
 
           <Reveal className="w-faq__list">
-            {FAQS.map((item) => (
-              <details key={item.q} className="w-faq__item" name="w-faq">
-                <summary>{item.q}</summary>
-                <p>{item.a}</p>
+            {FAQS.map((item, i) => (
+              <details key={item.q} className="w-faq__item" name={open ? undefined : 'w-faq'} open={open}>
+                <summary>
+                  <T k={`faq.${i}.q`} single>
+                    {item.q}
+                  </T>
+                </summary>
+                <p>
+                  <T k={`faq.${i}.a`}>{item.a}</T>
+                </p>
               </details>
             ))}
           </Reveal>
@@ -48,16 +61,16 @@ export default function FaqCta() {
             {BRAND.tagline}
           </Reveal>
           <Reveal as="h2" delay={80} className="w-title">
-            이번 주에 한 번,
-            <br />
-            쉬어 가세요.
+            <T k="cta.title">{'이번 주에 한 번,\n쉬어 가세요.'}</T>
           </Reveal>
           <Reveal as="p" delay={120} className="w-lead">
-            첫 방문 50%는 한 분에 한 번이에요. 시간은 전화나 네이버로 잡아 주세요.
+            <T k="cta.lead">첫 방문 50%는 한 분에 한 번이에요. 시간은 전화나 네이버로 잡아 주세요.</T>
           </Reveal>
           <Reveal delay={180} className="w-cta__actions">
             <a className="w-btn w-btn--light" href={reserve.href} target="_blank" rel="noopener noreferrer">
-              네이버로 예약하기
+              <T k="cta.naver" single>
+                네이버로 예약하기
+              </T>
             </a>
             <a className="w-btn w-btn--ghost" href={telHref(zai.phone)}>
               전화 {zai.phone}

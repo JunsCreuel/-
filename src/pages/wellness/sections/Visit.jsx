@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { BRANCHES, mapHref, reserveAction, telHref } from '../data'
+import T from '../T'
 import { Reveal, Todo } from '../ui'
 
 // 지점 탭 + 선택한 지점의 오시는 길. 마린시티점 탭은 별도 페이지로 이동한다.
@@ -13,7 +14,9 @@ export default function Visit({ branch }) {
           Visit
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          오시는 길
+          <T k="visit.title" single>
+            오시는 길
+          </T>
         </Reveal>
 
         <Reveal as="nav" className="w-tabs" aria-label="지점 선택">

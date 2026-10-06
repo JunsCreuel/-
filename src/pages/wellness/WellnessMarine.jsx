@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { BRANCHES, reserveAction, telHref } from './data'
 import Visit from './sections/Visit'
+import T from './T'
 import { Reveal, Todo } from './ui'
 import './wellness-sections.css'
 
@@ -14,15 +15,17 @@ export default function WellnessMarine() {
       <section id="intro" className="w-hero w-hero--simple">
         <div className="w-container w-hero__text">
           <Reveal as="p" className="w-eyebrow">
-            예뻐졌다 웰니스스튜디오
+            <T k="marine.eyebrow" single>
+              예뻐졌다 웰니스스튜디오
+            </T>
           </Reveal>
           <Reveal as="h1" delay={80} className="w-hero__title">
-            마린시티점
+            <T k="marine.title" single>
+              마린시티점
+            </T>
           </Reveal>
           <Reveal as="p" delay={160} className="w-hero__sub">
-            해운대 마린시티에도 저희 가게가 하나 더 있어요.
-            <br />
-            그쪽이 가까우시면 이쪽으로 오세요.
+            <T k="marine.sub">{'해운대 마린시티에도 저희 가게가 하나 더 있어요.\n그쪽이 가까우시면 이쪽으로 오세요.'}</T>
           </Reveal>
           <Reveal as="p" delay={200} className="w-hero__place">
             {branch.address}
@@ -44,7 +47,9 @@ export default function WellnessMarine() {
             Program
           </Reveal>
           <Reveal as="h2" delay={80} className="w-title">
-            마린시티점 프로그램
+            <T k="marine.programs.title" single>
+              마린시티점 프로그램
+            </T>
           </Reveal>
           <Reveal as="p" delay={120} className="w-lead">
             <Todo>프로그램: 자이점과 동일 여부 / 지점 고유 관리</Todo>

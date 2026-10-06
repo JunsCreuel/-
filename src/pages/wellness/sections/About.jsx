@@ -1,3 +1,4 @@
+import T from '../T'
 import { Reveal } from '../ui'
 
 const STEPS = [
@@ -21,52 +22,86 @@ export default function About() {
     <section id="about" className="w-section">
       <div className="w-container">
         <Reveal as="p" className="w-eyebrow">
-          저희가 하는 방식
+          <T k="about.eyebrow" single>
+            저희가 하는 방식
+          </T>
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">
-          먼저 몸을 데우고,
-          <br />
-          굳은 자리는 손으로 풀어요.
+          <T k="about.title">{'먼저 몸을 데우고,\n굳은 자리는 손으로 풀어요.'}</T>
         </Reveal>
         <Reveal as="p" delay={120} className="w-lead">
-          예뻐졌다는 말은 몸이 풀린 다음에 오는 거라고 생각해요. 그래서 순서를 이렇게 잡았어요.
+          <T k="about.lead">예뻐졌다는 말은 몸이 풀린 다음에 오는 거라고 생각해요. 그래서 순서를 이렇게 잡았어요.</T>
         </Reveal>
 
         <ol className="w-steps">
           {STEPS.map((step, i) => (
             <Reveal as="li" key={step.no} delay={i * 90} className="w-step">
-              <span className="w-step__no">{step.no}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+              <span className="w-step__no">
+                <T k={`about.step.${i}.no`} single>
+                  {step.no}
+                </T>
+              </span>
+              <h3>
+                <T k={`about.step.${i}.title`} single>
+                  {step.title}
+                </T>
+              </h3>
+              <p>
+                <T k={`about.step.${i}.text`}>{step.text}</T>
+              </p>
             </Reveal>
           ))}
         </ol>
 
         <Reveal as="p" className="w-safety">
-          누워 계시는 동안에도 계속 상태를 보고 있어요.
+          <T k="about.safety">누워 계시는 동안에도 계속 상태를 보고 있어요.</T>
         </Reveal>
 
         <Reveal className="w-feel">
-          <h3 className="w-feel__title">관리 전후, 대략 이런 느낌일 수 있어요</h3>
+          <h3 className="w-feel__title">
+            <T k="about.feel.title" single>
+              관리 전후, 대략 이런 느낌일 수 있어요
+            </T>
+          </h3>
           <div className="w-feel__grid">
             <div className="w-feel__col">
-              <p className="w-feel__label">들어올 땐</p>
+              <p className="w-feel__label">
+                <T k="about.feel.beforeLabel" single>
+                  들어올 땐
+                </T>
+              </p>
               <ul>
-                {BEFORE.map((text) => (
-                  <li key={text}>{text}</li>
+                {BEFORE.map((text, i) => (
+                  <li key={text}>
+                    <T k={`about.before.${i}`} single>
+                      {text}
+                    </T>
+                  </li>
                 ))}
               </ul>
             </div>
             <div className="w-feel__col is-after">
-              <p className="w-feel__label">나갈 땐</p>
+              <p className="w-feel__label">
+                <T k="about.feel.afterLabel" single>
+                  나갈 땐
+                </T>
+              </p>
               <ul>
-                {AFTER.map((text) => (
-                  <li key={text}>{text}</li>
+                {AFTER.map((text, i) => (
+                  <li key={text}>
+                    <T k={`about.after.${i}`} single>
+                      {text}
+                    </T>
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
-          <p className="w-feel__note">느낌은 사람마다 달라요.</p>
+          <p className="w-feel__note">
+            <T k="about.feel.note" single>
+              느낌은 사람마다 달라요.
+            </T>
+          </p>
         </Reveal>
       </div>
     </section>
