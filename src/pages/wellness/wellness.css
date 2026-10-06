@@ -76,8 +76,7 @@ body.is-wellness {
   border-radius: 6px;
 }
 
-.w-section--green :focus-visible,
-.w-footer :focus-visible {
+.w-section--green :focus-visible {
   outline-color: var(--w-ivory);
 }
 
@@ -235,8 +234,7 @@ body.is-wellness {
   line-height: 1.7;
 }
 
-.w-section--green .w-todo,
-.w-footer .w-todo {
+.w-section--green .w-todo {
   background: var(--w-green-soft);
   color: var(--w-ivory);
 }
