@@ -1,5 +1,8 @@
 import { BRANCHES } from './data'
 import About from './sections/About'
+import Equipment from './sections/Equipment'
+import WarmRitual from './sections/WarmRitual'
+import Startup from './sections/Startup'
 import Consult from './sections/Consult'
 import Faq from './sections/Faq'
 import Hero from './sections/Hero'
@@ -15,14 +18,17 @@ export default function WellnessHome() {
   return (
     <>
       <Hero />
-      <Problem />
       <About />
       <Programs />
+      <Equipment />
+      <WarmRitual />
+      <Problem />
       <Proof />
       <Offer />
       <Faq />
       <Consult branch={BRANCHES.zai} />
       <Visit branch={BRANCHES.zai} />
+      <Startup />
     </>
   )
 }
