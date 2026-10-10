@@ -28,6 +28,13 @@
   --w-font-en: Georgia, 'Times New Roman', serif;
 }
 
+/* 데스크톱에서는 상단 바를 조금 더 높게 */
+@media (min-width: 900px) {
+  .wellness {
+    --w-nav-h: 76px;
+  }
+}
+
 body.is-wellness {
   background: var(--w-ivory);
 }

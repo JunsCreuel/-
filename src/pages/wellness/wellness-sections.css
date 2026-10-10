@@ -340,52 +340,6 @@
 
 /* PROOF — 후기 */
 
-.w-todo-note {
-  margin-top: 1.2rem;
-}
-
-.w-reviews {
-  display: grid;
-  gap: 1.6rem;
-  margin-top: 1.6rem;
-}
-
-.w-review {
-  display: flex;
-  gap: 1rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--w-line);
-}
-
-.w-review__photo {
-  flex: 0 0 88px;
-  aspect-ratio: 1;
-  background: var(--w-hair);
-}
-
-.w-review__body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.6rem;
-}
-
-.w-review__who {
-  color: var(--w-muted);
-  font-size: 0.9rem;
-}
-
-.w-bar-line {
-  display: block;
-  height: 0.55rem;
-  background: var(--w-hair);
-}
-
-.w-bar-line.is-short {
-  width: 60%;
-}
-
 /* OFFER */
 
 .w-offer__inner {
@@ -630,19 +584,6 @@
     margin-left: auto;
   }
 
-  .w-reviews {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .w-review {
-    flex-direction: column;
-  }
-
-  .w-review__photo {
-    flex: none;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-  }
 }
 
 @media (min-width: 900px) {
