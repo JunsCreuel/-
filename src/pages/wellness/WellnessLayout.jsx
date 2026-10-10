@@ -12,9 +12,12 @@ const NAV_ITEMS = {
   zai: [
     { id: 'about', label: '차별점' },
     { id: 'programs', label: '프로그램' },
+    { id: 'equipment', label: '온열돔 · 디바이스' },
+    { id: 'warm-ritual', label: '온열돔 단독 이용' },
     { id: 'reviews', label: '후기' },
     { id: 'offer', label: '이벤트' },
     { id: 'booking', label: '상담 예약' },
+    { id: 'startup', label: '창업·운영 상담' },
   ],
   marine: [
     { id: 'intro', label: '소개' },

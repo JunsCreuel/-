@@ -1,101 +1,30 @@
 import { PHOTOS } from '../data'
+import { scrollToId } from '../scroll'
 import { Reveal } from '../ui'
 
-// 시그니처 관리: 두피-얼굴 관리(하나의 프로그램)와 온열돔 관리.
 const SIGNATURE = [
-  {
-    no: '01',
-    title: '두피-얼굴 관리',
-    sub: 'BASIC · PREMIUM',
-    // 원본이 236×354px 썸네일이라 큰 칸에서 흐려지지 않도록 폭을 제한한다. 큰 원본이 오면 small을 지운다.
-    photo: { src: PHOTOS.scalp, alt: '머리를 뒤로 기대고 두피 관리를 받는 모습', width: 236, height: 354, small: true },
-    tags: ['문제성 두피', '두피 열 다운', '모공개선', '피부 온도 내리기', '수분리프팅'],
-    text: '두피에서 얼굴까지 하나의 흐름으로 이어지는 관리입니다. 두피의 열감과 답답함, 얼굴의 건조함과 피부 컨디션을 함께 관리하며, 승모 관리를 더한 헤드스파 코스도 운영합니다.',
-  },
-  {
-    no: '02',
-    title: '전신웜업케어',
-    sub: '온열돔',
-    photo: { src: PHOTOS.candleLeg, alt: '촛불 아래에서 종아리를 관리하는 손', width: 736, height: 1308 },
-    tags: [],
-    text: '전신 온열돔 안에서 진행하는 관리입니다. 깊고 균일한 온열감과 편안한 휴식감 속에서 발한 케어, 말초 순환 케어, 체온 기반 컨디션 케어가 이어집니다.',
-  },
+  { no: '01', en: 'SCALP REFRESH', title: '두피 리프레시', text: '답답하게 느껴지는 두피를 세심하게 돌보는, 나를 위한 휴식 시간. 두피 상태와 고민을 상담해 관리 방향을 정합니다.', tags: ['두피 집중', '편안한 휴식'] },
+  { no: '02', en: 'FACE CONDITIONING', title: '페이스 컨디셔닝', text: '피부 상태에 맞춘 제품과 페이스 갈바닉으로 진행하는 섬세한 얼굴 관리. 건조함과 피부 컨디션 등 오늘의 고민을 함께 살핍니다.', tags: ['얼굴 집중', '페이스 갈바닉'] },
+  { no: '03', en: 'ABDOMEN CARE', title: '복부 슬리밍 케어', text: '복부 라인이 고민인 분을 위한 온열돔과 복부 집중 아웃케어. 바디 디바이스와 전용 제품을 활용해 신경 쓰이는 부위를 세심하게 관리합니다.', tags: ['온열돔 + 복부', '바디 디바이스'] },
 ]
-
-const OTHERS = [
-  {
-    title: '바디 케어',
-    sub: '등 · 하체 · 복부 · 전신 후면',
-    photo: { src: PHOTOS.back, alt: '등을 부드럽게 관리하는 두 손', width: 736, height: 986 },
-    text: '등과 하체 관리는 온열돔과 함께 진행하며, 하루 동안 쌓인 긴장으로 굳은 부위를 아웃케어로 집중 관리합니다.',
-  },
-  {
-    title: '림프 케어',
-    sub: '림프절 · 풀 바디 웜업 + 아로마테라피',
-    photo: { src: PHOTOS.leg, alt: '다리를 부드럽게 쓸어 주는 손', width: 720, height: 1280 },
-    text: '겨드랑이와 서혜부, 목을 따라 이어지는 림프 순환 케어입니다. 풀 바디 웜업과 아로마테라피를 함께 구성했습니다.',
-  },
-]
-
-function Photo({ photo }) {
-  return (
-    <figure className="w-photo">
-      <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-    </figure>
-  )
-}
-
 export default function Programs() {
-  return (
-    <section id="programs" className="w-section w-section--band">
-      <div className="w-container">
-        <Reveal as="p" className="w-eyebrow">
-          Program
-        </Reveal>
-        <Reveal as="h2" delay={80} className="w-title">
-          프로그램 구성
-        </Reveal>
-
-        <Reveal as="p" className="w-prog-head">
-          시그니처 관리
-        </Reveal>
-        <div className="w-programs">
-          {SIGNATURE.map((p) => (
-            <article key={p.no} className={`w-program${p.photo.small ? ' w-program--small' : ''}`}>
-              <Reveal mode="toggle" className={`w-program__media${p.photo.small ? ' w-program__media--small' : ''}`}>
-                <Photo photo={p.photo} />
-              </Reveal>
-              <Reveal className="w-program__body">
-                <p className="w-program__no">{p.no}</p>
-                <h3>{p.title}</h3>
-                {p.sub && <p className="w-program__sub">{p.sub}</p>}
-                <p className="w-program__text">{p.text}</p>
-                {p.tags.length > 0 && (
-                  <ul className="w-tags">
-                    {p.tags.map((tag) => (
-                      <li key={tag}>{tag}</li>
-                    ))}
-                  </ul>
-                )}
-              </Reveal>
-            </article>
-          ))}
-        </div>
-
-        <Reveal as="p" className="w-prog-head w-prog-head--later">
-          그 밖의 관리
-        </Reveal>
-        <ul className="w-others">
-          {OTHERS.map((o) => (
-            <Reveal as="li" key={o.title} className="w-other">
-              <Photo photo={o.photo} />
-              <h3>{o.title}</h3>
-              <p className="w-program__sub">{o.sub}</p>
-              <p className="w-other__text">{o.text}</p>
-            </Reveal>
-          ))}
-        </ul>
+  return <section id="programs" className="w-section w-section--band"><div className="w-container">
+    <Reveal as="p" className="w-eyebrow">Signature & Total Care</Reveal>
+    <Reveal as="h2" className="w-title">두피부터 얼굴, 복부까지.<br />나의 고민에서 시작하는 관리.</Reveal>
+    <p className="w-lead">세 가지 시그니처부터 여러 부위를 함께 돌보는 전신 집중관리까지, 필요한 케어를 선택하세요.</p>
+    <div className="w-care-grid">{SIGNATURE.map(p => <Reveal as="article" key={p.no} className="w-care-card">
+      <p className="w-program__no">{p.no}</p><p className="w-method__en">{p.en}</p><h3>{p.title}</h3><p>{p.text}</p>
+      <ul className="w-tags">{p.tags.map(t => <li key={t}>{t}</li>)}</ul>
+      <button className="w-link" type="button" onClick={() => scrollToId('booking')}>{p.title} 상담 →</button>
+    </Reveal>)}</div>
+    <Reveal className="w-total-care">
+      <figure className="w-photo"><img src={PHOTOS.back} alt="등 부위 집중관리 모습" width="736" height="986" loading="lazy" /></figure>
+      <div><p className="w-eyebrow">Intensive Full Body</p><h3 className="w-title">전신 밸런스 케어</h3>
+        <p className="w-lead">등·복부·하체 등 여러 부위의 고민을 함께 살피는 전신 맞춤 관리. 온열돔 후 필요한 부위에 집중하는 아웃케어로 이어집니다.</p>
+        <ul className="w-tags"><li>등 · 어깨</li><li>복부</li><li>하체</li><li>전신</li></ul>
+        <div className="w-hero__actions"><button type="button" className="w-btn w-btn--primary" onClick={() => scrollToId('booking')}>전신 집중관리 상담</button></div>
       </div>
-    </section>
-  )
+    </Reveal>
+    <p className="w-method__note">관리 부위와 구성에 따라 소요시간과 비용이 달라집니다. 온열돔 포함 여부와 함께 예약 전에 안내드립니다.</p>
+  </div></section>
 }
