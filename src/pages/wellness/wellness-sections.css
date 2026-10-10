@@ -340,50 +340,45 @@
 
 /* PROOF — 후기 */
 
-.w-todo-note {
-  margin-top: 1.2rem;
-}
-
 .w-reviews {
   display: grid;
-  gap: 1.6rem;
-  margin-top: 1.6rem;
+  gap: clamp(2.4rem, 6vw, 3rem);
+  margin-top: 2.2rem;
 }
 
 .w-review {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 1.1rem;
   padding-top: 1.2rem;
   border-top: 1px solid var(--w-line);
 }
 
 .w-review__photo {
-  flex: 0 0 88px;
-  aspect-ratio: 1;
-  background: var(--w-hair);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--w-band);
 }
 
-.w-review__body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.6rem;
+.w-review__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.w-review__text {
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
 }
 
 .w-review__who {
+  margin-top: auto;
   color: var(--w-muted);
-  font-size: 0.9rem;
-}
-
-.w-bar-line {
-  display: block;
-  height: 0.55rem;
-  background: var(--w-hair);
-}
-
-.w-bar-line.is-short {
-  width: 60%;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
 }
 
 /* OFFER */
@@ -630,19 +625,6 @@
     margin-left: auto;
   }
 
-  .w-reviews {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .w-review {
-    flex-direction: column;
-  }
-
-  .w-review__photo {
-    flex: none;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-  }
 }
 
 @media (min-width: 900px) {
@@ -682,5 +664,32 @@
 
   .w-offer__list li:nth-child(odd) {
     border-left: 0;
+  }
+}
+
+/* 후기: 중간 폭에서는 사진을 왼쪽에, 글을 오른쪽에 두고, 넓은 화면에서는 세 칸으로 나눈다 */
+@media (min-width: 640px) and (max-width: 999px) {
+  .w-review {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 1rem 2rem;
+    align-items: start;
+  }
+
+  .w-review__photo {
+    grid-row: 1 / 3;
+  }
+
+  .w-review__who {
+    margin-top: 0;
+    align-self: end;
+  }
+}
+
+@media (min-width: 1000px) {
+  .w-reviews {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.4rem;
   }
 }
