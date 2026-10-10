@@ -1,0 +1,139 @@
+/* 후기 카드 스택: 가운데 카드만 또렷하게, 양옆 카드는 흐리게 보이며 옆으로 넘어간다 */
+
+.w-rv {
+  /* 섹션 좌우 여백을 뚫고 화면 끝까지 펼쳐서, 양옆 카드가 화면 가장자리까지 보이게 한다 */
+  margin: 2.4rem calc(var(--w-gutter) * -1) 0;
+}
+
+.w-rv__stage {
+  --card-w: min(74vw, 30rem);
+  --gap: clamp(1rem, 3vw, 2.2rem);
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  padding-block: 0.25rem;
+  touch-action: pan-y;
+  outline-offset: -2px;
+}
+
+.w-rv__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  grid-area: 1 / 1;
+  justify-self: center;
+  width: var(--card-w);
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--w-line);
+  transform: translateX(calc(var(--off) * (var(--card-w) + var(--gap))));
+  transition:
+    transform 0.8s cubic-bezier(0.22, 0.7, 0.2, 1),
+    opacity 0.8s ease,
+    filter 0.8s ease;
+}
+
+.w-rv__card.is-jump {
+  transition: none;
+}
+
+.w-rv__card[data-state='side'] {
+  opacity: 0.35;
+  filter: blur(1.5px);
+  transform: translateX(calc(var(--off) * (var(--card-w) + var(--gap)))) scale(0.94);
+  cursor: pointer;
+}
+
+.w-rv__card[data-state='far'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.w-rv__photo {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--w-band);
+}
+
+.w-rv__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.w-rv__text {
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+
+.w-rv__who {
+  margin-top: auto;
+  color: var(--w-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.w-rv__bar {
+  /* 섹션 본문과 같은 폭·좌우 여백 */
+  width: min(100% - 2 * var(--w-gutter), var(--w-max));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.w-rv__count {
+  margin: 0;
+  font-family: var(--w-font-en);
+  font-size: 1.1rem;
+}
+
+.w-rv__count span {
+  color: var(--w-muted);
+  font-size: 0.85rem;
+}
+
+.w-rv__btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.w-rv__btns button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--w-green);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.w-rv__btns button:nth-child(2) {
+  font-size: 0.7rem;
+  letter-spacing: -0.1em;
+}
+
+.w-rv__btns button:hover {
+  background: var(--w-green);
+  color: var(--w-ivory);
+}
+
+@media (min-width: 900px) {
+  .w-rv__stage {
+    --card-w: 30rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w-rv__card {
+    transition: none;
+  }
+}
