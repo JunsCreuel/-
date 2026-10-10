@@ -3,7 +3,7 @@ import { Reveal } from '../ui'
 const CONCERNS = [
   '머리 꼭대기가 무겁고 두피가 답답하게 느껴지는 날',
   '화장이 들뜨고 얼굴빛에 생기가 없어 보이는 오후',
-  '한쪽으로 올라가 굳어 있는 어깨',
+  '옷을 입을 때 신경 쓰이는 복부 라인',
   '자고 일어나도 풀리지 않는 몸의 피로감',
   '하루를 마치면 딱딱하게 굳어 있는 등',
   '저녁이 되면 무겁게 느껴지는 다리',
@@ -48,9 +48,9 @@ export default function Problem() {
       <section className="w-section w-section--green w-turn">
         <div className="w-container">
           <Reveal as="p" className="w-turn__text">
-            온열만으로, 또는 손길만으로는
+            온몸을 따뜻하게 감싼 다음,
             <br />
-            닿지 않는 영역이 있습니다.
+            나의 고민 부위를 한 번 더 돌봅니다.
           </Reveal>
         </div>
       </section>
