@@ -7,17 +7,19 @@ import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
 import './wellness.css'
 
+const FONT_LINK_ID = 'w-webfonts'
+const FONT_HREF =
+  'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;600&family=Jost:wght@300;400&display=swap'
+
 // nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다.
 const NAV_ITEMS = {
   zai: [
-    { id: 'about', label: '차별점' },
+    { id: 'about', label: '소개' },
     { id: 'programs', label: '프로그램' },
-    { id: 'equipment', label: '온열돔 · 디바이스' },
-    { id: 'warm-ritual', label: '온열돔 단독 이용' },
+    { id: 'equipment', label: '장비' },
     { id: 'reviews', label: '후기' },
-    { id: 'offer', label: '이벤트' },
+    { id: 'location', label: '오시는 길' },
     { id: 'booking', label: '상담 예약' },
-    { id: 'startup', label: '창업·운영 상담' },
   ],
   marine: [
     { id: 'intro', label: '소개' },
@@ -41,6 +43,16 @@ export default function WellnessLayout() {
     }
   }, [])
 
+  // 웰니스 페이지에서만 쓰는 웹폰트(한글 명조·고딕, 숫자용 Jost)를 한 번만 불러온다.
+  useEffect(() => {
+    if (document.getElementById(FONT_LINK_ID)) return
+    const link = document.createElement('link')
+    link.id = FONT_LINK_ID
+    link.rel = 'stylesheet'
+    link.href = FONT_HREF
+    document.head.appendChild(link)
+  }, [])
+
   useEffect(() => {
     document.title = `WELLNESS STUDIO 예뻐졌다 · ${branch.name}`
   }, [branch.name])
@@ -56,7 +68,7 @@ export default function WellnessLayout() {
       <main>
         <Outlet />
       </main>
-      <WellnessFooter items={NAV_ITEMS[branch.id]} />
+      <WellnessFooter />
       <MobileBar branch={branch} />
       <FloatingInquiry />
     </div>
