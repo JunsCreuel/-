@@ -1,4 +1,4 @@
-import { BRANCHES, PHOTOS, mapHref, reserveAction, telHref } from '../data'
+import { BRANCHES, PHOTOS, displayAddress, mapHref, reserveAction, telHref } from '../data'
 import BookingSteps from '../BookingSteps'
 import { Reveal } from '../ui'
 
@@ -41,7 +41,7 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
               <div>
                 <dt>오시는 길</dt>
                 <dd>
-                  {branch.address}
+                  {displayAddress(branch.address)}
                   <a className="w-cc__link" href={mapHref(branch)} target="_blank" rel="noopener noreferrer">
                     네이버 지도 ↗
                   </a>

@@ -121,3 +121,7 @@ export function reserveAction(branch) {
   }
   return { href: telHref(branch.phone), label: '전화 예약', external: false }
 }
+
+// 화면에 보여 줄 주소: "141-2호"처럼 동·호수의 하이픈에서 줄이 갈리지 않도록 줄바꿈 없는 하이픈(U+2011)으로 바꾼다.
+// 지도 링크(mapHref)는 원래 주소를 그대로 쓴다.
+export const displayAddress = (address) => address.replace(/(\d)-(\d)/g, '$1\u2011$2')

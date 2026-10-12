@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRAND, BRANCHES, MARINE_OPEN, OPEN_BRANCHES, mapHref, reserveAction, telHref } from './data'
+import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, reserveAction, telHref } from './data'
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
@@ -22,14 +22,28 @@ export default function WellnessFooter({ items }) {
             <div className="w-footer__info">
               <p>상호명 : {BRAND.company}</p>
               <p>
-                대표 : {BRAND.representative} | 사업자등록번호 : {BRAND.bizNo}
+                <span>대표 : {BRAND.representative}</span>
+                <span className="w-footer__sep" aria-hidden="true">|</span>
+                <span>사업자등록번호 : {BRAND.bizNo}</span>
               </p>
               <p>
-                {MARINE_OPEN ? zai.name : '주소'} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+                <span>
+                  {MARINE_OPEN ? zai.name : '주소'} : {displayAddress(zai.address)}
+                </span>
+                <span className="w-footer__sep" aria-hidden="true">|</span>
+                <span>
+                  TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+                </span>
               </p>
               {MARINE_OPEN && (
                 <p>
-                  {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                  <span>
+                    {marine.name} : {displayAddress(marine.address)}
+                  </span>
+                  <span className="w-footer__sep" aria-hidden="true">|</span>
+                  <span>
+                    TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                  </span>
                 </p>
               )}
               <p>
