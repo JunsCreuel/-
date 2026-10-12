@@ -25,7 +25,7 @@ export default function Offer() {
           새로워진 예뻐졌다, 첫 방문은 반값으로
         </Reveal>
         <Reveal as="p" delay={120} className="w-lead">
-          첫 방문 고객께 관리{SHOW_PRICES ? ' 요금' : ''}을 50% 할인해 드립니다.
+          첫 방문 고객께 아래 {TREATMENTS.length}개 관리{SHOW_PRICES ? ' 요금' : ''}을 50% 할인해 드립니다.
           <br />
           전단지가 없어도 적용되며 고객 1인 1회에 한합니다.
         </Reveal>

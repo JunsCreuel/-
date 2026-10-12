@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PHOTOS, PROGRAMS, SHOW_PRICES, reserveAction, BRANCHES } from '../data'
 import { scrollToId } from '../scroll'
 import { Reveal } from '../ui'
@@ -28,7 +28,31 @@ function Price({ item }) {
 export default function Programs() {
   const trackRef = useRef(null)
   const [openId, setOpenId] = useState(null)
+  const [edge, setEdge] = useState({ start: true, end: false }) // 캐러셀이 양 끝에 닿았는지(화살표 비활성용)
   const naver = reserveAction(BRANCHES.zai)
+
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return undefined
+    let raf = 0
+    const update = () => {
+      raf = 0
+      const start = el.scrollLeft <= 4
+      const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4
+      setEdge((prev) => (prev.start === start && prev.end === end ? prev : { start, end }))
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update)
+    }
+    update()
+    el.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
 
   function slide(dir) {
     const el = trackRef.current
@@ -51,7 +75,7 @@ export default function Programs() {
         <p className="w-lead">오늘 가장 신경 쓰이는 곳부터 골라 보세요. 처음이라면 상담에서 컨디션에 맞는 관리를 함께 정해 드립니다.</p>
 
         <div className="w-pc-wrap">
-          <button type="button" className="w-pc-arrow w-pc-arrow--prev" aria-label="이전 프로그램" onClick={() => slide(-1)}>
+          <button type="button" className="w-pc-arrow w-pc-arrow--prev" aria-label="이전 프로그램" disabled={edge.start} onClick={() => slide(-1)}>
             ‹
           </button>
           <div className="w-pc-track" ref={trackRef} role="list">
@@ -59,7 +83,7 @@ export default function Programs() {
               const open = openId === p.id
               return (
                 <article key={p.id} className={`w-pc${open ? ' is-open' : ''}${p.fit === 'contain' ? ' w-pc--contain' : ''}`} role="listitem">
-                  <img src={PHOTOS[p.photo]} alt="" loading="eager" decoding="async" style={{ objectPosition: p.pos }} />
+                  <img src={PHOTOS[p.photo]} alt="" loading="lazy" decoding="async" style={{ objectPosition: p.pos }} />
                   <div className="w-pc__body">
                     <p className="w-pc__en">{p.group}</p>
                     <h3>{p.title}</h3>
@@ -93,14 +117,14 @@ export default function Programs() {
               )
             })}
           </div>
-          <button type="button" className="w-pc-arrow w-pc-arrow--next" aria-label="다음 프로그램" onClick={() => slide(1)}>
+          <button type="button" className="w-pc-arrow w-pc-arrow--next" aria-label="다음 프로그램" disabled={edge.end} onClick={() => slide(1)}>
             ›
           </button>
         </div>
 
         <div className="w-pc-note">
           <p className="w-method__note">
-            {SHOW_PRICES ? '가격은 네이버 예약 기준입니다. ' : ''}관리 구성과 소요시간은 컨디션에 따라 달라질 수 있으며 예약 전에 안내해 드립니다.
+            {SHOW_PRICES ? '가격은 네이버 예약 기준입니다. ' : ''}관리 구성과 소요시간은 컨디션에 따라 달라질 수 있으며 예약 전에 안내해 드립니다. 일부 사진은 분위기 연출용(AI 생성 포함)으로 실제 관리 장면과 다를 수 있습니다.
           </p>
           {naver.external && (
             <a className="w-btn w-btn--primary w-btn--sm" href={naver.href} target="_blank" rel="noopener noreferrer">

@@ -124,8 +124,9 @@
 .w-bridge {
   max-width: 40rem;
   margin-top: 2.4rem;
+  font-family: var(--w-font-serif);
   font-size: clamp(1.2rem, 3.4vw, 1.55rem);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: -0.02em;
 }
@@ -361,7 +362,7 @@
   line-height: 1;
 }
 
-.w-offer__big span {
+.w-offer__big > span {
   margin-bottom: 0.5rem;
   color: var(--w-on-ink-muted);
   font-size: 1rem;
@@ -717,6 +718,11 @@
 
 .w-startup__form h3 {
   font-size: 1.25rem;
+}
+
+/* 계산기에서 넘어올 때 포커스를 받는 제목: 테두리는 그리지 않는다 */
+.w-startup__form h3:focus {
+  outline: none;
 }
 
 .w-startup__form .w-form {

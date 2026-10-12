@@ -3,18 +3,21 @@
    색은 흰 바탕과 노랑·주황 포인트, 짙은 웜 블랙 글씨에서 파생한다. */
 
 :root {
-  /* 하얀 바탕을 기본으로 깔고, 포인트는 주황 하나로 준다. 노랑은 글자 형광펜에만 쓴다 */
-  --w-yellow: #ffe642; /* 글자 형광펜에만 쓴다 */
-  --w-orange: #ff7900;
+  /* 팔레트 "에스프레소 & 샴페인": 흰 바탕에 깊은 에스프레소(버튼·어두운 면)와 브론즈 포인트(선·번호·라벨),
+     제목 강조어에는 은은한 샴페인 형광펜. 채도 높은 색은 쓰지 않는다 */
+  --w-espresso: #2a2320;
+  --w-bronze: #a3835f; /* 선·점·진행 막대 같은 장식용 */
+  --w-champagne: #d8c19d; /* 어두운 면 위의 숫자·강조 */
+  --w-highlight: #eee2cc; /* 제목 강조어 형광펜 */
 
-  --w-ink: #221f1b;
+  --w-ink: #1d1a17;
   --w-bg: #ffffff;
-  --w-band: #f6f6f4;
+  --w-band: #f6f5f3;
   --w-card: #ffffff;
-  --w-accent: var(--w-orange);
-  /* 주황은 흰 바탕의 작은 글자에서 대비가 낮아, 글자·링크에는 한 단계 진한 주황을 쓴다 */
-  --w-accent-deep: #b85200;
-  --w-ink-band: #221f1b;
+  --w-accent: var(--w-bronze);
+  /* 흰 바탕 위 작은 글자·링크는 대비를 위해 한 단계 짙은 브론즈 */
+  --w-accent-deep: #7a5a3d;
+  --w-ink-band: var(--w-espresso);
 
   /* 브랜드 로고 원본에서 읽은 색: 마크는 따뜻한 차콜, 가는 글씨는 그보다 조금 더 짙게 */
   --w-logo-mark: #322e28;
@@ -36,7 +39,10 @@
   --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
   /* 제목용 명조체. 웹폰트(Noto Serif KR)를 불러오기 전에는 기기에 있는 명조 계열로 보인다 */
   --w-font-serif: 'Noto Serif KR', 'Noto Serif CJK KR', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
-  --w-font-en: Georgia, 'Times New Roman', serif;
+  /* 영문 큰 제목용 세리프. 웹폰트를 불러오기 전에는 Georgia로 보인다 */
+  --w-font-en: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  /* 작은 영문 라벨(대문자·넓은 자간) */
+  --w-font-label: 'Jost', 'Noto Sans KR', sans-serif;
 }
 
 /* 데스크톱에서는 상단 바를 조금 더 높게 */
@@ -52,6 +58,8 @@ body.is-wellness {
 
 .wellness {
   min-height: 100vh;
+  /* 영문 세리프(Cormorant)의 숫자가 높낮이가 다른 올드스타일로 나오지 않도록 가지런한 숫자로 고정 */
+  font-variant-numeric: lining-nums;
   background: var(--w-bg);
   color: var(--w-ink);
   font-family: var(--w-font);
@@ -114,6 +122,11 @@ body.is-wellness {
   padding-top: var(--w-nav-h);
 }
 
+/* 섹션이 아닌 이동 대상(#warm-ritual 등)도 상단 바 아래에 제목이 보이게 */
+.wellness [id]:not(.w-section) {
+  scroll-margin-top: calc(var(--w-nav-h) + 1.5rem);
+}
+
 /* 레이아웃 */
 
 .w-section {
@@ -141,9 +154,10 @@ body.is-wellness {
 .w-eyebrow {
   margin-bottom: 1rem;
   color: var(--w-accent-deep);
-  font-family: var(--w-font-en);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
+  font-family: var(--w-font-label);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 

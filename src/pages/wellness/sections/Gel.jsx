@@ -1,7 +1,7 @@
 import { PHOTOS } from '../data'
 import { Reveal } from '../ui'
 
-// 디바이스마다 맞춘 전용 제품. 성분 설명은 시안(Claude Design 캔버스 "05 전용 젤") 문구 그대로다.
+// 디바이스마다 맞춘 전용 제품. 화장품 광고 기준에 맞춰 사용 장면과 성분 출처만 적고 효능은 쓰지 않는다.
 // icon이 있는 성분은 동그란 사진과 함께, 없으면 이름과 설명만 보여 준다.
 const GELS = [
   {
@@ -25,11 +25,11 @@ const GELS = [
     photo: PHOTOS.gelSerum,
     alt: '손바닥에 덜어 낸 에이지락 바디 세럼',
     hand: true,
-    text: '웰스파 관리 때 함께 쓰는 전용 세럼입니다. 셀룰라이트가 신경 쓰이는 부위와 탄력, 바디 라인을 관리할 때 사용합니다.',
+    text: '웰스파 관리 때 바디 피부를 촉촉하고 매끄럽게 가꾸기 위해 함께 사용하는 전용 세럼입니다.',
     ingredients: [
-      { name: '바디 실루엣 블렌드', desc: '보태니컬 성분 복합체로 바디 피부를 탄탄하게 가꿔 줍니다.' },
-      { name: 'AI 펩타이드', desc: 'AI로 찾아낸 펩타이드로 탄력 있는 바디 피부를 돕습니다.' },
-      { name: '타라열매 & 코토니 추출물', desc: '외부 환경으로부터 피부를 보호해 매끄럽고 촉촉하게 지켜 줍니다.' },
+      { name: '바디 실루엣 블렌드', desc: '식물 유래 성분 복합체' },
+      { name: 'AI 펩타이드', desc: '펩타이드 성분' },
+      { name: '타라열매 & 코토니 추출물', desc: '식물에서 얻은 추출물' },
       { name: '스킨 컨디셔닝 블렌드', desc: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀' },
       { name: '에이지락 블렌드', desc: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
     ],
@@ -42,11 +42,11 @@ const GELS = [
     photo: PHOTOS.gelActivating,
     alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤',
     hand: true,
-    text: '웰스파 관리 때 함께 쓰는 전용 젤입니다. 순환이 답답하게 느껴질 때, 뻐근하게 뭉친 부위와 붓기가 신경 쓰일 때 사용합니다.',
+    text: '웰스파 관리 때 기기 헤드가 피부 위를 부드럽게 지나가도록 함께 사용하는 전용 젤입니다.',
     ingredients: [
-      { name: '서양벌노랑이꽃 추출물', desc: '정체된 바디 사이클을 깨우고 전반적인 밸런스를 챙겨 줍니다.' },
-      { name: '록샘파이어 추출물', desc: '가벼운 아침을 위한 상쾌한 리프레시 케어' },
-      { name: '윈터체리뿌리 추출물', desc: '바디 피부에 쌓인 스트레스를 덜어 편안하게 가꿔 줍니다.' },
+      { name: '서양벌노랑이꽃 추출물', desc: '꽃에서 얻은 식물 추출물' },
+      { name: '록샘파이어 추출물', desc: '바닷가 식물에서 얻은 추출물' },
+      { name: '윈터체리뿌리 추출물', desc: '식물 뿌리에서 얻은 추출물' },
       { name: '에이지락 블렌드', desc: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
     ],
   },
@@ -83,8 +83,8 @@ export default function Gel() {
                 <h3 className="w-gel__name">{g.name}</h3>
                 <p className="w-gel__en">{g.en}</p>
                 <p className="w-gel__text">{g.text}</p>
-                <div className="w-gel__ing">
-                  <p className="w-gel__ing-label">주요 성분</p>
+                <details className="w-gel__ing">
+                  <summary className="w-gel__ing-label">주요 성분 보기</summary>
                   <ul className="w-gel__ings">
                     {g.ingredients.map((ing) => (
                       <li key={ing.name} className={ing.icon ? 'has-icon' : undefined}>
@@ -97,7 +97,7 @@ export default function Gel() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </details>
               </div>
             </Reveal>
           ))}

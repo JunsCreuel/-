@@ -64,6 +64,26 @@
   gap: 1.1rem;
 }
 
+/* 휴대폰에서는 QR 대신 예약 버튼 */
+.w-quick__book {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .w-quick__qr,
+  .w-cc__qr {
+    display: none;
+  }
+
+  .w-quick__book {
+    display: block;
+  }
+
+  .w-quick__book .w-btn {
+    width: 100%;
+  }
+}
+
 .w-quick__qr img {
   flex: none;
   width: clamp(88px, 22vw, 104px);
@@ -224,10 +244,6 @@
   line-height: 1.9;
 }
 
-.w-pairs + .w-method__rows {
-  margin-top: clamp(2.4rem, 6vw, 3.6rem);
-}
-
 /* PROGRAMS — 가격 줄, 배지, 온열돔 사진, 안내 줄 */
 
 .w-pc__detail {
@@ -242,6 +258,42 @@
 
 .w-pc__detail .w-btn {
   flex: none;
+  max-width: 100%;
+  height: auto;
+  padding-block: 0.6rem;
+  white-space: normal;
+  text-align: left;
+}
+
+/* 좁은 휴대폰: 카드를 조금 길게, 상세 글은 작게 해 설명·가격·버튼이 카드 안에 들어오게 */
+@media (max-width: 400px) {
+  .w-pc {
+    aspect-ratio: 5 / 8;
+  }
+
+  .w-pc__detail {
+    gap: 0.55rem;
+    padding: 4rem 1.1rem 1.1rem;
+  }
+
+  .wellness .w-pc__detail h3 {
+    font-size: 1.25rem;
+  }
+
+  .w-pc__detail p:not(.w-pc__en) {
+    font-size: 0.86rem;
+    line-height: 1.65;
+  }
+
+  .w-pc__price strong {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .w-pc {
+    flex-basis: 84vw;
+  }
 }
 
 .w-pc__price {
@@ -325,25 +377,6 @@
   margin-top: clamp(1.6rem, 4vw, 2.4rem);
 }
 
-.w-dev__tile {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 24px;
-  background: linear-gradient(160deg, #f7f0ea, #ecdcd5);
-}
-
-/* 사진 비율이 달라도 세 칸의 높이가 같도록 사진은 칸 안에 띄워 맞춘다 */
-.w-dev__tile img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding: clamp(1.2rem, 4vw, 2rem);
-  box-sizing: border-box;
-  object-fit: contain;
-}
-
 .w-dev__no {
   display: flex;
   align-items: center;
@@ -378,44 +411,6 @@
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.75;
-}
-
-.w-dev__more {
-  margin-top: 0.6rem;
-}
-
-.w-dev__more > summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  color: var(--w-accent-deep);
-  font-size: 0.9rem;
-  font-weight: 600;
-  list-style: none;
-  cursor: pointer;
-}
-
-.w-dev__more > summary::-webkit-details-marker {
-  display: none;
-}
-
-.w-dev__more > summary::after {
-  content: '+';
-}
-
-.w-dev__more[open] > summary::after {
-  content: '−';
-}
-
-.w-dev__more p {
-  color: var(--w-muted);
-  font-size: 0.92rem;
-  line-height: 1.9;
-}
-
-.w-dev__more .w-tags {
-  margin-top: 0.9rem;
 }
 
 .w-dev-grid + .w-method__note {
@@ -641,7 +636,7 @@
   }
 
   .w-nums__list {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
   }
 
@@ -766,15 +761,38 @@
 
 .w-gel__ing {
   margin-top: 1.4rem;
-  padding-top: 1.2rem;
+  padding-top: 0.4rem;
   border-top: 1px solid var(--w-line-strong);
 }
 
 .w-gel__ing-label {
-  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
   color: var(--w-accent-deep);
   font-size: 0.85rem;
   font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.w-gel__ing-label::-webkit-details-marker {
+  display: none;
+}
+
+.w-gel__ing-label::after {
+  content: '+';
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.w-gel__ing[open] .w-gel__ing-label::after {
+  content: '−';
+}
+
+.w-gel__ing[open] .w-gel__ing-label {
+  margin-bottom: 0.4rem;
 }
 
 .w-gel__ings {

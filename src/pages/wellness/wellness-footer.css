@@ -37,6 +37,22 @@
   text-underline-offset: 0.25em;
 }
 
+.w-footer__sep {
+  margin: 0 0.55em;
+  color: var(--w-line-strong);
+}
+
+/* 좁은 화면에서는 구분선 대신 항목마다 줄을 바꿔 "|"가 줄 끝에 남지 않게 한다 */
+@media (max-width: 599px) {
+  .w-footer__info .w-footer__sep {
+    display: none;
+  }
+
+  .w-footer__info p > span:not(.w-footer__sep) {
+    display: block;
+  }
+}
+
 .w-footer__cols {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

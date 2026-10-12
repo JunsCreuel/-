@@ -53,7 +53,7 @@ export default function StartupForm() {
   const [done, setDone] = useState(false)
   const formRef = useRef(null)
   const stepRef = useRef(null)
-  const mounted = useRef(false)
+  const prevStep = useRef(step) // 단계가 실제로 바뀌었을 때만 포커스를 옮기기 위해
   const phone = BRANCHES.zai.phone
 
   // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다)
@@ -66,10 +66,8 @@ export default function StartupForm() {
 
   // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다)
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true
-      return
-    }
+    if (prevStep.current === step) return
+    prevStep.current = step
     stepRef.current?.querySelector('input, textarea')?.focus({ preventScroll: true })
   }, [step])
 
@@ -79,7 +77,7 @@ export default function StartupForm() {
   }
 
   function focusInvalid() {
-    requestAnimationFrame(() => stepRef.current?.querySelector('[aria-invalid="true"], .w-step__choices:has(.w-form__error) input')?.focus())
+    requestAnimationFrame(() => stepRef.current?.querySelector('[aria-invalid="true"], [data-invalid] input')?.focus())
   }
 
   function goNext() {
@@ -150,7 +148,7 @@ export default function StartupForm() {
 
   return (
     <form className="w-form w-wiz" ref={formRef} onSubmit={onSubmit} noValidate>
-      <div className="w-wiz__progress" role="progressbar" aria-valuemin={1} aria-valuemax={STEPS.length} aria-valuenow={step + 1} aria-label={`${STEPS.length}단계 중 ${step + 1}단계`}>
+      <div className="w-wiz__progress" role="progressbar" aria-label="창업·운영 상담 신청 진행" aria-valuemin={0} aria-valuemax={STEPS.length} aria-valuenow={step + 1} aria-valuetext={`${STEPS.length}단계 중 ${step + 1}단계, ${STEPS[step].short}`}>
         <div className="w-wiz__meta">
           <span>
             STEP {step + 1} / {STEPS.length}
