@@ -36,13 +36,21 @@ export default function WellnessLayout() {
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
   // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자·라벨용 Jost, 영문 큰 제목용 Cormorant Garamond를 이 페이지에 있는 동안만 불러온다.
+  // 내려받는 양을 줄이려고 화면에서 실제로 쓰는 굵기만 불러온다(한글 글꼴은 굵기마다 따로 내려받는다).
   useEffect(() => {
+    const pre = document.createElement('link')
+    pre.rel = 'preconnect'
+    pre.href = 'https://fonts.gstatic.com'
+    pre.crossOrigin = ''
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href =
-      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap'
-    document.head.appendChild(link)
-    return () => link.remove()
+      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Noto+Sans+KR:wght@400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap'
+    document.head.append(pre, link)
+    return () => {
+      pre.remove()
+      link.remove()
+    }
   }, [])
 
   // 기존 앱과 구분되는 배경색·제목·탭 아이콘·설명을 이 페이지에 있는 동안만 적용한다.
