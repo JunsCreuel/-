@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { PHOTOS } from '../data'
+import { useScrollParallax } from '../motion'
 import { Reveal } from '../ui'
 
 // 소개 펼침 영역: 예뻐졌다 이야기, 세 가지 조합, 관리 순서
@@ -19,6 +20,9 @@ const METHODS = [
 // 브랜드 소개: 아치 프레임 인물 사진과 작은 사진, 큰 영문 제목. 4단계 설명은 "자세히 보기"로 펼친다.
 export default function About() {
   const [open, setOpen] = useState(false)
+  const [step, setStep] = useState(0) // 관리 순서 아코디언: 한 번에 하나만 펼친다
+  const clipRef = useRef(null)
+  useScrollParallax(clipRef, 26)
 
   return (
     <section id="about" className="w-section w-about">
@@ -29,10 +33,9 @@ export default function About() {
 
         <div className="w-about__stage">
           <Reveal mode="toggle" className="w-about__arch">
-            <img src={PHOTOS.neck} alt="따뜻한 빛이 닿은 목선과 쇄골" width="735" height="1105" loading="lazy" decoding="async" />
-          </Reveal>
-          <Reveal mode="toggle" className="w-about__small">
-            <img src={PHOTOS.leg} alt="다리를 부드럽게 쓸어 주는 손" width="720" height="1280" loading="lazy" decoding="async" />
+            <div className="w-about__clip" ref={clipRef}>
+              <img src={PHOTOS.neck} alt="따뜻한 빛이 닿은 목선과 쇄골" width="735" height="1105" loading="lazy" decoding="async" />
+            </div>
           </Reveal>
 
           <div className="w-about__text">
@@ -89,17 +92,27 @@ export default function About() {
               ))}
             </div>
 
-            <div className="w-method__rows">
-              {METHODS.map((m) => (
-                <div key={m.no} className="w-method__row">
-                  <p className="w-method__no">{m.no}</p>
-                  <div>
-                    <p className="w-method__en">{m.en}</p>
-                    <h3 className="w-method__ko">{m.ko}</h3>
+            <div className="w-acc">
+              {METHODS.map((m, i) => {
+                const isOpen = step === i
+                return (
+                  <div key={m.no} className={`w-acc__item${isOpen ? ' is-open' : ''}`}>
+                    <h3 className="w-acc__head">
+                      <button type="button" aria-expanded={isOpen} aria-controls={`w-acc-${m.no}`} onClick={() => setStep(isOpen ? -1 : i)}>
+                        <span className="w-acc__no">{m.no}</span>
+                        <span className="w-acc__title">
+                          <small>{m.en}</small>
+                          {m.ko}
+                        </span>
+                        <span className="w-acc__icon" aria-hidden="true" />
+                      </button>
+                    </h3>
+                    <div className="w-acc__panel" id={`w-acc-${m.no}`} role="region" aria-label={m.ko}>
+                      <p>{m.text}</p>
+                    </div>
                   </div>
-                  <p className="w-method__text">{m.text}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
             <p className="w-method__note">온열돔 단독 이용도 가능합니다. 온열돔 포함 여부와 사용하는 디바이스는 프로그램에 따라 달라지며, 예약 전에 안내드립니다.</p>
           </div>

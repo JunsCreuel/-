@@ -134,3 +134,24 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
     </div>
   )
 }
+
+// 알약 모양 선택지(라디오). 상담 신청 3단계와 창업 문의 단계 폼이 함께 쓴다.
+export function ChoiceChips({ legend, name, options, value, onChange, error, idPrefix }) {
+  const errId = `err-${idPrefix}-${name}`
+  return (
+    <fieldset className="w-step__choices" aria-describedby={error ? errId : undefined}>
+      <legend className="sr-only">{legend}</legend>
+      {options.map((o) => (
+        <label key={o} className={`w-opt${value === o ? ' is-on' : ''}`}>
+          <input type="radio" name={`${idPrefix}-${name}`} value={o} checked={value === o} onChange={() => onChange(o)} />
+          <span>{o}</span>
+        </label>
+      ))}
+      {error && (
+        <p className="w-form__error" id={errId}>
+          {error}
+        </p>
+      )}
+    </fieldset>
+  )
+}
