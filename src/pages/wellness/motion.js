@@ -152,7 +152,9 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
       const items = el.querySelectorAll(itemSelector)
       if (!items.length) return
       const box = el.getBoundingClientRect()
-      const pad = parseFloat(getComputedStyle(el).scrollPaddingLeft) || 0
+      // scroll-padding이 %·max() 같은 식이면 계산값이 문자열로 남아 NaN이 된다. 그때는 첫 항목의 시작 위치를 여백으로 본다.
+      let pad = parseFloat(getComputedStyle(el).scrollPaddingLeft)
+      if (Number.isNaN(pad)) pad = items[0].getBoundingClientRect().left - box.left + el.scrollLeft
       const max = el.scrollWidth - el.clientWidth
       let best = el.scrollLeft
       let bestD = Infinity
