@@ -341,7 +341,9 @@
   font-size: 0.92rem;
 }
 
-/* 문장 속 사진 칩: 가운데서부터 열리고, 마우스로 올리면 커진다 */
+/* 문장 속 사진 칩: 가운데서부터 열리고, 마우스로 올리면 커진다.
+   닫힌 상태를 clip-path로 만들면 Chromium IntersectionObserver가 대상 자신의 클립까지 반영해 면적 0으로 보고
+   is-in이 영영 붙지 않는다(안쪽 지연 로딩 사진도 받지 않음). 그래서 mask 크기로 연다. 둥근 모서리는 border-radius + overflow가 맡는다. */
 .yw-ichip {
   position: relative;
   display: inline-block;
@@ -351,14 +353,17 @@
   overflow: clip;
   border-radius: 0.2em;
   vertical-align: -0.08em;
-  clip-path: inset(50% 50% round 0.2em);
+  -webkit-mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
+  mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
   transition:
-    clip-path 0.9s var(--yw-ease),
+    -webkit-mask-size 0.9s var(--yw-ease),
+    mask-size 0.9s var(--yw-ease),
     scale 0.45s var(--yw-ease);
 }
 
 .yw-ichip.is-in {
-  clip-path: inset(0 round 0.2em);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .wellness .yw-ichip img {
@@ -394,7 +399,20 @@
   transform: none;
 }
 
-/* Reveal variant — 기존 22px 페이드업(.w-reveal)을 덮는다 */
+/* 줄이 다 올라온 뒤에는 사진 칩이 든 줄의 마스크를 풀어 칩 확대(2.4배)가 위아래로 잘리지 않게 한다 */
+.yw-split.is-in .yw-line:has(.yw-ichip) {
+  animation: yw-unclip 1ms linear 1.3s both;
+}
+
+@keyframes yw-unclip {
+  to {
+    overflow: visible;
+  }
+}
+
+/* Reveal variant — 기존 22px 페이드업(.w-reveal)을 덮는다.
+   line·wipe의 닫힌 상태는 clip-path가 아니라 mask로 만든다: 관찰 대상 자신의 clip-path는 Chromium IntersectionObserver가
+   면적 0으로 계산해 Reveal이 영영 열리지 않기 때문이다. */
 .w-reveal.yw-rv {
   opacity: 1;
   transform: none;
@@ -402,27 +420,34 @@
 }
 
 .w-reveal.yw-rv--line {
-  clip-path: inset(0 0 100% 0);
+  -webkit-mask: linear-gradient(#000 0 0) top / 100% 0% no-repeat;
+  mask: linear-gradient(#000 0 0) top / 100% 0% no-repeat;
   transform: translateY(0.8em);
   transition:
-    clip-path 0.9s var(--yw-ease),
+    -webkit-mask-size 0.9s var(--yw-ease),
+    mask-size 0.9s var(--yw-ease),
     transform 0.9s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
 
 .w-reveal.yw-rv--line.is-in {
-  clip-path: inset(-0.5em);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
   transform: none;
 }
 
 .w-reveal.yw-rv--wipe {
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 1s var(--yw-ease);
+  -webkit-mask: linear-gradient(#000 0 0) left / 0% 100% no-repeat;
+  mask: linear-gradient(#000 0 0) left / 0% 100% no-repeat;
+  transition:
+    -webkit-mask-size 1s var(--yw-ease),
+    mask-size 1s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
 
 .w-reveal.yw-rv--wipe.is-in {
-  clip-path: inset(0);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .w-reveal.yw-rv--wipe img {
@@ -698,13 +723,17 @@
     transform: none;
   }
 
-  .yw-ichip {
-    clip-path: inset(0 round 0.2em);
+  .yw-line:has(.yw-ichip),
+  .yw-split.is-in .yw-line:has(.yw-ichip) {
+    overflow: visible;
+    animation: none;
   }
 
+  .yw-ichip,
   .w-reveal.yw-rv--line,
   .w-reveal.yw-rv--wipe {
-    clip-path: none;
+    -webkit-mask: none;
+    mask: none;
     transform: none;
   }
 

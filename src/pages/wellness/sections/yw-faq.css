@@ -223,12 +223,11 @@
     mix-blend-mode: multiply;
   }
 
-  /* 공통 wipe(왼→오 clip-path) 대신 흰 막이 위로 걷히며 아래부터 드러난다.
-     clip-path로 면적이 0인 채 시작하면 IntersectionObserver 비율이 0으로 잡혀 Reveal이 열리지 않고
-     안쪽 지연 로딩 사진도 받지 않으므로, 이 사진은 막(::after)으로 가린다. 사진 확대(1.1→1)는 공통 규칙 그대로다. */
+  /* 아치는 공통 wipe(왼→오 마스크) 대신 흰 막이 위로 걷히며 아래부터 드러난다. 사진 확대(1.1→1)는 공통 규칙 그대로다. */
   .yw-faq .yw-faq__photo.yw-rv--wipe,
   .yw-faq .yw-faq__photo.yw-rv--wipe.is-in {
-    clip-path: none;
+    -webkit-mask: none;
+    mask: none;
   }
 
   .yw-faq__photo::after {
