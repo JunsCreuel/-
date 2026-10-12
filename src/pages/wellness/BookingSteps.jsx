@@ -22,6 +22,13 @@ function validate(f) {
 const PULSE_MS = 2400 // 미리 선택된 칩이 두 번 맥박치는 시간(1.2s × 2)
 const NOTICE_MS = 3200
 
+// 목적격 조사: 마지막 한글 글자에 받침이 있으면 '을', 없으면 '를'('온열 웜업'을, '복부'를)
+function objectParticle(word) {
+  const code = word.trim().charCodeAt(word.trim().length - 1)
+  if (code < 0xac00 || code > 0xd7a3) return '를'
+  return (code - 0xac00) % 28 ? '을' : '를'
+}
+
 // 상담 신청 3단계: ① 신경 쓰이는 곳 ② 방문 시간대 ③ 연락받을 정보
 // 위 섹션(컨디션 추천·메뉴·온열돔 카드)에서 고른 관리는 window 'w:pick' 이벤트로 넘어와 1단계를 미리 선택한다(scroll.js pickForBooking).
 export default function BookingSteps() {
@@ -53,7 +60,7 @@ export default function BookingSteps() {
         setPending(false)
       }
       setPicked(label ? { label, area } : null)
-      setNotice(area ? `‘${area}’를 선택해 두었습니다.` : '')
+      setNotice(area ? `‘${area}’${objectParticle(area)} 선택해 두었습니다.` : '')
       // 같은 관리를 다시 골라도 맥박이 처음부터 다시 뛰도록 한 번 내렸다가 다음 프레임에 올린다
       setPulse(false)
       clearTimeout(pulseTimer)
