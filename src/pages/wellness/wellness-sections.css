@@ -361,7 +361,7 @@
   line-height: 1;
 }
 
-.w-offer__big span {
+.w-offer__big > span {
   margin-bottom: 0.5rem;
   color: var(--w-on-ink-muted);
   font-size: 1rem;
