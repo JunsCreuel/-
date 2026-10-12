@@ -1,4 +1,4 @@
-import { BRANCHES } from './data'
+import { BRANCHES, SHOW_SIMULATOR } from './data'
 import About from './sections/About'
 import CtaBand from './sections/CtaBand'
 import CustomerCenter from './sections/CustomerCenter'
@@ -38,7 +38,7 @@ export default function WellnessHome() {
       <Offer />
       <Faq />
       <CustomerCenter branch={BRANCHES.zai} />
-      <Simulator />
+      {SHOW_SIMULATOR && <Simulator />}
       <Startup />
       <CtaBand />
     </>
