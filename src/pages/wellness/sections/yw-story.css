@@ -479,10 +479,10 @@
     margin-top: 2.5rem;
   }
 
-  /* 고정 무대: 320svh 동안 무대가 멈춰 있고, 스크롤 진행률이 다이얼 값이 된다 */
+  /* 고정 무대: 280svh 동안 무대가 멈춰 있고, 스크롤 진행률이 다이얼 값이 된다 */
   .yw-ritual.is-pinned {
-    height: 320vh;
-    height: 320svh;
+    height: 280vh;
+    height: 280svh;
   }
 
   .yw-ritual.is-pinned .yw-ritual__stage {
