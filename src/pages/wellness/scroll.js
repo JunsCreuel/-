@@ -39,3 +39,10 @@ export function scrollToId(id) {
 export function scrollToTop() {
   window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
 }
+
+// 고른 부위·관리를 상담 폼으로 넘기고 예약 장으로 내려간다.
+// area는 data.js AREAS 문자열과 정확히 같아야 한다. 상담 폼(BookingSteps)이 window 'w:pick' 이벤트를 받아 1단계를 미리 선택한다.
+export function pickForBooking({ area, programId, label } = {}) {
+  window.dispatchEvent(new CustomEvent('w:pick', { detail: { area, programId, label } }))
+  scrollToId('booking')
+}
