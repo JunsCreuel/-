@@ -51,6 +51,7 @@
 .w-rv__photo {
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  border-radius: var(--w-radius);
   background: var(--w-band);
 }
 
@@ -108,9 +109,9 @@
   width: 44px;
   height: 44px;
   border: 1px solid var(--w-line-strong);
-  border-radius: 0;
+  border-radius: 50%;
   background: transparent;
-  color: var(--w-green);
+  color: var(--w-ink);
   font-size: 1.3rem;
   line-height: 1;
   cursor: pointer;
@@ -122,8 +123,9 @@
 }
 
 .w-rv__btns button:hover {
-  background: var(--w-green);
-  color: var(--w-ivory);
+  border-color: var(--w-accent);
+  background: var(--w-accent);
+  color: #fff;
 }
 
 @media (min-width: 900px) {

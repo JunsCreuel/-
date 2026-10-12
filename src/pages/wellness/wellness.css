@@ -1,30 +1,37 @@
 /* 예뻐졌다 WELLNESS STUDIO 랜딩 — 공통 토큰/기본 스타일
    기존 앱 토큰(src/index.css)과 섞이지 않도록 --w- 접두를 쓰고,
-   색은 딥그린·아이보리 두 가지에서만 파생한다. */
+   색은 아이보리·샌드 바탕과 로즈 브라운 포인트, 짙은 브라운 글씨에서 파생한다. */
 
 :root {
-  --w-green: #1e2a23;
-  --w-ivory: #f4f0ea;
+  /* 시안 기준 팔레트: 크림 아이보리 바탕, 샌드 보조 배경, 로즈 브라운 포인트, 짙은 웜 브라운 글씨 */
+  --w-ink: #2f2622;
+  --w-bg: #f8f4f0;
+  --w-band: #f0e8e2;
+  --w-card: #fbf9f6;
+  --w-accent: #a0706a;
+  --w-accent-deep: #865a55;
+  --w-ink-band: #3a2e2a;
 
   /* 브랜드 로고 원본에서 읽은 색: 마크는 따뜻한 차콜, 가는 글씨는 그보다 조금 더 짙게 */
   --w-logo-mark: #322e28;
   --w-logo-text: #1e1b18;
 
-  --w-muted: color-mix(in srgb, var(--w-green) 72%, var(--w-ivory));
-  --w-band: color-mix(in srgb, var(--w-green) 3.5%, var(--w-ivory));
-  --w-hair: color-mix(in srgb, var(--w-green) 14%, var(--w-ivory));
-  --w-line: color-mix(in srgb, var(--w-green) 22%, var(--w-ivory));
-  --w-line-strong: color-mix(in srgb, var(--w-green) 55%, var(--w-ivory));
-  --w-on-green-muted: color-mix(in srgb, var(--w-ivory) 74%, var(--w-green));
-  --w-green-soft: color-mix(in srgb, var(--w-ivory) 10%, var(--w-green));
-  --w-shadow: 0 14px 36px color-mix(in srgb, var(--w-green) 14%, transparent);
-  --w-shadow-sm: 0 4px 16px color-mix(in srgb, var(--w-green) 10%, transparent);
+  --w-muted: color-mix(in srgb, var(--w-ink) 68%, var(--w-bg));
+  --w-hair: color-mix(in srgb, var(--w-ink) 8%, var(--w-bg));
+  --w-line: color-mix(in srgb, var(--w-ink) 13%, var(--w-bg));
+  --w-line-strong: color-mix(in srgb, var(--w-ink) 42%, var(--w-bg));
+  --w-on-ink-muted: color-mix(in srgb, var(--w-bg) 76%, var(--w-ink-band));
+  --w-ink-soft: color-mix(in srgb, var(--w-bg) 12%, var(--w-ink-band));
+  --w-shadow: 0 14px 36px color-mix(in srgb, var(--w-ink) 12%, transparent);
+  --w-shadow-sm: 0 4px 16px color-mix(in srgb, var(--w-ink) 8%, transparent);
 
   --w-nav-h: 64px;
   --w-gutter: clamp(1.25rem, 5vw, 3rem);
   --w-max: 1120px;
-  --w-radius: 0;
+  --w-radius: 14px;
   --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
+  /* 제목용 명조체. 웹폰트(Noto Serif KR)를 불러오기 전에는 기기에 있는 명조 계열로 보인다 */
+  --w-font-serif: 'Noto Serif KR', 'Noto Serif CJK KR', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
   --w-font-en: Georgia, 'Times New Roman', serif;
 }
 
@@ -36,13 +43,13 @@
 }
 
 body.is-wellness {
-  background: var(--w-ivory);
+  background: var(--w-bg);
 }
 
 .wellness {
   min-height: 100vh;
-  background: var(--w-ivory);
-  color: var(--w-green);
+  background: var(--w-bg);
+  color: var(--w-ink);
   font-family: var(--w-font);
   font-size: 1rem;
   line-height: 1.75;
@@ -59,6 +66,12 @@ body.is-wellness {
   color: inherit;
   font-weight: 500;
   letter-spacing: -0.02em;
+}
+
+.wellness h1,
+.wellness h2 {
+  font-family: var(--w-font-serif);
+  font-weight: 400;
 }
 
 .wellness h3 {
@@ -84,13 +97,13 @@ body.is-wellness {
 }
 
 .wellness :focus-visible {
-  outline: 2px solid var(--w-green);
+  outline: 2px solid var(--w-accent);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-.w-section--green :focus-visible {
-  outline-color: var(--w-ivory);
+.w-section--ink :focus-visible {
+  outline-color: var(--w-bg);
 }
 
 .wellness main {
@@ -108,9 +121,9 @@ body.is-wellness {
   background: var(--w-band);
 }
 
-.w-section--green {
-  background: var(--w-green);
-  color: var(--w-ivory);
+.w-section--ink {
+  background: var(--w-ink-band);
+  color: var(--w-bg);
 }
 
 .w-container {
@@ -123,15 +136,15 @@ body.is-wellness {
 
 .w-eyebrow {
   margin-bottom: 1rem;
-  color: var(--w-muted);
+  color: var(--w-accent);
   font-family: var(--w-font-en);
   font-size: 0.8rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.w-section--green .w-eyebrow {
-  color: var(--w-on-green-muted);
+.w-section--ink .w-eyebrow {
+  color: var(--w-on-ink-muted);
 }
 
 .w-title {
@@ -144,15 +157,16 @@ body.is-wellness {
   font-size: clamp(1rem, 2.4vw, 1.12rem);
 }
 
-.w-section--green .w-lead {
-  color: var(--w-on-green-muted);
+.w-section--ink .w-lead {
+  color: var(--w-on-ink-muted);
 }
 
 .w-chip {
   display: inline-block;
-  padding: 0.3rem 0.85rem;
-  border: 1px solid var(--w-line-strong);
-  color: var(--w-green);
+  padding: 0.3rem 0.95rem;
+  border: 1px solid var(--w-accent);
+  border-radius: 999px;
+  color: var(--w-accent-deep);
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -166,39 +180,55 @@ body.is-wellness {
   justify-content: center;
   min-height: 52px;
   padding: 0.7rem 2rem;
-  border: 0;
-  border-radius: 0;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
   font: inherit;
   font-size: 0.98rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   line-height: 1.3;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.w-btn:hover {
+  border-color: var(--w-accent);
+  color: var(--w-accent-deep);
 }
 
 .w-btn--primary {
-  background: var(--w-green);
-  color: var(--w-ivory);
+  border-color: var(--w-accent);
+  background: var(--w-accent);
+  color: #fff;
 }
 
 .w-btn--primary:hover {
-  background: color-mix(in srgb, var(--w-green) 85%, var(--w-ivory));
+  border-color: var(--w-accent-deep);
+  background: var(--w-accent-deep);
+  color: #fff;
 }
 
 .w-btn--light {
-  background: var(--w-ivory);
-  color: var(--w-green);
+  border-color: transparent;
+  background: var(--w-bg);
+  color: var(--w-ink);
 }
 
 .w-btn--light:hover {
-  background: color-mix(in srgb, var(--w-ivory) 88%, var(--w-green));
+  border-color: transparent;
+  background: color-mix(in srgb, var(--w-bg) 86%, var(--w-accent));
+  color: var(--w-ink);
 }
 
 .w-btn--sm {
   min-height: 44px;
-  padding: 0 1.2rem;
+  padding: 0 1.3rem;
   font-size: 0.88rem;
 }
 
@@ -231,6 +261,7 @@ body.is-wellness {
   position: relative;
   margin: 0;
   overflow: hidden;
+  border-radius: var(--w-radius);
   background: var(--w-band);
   aspect-ratio: 4 / 5;
 }
@@ -249,15 +280,15 @@ body.is-wellness {
   padding: 0 0.5em;
   border-radius: 2px;
   background: var(--w-hair);
-  color: var(--w-green);
+  color: var(--w-ink);
   font-size: 0.82em;
   font-weight: 500;
   line-height: 1.7;
 }
 
-.w-section--green .w-todo {
-  background: var(--w-green-soft);
-  color: var(--w-ivory);
+.w-section--ink .w-todo {
+  background: var(--w-ink-soft);
+  color: var(--w-bg);
 }
 
 /* 스크롤 연동 fade — 모션 감소 설정이면 모두 끈다 */
