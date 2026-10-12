@@ -1,6 +1,5 @@
 import { useRef } from 'react'
-import { BRAND } from './data'
-import { Todo } from './ui'
+import { BRAND, BRANCHES } from './data'
 
 // 상담 폼과 창업 문의 폼이 함께 쓰는 입력 조각.
 
@@ -77,7 +76,7 @@ export function PhoneField({ value, onChange, error, idPrefix }) {
   )
 }
 
-// 개인정보 수집·이용 동의문과 체크박스. 보유 기간과 처리 책임자는 확정 전이라 자리표시로 둔다.
+// 개인정보 수집·이용 동의문과 체크박스. 보유 기간·책임자는 사장님 확인 후 바꿀 수 있다(docs v13).
 export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChange, error }) {
   const labelId = `${idPrefix}-terms-label`
   const errId = `err-${idPrefix}-agree`
@@ -88,7 +87,7 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
       </p>
       <div className="w-terms" tabIndex={0} role="region" aria-labelledby={labelId}>
         <p>
-          {BRAND.company}(이하 &lsquo;회사&rsquo;)는 {purpose}을 위해 아래와 같이 개인정보를 수집·이용합니다.
+          {BRAND.company}(이하 &lsquo;스튜디오&rsquo;)는 {purpose}을 위해 아래와 같이 개인정보를 수집·이용합니다.
         </p>
         <p>
           <strong>1. 수집 항목</strong>
@@ -103,7 +102,7 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
         <p>
           <strong>3. 보유 및 이용 기간</strong>
           <br />
-          <Todo>보유 기간</Todo> 후 지체 없이 파기합니다.
+          상담 목적을 달성한 후 지체 없이 파기합니다. 다만 관계 법령에 따라 보존할 필요가 있으면 그 기간 동안 보관합니다.
         </p>
         <p>
           <strong>4. 동의를 거부할 권리 및 불이익</strong>
@@ -111,9 +110,9 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
           {refusal}
         </p>
         <p>
-          <strong>5. 개인정보 처리 책임자</strong>
+          <strong>5. 개인정보 보호책임자</strong>
           <br />
-          <Todo>책임자 이름 · 연락처</Todo>
+          대표 {BRAND.representative} · {BRANCHES.zai.phone}
         </p>
       </div>
       <label className="w-check">
