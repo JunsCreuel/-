@@ -109,14 +109,6 @@ export const SALE_COUNT = PROGRAMS.filter((p) => p.sale).length
 // 상담 폼 1단계 '신경 쓰이는 곳' 선택지. PROGRAMS.area와 pickForBooking({ area })가 이 문자열과 정확히 같아야 한다.
 export const AREAS = ['두피 · 얼굴', '등 · 어깨', '복부', '하체 · 림프', '온열 웜업', '상담 후 결정']
 
-// 숫자로 보는 스튜디오. 첫 방문 50%는 이벤트 구간에서 적용 관리와 함께 안내하므로 여기에는 두지 않는다.
-export const NUMBERS = [
-  { n: '4', unit: '년', label: '예뻐졌다의 관리 노하우' },
-  { n: '40', unit: '+', label: '함께하는 예뻐졌다 매장' },
-  { n: '100', unit: '%', label: '예약제 · 1:1 프라이빗 관리' },
-  { n: '8', unit: '가지', label: '두피부터 바디까지 관리 프로그램' },
-]
-
 // 네이버 리뷰에 남겨 주신 후기. 글은 작성자가 쓴 그대로 싣는다(고치거나 줄이지 않는다).
 // 이름은 알 수 없어 "방문 고객"으로 표기한다. 새 후기는 이 목록에 항목만 더하면 된다.
 export const REVIEWS = [
