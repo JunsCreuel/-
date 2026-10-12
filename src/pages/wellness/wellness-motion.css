@@ -27,7 +27,7 @@
 .w-offer__big strong,
 .w-sim__profit,
 .w-sim__mini b {
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 /* 히어로: 마우스를 따라 사진이 기울고 글이 반대로 움직인다. 줄별 등장 */
@@ -96,7 +96,8 @@
   gap: clamp(1.2rem, 3vw, 2.4rem);
   padding-right: clamp(1.2rem, 3vw, 2.4rem);
   font-family: var(--w-font-serif);
-  font-size: clamp(1.35rem, 4.2vw, 2.7rem);
+  font-size: clamp(1.2rem, 3.4vw, 2.2rem);
+  font-weight: 300;
   line-height: 1.3;
   white-space: nowrap;
 }
@@ -215,9 +216,9 @@
 .w-acc__title small {
   display: block;
   color: var(--w-muted);
-  font-family: var(--w-font-en);
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  font-family: var(--w-font-label);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
 }
 
 .w-acc__icon {
@@ -331,7 +332,7 @@
   gap: 1rem;
   padding: clamp(1.1rem, 3vw, 1.6rem);
   overflow-y: auto;
-  background: var(--w-ink);
+  background: var(--w-espresso);
   color: #fff;
   transform: rotateY(180deg);
 }
@@ -401,7 +402,7 @@
   gap: 1rem;
   padding: 0.7rem 1.1rem;
   border-radius: 999px;
-  background: var(--w-ink);
+  background: var(--w-espresso);
   box-shadow: var(--w-shadow);
   color: #fff;
   font-size: 0.88rem;
@@ -414,7 +415,7 @@
 }
 
 .w-sim__mini b.is-loss {
-  color: #ffb08a;
+  color: #e8b3a6;
 }
 
 .w-sim__row {
@@ -513,7 +514,7 @@
   gap: 0.9rem;
   padding: clamp(1.4rem, 4vw, 2.2rem);
   border-radius: 24px;
-  background: var(--w-ink);
+  background: var(--w-espresso);
   color: #fff;
 }
 
@@ -532,7 +533,7 @@
 }
 
 .w-sim__profit.is-loss {
-  color: #ffb08a;
+  color: #e8b3a6;
 }
 
 .w-sim__sub {
@@ -577,7 +578,7 @@
 
 .w-sim__seg.is-profit,
 .w-sim__legend i.is-profit {
-  background: var(--w-orange);
+  background: var(--w-champagne);
 }
 
 .w-sim__legend {
@@ -669,6 +670,7 @@
 
 .w-wiz__step {
   display: grid;
+  align-content: start;
   gap: 1.1rem;
   min-height: 11rem;
   animation: w-step-fwd 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -793,12 +795,12 @@
 
 @keyframes w-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgb(255 121 0 / 0.5);
+    box-shadow: 0 0 0 0 rgb(163 131 95 / 0.55);
   }
 
   70%,
   100% {
-    box-shadow: 0 0 0 14px rgb(255 121 0 / 0);
+    box-shadow: 0 0 0 14px rgb(163 131 95 / 0);
   }
 }
 
@@ -818,6 +820,28 @@
   100% {
     transform: scale(1);
   }
+}
+
+/* 줄바꿈 다듬기: 제목은 줄 길이를 고르게, 본문은 마지막 줄에 한 단어만 남지 않게 */
+
+.w-title,
+.w-display__sub,
+.w-hero__kicker,
+.w-offer h2,
+.w-gel__name,
+.w-chips li,
+.w-step__q {
+  text-wrap: balance;
+}
+
+.w-lead,
+.w-hero__sub,
+.w-about__lead,
+.w-pc__detail p,
+.w-flip__text,
+.w-gel__text,
+.w-method__note {
+  text-wrap: pretty;
 }
 
 /* 반응형 */
@@ -873,14 +897,8 @@
     animation: none;
   }
 
+  /* 모션 줄이기: 흐르지 않고 한 줄로 멈춰 있는다 */
   .w-marquee__track {
-    flex-wrap: wrap;
-    row-gap: 0.4rem;
-    justify-content: center;
-    width: auto;
-  }
-
-  .w-marquee__track > .w-marquee__item:nth-child(n + 7) {
-    display: none;
+    transform: none !important;
   }
 }

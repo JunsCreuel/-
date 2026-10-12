@@ -147,7 +147,7 @@ export default function Simulator() {
               손익분기 매출 <b>{fmtMan(r.bep)}</b>
             </p>
 
-            <button type="button" className="w-btn w-btn--primary w-btn--arrow" onClick={toInquiry}>
+            <button type="button" className="w-btn w-btn--light w-btn--arrow" onClick={toInquiry}>
               이 조건으로 창업 상담 신청
             </button>
           </div>
