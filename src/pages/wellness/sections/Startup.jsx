@@ -80,7 +80,7 @@ export default function Startup() {
         {SHOW_SIMULATOR && (
           <details className="yw-biz__calc" onToggle={(e) => setCalcOpen(e.currentTarget.open)}>
             <summary>{calcOpen ? '계산기 접기' : '비용 구조 직접 계산해 보기'}</summary>
-            <Simulator embedded />
+            <Simulator />
           </details>
         )}
       </div>
