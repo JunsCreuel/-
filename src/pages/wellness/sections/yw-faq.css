@@ -1,0 +1,283 @@
+/* 09 Q&A — 흰 장이 둥근 윗모서리로 앞의 에스프레소 티켓 장을 덮는다(.yw-curtain--light).
+   64rem 이상: 왼쪽 sticky 열(폴리오·FAQ·탭·아치 사진) | 오른쪽 큰 질문 목록.
+   sticky 열과 그 조상에는 transform을 쓰지 않는다(사진만 Reveal wipe로 감싼다). */
+
+.yw-faq__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.yw-faq__side {
+  min-width: 0;
+}
+
+.yw-faq .yw-display.yw-faq__title {
+  margin: 0;
+  font-size: clamp(3rem, 15vw, 4rem);
+  line-height: 0.9;
+}
+
+/* ── 탭: 2px 에스프레소 알약, 고른 탭은 채움 ─────────────────── */
+
+.yw-faq__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: clamp(1.5rem, 4vw, 2rem);
+}
+
+.yw-faq__tab {
+  min-height: 2.75rem;
+  padding: 0.45rem 1.25rem;
+  border: 2px solid var(--w-espresso);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--w-espresso);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* 공통 :focus-visible(둥근 6px)이 알약 모양을 덮지 않게 */
+.yw-faq .yw-faq__tab,
+.yw-faq .yw-faq__tab:focus-visible {
+  border-radius: 999px;
+}
+
+.yw-faq__tab.is-active {
+  background: var(--w-espresso);
+  color: #fff;
+}
+
+.yw-faq__tab:active {
+  scale: 0.97;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-faq__tab:not(.is-active):hover {
+    background: color-mix(in srgb, var(--w-espresso) 8%, transparent);
+  }
+}
+
+/* ── 아치 사진(데스크톱만): 아래에서 위로 걷히며 나타난다 ─────── */
+
+.yw-faq__photo {
+  display: none;
+}
+
+/* ── 질문 목록 ────────────────────────────────────────────── */
+
+.yw-faq__list {
+  min-width: 0;
+}
+
+.yw-faq__item {
+  border-top: 1px solid var(--w-line);
+}
+
+.yw-faq__item:last-child {
+  border-bottom: 1px solid var(--w-line);
+}
+
+/* 탭을 바꾸면 질문들이 60ms 간격으로 짧게 올라온다 */
+.yw-faq__list.is-switched .yw-faq__item {
+  animation: yw-faq-rise 0.45s var(--yw-ease) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.yw-faq__item > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding-block: 1.35rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.yw-faq__item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.yw-faq__item > summary:focus-visible {
+  outline-offset: 2px;
+}
+
+/* 질문 글자: 올리거나 포커스하면 밑에 1px 선이 왼쪽부터 그어진다 */
+.yw-faq__q {
+  padding-bottom: 0.1em;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  color: var(--w-ink);
+  font-family: var(--w-font-serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  transition: background-size 0.4s var(--yw-ease);
+}
+
+.yw-faq__item > summary:focus-visible .yw-faq__q {
+  background-size: 100% 1px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-faq__item > summary:hover .yw-faq__q {
+    background-size: 100% 1px;
+  }
+}
+
+/* 오른쪽 원 + 십자, 열리면 45° 돌아 ×가 된다 */
+.yw-faq__icon {
+  position: relative;
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 50%;
+  transition:
+    transform 0.3s var(--yw-ease),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.yw-faq__icon::before,
+.yw-faq__icon::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.7rem;
+  height: 1px;
+  background: var(--w-espresso);
+  content: '';
+  translate: -50% -50%;
+}
+
+.yw-faq__icon::after {
+  rotate: 90deg;
+}
+
+.yw-faq__item[open] .yw-faq__icon {
+  border-color: var(--w-espresso);
+  transform: rotate(45deg);
+}
+
+/* 답: 높이 애니메이션 동안 넘치는 글을 자른다(안쪽 p가 여백을 가진다) */
+.yw-faq__a {
+  overflow: hidden;
+}
+
+.yw-faq__a p {
+  max-width: 60ch;
+  padding: 0 3rem 1.5rem 0;
+  color: var(--w-muted);
+  font-size: 0.97rem;
+  line-height: 1.85;
+}
+
+@media (min-width: 64rem) {
+  .yw-faq__grid {
+    grid-template-columns: minmax(16rem, 4fr) 8fr;
+    align-items: start;
+  }
+
+  .yw-faq__side {
+    position: sticky;
+    top: calc(var(--w-nav-h) + 2rem);
+    align-self: start;
+  }
+
+  .yw-faq .yw-display.yw-faq__title {
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .yw-faq__tabs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  /* 화면이 낮으면 사진을 줄여 sticky 열이 화면 안에 들어오게 한다 */
+  .yw-faq__photo {
+    position: relative;
+    display: block;
+    width: min(70%, 34vh);
+    aspect-ratio: 3 / 4;
+    margin-top: 2rem;
+    overflow: clip;
+    /* 아치: 위는 폭의 절반 반지름의 반원(3:4라 세로 37.5%), 아래는 1rem.
+       999px로 쓰면 반지름 합이 넘쳐 모든 모서리가 같은 비율로 줄어 아래 모서리가 각지게 된다 */
+    border-radius: 50% 50% 1rem 1rem / 37.5% 37.5% 1rem 1rem;
+    background: var(--yw-warm);
+  }
+
+  .wellness .yw-faq__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% 40%;
+    mix-blend-mode: multiply;
+  }
+
+  /* 공통 wipe(왼→오 clip-path) 대신 흰 막이 위로 걷히며 아래부터 드러난다.
+     clip-path로 면적이 0인 채 시작하면 IntersectionObserver 비율이 0으로 잡혀 Reveal이 열리지 않고
+     안쪽 지연 로딩 사진도 받지 않으므로, 이 사진은 막(::after)으로 가린다. 사진 확대(1.1→1)는 공통 규칙 그대로다. */
+  .yw-faq .yw-faq__photo.yw-rv--wipe,
+  .yw-faq .yw-faq__photo.yw-rv--wipe.is-in {
+    clip-path: none;
+  }
+
+  .yw-faq__photo::after {
+    position: absolute;
+    inset: -1px;
+    background: var(--w-bg);
+    content: '';
+    transform-origin: top;
+    transition: scale 1.1s var(--yw-ease);
+  }
+
+  .yw-faq__photo.is-in::after {
+    scale: 1 0;
+  }
+
+  .yw-faq__item > summary {
+    padding-block: clamp(1.35rem, 1.9vw, 1.75rem);
+  }
+
+  .yw-faq__item:first-child {
+    border-top-color: var(--w-line-strong);
+  }
+}
+
+@keyframes yw-faq-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 모션 줄이기: 탭 전환 상승·펼침·회전 없이 최종 상태 */
+@media (prefers-reduced-motion: reduce) {
+  .yw-faq__list.is-switched .yw-faq__item {
+    animation: none;
+  }
+
+  .yw-faq__q,
+  .yw-faq__icon,
+  .yw-faq__tab {
+    transition: none;
+  }
+
+  .yw-faq__photo::after {
+    display: none;
+  }
+}
