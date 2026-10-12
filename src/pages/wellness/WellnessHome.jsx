@@ -1,34 +1,26 @@
 import { BRANCHES } from './data'
 import About from './sections/About'
+import Booking from './sections/Booking'
 import Equipment from './sections/Equipment'
-import WarmRitual from './sections/WarmRitual'
-import Startup from './sections/Startup'
-import Consult from './sections/Consult'
 import Faq from './sections/Faq'
 import Hero from './sections/Hero'
 import Offer from './sections/Offer'
-import Problem from './sections/Problem'
 import Programs from './sections/Programs'
 import Proof from './sections/Proof'
-import Visit from './sections/Visit'
-import './wellness-sections.css'
+import './wellness-home.css'
 
-// 예뻐졌다 WELLNESS STUDIO 자이점(용호) 랜딩
+// 예뻐졌다 WELLNESS STUDIO 용호 자이점 랜딩
 export default function WellnessHome() {
   return (
-    <>
+    <div className="ws">
       <Hero />
       <About />
       <Programs />
       <Equipment />
-      <WarmRitual />
-      <Problem />
       <Proof />
       <Offer />
+      <Booking branch={BRANCHES.zai} />
       <Faq />
-      <Consult branch={BRANCHES.zai} />
-      <Visit branch={BRANCHES.zai} />
-      <Startup />
-    </>
+    </div>
   )
 }

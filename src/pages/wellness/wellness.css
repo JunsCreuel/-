@@ -20,12 +20,24 @@
   --w-shadow: 0 14px 36px color-mix(in srgb, var(--w-green) 14%, transparent);
   --w-shadow-sm: 0 4px 16px color-mix(in srgb, var(--w-green) 10%, transparent);
 
+  /* 리디자인(뉴버드 구조 + 뷰티샵 톤) 보조 색: 화이트·우드 인테리어에 맞춘 우드톤 포인트 */
+  --w-paper: #fbf9f6;
+  --w-sub: #4f5a53;
+  --w-hairline: #ddd6cb;
+  --w-rule: #c9c1b4;
+  --w-wood: #a07850; /* 24px 이상 큰 글자·장식에만 */
+  --w-wood-text: #7a5a38; /* 작은 글자용(아이보리 위 대비 4.5:1 이상) */
+  --w-sand: #d2b48c; /* 딥그린 위 포인트 */
+  --w-tag: #e7dfd3;
+
   --w-nav-h: 64px;
-  --w-gutter: clamp(1.25rem, 5vw, 3rem);
+  --w-gutter: clamp(1.25rem, 4vw, 3.75rem);
   --w-max: 1120px;
+  --w-max-wide: 1320px;
   --w-radius: 0;
-  --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
-  --w-font-en: Georgia, 'Times New Roman', serif;
+  --w-font: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
+  --w-font-serif: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif;
+  --w-font-en: 'Jost', 'Futura', 'Century Gothic', sans-serif;
 }
 
 /* 데스크톱에서는 상단 바를 조금 더 높게 */
