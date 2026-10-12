@@ -1,122 +1,321 @@
-import { useRef, useState } from 'react'
-import { PHOTOS } from '../data'
-import { useScrollParallax } from '../motion'
-import { Reveal } from '../ui'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { PICS } from '../data'
+import { Folio, Footnote, InlineChip, Pic, SplitLines } from '../editorial'
+import { CountUp } from '../MotionParts'
+import { clamp, easeOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
+import './yw-story.css'
 
-// 소개 펼침 영역: 예뻐졌다 이야기, 세 가지 조합, 관리 순서
-const PAIRS = [
-  { no: '01', tag: '온열돔 · 전신웜업케어', a: '온기', b: '휴식', text: '온열돔에 편히 누워 있는 동안 몸 전체가 깊고 고르게 데워집니다. 땀과 함께 몸이 편안해지면서 다음 관리를 받을 준비가 됩니다.' },
-  { no: '02', tag: '아웃케어', a: '손길', b: '디바이스', text: '따뜻해진 몸에 손길과 갈바닉·웰스파 디바이스로 고민 부위를 집중 관리합니다. 어깨와 등, 복부, 하체처럼 신경 쓰이는 부위를 하나씩 편안하게 케어합니다.' },
-  { no: '03', tag: '두피-얼굴 관리', a: '두피', b: '얼굴', text: '두피 클렌징부터 얼굴 피부 관리까지 한 흐름으로 이어집니다. 머리는 가볍게, 얼굴은 생기 있게 마무리합니다.' },
+// No. 01 Our Story(사진 칩이 박힌 문장 · 4년 · 40+ · 1:1)와 No. 02 Ritual(관리 네 단계 온기 다이얼).
+// 관리 순서는 데스크톱(64rem 이상, 모션 줄이기 아님)에서 고정 무대라 스크롤 진행률이 곧 다이얼 값이다.
+// 다이얼이나 단계 버튼을 움직이면 거꾸로 페이지가 그 자리로 스크롤된다. 그 밖에서는 다이얼을 끌고 놓으면 가까운 단계에 맞춰진다.
+
+const STEPS = [
+  { ko: '상담', en: 'CONSULTATION', text: '오늘의 컨디션과 신경 쓰이는 부위를 먼저 여쭙니다.' },
+  { ko: '온열돔 웜업', en: 'HEAT DOME', text: '전신 온열돔에 편히 누워 몸을 데웁니다.' },
+  { ko: '아웃케어', en: 'OUT CARE', text: '고른 부위를 손길과 디바이스로 한 번 더 관리합니다.' },
+  { ko: '마무리', en: 'FINISH', text: '피부 상태와 편안함을 확인하고 일상 관리법을 알려 드립니다.' },
 ]
+const STEP_PICS = [PICS.ritual1, PICS.ritual2, PICS.ritual3, PICS.ritual4]
+const LAST = STEPS.length - 1
+const SNAP_MS = 350
+const two = (n) => String(n).padStart(2, '0')
 
-const METHODS = [
-  { no: '01', en: 'CONSULTATION', ko: '오늘의 고민을 듣습니다', text: '두피와 피부 상태, 신경 쓰이는 복부 라인, 무겁게 느껴지는 등과 하체. 오늘 집중하고 싶은 부위와 컨디션을 먼저 살핍니다.' },
-  { no: '02', en: 'HEAT DOME', ko: '온열돔으로 따뜻하게', text: '전신 온열돔에서 편안히 쉬어갑니다. 이용 중 상태와 불편함을 확인하며, 선택한 관리에 맞춰 온열 케어를 진행합니다.' },
-  { no: '03', en: 'OUT CARE', ko: '고민 부위를 한 번 더', text: '온열돔 이용 후, 상담에서 확인한 고민 부위를 더욱 세심하게 관리합니다. 페이스 갈바닉·바디 갈바닉·웰스파를 부위와 프로그램에 맞춰 활용합니다.' },
-  { no: '04', en: 'FINISH', ko: '마무리까지 세심하게', text: '관리 후 피부 상태와 편안함을 확인하고, 일상에서 이어갈 수 있는 관리 방법을 안내합니다.' },
-]
+// 단계가 넘어갈수록 바탕이 데워진다. 온열돔 무렵 가장 따뜻하고 마무리에서 살짝 식는다.
+const warmAt = (t) => Math.min(0.85, Math.sin((Math.PI * Math.min(t, 1.6)) / 3.2) * 0.85 + (t > 2 ? -(t - 2) * 0.15 : 0))
 
-// 브랜드 소개: 아치 프레임 인물 사진과 작은 사진, 큰 영문 제목. 4단계 설명은 "자세히 보기"로 펼친다.
+// 키보드 화살표 ±1단계에 쓰는 화살표 키 방향
+const KEY_DIR = { ArrowRight: 1, ArrowUp: 1, PageUp: 1, ArrowLeft: -1, ArrowDown: -1, PageDown: -1 }
+
 export default function About() {
-  const [open, setOpen] = useState(false)
-  const [step, setStep] = useState(0) // 관리 순서 아코디언: 한 번에 하나만 펼친다
-  const clipRef = useRef(null)
-  useScrollParallax(clipRef, 26)
+  const ritualRef = useRef(null)
+  const dialRef = useRef(null)
+  const dialWrapRef = useRef(null)
+  const imgRefs = useRef([])
+  const tRef = useRef(0) // 지금 다이얼 값(0~3, 소수)
+  const stepRef = useRef(0)
+  const tweenRef = useRef({ raf: 0, to: -1 })
+  const goalRef = useRef({ to: -1, at: 0 }) // 이동 중인 목표 단계(키를 빠르게 연달아 누를 때 기준)
+  const [step, setStep] = useState(0)
+  const [hintOff, setHintOff] = useState(false)
+
+  const reduced = prefersReducedMotion()
+  // 화면이 너무 낮으면 고정 무대의 내용이 잘리므로 높이도 함께 본다.
+  const pinned = useMediaQuery('(min-width: 64rem) and (min-height: 36rem)') && !reduced
+  const hintSeen = useInView(dialWrapRef, { threshold: 0.9 })
+
+  // 다이얼 값 t(0~3)를 화면에 그린다. React 상태는 반올림한 단계가 바뀔 때만 바꾼다.
+  const apply = useCallback((raw) => {
+    const t = clamp(raw, 0, LAST)
+    tRef.current = t
+    const root = ritualRef.current
+    if (!root) return
+    imgRefs.current.forEach((img, i) => {
+      if (img) img.style.opacity = Math.max(0, 1 - Math.abs(t - i)).toFixed(3)
+    })
+    root.style.setProperty('--t', (t / LAST).toFixed(4))
+    root.style.setProperty('--warm', warmAt(t).toFixed(4))
+    if (dialRef.current) dialRef.current.value = String(Math.round(t * 100))
+    const s = Math.round(t)
+    if (s !== stepRef.current) {
+      stepRef.current = s
+      setStep(s)
+      // 이웃 장면을 미리 디코드해 겹쳐 바뀔 때 깜빡이지 않게 한다.
+      for (const j of [s + 1, s - 1]) imgRefs.current[j]?.decode?.().catch(() => {})
+    }
+    if (Math.abs(t - goalRef.current.to) < 0.01) goalRef.current.to = -1
+  }, [])
+
+  // 고정 무대: 스크롤 진행률 → 다이얼
+  useScrollProgress(ritualRef, { mode: 'pin', enabled: pinned, onProgress: (p) => apply(p * LAST) })
+
+  const stopTween = useCallback(() => {
+    if (tweenRef.current.raf) cancelAnimationFrame(tweenRef.current.raf)
+    tweenRef.current = { raf: 0, to: -1 }
+  }, [])
+
+  // 고정 없는 모드: 가까운 단계로 easeOutCubic 350ms. 모션 줄이기면 바로 맞춘다.
+  const tweenTo = useCallback(
+    (target) => {
+      if (tweenRef.current.raf && tweenRef.current.to === target) return
+      stopTween()
+      const from = tRef.current
+      if (prefersReducedMotion() || Math.abs(target - from) < 0.001) {
+        apply(target)
+        return
+      }
+      const start = performance.now()
+      const tick = (now) => {
+        const k = Math.min(1, (now - start) / SNAP_MS)
+        apply(from + (target - from) * easeOutCubic(k))
+        tweenRef.current = k < 1 ? { raf: requestAnimationFrame(tick), to: target } : { raf: 0, to: -1 }
+      }
+      tweenRef.current = { raf: requestAnimationFrame(tick), to: target }
+    },
+    [apply, stopTween],
+  )
+
+  // 고정 무대에서 다이얼 값 t에 해당하는 스크롤 위치로 이동한다.
+  const scrollToT = (t, behavior) => {
+    const el = ritualRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    window.scrollTo({ top: window.scrollY + r.top + (t / LAST) * (r.height - window.innerHeight), behavior })
+  }
+
+  const goTo = (i) => {
+    const target = clamp(i, 0, LAST)
+    goalRef.current = { to: target, at: performance.now() }
+    if (pinned) scrollToT(target, 'smooth')
+    else tweenTo(target)
+  }
+
+  // 지금 기준 단계: 이동 중이면 그 목표, 아니면 보이는 단계
+  const baseStep = () => {
+    const g = goalRef.current
+    return g.to >= 0 && performance.now() - g.at < 1000 ? g.to : Math.round(tRef.current)
+  }
+
+  const endHint = () => {
+    if (!hintOff) setHintOff(true)
+  }
+
+  const onDialInput = (e) => {
+    const v = Number(e.currentTarget.value)
+    endHint()
+    goalRef.current.to = -1
+    if (!pinned) stopTween()
+    apply(v / 100)
+    if (pinned) scrollToT(v / 100, 'auto')
+  }
+
+  const onDialKey = (e) => {
+    if (e.key === 'Home' || e.key === 'End') {
+      e.preventDefault()
+      endHint()
+      goTo(e.key === 'Home' ? 0 : LAST)
+      return
+    }
+    const dir = KEY_DIR[e.key]
+    if (!dir) return
+    e.preventDefault()
+    endHint()
+    goTo(baseStep() + dir)
+  }
+
+  // 고정 없는 모드: 손을 떼면(pointerup·change) 가까운 단계로 맞춘다.
+  useEffect(() => {
+    const dial = dialRef.current
+    if (!dial || pinned) return undefined
+    const snap = () => tweenTo(Math.round(tRef.current))
+    dial.addEventListener('change', snap)
+    dial.addEventListener('pointerup', snap)
+    dial.addEventListener('pointercancel', snap)
+    return () => {
+      dial.removeEventListener('change', snap)
+      dial.removeEventListener('pointerup', snap)
+      dial.removeEventListener('pointercancel', snap)
+    }
+  }, [pinned, tweenTo])
+
+  useEffect(() => stopTween, [stopTween])
+
+  // 고정이 풀리면(창 크기 변경 등) 두 장면 사이에 멈춰 있지 않게 가까운 단계로 맞춘다.
+  useEffect(() => {
+    if (!pinned) apply(Math.round(tRef.current))
+  }, [pinned, apply])
+
+  // 다이얼이 처음 보이면 두 번째 장면을 미리 디코드한다.
+  useEffect(() => {
+    if (hintSeen) imgRefs.current[1]?.decode?.().catch(() => {})
+  }, [hintSeen])
+
+  const cls = `yw-ritual${pinned ? ' is-pinned' : ''}${hintSeen && !hintOff && !reduced ? ' is-hint' : ''}`
 
   return (
-    <section id="about" className="w-section w-about">
-      <div className="w-container">
-        <Reveal as="p" className="w-label">
-          About us
-        </Reveal>
+    <section id="about" className="yw-section yw-story" data-theme="light">
+      <div className="yw-wrap yw-story__head">
+        <div className="yw-story__lead">
+          <Folio no="01" en="Our Story" />
+          <SplitLines
+            as="h2"
+            className="yw-story__title"
+            lines={[
+              <>
+                온기로 <InlineChip pic={PICS.chipLeaf} /> 시작해,
+              </>,
+              <>
+                손끝으로 <InlineChip pic={PICS.chipHands} /> 완성합니다.
+              </>,
+            ]}
+          />
+        </div>
+        <div className="yw-story__aside">
+          <p className="yw-story__quote">그리고 다시, 용호점.</p>
+          <p className="yw-story__body">쌓아 온 관리에 새 장비와 프로그램을 더해 WELLNESS STUDIO로 새롭게 문을 열었습니다.</p>
+        </div>
+      </div>
 
-        <div className="w-about__stage">
-          <Reveal mode="toggle" className="w-about__arch">
-            <div className="w-about__clip" ref={clipRef}>
-              <img src={PHOTOS.neck} alt="따뜻한 빛이 닿은 목선과 쇄골" width="735" height="1105" loading="lazy" decoding="async" />
+      <ul className="yw-wrap yw-story__nums">
+        <li>
+          <span className="yw-story__num">
+            <CountUp to={4} />
+            <small>년</small>
+          </span>
+          <span className="yw-story__label">예뻐졌다의 관리 노하우</span>
+        </li>
+        <li>
+          <span className="yw-story__num">
+            <CountUp to={40} suffix="+" />
+          </span>
+          <span className="yw-story__label">함께하는 예뻐졌다 매장</span>
+        </li>
+        <li>
+          <span className="yw-story__num">1:1</span>
+          <span className="yw-story__label">100% 예약제 프라이빗 관리</span>
+        </li>
+      </ul>
+
+      <div id="ritual" ref={ritualRef} className={cls}>
+        <div className="yw-ritual__stage">
+          <div className="yw-wrap yw-ritual__grid">
+            <div className="yw-ritual__head">
+              <Folio no="02" en="Ritual" />
+              <h3 className="yw-ritual__title">한 번의 방문, 네 단계</h3>
             </div>
-          </Reveal>
 
-          <div className="w-about__text">
-            <Reveal as="h2" className="w-display">
-              <span className="w-display__ko">예뻐졌다</span>
-              Wellness
-              <br />
-              Studio
-            </Reveal>
-            <Reveal as="p" delay={80} className="w-about__line">
-              온기로 풀고,
-              <br />
-              손끝으로 <em>완성</em>합니다.
-            </Reveal>
-            <Reveal as="p" delay={120} className="w-about__lead">
-              예뻐졌다 WELLNESS STUDIO는 온열돔으로 몸을 먼저 따뜻하게 준비한 뒤 손길과 디바이스로 고민 부위를 하나씩 살핍니다. 두피부터 얼굴과 바디까지, 한 번의 방문으로 이어지는 토탈 케어입니다.
-            </Reveal>
-            <Reveal delay={160}>
-              <button type="button" className="w-btn w-btn--arrow" aria-expanded={open} aria-controls={open ? 'w-about-steps' : undefined} onClick={() => setOpen((v) => !v)}>
-                {open ? '닫기' : '자세히 보기'}
-              </button>
-            </Reveal>
+            <figure
+              className="yw-ritual__arch"
+              data-cursor="다음 장면"
+              onClick={() => {
+                endHint()
+                goTo((baseStep() + 1) % STEPS.length)
+              }}
+            >
+              {STEP_PICS.map((pic, i) => (
+                <Pic
+                  key={STEPS[i].en}
+                  pic={pic}
+                  sizes="(min-width: 64rem) 36vw, 90vw"
+                  aria-hidden="true"
+                  imgRef={(el) => {
+                    imgRefs.current[i] = el
+                  }}
+                />
+              ))}
+              <span className="yw-ritual__count" aria-hidden="true">
+                {two(step + 1)} / {two(STEPS.length)}
+              </span>
+            </figure>
+
+            <div className="yw-ritual__body">
+              <div className="yw-ritual__steps" role="group" aria-label="관리 단계 바로가기">
+                {STEPS.map((s, i) => (
+                  <button
+                    key={s.en}
+                    type="button"
+                    className="yw-ritual__step"
+                    aria-pressed={step === i}
+                    onClick={() => {
+                      endHint()
+                      goTo(i)
+                    }}
+                  >
+                    <b>{two(i + 1)}</b>
+                    <span>{s.ko}</span>
+                    <small>{s.en}</small>
+                  </button>
+                ))}
+              </div>
+
+              <ol className="yw-ritual__texts">
+                {STEPS.map((s, i) => (
+                  <li
+                    key={s.en}
+                    className="yw-ritual__text"
+                    data-active={step === i ? '' : undefined}
+                    aria-current={step === i ? 'step' : undefined}
+                  >
+                    {s.text}
+                  </li>
+                ))}
+              </ol>
+
+              <div ref={dialWrapRef} className="yw-ritual__dialwrap">
+                <span className="yw-ritual__nudge" aria-hidden="true">
+                  <svg viewBox="0 0 28 12" width="28" height="12" focusable="false">
+                    <path d="M1 6h26M6 1.5 1.5 6 6 10.5M22 1.5 26.5 6 22 10.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <input
+                  ref={dialRef}
+                  className="yw-ritual__dial"
+                  type="range"
+                  min="0"
+                  max="300"
+                  step="1"
+                  defaultValue="0"
+                  aria-label="관리 단계"
+                  aria-valuetext={`${step + 1}단계, ${STEPS[step].ko}`}
+                  onChange={onDialInput}
+                  onKeyDown={onDialKey}
+                />
+              </div>
+              <p className="yw-ritual__hint">
+                {pinned ? (
+                  '스크롤하거나 끌어서 단계 넘기기'
+                ) : (
+                  <>
+                    <span aria-hidden="true">← </span>끌어서 단계 넘기기<span aria-hidden="true"> →</span>
+                  </>
+                )}
+              </p>
+
+              <Footnote>
+                온열돔 단독 이용도 가능합니다. 온열돔 포함 여부와 사용하는 디바이스는 프로그램에 따라 다르며, 예약 전에 안내해 드립니다.
+              </Footnote>
+            </div>
           </div>
         </div>
-
-        {open && (
-          <div id="w-about-steps" className="w-about__steps">
-            <div className="w-story">
-              <p className="w-label">예뻐졌다의 4년</p>
-              <h3 className="w-story__title">
-                4년, 40개 이상의 매장.
-                <br />
-                그리고 다시, <em>용호점</em>.
-              </h3>
-              <p className="w-story__text">
-                예뻐졌다는 문을 연 지 4년 만에 40개가 넘는 매장과 함께하는 브랜드가 되었습니다. 그 시간 동안 쌓은 관리 노하우에 한층 업그레이드된 장비와 프로그램을 더해 용호점이 예뻐졌다 WELLNESS STUDIO로 새롭게 문을 열었습니다.
-              </p>
-            </div>
-
-            <div className="w-pairs">
-              {PAIRS.map((p) => (
-                <article key={p.no} className="w-pair">
-                  <p className="w-pair__tag">
-                    <span>{p.no}</span>
-                    {p.tag}
-                  </p>
-                  <h3 className="w-pair__title">
-                    {p.a} <em>+</em>
-                    <br />
-                    {p.b}
-                  </h3>
-                  <p className="w-pair__text">{p.text}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="w-acc">
-              {METHODS.map((m, i) => {
-                const isOpen = step === i
-                return (
-                  <div key={m.no} className={`w-acc__item${isOpen ? ' is-open' : ''}`}>
-                    <h3 className="w-acc__head">
-                      <button type="button" aria-expanded={isOpen} aria-controls={`w-acc-${m.no}`} onClick={() => setStep(isOpen ? -1 : i)}>
-                        <span className="w-acc__no">{m.no}</span>
-                        <span className="w-acc__title">
-                          <small>{m.en}</small>
-                          {m.ko}
-                        </span>
-                        <span className="w-acc__icon" aria-hidden="true" />
-                      </button>
-                    </h3>
-                    <div className="w-acc__panel" id={`w-acc-${m.no}`} role="region" aria-label={m.ko} inert={!isOpen}>
-                      <p>{m.text}</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-            <p className="w-method__note">온열돔 단독 이용도 가능합니다. 온열돔 포함 여부와 사용하는 디바이스는 프로그램에 따라 달라지며, 예약 전에 안내드립니다.</p>
-          </div>
-        )}
       </div>
     </section>
   )
