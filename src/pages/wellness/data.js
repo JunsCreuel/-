@@ -21,6 +21,9 @@ export const PHOTOS = {
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
 
+// 창업 비용 계산기를 보일지 여부. 정보공개서·실제 운영 수치가 준비되기 전에 내려야 하면 false로 바꾼다.
+export const SHOW_SIMULATOR = true
+
 // 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
 export const SHOW_PRICES = true
 

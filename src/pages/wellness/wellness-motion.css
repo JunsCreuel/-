@@ -375,7 +375,7 @@
   content: '−';
 }
 
-/* 수익 시뮬레이터 */
+/* 창업 비용 구조 계산기 */
 
 .w-sim__grid {
   display: grid;
@@ -534,6 +534,15 @@
 
 .w-sim__profit.is-loss {
   color: #e8b3a6;
+}
+
+/* 슬라이더를 움직이기 전: 결과 자리에 대시만 흐리게 */
+.w-sim__result.is-idle .w-sim__profit {
+  color: rgb(255 255 255 / 0.4);
+}
+
+.w-sim__result.is-idle .w-btn {
+  margin-top: auto;
 }
 
 .w-sim__sub {
