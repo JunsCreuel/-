@@ -141,7 +141,7 @@
   position: relative;
   order: 1;
   width: 78%;
-  margin: 0 6% 0 auto;
+  margin: 0 6% 1.2rem auto;
 }
 
 .w-about__arch img {
@@ -163,24 +163,8 @@
   transform: translate(14px, 16px);
 }
 
-.w-about__small {
-  position: relative;
-  z-index: 1;
-  order: 2;
-  width: 44%;
-  margin-top: -26%;
-}
-
-.w-about__small img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: var(--w-radius);
-}
-
 .w-about__text {
-  order: 3;
+  order: 2;
 }
 
 .w-about__line {
@@ -549,32 +533,21 @@
 
 @media (min-width: 900px) {
   .w-about__stage {
-    position: relative;
-    display: block;
-    min-height: 840px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 28rem);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
   }
 
   .w-about__arch {
-    position: absolute;
-    top: 1.5rem;
-    right: 5%;
-    width: 40%;
-    margin: 0;
-  }
-
-  .w-about__small {
-    position: absolute;
-    top: 0;
-    left: 3%;
-    width: 20%;
-    margin: 0;
+    order: 2;
+    width: 100%;
+    margin: 0 14px 0 0;
   }
 
   .w-about__text {
-    position: absolute;
-    bottom: 0;
-    left: 3%;
-    width: 40%;
+    order: 1;
+    padding-left: 3%;
   }
 
   .w-pc {
