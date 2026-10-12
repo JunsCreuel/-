@@ -3,6 +3,7 @@ import About from './sections/About'
 import Booking from './sections/Booking'
 import Equipment from './sections/Equipment'
 import Faq from './sections/Faq'
+import Gels from './sections/Gels'
 import Hero from './sections/Hero'
 import Offer from './sections/Offer'
 import Programs from './sections/Programs'
@@ -17,6 +18,7 @@ export default function WellnessHome() {
       <About />
       <Programs />
       <Equipment />
+      <Gels />
       <Proof />
       <Offer />
       <Booking branch={BRANCHES.zai} />

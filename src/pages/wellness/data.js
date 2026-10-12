@@ -128,6 +128,53 @@ export const DEVICES = [
   },
 ]
 
+// 디바이스 관리에 쓰는 전용 젤. 효능을 단정하는 표현(통증·치료 등)은 쓰지 않는다.
+const DEV = `${BASE}wellness/devices/`
+export const GELS = [
+  {
+    no: '01',
+    label: '바디 갈바닉 전용 젤',
+    name: '에이지락 바디 쉐이핑 젤',
+    en: 'Body Shaping Gel · 150 mL',
+    text: '바디 갈바닉 관리에 함께 쓰는 전용 젤입니다. 갈바닉 전류가 피부에 고르게 닿도록 돕고, 복부처럼 넓은 부위를 부드럽게 관리할 수 있게 해 줍니다.',
+    photo: { src: `${DEV}gel-body-shaping.webp`, alt: '파란색 튜브의 에이지락 바디 쉐이핑 젤', width: 140, height: 350, white: true },
+    ingredients: [
+      { name: '호스테일켈프 추출물', en: 'Laminaria Digitata Extract', text: '바다에서 자라는 갈조류에서 얻은 성분', img: `${DEV}ing-kelp.webp` },
+      { name: '테오브로민', en: 'Theobromine', text: '카카오에 들어 있는 성분', img: `${DEV}ing-theobromine.webp` },
+    ],
+  },
+  {
+    no: '02',
+    label: '웰스파 전용 세럼',
+    name: '에이지락 바디 세럼',
+    en: 'Body Serum · 100 mL',
+    text: '웰스파 관리 때 함께 쓰는 전용 세럼입니다. 셀룰라이트가 신경 쓰이는 부위와 탄력, 바디 라인을 관리할 때 사용합니다.',
+    photo: { src: `${DEV}gel-body-serum.webp`, alt: '손바닥에 덜어 낸 에이지락 바디 세럼', width: 900, height: 649 },
+    reverse: true,
+    ingredients: [
+      { name: '바디 실루엣 블렌드', text: '보태니컬 성분 복합체로 바디 피부를 탄탄하게 가꿔 줍니다.' },
+      { name: 'AI 펩타이드', text: 'AI로 찾아낸 펩타이드로 탄력 있는 바디 피부를 돕습니다.' },
+      { name: '타라열매 & 코토니 추출물', text: '외부 환경으로부터 피부를 보호해 매끄럽고 촉촉하게 지켜 줍니다.' },
+      { name: '스킨 컨디셔닝 블렌드', text: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀' },
+      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
+    ],
+  },
+  {
+    no: '03',
+    label: '웰스파 전용 젤',
+    name: '에이지락 바디 액티베이팅 젤',
+    en: 'Body Activating Gel · 150 mL',
+    text: '웰스파 관리 때 함께 쓰는 전용 젤입니다. 순환이 답답하게 느껴질 때, 뻐근하게 뭉친 부위와 붓기가 신경 쓰일 때 사용합니다.',
+    photo: { src: `${DEV}gel-body-activating.webp`, alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤', width: 801, height: 900 },
+    ingredients: [
+      { name: '서양벌노랑이꽃 추출물', text: '정체된 바디 사이클을 깨우고 전반적인 밸런스를 챙겨 줍니다.' },
+      { name: '록샘파이어 추출물', text: '가벼운 아침을 위한 상쾌한 리프레시 케어' },
+      { name: '윈터체리뿌리 추출물', text: '바디 피부에 쌓인 스트레스를 덜어 편안하게 가꿔 줍니다.' },
+      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
+    ],
+  },
+]
+
 export function won(n) {
   return `${n.toLocaleString('ko-KR')}원`
 }
