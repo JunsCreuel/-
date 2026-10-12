@@ -2,7 +2,7 @@ import { NUMBERS } from '../data'
 import { CountUp } from '../MotionParts'
 import { Reveal } from '../ui'
 
-// 숫자로 보는 스튜디오 (4년·40+·100%·8가지 관리·50%)
+// 숫자로 보는 스튜디오 (4년·40+·100%·8가지)
 export default function Numbers() {
   return (
     <section className="w-nums" aria-label="스튜디오 한눈에 보기">

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { PHOTOS } from '../data'
+import { PHOTOS, PROGRAMS } from '../data'
 import { hasFinePointer, prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
 import { Reveal } from '../ui'
@@ -64,6 +64,9 @@ function useHeroMotion(ref) {
   }, [ref])
 }
 
+// 첫 방문 50%가 적용되는 관리 수(할인가가 있는 프로그램)
+const SALE_COUNT = PROGRAMS.filter((p) => p.sale).length
+
 export default function Hero() {
   const heroRef = useRef(null)
   useHeroMotion(heroRef)
@@ -78,7 +81,7 @@ export default function Hero() {
       <div className="w-container w-hero__inner">
         <div className="w-hero__text">
           <Reveal as="p" className="w-chip">
-            첫 방문 이벤트 · 50% 할인
+            첫 방문 이벤트 · {SALE_COUNT}개 관리 50%
           </Reveal>
           <h1 className="w-hero__title w-split">
             <span className="w-split__line">
