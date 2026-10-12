@@ -1,0 +1,560 @@
+/* No. 01 Our Story · No. 02 Ritual (sections/About.jsx)
+   스토리: 사진 칩이 박힌 두 줄 제목 + 인용 + 숫자 줄.
+   관리 순서: 아치 사진 4장 · 단계 버튼 · 문장 · 온기 다이얼. 64rem 이상(모션 줄이기 아님)에서는 고정 무대(.is-pinned).
+   --t(0~1)는 다이얼 위치, --warm(0~.85)은 바탕이 데워진 정도로, JS가 매 프레임 쓴다. */
+
+/* ── 스토리 ─────────────────────────────────────────────── */
+
+/* 관리 순서 띠가 섹션 아래 끝까지 깔리고, 다음 커튼과 겹치는 몫은 띠 안쪽 여백으로 비워 둔다 */
+.yw-section.yw-story {
+  padding-bottom: 0;
+  background: #fff;
+}
+
+.yw-story__head {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.wellness .yw-story__title {
+  margin: 0;
+  font: 400 clamp(1.45rem, 7.4vw, 2.3rem) / 1.3 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-story__quote {
+  font: 400 clamp(1.2rem, 4.6vw, 1.4rem) / 1.5 var(--w-font-serif);
+  letter-spacing: -0.01em;
+}
+
+.yw-story__body {
+  max-width: 26ch;
+  margin-top: 0.6rem;
+  color: var(--w-muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* 문장 속 사진 칩: 공통 .yw-ichip은 닫힌 상태를 clip-path로 만들어서, Chromium IntersectionObserver가
+   면적 0으로 보고 is-in을 붙이지 않는다(사진도 지연 로딩되지 않음). 이 섹션에서는 clip-path 대신
+   mask 크기로 가운데에서 연다. 관찰·지연 로딩에는 영향이 없고 보이는 모습은 같다. */
+.yw-story .yw-ichip {
+  clip-path: none;
+  -webkit-mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
+  mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
+  transition:
+    -webkit-mask-size 0.9s var(--yw-ease),
+    mask-size 0.9s var(--yw-ease),
+    scale 0.45s var(--yw-ease);
+}
+
+.yw-story .yw-ichip.is-in {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* 줄이 다 올라온 뒤에는 줄 마스크(.yw-line overflow: clip)를 풀어 칩 확대(2.4배)가 위아래로 잘리지 않게 한다 */
+.yw-story__title.is-in .yw-line {
+  animation: yw-story-unclip 1ms linear 1.3s both;
+}
+
+@keyframes yw-story-unclip {
+  to {
+    overflow: visible;
+  }
+}
+
+/* 숫자 줄: 4년 · 40+ · 1:1 */
+.yw-story__nums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin-top: clamp(3rem, 8vw, 6rem);
+}
+
+.yw-story__nums > li {
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+  min-width: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.yw-story__num {
+  display: flex;
+  align-items: baseline;
+  gap: 0.08em;
+  color: var(--w-espresso);
+  font: 300 clamp(2.4rem, 11vw, 3rem) / 0.9 var(--w-font-en);
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
+}
+
+.yw-story__num small {
+  font: 400 0.32em/1 var(--w-font-label);
+  letter-spacing: 0.04em;
+}
+
+.yw-story__label {
+  color: var(--w-muted);
+  font: 400 0.72rem/1.55 var(--w-font-label);
+  letter-spacing: 0.03em;
+  word-break: keep-all;
+}
+
+@media (min-width: 48rem) {
+  .wellness .yw-story__title {
+    font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+  }
+
+  .yw-story__quote {
+    font-size: 1.4rem;
+  }
+
+  .yw-story__aside {
+    padding-bottom: 0.4rem;
+  }
+
+  .yw-story__num {
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .yw-story__label {
+    font-size: 0.78rem;
+  }
+}
+
+/* 인용이 제목 옆에 설 만큼 넓을 때만 두 열(좁은 태블릿에서는 제목 아래) */
+@media (min-width: 60rem) {
+  .yw-story__head {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+  }
+}
+
+/* ── 관리 순서 ──────────────────────────────────────────── */
+
+/* 섹션 좌우 여백 밖까지 띠를 넓히고, 다이얼 값에 따라 흰색 → 형광펜 아이보리로 데운다(전환 없이 손을 바로 따라감) */
+.yw-ritual {
+  position: relative;
+  margin: clamp(4rem, 10vw, 8rem) calc(-1 * var(--w-gutter)) 0;
+  padding-inline: var(--w-gutter);
+  background: var(--yw-ivory);
+}
+
+@supports (background: color-mix(in srgb, red 10%, blue)) {
+  .yw-ritual {
+    background: color-mix(in srgb, var(--w-highlight) calc(var(--warm, 0) * 100%), #fff);
+  }
+}
+
+.yw-ritual__stage {
+  padding-block: clamp(3.5rem, 10vw, 5rem) calc(clamp(3.5rem, 10vw, 5rem) + var(--yw-r));
+}
+
+/* 모바일: 머리 → 아치 → 버튼·문장·다이얼 */
+.yw-ritual__grid {
+  display: grid;
+  grid-template-areas:
+    'head'
+    'arch'
+    'body';
+  gap: clamp(1.5rem, 6vw, 2.5rem);
+}
+
+.yw-ritual__head {
+  grid-area: head;
+}
+
+.wellness .yw-ritual__title {
+  margin: 0;
+  font: 400 clamp(1.6rem, 2.6vw, 2.4rem) / 1.3 var(--w-font-serif);
+  letter-spacing: -0.02em;
+}
+
+/* 아치 프레임: 단계 사진 4장을 겹쳐 두고 다이얼 값으로 opacity를 바꾼다 */
+.yw-ritual__arch {
+  position: relative;
+  grid-area: arch;
+  justify-self: center;
+  width: min(100%, 24rem, 60vh * 0.8);
+  width: min(100%, 24rem, 60svh * 0.8);
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: clip;
+  border-radius: 999px 999px 1.25rem 1.25rem;
+  outline: 1px solid var(--w-bronze);
+  outline-offset: 0.6rem;
+  background: var(--yw-ivory);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wellness .yw-ritual__arch img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.wellness .yw-ritual__arch img + img {
+  opacity: 0;
+}
+
+.yw-ritual__count {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--w-espresso);
+  font: 500 0.75rem/1 var(--w-font-label);
+  letter-spacing: 0.14em;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.yw-ritual__body {
+  grid-area: body;
+  min-width: 0;
+}
+
+/* 단계 버튼 01~04 */
+.yw-ritual__steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.yw-ritual__step {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0 0 0.6rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--w-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.yw-ritual__step[aria-pressed='true'] {
+  border-bottom-color: var(--w-espresso);
+  color: var(--w-espresso);
+}
+
+.yw-ritual__step b {
+  font: 300 1.9rem/1 var(--w-font-en);
+  letter-spacing: -0.01em;
+}
+
+.yw-ritual__step span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.yw-ritual__step small {
+  display: none;
+  font: 400 0.65rem/1.2 var(--w-font-label);
+  letter-spacing: 0.16em;
+}
+
+/* 태블릿부터는 영문도 보인다 */
+@media (min-width: 48rem) {
+  .yw-ritual__step span {
+    font-size: 0.85rem;
+  }
+
+  .yw-ritual__step small {
+    display: block;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-ritual__step:hover {
+    color: var(--w-espresso);
+  }
+}
+
+/* 단계 문장: 4개를 겹쳐 두고 활성만 보인다(보조기기는 넷 다 읽는다) */
+.yw-ritual__texts {
+  display: grid;
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+}
+
+.yw-ritual__text {
+  grid-area: 1 / 1;
+  max-width: 24em;
+  font: 400 clamp(1.15rem, 1.6vw, 1.45rem) / 1.6 var(--w-font-serif);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+  opacity: 0;
+  translate: 0 0.8rem;
+  transition:
+    opacity 0.5s var(--yw-ease),
+    translate 0.5s var(--yw-ease);
+}
+
+.yw-ritual__text[data-active] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* 온기 다이얼 */
+.yw-ritual__dialwrap {
+  position: relative;
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.yw-ritual__dial {
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.wellness .yw-ritual__dial:focus-visible {
+  outline: none;
+}
+
+.yw-ritual__dial::-webkit-slider-runnable-track {
+  height: 2px;
+  border: 0;
+  background:
+    linear-gradient(var(--w-bronze) 0 0) 0 50% / calc(var(--t, 0) * 100%) 2px no-repeat,
+    var(--w-line);
+}
+
+.yw-ritual__dial::-moz-range-track {
+  height: 2px;
+  border: 0;
+  background:
+    linear-gradient(var(--w-bronze) 0 0) 0 50% / calc(var(--t, 0) * 100%) 2px no-repeat,
+    var(--w-line);
+}
+
+.yw-ritual__dial::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: calc((2px - 2.75rem) / 2);
+  border: 2px solid var(--w-espresso);
+  border-radius: 50%;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a2320' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 7 4.5 12l5 5M14.5 7l5 5-5 5'/%3E%3C/svg%3E")
+    center / 1.35rem no-repeat;
+  box-shadow: 0 6px 16px rgb(29 26 23 / 0.12);
+  cursor: grab;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.yw-ritual__dial::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid var(--w-espresso);
+  border-radius: 50%;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a2320' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 7 4.5 12l5 5M14.5 7l5 5-5 5'/%3E%3C/svg%3E")
+    center / 1.35rem no-repeat;
+  box-shadow: 0 6px 16px rgb(29 26 23 / 0.12);
+  cursor: grab;
+}
+
+.yw-ritual__dial:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+
+.yw-ritual__dial:active::-moz-range-thumb {
+  cursor: grabbing;
+}
+
+.yw-ritual__dial:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--w-bronze);
+  outline-offset: 3px;
+}
+
+.yw-ritual__dial:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--w-bronze);
+  outline-offset: 3px;
+}
+
+/* 처음 보일 때 손잡이 위에서 좌우로 두 번 흔들리는 장식(첫 조작에서 사라짐) */
+.yw-ritual__nudge {
+  position: absolute;
+  bottom: calc(100% - 0.1rem);
+  left: calc(var(--t, 0) * (100% - 2.75rem));
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 1.1rem;
+  color: var(--w-bronze);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.yw-ritual__nudge svg {
+  display: block;
+  width: 1.6rem;
+  height: auto;
+}
+
+.yw-ritual.is-hint .yw-ritual__nudge {
+  opacity: 1;
+  animation: yw-ritual-nudge 1.4s var(--yw-ease) 0.35s 1 both;
+}
+
+@keyframes yw-ritual-nudge {
+  0%,
+  50%,
+  100% {
+    translate: 0 0;
+  }
+
+  25%,
+  75% {
+    translate: 0.6rem 0;
+  }
+}
+
+.yw-ritual__hint {
+  margin-top: 0.4rem;
+  color: var(--w-muted);
+  font: 400 0.72rem/1.5 var(--w-font-label);
+  letter-spacing: 0.08em;
+}
+
+.yw-ritual__body .yw-note {
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+}
+
+/* ── 데스크톱(64rem 이상): 왼쪽 아치, 오른쪽 머리·본문을 아치 높이의 가운데에 ── */
+
+@media (min-width: 64rem) {
+  .yw-ritual__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas:
+      'arch .'
+      'arch head'
+      'arch body'
+      'arch .';
+    column-gap: clamp(2rem, 5vw, 5rem);
+    row-gap: 0;
+  }
+
+  .yw-ritual__head {
+    margin-bottom: clamp(1.5rem, 2.6vw, 2.25rem);
+  }
+
+  .yw-ritual__arch {
+    align-self: center;
+    justify-self: start;
+    width: min(100%, min(74vh, 44rem) * 0.8);
+    width: min(100%, min(74svh, 44rem) * 0.8);
+  }
+
+  .yw-ritual__steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .yw-ritual__step {
+    gap: 0.25rem;
+    padding-right: 0.15rem;
+  }
+
+  .yw-ritual__step b {
+    font-size: 1.6rem;
+  }
+
+  .yw-ritual__step span {
+    font-size: 0.9rem;
+  }
+
+  .yw-ritual__step small {
+    display: block;
+  }
+
+  .yw-ritual__dialwrap {
+    margin-top: 2.5rem;
+  }
+
+  /* 고정 무대: 320svh 동안 무대가 멈춰 있고, 스크롤 진행률이 다이얼 값이 된다 */
+  .yw-ritual.is-pinned {
+    height: 320vh;
+    height: 320svh;
+  }
+
+  .yw-ritual.is-pinned .yw-ritual__stage {
+    position: sticky;
+    top: 0;
+    display: grid;
+    align-items: center;
+    height: 100vh;
+    height: 100svh;
+    padding-block: var(--w-nav-h) var(--yw-r);
+  }
+}
+
+/* ── 모션 줄이기: 고정 없이 최종 상태, 흔들림 없음 ─────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-story .yw-ichip {
+    -webkit-mask: none;
+    mask: none;
+  }
+
+  .yw-story__title .yw-line,
+  .yw-story__title.is-in .yw-line {
+    overflow: visible;
+    animation: none;
+  }
+
+  .yw-ritual.is-pinned {
+    height: auto;
+  }
+
+  .yw-ritual.is-pinned .yw-ritual__stage {
+    position: static;
+    height: auto;
+  }
+
+  .yw-ritual__nudge,
+  .yw-ritual.is-hint .yw-ritual__nudge {
+    display: none;
+    animation: none;
+  }
+
+  .yw-ritual__text {
+    translate: 0 0;
+  }
+}
