@@ -9,9 +9,38 @@ export const PHOTOS = {
   // 시안용 AI 생성 분위기 이미지(저해상도 크롭). 실제 매장·제품·시술 사진이 아니므로,
   // 공개 전에 실제 촬영 사진으로 교체하거나 AI 생성 이미지임을 확인·표기해야 한다.
   heatDome: `${BASE}wellness/equipment/heat-dome.webp`,
+  faceGalvanic: `${BASE}wellness/equipment/face-galvanic.webp`,
+  bodyGalvanic: `${BASE}wellness/equipment/body-galvanic.webp`,
+  wellspa: `${BASE}wellness/equipment/wellspa.webp`,
+  qr: `${BASE}wellness/qr-naver.png`,
   moodHero: `${BASE}wellness/mood/hero.webp`,
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
+
+// 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
+export const SHOW_PRICES = true
+
+// 프로그램 메뉴(가격은 네이버 예약 기준). sale이 있으면 첫 방문 50% 할인가이고, 없으면 할인 대상이 아니다.
+// photo는 PHOTOS의 키, fit: 'contain'은 누끼 제품 사진용이다.
+export const PROGRAMS = [
+  { id: 'scalp-detox', group: '두피 · 얼굴', title: '두피 디톡스 케어 & 헤드스파', time: '1시간', price: 130000, sale: 65000, photo: 'scalp', pos: 'center 30%', desc: '전류 딥 클렌징으로 모공 속 노폐물과 피지를 정리하고, 두피 타입에 맞는 제품으로 관리합니다. 목·승모 라인까지 함께 풀어 주는 시그니처 관리입니다.' },
+  { id: 'scalp-face', group: '두피 · 얼굴', title: '두피 · 페이스 시그니처 케어', time: '1시간 30분', badge: '인기', price: 160000, sale: 80000, photo: 'moodFace', pos: '40% 40%', desc: '두피 관리에 얼굴 근막 케어를 더해 얼굴 라인과 탄력을 함께 가꾸는 대표 관리입니다. 피부 컨디션에 맞춰 맞춤으로 진행합니다.' },
+  { id: 'back-lymph', group: '바디', title: '등 림프순환 케어', time: '1시간 20분', price: 120000, sale: 60000, photo: 'back', pos: 'center 25%', desc: '온열로 몸을 먼저 풀고, 기립근을 중심으로 목·어깨·데콜테까지 미세전류 디바이스와 손길로 이어서 풀어 주는 집중 케어입니다. 오래 앉아 있어 상체가 뭉치는 분께 추천합니다.' },
+  { id: 'abdomen', group: '바디', title: '복부 슬리밍 케어', time: '1시간', price: 120000, sale: 60000, photo: 'candleLeg', pos: 'center 45%', desc: '온열로 붓기와 순환을 먼저 돕고, 뱃살과 옆구리, 뒷라인까지 복부 라인을 집중 관리하는 바디 슬리밍 시그니처입니다. 출산이나 갱년기 이후 복부 변화가 고민인 분께도 추천합니다.' },
+  { id: 'lower', group: '바디', title: '하체 관리', time: '1시간 10분', price: 130000, sale: 65000, photo: 'leg', pos: 'center 40%', desc: '풀 바디 웜업으로 몸을 데운 뒤, 종아리와 발부터 하체 근막까지 상태에 맞춰 풀어 줍니다. 다리가 무겁고 답답하게 느껴지는 분께 추천합니다.' },
+  { id: 'full-back', group: '바디', title: '전신 후면 관리', time: '1시간 30분', price: 110000, photo: 'back', pos: 'center 75%', desc: '풀 바디 웜업으로 몸을 따뜻하게 이완한 뒤, 등과 하체의 뭉친 부위를 집중적으로 풀어 줍니다.' },
+  { id: 'lymph-node', group: '바디', title: '림프절 관리', time: '1시간', price: 140000, sale: 70000, photo: 'neck', pos: 'center 40%', desc: '목과 겨드랑이, 서혜부 등 주요 림프절 부위를 부드럽게 관리해 순환과 이완을 돕습니다.' },
+  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '50분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며, 근막 이완과 순환을 돕는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.' },
+]
+
+// 숫자로 보는 스튜디오
+export const NUMBERS = [
+  { n: '4', unit: '년', label: '예뻐졌다의 관리 노하우' },
+  { n: '40', unit: '+', label: '함께하는 예뻐졌다 매장' },
+  { n: '100', unit: '%', label: '100% 예약제 · 1:1 프라이빗 관리' },
+  { n: '8', unit: '가지 관리', label: '두피부터 림프까지 8가지 관리' },
+  { n: '50', unit: '%', label: '확장 이전 오픈 기념 할인', accent: true },
+]
 
 // 네이버 리뷰에 남겨 주신 후기. 글은 작성자가 쓴 그대로 싣는다(고치거나 줄이지 않는다).
 // 이름은 알 수 없어 "방문 고객"으로 표기한다. 새 후기는 이 목록에 항목만 더하면 된다.
