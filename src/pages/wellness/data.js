@@ -82,6 +82,9 @@ export const SHOW_SIMULATOR = true
 // 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
 export const SHOW_PRICES = true
 
+// 금액 표시: 130000 → '130,000원'
+export const won = (n) => `${n.toLocaleString('ko-KR')}원`
+
 // 첫 방문 이벤트 노출 여부. 이벤트가 끝나면 false로 바꿔 히어로 칩, 가격 줄의 50% 배지·취소선, 첫 방문 티켓을 한 번에 내린다.
 export const SHOW_OFFER = true
 
