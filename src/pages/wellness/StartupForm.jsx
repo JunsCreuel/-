@@ -1,53 +1,132 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BRANCHES, telHref } from './data'
-import { ConsentBox, PhoneField } from './FormParts'
+import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
+import { fireConfetti } from './motion'
 import './wellness-consult.css'
 
 // 접수 연결(Firebase 등) 전까지는 false로 둔다. false면 입력한 내용은 어디로도 전송되지 않고,
-// 제출하면 전화로 문의하라는 안내만 보여 준다. 연결할 때 onSubmit 안에서 저장하는 코드를 넣고 true로 바꾼다.
+// 제출하면 전화로 문의하라는 안내만 보여 준다(성공 화면과 폭죽도 나오지 않는다). 연결할 때 save() 안에서 저장하고 true로 바꾼다.
 const SUBMIT_ENABLED = false
 
+const KINDS = ['신규 창업 상담', '기존 샵 도입 상담']
 const TIMINGS = ['3개월 이내', '6개월 이내', '1년 이내', '아직 정하지 않았습니다']
 
-function validate(f) {
+const STEPS = [
+  { id: 'kind', short: '상담 유형', title: '어떤 상담을 원하시나요?' },
+  { id: 'where', short: '지역 · 시기', title: '관심 있는 지역과 창업 희망 시기를 알려 주세요.' },
+  { id: 'who', short: '연락처', title: '연락받으실 성함과 연락처를 남겨 주세요.' },
+  { id: 'last', short: '마무리', title: '마지막으로, 궁금한 점이 있다면 남겨 주세요.' },
+]
+const LAST = STEPS.length - 1
+
+// 단계별 검사: 해당 단계의 입력만 확인한다.
+function validate(step, f) {
   const e = {}
-  if (f.name.trim().length < 2) e.name = '성함을 입력해 주시기 바랍니다.'
-  if (!(/^01\d$/.test(f.p1) && /^\d{3,4}$/.test(f.p2) && /^\d{4}$/.test(f.p3))) e.phone = '연락처를 정확히 입력해 주시기 바랍니다.'
-  if (f.region.trim().length < 2) e.region = '관심 지역을 입력해 주시기 바랍니다.'
-  if (!f.timing) e.timing = '창업 희망 시기를 선택해 주시기 바랍니다.'
-  if (!f.agree) e.agree = '개인정보 수집 및 이용에 동의해 주시기 바랍니다.'
+  if (step === 0 && !f.kind) e.kind = '상담 유형을 선택해 주시기 바랍니다.'
+  if (step === 1) {
+    if (f.region.trim().length < 2) e.region = '관심 지역을 입력해 주시기 바랍니다.'
+    if (!f.timing) e.timing = '창업 희망 시기를 선택해 주시기 바랍니다.'
+  }
+  if (step === 2) {
+    if (f.name.trim().length < 2) e.name = '성함을 입력해 주시기 바랍니다.'
+    if (!(/^01\d$/.test(f.p1) && /^\d{3,4}$/.test(f.p2) && /^\d{4}$/.test(f.p3))) e.phone = '연락처를 정확히 입력해 주시기 바랍니다.'
+  }
+  if (step === 3 && !f.agree) e.agree = '개인정보 수집 및 이용에 동의해 주시기 바랍니다.'
   return e
 }
 
-// 창업·운영 상담 문의 폼
+const validateAll = (f) => STEPS.reduce((acc, _, i) => ({ ...acc, ...validate(i, f) }), {})
+const firstInvalidStep = (f) => STEPS.findIndex((_, i) => Object.keys(validate(i, f)).length > 0)
+
+// 접수 연결 자리. SUBMIT_ENABLED를 true로 바꿀 때 여기서 문의 내용을 저장한다.
+async function save() {
+  // TODO(Firebase): 문의 내용을 저장한다.
+}
+
+// 창업·운영 상담 문의: 한 번에 한 질문씩 넘어가는 4단계 폼
 export default function StartupForm() {
-  const [form, setForm] = useState({ name: '', p1: '010', p2: '', p3: '', region: '', timing: '', message: '', agree: false })
+  const [step, setStep] = useState(0)
+  const [dir, setDir] = useState('fwd')
+  const [form, setForm] = useState({ kind: '', region: '', timing: '', name: '', p1: '010', p2: '', p3: '', message: '', agree: false })
   const [errors, setErrors] = useState({})
   const [pending, setPending] = useState(false)
+  const [done, setDone] = useState(false)
   const formRef = useRef(null)
+  const stepRef = useRef(null)
+  const mounted = useRef(false)
   const phone = BRANCHES.zai.phone
+
+  // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다)
+  useEffect(() => {
+    const onSummary = (e) =>
+      setForm((prev) => (!prev.message || prev.message.startsWith('[시뮬레이터') ? { ...prev, message: String(e.detail) } : prev))
+    window.addEventListener('w-sim-summary', onSummary)
+    return () => window.removeEventListener('w-sim-summary', onSummary)
+  }, [])
+
+  // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다)
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+      return
+    }
+    stepRef.current?.querySelector('input, textarea')?.focus({ preventScroll: true })
+  }, [step])
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
     setPending(false)
   }
 
-  function onSubmit(e) {
-    e.preventDefault()
-    const found = validate(form)
+  function focusInvalid() {
+    requestAnimationFrame(() => stepRef.current?.querySelector('[aria-invalid="true"], .w-step__choices:has(.w-form__error) input')?.focus())
+  }
+
+  function goNext() {
+    const found = validate(step, form)
     setErrors(found)
     if (Object.keys(found).length > 0) {
-      setPending(false)
-      requestAnimationFrame(() => formRef.current?.querySelector('[aria-invalid="true"]')?.focus())
+      focusInvalid()
       return
     }
+    setDir('fwd')
+    setStep((s) => Math.min(LAST, s + 1))
+  }
+
+  function goBack() {
+    setErrors({})
+    setDir('back')
+    setStep((s) => Math.max(0, s - 1))
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault()
+    if (step < LAST) {
+      goNext()
+      return
+    }
+    const bad = firstInvalidStep(form)
+    if (bad !== -1) {
+      setErrors(validateAll(form))
+      if (bad !== step) {
+        setDir('back')
+        setStep(bad)
+      }
+      focusInvalid()
+      return
+    }
+    setErrors({})
     if (!SUBMIT_ENABLED) {
       setPending(true)
       return
     }
-    // TODO(Firebase): 여기서 문의 내용을 저장하고 접수 완료 화면을 보여 준다.
+    const rect = e.currentTarget.querySelector('button[type="submit"]')?.getBoundingClientRect()
+    await save()
+    setDone(true)
+    fireConfetti(rect && { x: rect.left + rect.width / 2, y: rect.top })
   }
 
+  const ready = Object.keys(validate(step, form)).length === 0
   const err = (id) => (errors[id] ? { 'aria-invalid': true, 'aria-describedby': `err-s-${id}` } : {})
   const errText = (id) =>
     errors[id] ? (
@@ -56,67 +135,115 @@ export default function StartupForm() {
       </p>
     ) : null
 
+  if (done) {
+    return (
+      <div className="w-wiz__done" role="status">
+        <svg viewBox="0 0 52 52" aria-hidden="true">
+          <circle cx="26" cy="26" r="24" />
+          <path d="M15 27l8 8 14-16" />
+        </svg>
+        <h4>문의가 접수되었습니다</h4>
+        <p>남겨 주신 번호로 확인 후 연락드리겠습니다.</p>
+      </div>
+    )
+  }
+
   return (
-    <form className="w-form" ref={formRef} onSubmit={onSubmit} noValidate>
-      <div className="w-field">
-        <label htmlFor="s-name">
-          성함 <i aria-hidden="true">*</i>
-        </label>
-        <input id="s-name" type="text" autoComplete="name" value={form.name} onChange={(e) => set('name', e.target.value)} aria-required="true" {...err('name')} />
-        {errText('name')}
+    <form className="w-form w-wiz" ref={formRef} onSubmit={onSubmit} noValidate>
+      <div className="w-wiz__progress" role="progressbar" aria-valuemin={1} aria-valuemax={STEPS.length} aria-valuenow={step + 1} aria-label={`${STEPS.length}단계 중 ${step + 1}단계`}>
+        <div className="w-wiz__meta">
+          <span>
+            STEP {step + 1} / {STEPS.length}
+          </span>
+          <span>{STEPS[step].short}</span>
+        </div>
+        <div className="w-wiz__track">
+          <i style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
+        </div>
       </div>
 
-      <PhoneField
-        idPrefix="s"
-        value={{ p1: form.p1, p2: form.p2, p3: form.p3 }}
-        onChange={(next) => {
-          setForm((prev) => ({ ...prev, ...next }))
-          setPending(false)
-        }}
-        error={errors.phone}
-      />
+      <div key={step} ref={stepRef} className={`w-wiz__step is-${dir}`}>
+        <p className="w-step__q">
+          <b>{step + 1}</b>
+          {STEPS[step].title}
+        </p>
 
-      <div className="w-field">
-        <label htmlFor="s-region">
-          관심 지역 <i aria-hidden="true">*</i>
-        </label>
-        <input id="s-region" type="text" autoComplete="address-level2" placeholder="예: 부산 남구" value={form.region} onChange={(e) => set('region', e.target.value)} aria-required="true" {...err('region')} />
-        {errText('region')}
+        {step === 0 && <ChoiceChips idPrefix="s" legend="상담 유형" name="kind" options={KINDS} value={form.kind} onChange={(v) => set('kind', v)} error={errors.kind} />}
+
+        {step === 1 && (
+          <>
+            <div className="w-field">
+              <label htmlFor="s-region">
+                관심 지역 <i aria-hidden="true">*</i>
+              </label>
+              <input id="s-region" type="text" autoComplete="address-level2" placeholder="예: 부산 남구" value={form.region} onChange={(e) => set('region', e.target.value)} aria-required="true" {...err('region')} />
+              {errText('region')}
+            </div>
+            <div className="w-field">
+              <p className="w-field__label" id="s-timing-label">
+                창업 희망 시기 <i aria-hidden="true">*</i>
+              </p>
+              <ChoiceChips idPrefix="s" legend="창업 희망 시기" name="timing" options={TIMINGS} value={form.timing} onChange={(v) => set('timing', v)} error={errors.timing} />
+            </div>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <div className="w-field">
+              <label htmlFor="s-name">
+                성함 <i aria-hidden="true">*</i>
+              </label>
+              <input id="s-name" type="text" autoComplete="name" value={form.name} onChange={(e) => set('name', e.target.value)} aria-required="true" {...err('name')} />
+              {errText('name')}
+            </div>
+            <PhoneField
+              idPrefix="s"
+              value={{ p1: form.p1, p2: form.p2, p3: form.p3 }}
+              onChange={(next) => {
+                setForm((prev) => ({ ...prev, ...next }))
+                setPending(false)
+              }}
+              error={errors.phone}
+            />
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <ul className="w-wiz__summary" aria-label="입력한 내용">
+              <li>{form.kind}</li>
+              <li>{form.region}</li>
+              <li>{form.timing}</li>
+              <li>{form.name}</li>
+            </ul>
+            <div className="w-field">
+              <label htmlFor="s-message">문의 내용 (선택)</label>
+              <textarea id="s-message" rows={3} value={form.message} onChange={(e) => set('message', e.target.value)} />
+            </div>
+            <ConsentBox
+              idPrefix="s"
+              purpose="창업·운영 상담"
+              items="상담 유형, 성함, 연락처, 관심 지역, 창업 희망 시기, 문의 내용(선택)"
+              refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 문의 신청이 제한되며, 전화로 직접 문의하실 수 있습니다."
+              checked={form.agree}
+              onChange={(v) => set('agree', v)}
+              error={errors.agree}
+            />
+          </>
+        )}
       </div>
 
-      <div className="w-field">
-        <label htmlFor="s-timing">
-          창업 희망 시기 <i aria-hidden="true">*</i>
-        </label>
-        <select id="s-timing" value={form.timing} onChange={(e) => set('timing', e.target.value)} aria-required="true" {...err('timing')}>
-          <option value="">선택</option>
-          {TIMINGS.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-        {errText('timing')}
+      <div className="w-wiz__actions">
+        {step > 0 && (
+          <button type="button" className="w-link w-wiz__back" onClick={goBack}>
+            이전
+          </button>
+        )}
+        <button type="submit" className={`w-submit w-wiz__next${ready ? ' is-ready' : ''}`}>
+          {step < LAST ? '다음' : '창업·운영 상담 신청하기'}
+        </button>
       </div>
-
-      <div className="w-field">
-        <label htmlFor="s-message">문의 내용 (선택)</label>
-        <textarea id="s-message" rows={3} value={form.message} onChange={(e) => set('message', e.target.value)} />
-      </div>
-
-      <ConsentBox
-        idPrefix="s"
-        purpose="창업·운영 상담"
-        items="성함, 연락처, 관심 지역, 창업 희망 시기, 문의 내용(선택)"
-        refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 문의 신청이 제한되며, 전화로 직접 문의하실 수 있습니다."
-        checked={form.agree}
-        onChange={(v) => set('agree', v)}
-        error={errors.agree}
-      />
-
-      <button type="submit" className="w-submit">
-        창업·운영 상담 신청하기
-      </button>
 
       {pending && (
         <p className="w-form__notice" role="status">

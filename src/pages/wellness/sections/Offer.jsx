@@ -1,4 +1,5 @@
 import { PROGRAMS, SHOW_PRICES } from '../data'
+import { CountUp } from '../MotionParts'
 import { scrollToId } from '../scroll'
 import { Reveal } from '../ui'
 
@@ -16,7 +17,8 @@ export default function Offer() {
         <Reveal className="w-offer__big" role="img" aria-label="첫 방문 혜택 50%">
           <span aria-hidden="true">첫 방문 혜택</span>
           <strong aria-hidden="true">
-            50<small>%</small>
+            <CountUp to={50} />
+            <small>%</small>
           </strong>
         </Reveal>
         <Reveal as="h2" delay={80} className="w-title">

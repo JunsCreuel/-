@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { BRANCHES, telHref } from './data'
-import { ConsentBox, PhoneField } from './FormParts'
+import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
 import './wellness-consult.css'
 
 // 접수 연결(Firebase 등) 전까지는 false로 둔다. false면 입력한 내용은 어디로도 전송되지 않고,
@@ -20,26 +20,6 @@ function validate(f) {
   return e
 }
 
-function Choice({ legend, name, options, value, onChange, error }) {
-  const errId = `err-b-${name}`
-  return (
-    <fieldset className="w-step__choices" aria-describedby={error ? errId : undefined}>
-      <legend className="sr-only">{legend}</legend>
-      {options.map((o) => (
-        <label key={o} className={`w-opt${value === o ? ' is-on' : ''}`}>
-          <input type="radio" name={name} value={o} checked={value === o} onChange={() => onChange(o)} />
-          <span>{o}</span>
-        </label>
-      ))}
-      {error && (
-        <p className="w-form__error" id={errId}>
-          {error}
-        </p>
-      )}
-    </fieldset>
-  )
-}
-
 // 상담 신청 3단계: ① 신경 쓰이는 곳 ② 방문 시간대 ③ 연락받을 정보
 export default function BookingSteps() {
   const [form, setForm] = useState({ area: '', time: '', name: '', p1: '010', p2: '', p3: '', agree: false })
@@ -47,6 +27,7 @@ export default function BookingSteps() {
   const [pending, setPending] = useState(false)
   const formRef = useRef(null)
   const phone = BRANCHES.zai.phone
+  const ready = Object.keys(validate(form)).length === 0
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -83,7 +64,7 @@ export default function BookingSteps() {
           <br />
           요즘 가장 신경 쓰이는 곳은 어디인가요?
         </p>
-        <Choice legend="신경 쓰이는 곳" name="area" options={AREAS} value={form.area} onChange={(v) => set('area', v)} error={errors.area} />
+        <ChoiceChips idPrefix="b" legend="신경 쓰이는 곳" name="area" options={AREAS} value={form.area} onChange={(v) => set('area', v)} error={errors.area} />
       </section>
 
       <section className="w-step">
@@ -91,7 +72,7 @@ export default function BookingSteps() {
           <b>2</b>
           편하신 방문 시간대를 알려 주세요.
         </p>
-        <Choice legend="방문 시간대" name="time" options={TIMES} value={form.time} onChange={(v) => set('time', v)} error={errors.time} />
+        <ChoiceChips idPrefix="b" legend="방문 시간대" name="time" options={TIMES} value={form.time} onChange={(v) => set('time', v)} error={errors.time} />
       </section>
 
       <section className="w-step">
@@ -138,7 +119,7 @@ export default function BookingSteps() {
         />
       </section>
 
-      <button type="submit" className="w-submit">
+      <button type="submit" className={`w-submit${ready ? ' is-ready' : ''}`}>
         상담 신청하기
       </button>
 
