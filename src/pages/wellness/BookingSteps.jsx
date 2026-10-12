@@ -108,7 +108,7 @@ export default function BookingSteps() {
   }
 
   return (
-    <form className="w-form w-steps" ref={formRef} onSubmit={onSubmit} noValidate>
+    <form id="booking-form" className="w-form w-steps" ref={formRef} onSubmit={onSubmit} noValidate>
       {picked && (
         <p className="yw-pick">
           <span>
