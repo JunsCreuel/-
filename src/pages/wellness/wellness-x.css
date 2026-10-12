@@ -656,7 +656,8 @@
     transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 0.3s ease,
     translate 0.3s ease,
-    background-color 0.25s ease;
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 .yw-seal__ring {
@@ -689,9 +690,16 @@
   translate: 0 0.5rem;
 }
 
+/* 어두운 장 위에서는 헤더 예약 버튼처럼 크림 채움으로 뒤집어 에스프레소 바탕에 묻히지 않게 한다(헤더와 씰은 형제) */
+.w-nav[data-theme='dark'] ~ .yw-seal {
+  background: var(--yw-cream);
+  color: var(--w-espresso);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .yw-seal:hover {
     background: var(--w-accent-deep);
+    color: var(--yw-cream);
   }
 }
 
