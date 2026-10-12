@@ -1,0 +1,642 @@
+/* Appendix — For Partners. 에스프레소 커튼 위 B2B 구역: 정물 사진·고스트 단어·궤도 원(장식), 40+, 그어지는 진행 단계,
+   아이보리 카드 안 창업 4단계 폼, 접힌 비용 구조 계산기(Simulator embedded).
+   이 파일은 공통 CSS보다 먼저 번들되므로 공유 클래스(.w-form, .w-sim 등)는 .yw-biz / .yw-sim 범위로 우선순위를 올려 덮는다.
+   모션 줄이기면 선은 완성 상태(--p:1), 궤도·손짓은 멈춘다. */
+
+.yw-biz {
+  overflow: clip;
+}
+
+/* ── 배경 장식 ────────────────────────────────────────────── */
+
+/* 정물 사진: 에스프레소 위에 아주 옅게(luminosity로 바탕색에 물든다). 아래로 갈수록 사라진다.
+   부모에 z-index·mask를 주면 블렌딩이 갇히므로 마스크는 img에 직접 준다. */
+.yw-biz__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wellness .yw-biz__bg img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 40%;
+  opacity: 0.14;
+  filter: grayscale(0.4);
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 78%);
+}
+
+/* 고스트 단어 'PARTNERS': 스크롤보다 느리게 움직인다(--py, useScrollParallax) */
+.yw-biz__ghost {
+  position: absolute;
+  bottom: -0.06em;
+  left: 50%;
+  color: rgb(255 255 255 / 0.05);
+  font: 300 clamp(4rem, 30vw, 7rem) / 0.8 var(--w-font-en);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  translate: -50% var(--py, 0px);
+}
+
+@media (min-width: 48rem) {
+  .yw-biz__ghost {
+    font-size: 22vw;
+  }
+}
+
+/* 얇은 원 궤도(64rem 이상): 장에 들어서면 한 바퀴 그려진다 */
+.yw-biz__orbit {
+  position: absolute;
+  top: clamp(2rem, 6vw, 5rem);
+  left: -22vw;
+  display: none;
+  width: 70vw;
+  height: 70vw;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.yw-biz__orbit circle {
+  fill: none;
+  stroke: rgb(216 193 157 / 0.25);
+  stroke-width: 0.12;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: stroke-dashoffset 2s var(--yw-ease);
+}
+
+.yw-biz__orbit.is-in circle {
+  stroke-dashoffset: 0;
+}
+
+@media (min-width: 64rem) {
+  .yw-biz__orbit {
+    display: block;
+  }
+}
+
+/* ── 배치 ─────────────────────────────────────────────────────
+   모바일: 머리 → 진행 단계 → 전화 → 폼 → 계산기(DOM 순서).
+   64rem 이상: 위 2열(왼쪽 머리·전화 / 오른쪽 폼), 아래 전폭 진행 단계와 계산기. */
+
+.yw-biz__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+}
+
+.yw-biz__head,
+.yw-biz__form,
+.yw-biz__timeline,
+.yw-biz__actions,
+.yw-biz__calc {
+  min-width: 0;
+}
+
+.yw-biz__timeline {
+  margin-top: clamp(2.5rem, 8vw, 5rem);
+}
+
+.yw-biz__actions {
+  margin-top: clamp(2rem, 6vw, 3rem);
+}
+
+.yw-biz__form {
+  margin-top: clamp(2rem, 6vw, 3rem);
+}
+
+.yw-biz__calc {
+  margin-top: clamp(2.5rem, 7vw, 4.5rem);
+}
+
+@media (min-width: 64rem) {
+  .yw-biz__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      'head form'
+      'actions form'
+      'tl tl'
+      'calc calc';
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .yw-biz__head {
+    grid-area: head;
+  }
+
+  .yw-biz__actions {
+    grid-area: actions;
+    margin-top: 2.5rem;
+  }
+
+  .yw-biz__form {
+    grid-area: form;
+    margin-top: 0;
+  }
+
+  .yw-biz__timeline {
+    grid-area: tl;
+  }
+
+  .yw-biz__calc {
+    grid-area: calc;
+  }
+}
+
+/* ── 머리: 제목 · 40+ ─────────────────────────────────────── */
+
+.yw-biz .yw-biz__title {
+  color: var(--yw-cream);
+  font: 400 clamp(1.8rem, 3.2vw, 2.8rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.02em;
+}
+
+.yw-biz__stat {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.yw-biz__num {
+  flex: none;
+  color: var(--w-champagne);
+  font: 300 clamp(3.5rem, 18vw, 4.5rem) / 0.8 var(--w-font-en);
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.yw-biz__stat-label {
+  max-width: 7.5em;
+  padding-bottom: 0.15em;
+  color: color-mix(in srgb, var(--yw-cream) 80%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 48rem) {
+  .yw-biz__num {
+    font-size: clamp(4rem, 8vw, 7.5rem);
+  }
+}
+
+/* ── 전화 상담 ────────────────────────────────────────────── */
+
+.yw-biz__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem 1.5rem;
+}
+
+.yw-biz__actions .yw-btn {
+  width: 100%;
+}
+
+.yw-biz__tel {
+  padding-bottom: 0.1em;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  color: var(--yw-cream);
+  font-family: var(--w-font-label);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background-size 0.4s var(--yw-ease);
+}
+
+.yw-biz__tel:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-biz__tel:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .yw-biz__actions {
+    justify-content: flex-start;
+  }
+
+  .yw-biz__actions .yw-btn {
+    width: auto;
+  }
+}
+
+/* ── 아이보리 카드(창업 폼 · 계산기) ─────────────────────────── */
+
+.yw-biz__form,
+.yw-biz__calc .yw-sim {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 1.5rem;
+  background: var(--yw-ivory);
+  color: var(--w-ink);
+}
+
+/* 어두운 장의 크림 포커스 테두리는 아이보리 카드 안에서 보이지 않으므로 짙은 브론즈로 */
+.yw-biz .yw-biz__form :focus-visible,
+.yw-biz .yw-sim :focus-visible {
+  outline-color: var(--w-accent-deep);
+}
+
+.yw-biz .yw-biz__form h3 {
+  color: var(--w-espresso);
+  font: 500 clamp(1.2rem, 2.2vw, 1.45rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.01em;
+}
+
+/* 계산기에서 '이 조건으로 상담 신청'으로 넘어올 때 포커스를 받는 제목: 테두리는 그리지 않는다 */
+.yw-biz .yw-biz__form h3:focus,
+.yw-biz .yw-biz__form h3:focus-visible {
+  outline: none;
+}
+
+.yw-biz .yw-biz__form .w-form {
+  margin-top: 1.25rem;
+}
+
+/* 좁은 폰에서도 연락처 세 칸이 카드 안에 들어오게 */
+.yw-biz .w-phone {
+  gap: 0.5rem;
+}
+
+.yw-biz .w-phone input[type='text'] {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  max-width: 5.2rem;
+}
+
+/* ── 진행 단계: 위 1px 선 위로 2px 브론즈 선이 그어지고, 닿은 점이 켜진다 ── */
+
+.yw-biz__tl-label {
+  color: var(--w-champagne);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.yw-biz__timeline ol {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.5rem;
+}
+
+/* 선은 첫 점 가운데에서 마지막 점 가운데까지(점 i는 선의 i/4 지점) */
+.yw-biz__timeline ol::before,
+.yw-biz__timeline ol::after {
+  position: absolute;
+  top: calc(0.375rem - 0.5px);
+  right: calc((100% - 4rem) / 5 - 0.375rem);
+  left: 0.375rem;
+  height: 1px;
+  background: rgb(244 237 226 / 0.25);
+  content: '';
+}
+
+.yw-biz__timeline ol::after {
+  top: calc(0.375rem - 1px);
+  height: 2px;
+  background: var(--w-bronze);
+  transform: scaleX(clamp(0, (var(--p, 1) - 0.2) * 2.2, 1));
+  transform-origin: left;
+}
+
+.yw-biz__timeline li {
+  position: relative;
+  color: var(--yw-cream);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.yw-biz__dot {
+  position: absolute;
+  top: -1.5rem;
+  left: 0;
+  z-index: 1;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--yw-cream);
+  border-radius: 50%;
+  background: var(--w-espresso);
+}
+
+.yw-biz__dot::after {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: var(--w-champagne);
+  content: '';
+  opacity: clamp(0.3, calc(((var(--p, 1) - 0.2) * 2.2 * 4 - var(--i)) * 4 + 1), 1);
+}
+
+.yw-biz .yw-note {
+  margin-top: 1.5rem;
+}
+
+/* 64rem 미만: 세로 진행 단계(왼쪽 세로선이 위에서 아래로 그어진다) */
+@media (max-width: 63.99rem) {
+  .yw-biz__timeline ol {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.9rem;
+    padding-top: 0;
+    padding-left: 1.75rem;
+  }
+
+  .yw-biz__timeline ol::before,
+  .yw-biz__timeline ol::after {
+    top: 0.675rem;
+    right: auto;
+    bottom: 0.675rem;
+    left: calc(0.375rem - 0.5px);
+    width: 1px;
+    height: auto;
+  }
+
+  .yw-biz__timeline ol::after {
+    top: 0.675rem;
+    left: calc(0.375rem - 1px);
+    width: 2px;
+    transform: scaleY(clamp(0, (var(--p, 1) - 0.2) * 2.2, 1));
+    transform-origin: top;
+  }
+
+  .yw-biz__dot {
+    top: 0.3rem;
+    left: -1.75rem;
+  }
+}
+
+/* ── 계산기 접힘 ──────────────────────────────────────────── */
+
+.yw-biz__calc {
+  padding-top: clamp(1.75rem, 4vw, 2.5rem);
+  border-top: 1px solid rgb(244 237 226 / 0.18);
+}
+
+.yw-biz__calc > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.8rem 1.4rem;
+  border: 2px solid var(--yw-cream);
+  border-radius: 999px;
+  color: var(--yw-cream);
+  font-size: 0.97rem;
+  font-weight: 600;
+  line-height: 1.3;
+  list-style: none;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.yw-biz__calc > summary::-webkit-details-marker {
+  display: none;
+}
+
+.yw-biz__calc > summary::after {
+  display: inline-block;
+  content: '↓';
+  content: '↓' / '';
+  font-family: var(--w-font-label);
+  transition: rotate 0.35s var(--yw-ease);
+}
+
+.yw-biz__calc[open] > summary::after {
+  rotate: 180deg;
+}
+
+.yw-biz__calc > summary:focus-visible {
+  outline: 2px solid var(--yw-cream);
+  outline-offset: 3px;
+}
+
+.yw-biz__calc > summary:active {
+  scale: 0.98;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-biz__calc > summary:hover {
+    background: var(--yw-cream);
+    color: var(--w-espresso);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .yw-biz__calc > summary {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.yw-biz__calc .yw-sim {
+  margin-top: 1.5rem;
+}
+
+.yw-biz__calc[open] .yw-sim {
+  animation: yw-calc-in 0.5s var(--yw-ease) both;
+}
+
+@keyframes yw-calc-in {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+}
+
+.yw-biz .yw-sim .w-sim__grid {
+  margin-top: 0;
+}
+
+.yw-biz .yw-sim .w-method__note {
+  max-width: 52rem;
+}
+
+/* ── 계산기 도움말 토글팁(ⓘ) ──────────────────────────────── */
+
+.yw-biz .yw-sim .w-sim__field {
+  position: relative; /* ⓘ offsetLeft 기준 */
+}
+
+.yw-biz .yw-sim .w-sim__row {
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+}
+
+.yw-biz .yw-sim .w-sim__row output {
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+
+.yw-tip {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--w-accent-deep);
+  font: italic 500 0.95rem / 1 var(--w-font-en);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* 누르기 쉬운 범위를 조금 넓힌다 */
+.yw-tip::before {
+  position: absolute;
+  inset: -0.55rem;
+  content: '';
+}
+
+.yw-tip[aria-expanded='true'] {
+  border-color: var(--w-espresso);
+  background: var(--w-espresso);
+  color: #fff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-tip:hover {
+    border-color: var(--w-espresso);
+  }
+}
+
+/* 말풍선: ⓘ 아래에 꼬리를 단다(--tail = ⓘ 가운데 x) */
+.yw-tip__body {
+  position: relative;
+  width: fit-content;
+  min-width: calc(var(--tail, 1rem) + 1.25rem);
+  max-width: 100%;
+  margin: 0.6rem 0 0.15rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--w-line);
+  border-radius: 0.75rem;
+  background: var(--yw-ivory);
+  color: var(--w-muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.yw-tip__body::before {
+  position: absolute;
+  top: calc(-0.35rem - 1px);
+  left: calc(var(--tail, 1rem) - 0.35rem);
+  width: 0.7rem;
+  height: 0.7rem;
+  border-top: 1px solid var(--w-line);
+  border-left: 1px solid var(--w-line);
+  border-top-left-radius: 2px;
+  background: var(--yw-ivory);
+  content: '';
+  rotate: 45deg;
+}
+
+.yw-tip__body:not([hidden]) {
+  animation: yw-tip-in 0.25s var(--yw-ease) both;
+}
+
+@keyframes yw-tip-in {
+  from {
+    opacity: 0;
+    translate: 0 -0.25rem;
+  }
+}
+
+/* ── 손짓: 슬라이더를 움직이기 전, 결과 자리에서 슬라이더 쪽을 가리킨다 ── */
+
+.yw-sim__nudge {
+  --nx: 0rem;
+  --ny: -0.4rem;
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.3em;
+  color: var(--w-champagne);
+  vertical-align: 0.02em;
+  animation: yw-nudge 1.6s ease-in-out infinite;
+}
+
+.yw-sim__nudge svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 계산기 2열(900px 이상)에서는 왼쪽 입력을 가리킨다 */
+@media (min-width: 900px) {
+  .yw-sim__nudge {
+    --nx: -0.5rem;
+    --ny: 0rem;
+    rotate: -90deg;
+  }
+}
+
+@keyframes yw-nudge {
+  50% {
+    translate: var(--nx) var(--ny);
+  }
+}
+
+/* ── 모션 줄이기 ──────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-biz__timeline ol::after {
+    transform: none;
+  }
+
+  .yw-biz__dot::after {
+    opacity: 1;
+  }
+
+  .yw-biz__orbit circle {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .yw-biz__ghost {
+    translate: -50% 0;
+  }
+
+  .yw-sim__nudge,
+  .yw-tip__body:not([hidden]),
+  .yw-biz__calc[open] .yw-sim {
+    animation: none;
+  }
+
+  .yw-biz__calc > summary:active {
+    scale: none;
+  }
+}
