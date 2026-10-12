@@ -5,6 +5,7 @@ import CustomerCenter from './sections/CustomerCenter'
 import Equipment from './sections/Equipment'
 import Startup from './sections/Startup'
 import Faq from './sections/Faq'
+import Gel from './sections/Gel'
 import Hero from './sections/Hero'
 import Numbers from './sections/Numbers'
 import QuickInfo from './sections/QuickInfo'
@@ -26,6 +27,7 @@ export default function WellnessHome() {
       <Numbers />
       <Programs />
       <Equipment />
+      <Gel />
       <Problem />
       <Proof />
       <Offer />
