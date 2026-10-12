@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
 import { Folio, Footnote, InlineChip, Pic } from '../editorial'
-import { clamp, prefersReducedMotion, useDragScroll } from '../motion'
+import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
 import './yw-equipment.css'
 
@@ -156,7 +156,9 @@ function DomeCard() {
 }
 
 // 디바이스 카드: 흰 바탕 기기 사진 위에 전용 젤 사진 면이 겹쳐 있다. 마우스 기기는 올리면, 터치·키보드는 '젤 보기'로 덮인다.
-function DeviceCard({ d }) {
+// 젤 면은 clip-path로 접혀 있어 지연 로딩이 걷히는 순간에야 시작되므로, 트랙이 화면에 들어오면(near) 미리 받는다.
+function DeviceCard({ d, near }) {
+  const gelLoading = near ? 'eager' : 'lazy'
   const [gelOn, setGelOn] = useState(false)
   return (
     <article className={`yw-eq__card${gelOn ? ' is-gel' : ''}`}>
@@ -165,9 +167,9 @@ function DeviceCard({ d }) {
         <div className={`yw-eq__gel${d.gel.length > 1 ? ' yw-eq__gel--two' : ''}`} aria-hidden={!gelOn}>
           {d.gel.map((g) =>
             g.pic ? (
-              <Pic key={g.alt} pic={g.pic} sizes="(min-width: 64rem) 22rem, 82vw" alt={g.alt} className="yw-eq__gelimg" />
+              <Pic key={g.alt} pic={g.pic} sizes="(min-width: 64rem) 22rem, 82vw" alt={g.alt} className="yw-eq__gelimg" loading={gelLoading} />
             ) : (
-              <img key={g.alt} src={g.src} alt={g.alt} className="yw-eq__gelimg yw-eq__gelimg--cut" loading="lazy" decoding="async" />
+              <img key={g.alt} src={g.src} alt={g.alt} className="yw-eq__gelimg yw-eq__gelimg--cut" loading={gelLoading} decoding="async" />
             ),
           )}
           <p className="yw-eq__gelcap">
@@ -217,6 +219,7 @@ export default function Equipment() {
   const [nav, setNav] = useState({ idx: 1, atStart: true, atEnd: false })
 
   useDragScroll(trackRef, { itemSelector: '.yw-eq__card' })
+  const near = useInView(trackRef, { threshold: 0 })
 
   // 트랙 스크롤을 rAF로 묶어 진행 막대(--p, --vis), 카운터, 양 끝 화살표, 속도 기울기(--skew)를 갱신한다.
   useEffect(() => {
@@ -353,7 +356,7 @@ export default function Equipment() {
       >
         <DomeCard />
         {DEVICES.map((d) => (
-          <DeviceCard key={d.no} d={d} />
+          <DeviceCard key={d.no} d={d} near={near} />
         ))}
       </div>
 
