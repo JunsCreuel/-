@@ -14,12 +14,13 @@ const SWEEP_MS = 1200
 const LERP = 0.12
 const HINT_MS = 4500
 
-// 분위기 사진(글 뒤 장식이라 alt 비움). 48rem 미만은 세로 crop을 쓴다.
+// 분위기 사진(글 뒤 장식이라 alt 비움). 48rem 미만과 세로로 긴 화면(세로 태블릿 등)은 세로 crop을 쓴다.
+// 가로 3:2 사진을 세로 화면에 cover로 깔면 팔 한 부분만 크게 남기 때문이다.
 function HeroPicture({ priority = false }) {
   const pic = PICS.heroWarm
   return (
     <picture>
-      <source media="(max-width: 47.99rem)" srcSet={PICS.heroWarmM.srcSet} sizes="100vw" />
+      <source media="(max-width: 47.99rem), (max-aspect-ratio: 4/5)" srcSet={PICS.heroWarmM.srcSet} sizes="100vw" />
       <img
         src={pic.src}
         srcSet={pic.srcSet}
