@@ -1,0 +1,315 @@
+/* No. 12 Closing — 점 → 원 → 전면 사진, 히어로 첫 문장으로 끝맺는 마지막 장면.
+   이 파일은 공통 CSS(wellness.css, wellness-x.css)보다 먼저 번들되므로, 공통 규칙을 덮어야 하는 곳은 .yw-close로 한 단계 높인다.
+   sticky 무대(.yw-close__stage)의 조상에는 transform·overflow를 쓰지 않는다. --e(0~1)는 CtaBand.jsx가 스크롤 진행률로 쓴다. */
+
+/* ── 기본(64rem 미만 또는 모션 줄이기): 고정 없이 한 화면 ─── */
+
+.yw-close {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 34rem;
+  background: var(--w-espresso);
+  color: var(--yw-cream);
+}
+
+.yw-close__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  /* 아래 6rem은 모바일 독 자리(사진은 그 밑까지 깔린다) */
+  padding: calc(var(--w-nav-h) + 1rem) var(--w-gutter) 6rem;
+  overflow: clip;
+}
+
+.yw-close .yw-close__photo {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: clip;
+}
+
+.wellness .yw-close__photo img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 55% 50%;
+}
+
+.yw-close__shade {
+  position: absolute;
+  inset: 0;
+  /* 전체 .38 그늘 + 글이 놓이는 가운데만 조금 더 어둡게(밝은 수건 위에서도 글이 읽히도록) */
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 50%, rgb(29 26 23 / 0.28), transparent 75%),
+    rgb(29 26 23 / 0.38);
+}
+
+/* 좁은 화면: 아치 모양에서 전면으로 1.4초 동안 열린다 */
+.yw-close:not(.is-pinned):not(.is-still) .yw-close__photo {
+  clip-path: inset(28% 14% 0 round 50vw 50vw 0 0);
+  transition: clip-path 1.4s var(--yw-ease);
+}
+
+.yw-close:not(.is-pinned):not(.is-still) .yw-close__photo img {
+  transform: scale(1.08);
+  transition: transform 1.6s var(--yw-ease);
+}
+
+.yw-close.is-open:not(.is-pinned) .yw-close__photo {
+  clip-path: inset(0 round 0);
+}
+
+.yw-close.is-open:not(.is-pinned) .yw-close__photo img {
+  transform: none;
+}
+
+/* 점과 'SEE YOU AT YONGHO': 좁은 화면은 아치 위 빈자리에 한 줄로, 열리면 사라진다 */
+.yw-close__dot {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: none;
+  translate: -50% -50%;
+  transition: opacity 0.5s ease;
+}
+
+.yw-close__dot > span:first-child {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--w-bronze);
+}
+
+.yw-close__dot > span:last-child {
+  color: var(--yw-cream);
+  font: 400 0.72rem/1 var(--w-font-label);
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+}
+
+.yw-close.is-open .yw-close__dot {
+  opacity: 0;
+}
+
+/* ── 글과 버튼 ─────────────────────────────────────────────── */
+
+.yw-close__text {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 60rem;
+  color: var(--yw-cream);
+  text-align: center;
+}
+
+.yw-close .yw-close__title {
+  margin: 0;
+  color: var(--yw-cream);
+  font: 400 clamp(2rem, 9vw, 2.6rem) / 1.2 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  transition: text-shadow 0.9s ease;
+}
+
+/* 그림자는 열린 뒤에만(닫혀 있을 때 줄 마스크 아래로 번져 보이지 않게) */
+.yw-close.is-open .yw-close__title {
+  text-shadow: 0 2px 24px rgb(29 26 23 / 0.3);
+}
+
+.yw-close__title .yw-line > span {
+  text-wrap: balance;
+}
+
+/* 히어로 제목과 같은 샴페인 밑줄 형광펜 */
+.yw-close .yw-close__title em {
+  background: linear-gradient(rgb(216 193 157 / 0.45), rgb(216 193 157 / 0.45)) 0 88% / 100% 0.2em no-repeat;
+  font-style: normal;
+}
+
+.yw-close__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  opacity: 0;
+  pointer-events: none;
+  translate: 0 1rem;
+  transition:
+    opacity 0.6s ease,
+    translate 0.8s var(--yw-ease);
+}
+
+.yw-close.is-open .yw-close__actions {
+  opacity: 1;
+  pointer-events: auto;
+  translate: 0 0;
+  transition-delay: 360ms;
+}
+
+.yw-close :focus-visible {
+  outline-color: var(--yw-cream);
+}
+
+/* 크림 원 '예약하기'. 자석 이동은 공통 transform이 맡으므로 여기서는 transform을 쓰지 않는다 */
+.yw-close .yw-close__round {
+  display: grid;
+  place-items: center;
+  width: 7rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--yw-cream);
+  border-radius: 50%;
+  background: var(--yw-cream);
+  color: var(--w-espresso);
+  box-shadow: 0 14px 34px rgb(29 26 23 / 0.28);
+  font: 500 1.05rem/1.3 var(--w-font-serif);
+  cursor: pointer;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.yw-close .yw-close__round:active {
+  scale: 0.97;
+}
+
+.yw-close .yw-close__round:focus-visible {
+  background: var(--w-espresso);
+  color: var(--yw-cream);
+}
+
+/* 창업·운영 상담: 작은 텍스트 링크(옅은 밑줄 위로 진한 밑줄이 그어진다) */
+.yw-close .yw-close__small {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.25rem;
+  border: 0;
+  background:
+    linear-gradient(var(--yw-cream) 0 0) 0 100% / 0% 1px no-repeat,
+    linear-gradient(rgb(244 237 226 / 0.35) 0 0) 0 100% / 100% 1px no-repeat;
+  background-origin: content-box;
+  color: var(--yw-cream);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-size 0.45s var(--yw-ease);
+}
+
+.yw-close .yw-close__small:focus-visible {
+  background-size:
+    100% 1px,
+    100% 1px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-close .yw-close__round:hover {
+    background: var(--w-espresso);
+    color: var(--yw-cream);
+  }
+
+  .yw-close .yw-close__small:hover {
+    background-size:
+      100% 1px,
+      100% 1px;
+  }
+}
+
+@media (min-width: 40rem) {
+  .yw-close .yw-close__title {
+    font-size: clamp(2.4rem, 5.6vw, 5.2rem);
+  }
+
+  .yw-close__actions {
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .yw-close .yw-close__round {
+    width: 9rem;
+    font-size: 1.15rem;
+  }
+}
+
+/* ── 64rem 이상: 170svh 안의 sticky 무대, 원형 마스크가 스크롤로 열린다 ── */
+
+.yw-close.is-pinned {
+  height: 170vh;
+  height: 170svh;
+  min-height: 0;
+}
+
+.yw-close.is-pinned .yw-close__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding-block: var(--w-nav-h);
+}
+
+.yw-close.is-pinned .yw-close__photo {
+  clip-path: circle(calc(4% + var(--e, 0) * 86%) at 50% 52%);
+}
+
+.yw-close.is-pinned .yw-close__photo img {
+  transform: scale(calc(1.15 - var(--e, 0) * 0.15));
+}
+
+/* 작은 원일 때는 그늘을 옅게 해 촛불빛이 엿보이게 하고, 열리면서 글을 위한 그늘로 짙어진다 */
+.yw-close.is-pinned .yw-close__shade {
+  opacity: calc(0.35 + var(--e, 0) * 0.65);
+}
+
+/* 가운데 작은 점(원의 중심)과 그 아래 라벨. 원이 열리면서 흐려진다 */
+.yw-close.is-pinned .yw-close__dot {
+  top: 52%;
+  display: block;
+  width: 0;
+  height: 0;
+  opacity: calc(1 - var(--e, 0) * 3);
+  translate: none;
+  transition: none;
+}
+
+.yw-close.is-pinned .yw-close__dot > span {
+  position: absolute;
+  left: 0;
+  translate: -50% -50%;
+}
+
+.yw-close.is-pinned .yw-close__dot > span:first-child {
+  top: 0;
+}
+
+.yw-close.is-pinned .yw-close__dot > span:last-child {
+  top: calc(3vmax + 2rem);
+  padding-left: 0.3em; /* 끝 글자 자간만큼 가운데를 맞춘다 */
+}
+
+/* ── 모션 줄이기: 마스크·점 없이 열린 사진에 글과 버튼을 바로 ─── */
+
+.yw-close.is-still .yw-close__photo {
+  clip-path: none;
+}
+
+.yw-close.is-still .yw-close__photo img {
+  transform: none;
+}
+
+.yw-close.is-still .yw-close__dot {
+  display: none;
+}
+
+.yw-close.is-still .yw-close__actions {
+  opacity: 1;
+  pointer-events: auto;
+  translate: none;
+}
