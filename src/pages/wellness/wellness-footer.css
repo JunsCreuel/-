@@ -1,119 +1,155 @@
-/* 푸터: 큰 로고, 얇은 선, 왼쪽 사업자 정보와 오른쪽 링크 두 열, 맨 아래 저작권 띠 */
+/* 딥그린 푸터: 큰 태그라인 + 예약 버튼, 네 칸 정보, 맨 아래 사업자 정보 띠 */
 
 .w-footer {
-  border-top: 1px solid var(--w-line);
-  background: var(--w-ivory);
-  color: var(--w-green);
-  font-size: 0.85rem;
-  line-height: 2;
+  scroll-margin-top: var(--w-nav-h);
+  background: var(--w-green);
+  color: var(--w-ivory);
+  font-size: 0.94rem;
+  line-height: 1.75;
+
+  /* 로고를 밝은 색으로 */
+  --w-logo-mark: var(--w-ivory);
+  --w-logo-text: var(--w-ivory);
+}
+
+.w-footer :focus-visible {
+  outline-color: var(--w-ivory);
 }
 
 .w-footer__main {
-  padding: clamp(3rem, 7vw, 5.5rem) var(--w-gutter) clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 6vw, 88px);
+  max-width: var(--w-max-wide);
+  margin-inline: auto;
+  padding: clamp(80px, 9vw, 130px) var(--w-gutter) clamp(48px, 5vw, 72px);
 }
 
-.w-footer .w-logo--nav {
-  --u: 0.46px;
+.w-footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
 }
 
-.w-footer__rule {
-  height: 1px;
-  margin: 1.8rem 0 2rem;
-  background: var(--w-line);
+.w-footer__tagline {
+  font-family: var(--w-font-serif);
+  font-size: clamp(2.4rem, 5.2vw, 4.9rem);
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.05em;
+}
+
+.w-footer__tagline em {
+  color: var(--w-sand);
+  font-style: normal;
+  font-weight: 400;
 }
 
 .w-footer__grid {
   display: grid;
-  gap: 2.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #46524a;
 }
 
-.w-footer__info p {
-  margin: 0;
-  color: var(--w-muted);
+.w-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.w-footer__info a {
+.w-footer__words {
+  color: var(--w-sand);
+  font-family: var(--w-font-serif);
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+}
+
+.w-footer__branches {
+  display: flex;
+  gap: 1rem;
+}
+
+.w-footer__branches a,
+.w-footer__link {
+  color: var(--w-ivory);
   text-decoration: underline;
   text-underline-offset: 0.25em;
-}
-
-.w-footer__cols {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 1.5rem;
 }
 
 .w-footer__col {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 8px;
 }
 
-.w-footer__col a,
-.w-footer__col button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--w-green);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+.w-footer__label {
+  margin-bottom: 6px;
+  color: var(--w-sand);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
-.w-footer__col a:hover,
-.w-footer__col button:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
+.w-footer__muted {
+  color: #c4c9c2;
 }
 
-.w-footer__col .is-ext::after {
-  content: ' ↗';
-  font-size: 0.8em;
+.w-footer__link {
+  padding: 10px 0;
+}
+
+.w-footer__tel {
+  padding: 4px 0;
+  color: var(--w-ivory);
+  font-family: var(--w-font-en);
+  font-size: 1.62rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.w-footer__qr {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.w-footer__qr img {
+  flex: none;
+  width: 112px;
+  height: 112px;
+  padding: 8px;
+  background: #fff;
+}
+
+.w-footer__qr p {
+  color: #e6e1d8;
+  font-family: var(--w-font-serif);
+  line-height: 1.6;
 }
 
 .w-footer__bar {
-  padding: 1.1rem var(--w-gutter);
-  /* 모바일 하단 고정 바에 가려지지 않도록 여백 확보 */
-  padding-bottom: calc(1.1rem + 4.5rem + env(safe-area-inset-bottom));
-  border-top: 1px solid var(--w-line);
-  background: var(--w-band);
+  border-top: 1px solid #46524a;
 }
 
 .w-footer__bar-inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: 0.4rem 2rem;
+  gap: 10px 32px;
+  max-width: var(--w-max-wide);
+  margin-inline: auto;
+  padding: 22px var(--w-gutter);
+  color: #aab1a9;
+  font-size: 0.82rem;
 }
 
-.w-footer__copy {
-  margin: 0;
-  color: var(--w-muted);
-  font-size: 0.74rem;
-  letter-spacing: 0.06em;
-}
-
-.w-footer__policies {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.3rem;
-  color: var(--w-muted);
-  font-size: 0.78rem;
-}
-
-@media (min-width: 900px) {
-  .w-footer__grid {
-    grid-template-columns: 1.7fr 1fr;
-    gap: 4rem;
-  }
-
-  .w-footer__cols {
-    max-width: 24rem;
-    margin-left: auto;
-  }
-
-  .w-footer__bar {
-    padding-bottom: 1.1rem;
+/* 모바일 하단 예약 바에 가리지 않도록 */
+@media (max-width: 899px) {
+  .w-footer__bar-inner {
+    padding-bottom: calc(22px + 72px);
   }
 }
