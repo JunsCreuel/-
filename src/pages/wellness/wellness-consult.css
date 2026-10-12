@@ -3,7 +3,7 @@
 .w-consult {
   padding: clamp(4rem, 10vw, 8rem) var(--w-gutter);
   border-top: 1px solid var(--w-hair);
-  background: var(--w-ivory);
+  background: var(--w-bg);
   scroll-margin-top: var(--w-nav-h);
 }
 
@@ -20,6 +20,7 @@
   display: block;
   width: 100%;
   height: auto;
+  border-radius: var(--w-radius);
   aspect-ratio: 16 / 10;
   object-fit: cover;
   object-position: center 30%;
@@ -80,11 +81,12 @@
 }
 
 .w-field i {
-  color: var(--w-green);
+  color: var(--w-ink);
   font-style: normal;
 }
 
 .w-field input[type='text'],
+.w-field textarea,
 .w-field select {
   display: block;
   width: 100%;
@@ -94,16 +96,23 @@
   border-bottom: 1px solid var(--w-line-strong);
   border-radius: 0;
   background: transparent;
-  color: var(--w-green);
+  color: var(--w-ink);
   font: inherit;
   font-size: 1.05rem;
 }
 
 .w-field input[type='text']:focus,
+.w-field textarea:focus,
 .w-field select:focus {
   outline: none;
-  border-bottom-color: var(--w-green);
-  box-shadow: 0 1px 0 var(--w-green);
+  border-bottom-color: var(--w-ink);
+  box-shadow: 0 1px 0 var(--w-ink);
+}
+
+.w-field textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+  line-height: 1.7;
 }
 
 .w-field select {
@@ -137,7 +146,7 @@
   padding: 0.9rem 1rem;
   overflow-y: auto;
   border: 1px solid var(--w-line);
-  background: color-mix(in srgb, var(--w-green) 3%, var(--w-ivory));
+  background: color-mix(in srgb, var(--w-ink) 3%, var(--w-bg));
   color: var(--w-muted);
   font-size: 0.82rem;
   line-height: 1.8;
@@ -152,7 +161,7 @@
   align-items: flex-start;
   gap: 0.7rem;
   margin: 1rem 0 0;
-  color: var(--w-green);
+  color: var(--w-ink);
   font-size: 0.95rem;
   letter-spacing: 0;
   cursor: pointer;
@@ -163,16 +172,16 @@
   width: 20px;
   height: 20px;
   margin: 0.15rem 0 0;
-  accent-color: var(--w-green);
+  accent-color: var(--w-ink);
 }
 
 .w-submit {
   min-height: 58px;
   width: 100%;
   border: 0;
-  border-radius: 0;
-  background: var(--w-green);
-  color: var(--w-ivory);
+  border-radius: 999px;
+  background: var(--w-accent);
+  color: #fff;
   font: inherit;
   font-size: 1rem;
   font-weight: 600;
@@ -181,7 +190,7 @@
 }
 
 .w-submit:hover {
-  background: color-mix(in srgb, var(--w-green) 88%, var(--w-ivory));
+  background: var(--w-accent-deep);
 }
 
 .w-submit:focus-visible {
@@ -201,8 +210,8 @@
 
 .w-form__notice {
   padding: 1rem 1.1rem;
-  border-left: 3px solid var(--w-green);
-  background: color-mix(in srgb, var(--w-green) 6%, var(--w-ivory));
+  border-left: 3px solid var(--w-ink);
+  background: color-mix(in srgb, var(--w-ink) 6%, var(--w-bg));
   font-size: 0.92rem;
 }
 
@@ -219,9 +228,9 @@
   min-height: 48px;
   padding: 0 1.2rem;
   border: 0;
-  border-radius: 0;
-  background: var(--w-green);
-  color: var(--w-ivory);
+  border-radius: 999px;
+  background: var(--w-accent);
+  color: #fff;
   box-shadow: var(--w-shadow);
   font: inherit;
   font-size: 0.92rem;

@@ -45,7 +45,7 @@ export default function Problem() {
         </div>
       </section>
 
-      <section className="w-section w-section--green w-turn">
+      <section className="w-section w-section--ink w-turn">
         <div className="w-container">
           <Reveal as="p" className="w-turn__text">
             온몸을 따뜻하게 감싼 다음,
