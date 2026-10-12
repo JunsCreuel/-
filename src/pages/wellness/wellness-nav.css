@@ -4,19 +4,20 @@
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--w-ivory) 92%, transparent);
+  border-bottom: 1px solid var(--w-line);
+  background: color-mix(in srgb, var(--w-bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   transition: box-shadow 0.3s ease;
 }
 
 .w-nav.is-scrolled {
-  box-shadow: 0 2px 20px color-mix(in srgb, var(--w-green) 12%, transparent);
+  box-shadow: 0 2px 20px color-mix(in srgb, var(--w-ink) 10%, transparent);
 }
 
 .w-nav__inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1rem;
   height: var(--w-nav-h);
@@ -28,23 +29,32 @@
 .w-nav__brand {
   display: flex;
   align-items: center;
-  justify-self: center;
   min-height: 44px;
   white-space: nowrap;
 }
 
-/* 햄버거: 오른쪽 끝, 열리면 X로 바뀐다 */
+.w-nav__menu {
+  display: none;
+}
+
+.w-nav__right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-self: end;
+}
+
+/* 햄버거: 좁은 화면에서만, 열리면 X로 바뀐다 */
 
 .w-nav__burger {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  justify-self: end;
   gap: 6px;
   width: 44px;
   height: 44px;
-  margin-right: -0.6rem;
+  margin-right: -0.5rem;
   border: 0;
   background: none;
   cursor: pointer;
@@ -53,7 +63,7 @@
 .w-nav__burger span {
   width: 24px;
   height: 1.5px;
-  background: var(--w-green);
+  background: var(--w-ink);
   transition:
     transform 0.25s ease,
     opacity 0.2s ease;
@@ -77,14 +87,14 @@
   position: fixed;
   inset: 0;
   z-index: 49;
-  background: color-mix(in srgb, var(--w-green) 30%, transparent);
+  background: color-mix(in srgb, var(--w-ink) 30%, transparent);
 }
 
 .w-nav__panel {
   max-height: calc(100svh - var(--w-nav-h));
   overflow-y: auto;
   border-top: 1px solid var(--w-line);
-  background: var(--w-ivory);
+  background: var(--w-bg);
 }
 
 .w-nav__panel-inner {
@@ -106,8 +116,8 @@
 }
 
 .w-nav__panel-branches a[aria-current='page'] {
-  border-bottom: 1px solid var(--w-green);
-  color: var(--w-green);
+  border-bottom: 1px solid var(--w-ink);
+  color: var(--w-ink);
   font-weight: 600;
 }
 
@@ -164,10 +174,10 @@
   display: flex;
   gap: 0.6rem;
   padding: 0.7rem var(--w-gutter) calc(0.7rem + env(safe-area-inset-bottom));
-  background: color-mix(in srgb, var(--w-ivory) 94%, transparent);
+  background: color-mix(in srgb, var(--w-bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  box-shadow: 0 -6px 20px color-mix(in srgb, var(--w-green) 10%, transparent);
+  box-shadow: 0 -6px 20px color-mix(in srgb, var(--w-ink) 10%, transparent);
 }
 
 .w-bar .w-btn {
@@ -184,8 +194,43 @@
 /* 태블릿 이상 */
 
 @media (min-width: 900px) {
+  .w-nav__inner {
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .w-nav__menu {
+    display: flex;
+    gap: 1.7rem;
+  }
+
+  .w-nav__menu button {
+    padding: 0.4rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: 0.93rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .w-nav__menu button:hover {
+    color: var(--w-accent-deep);
+    text-decoration: underline;
+    text-underline-offset: 0.45em;
+    text-decoration-thickness: 1px;
+  }
+
+  .w-nav__burger,
+  .w-nav__panel,
+  .w-nav__backdrop,
   .w-bar {
     display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .w-nav__right .w-btn {
+    padding: 0 0.9rem;
   }
 }
 

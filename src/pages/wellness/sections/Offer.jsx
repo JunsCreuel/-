@@ -7,7 +7,7 @@ const TREATMENTS = ['두피 리프레시', '페이스 컨디셔닝', '복부 슬
 
 export default function Offer() {
   return (
-    <section id="offer" className="w-section w-section--green w-offer">
+    <section id="offer" className="w-section w-section--ink w-offer">
       <div className="w-container w-offer__inner">
         <Reveal as="p" className="w-eyebrow">
           확장 이전 오픈 기념

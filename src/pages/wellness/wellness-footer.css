@@ -2,8 +2,8 @@
 
 .w-footer {
   border-top: 1px solid var(--w-line);
-  background: var(--w-ivory);
-  color: var(--w-green);
+  background: var(--w-bg);
+  color: var(--w-ink);
   font-size: 0.85rem;
   line-height: 2;
 }
@@ -54,7 +54,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--w-green);
+  color: var(--w-ink);
   font: inherit;
   text-align: left;
   cursor: pointer;

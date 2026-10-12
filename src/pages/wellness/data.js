@@ -6,6 +6,11 @@ export const PHOTOS = {
   candleLeg: `${BASE}wellness/candle-leg.jpg`,
   back: `${BASE}wellness/back.jpg`,
   leg: `${BASE}wellness/leg.jpg`,
+  // 시안용 AI 생성 분위기 이미지(저해상도 크롭). 실제 매장·제품·시술 사진이 아니므로,
+  // 공개 전에 실제 촬영 사진으로 교체하거나 AI 생성 이미지임을 확인·표기해야 한다.
+  heatDome: `${BASE}wellness/equipment/heat-dome.webp`,
+  moodHero: `${BASE}wellness/mood/hero.webp`,
+  moodFace: `${BASE}wellness/mood/face.webp`,
 }
 
 // 네이버 리뷰에 남겨 주신 후기. 글은 작성자가 쓴 그대로 싣는다(고치거나 줄이지 않는다).
