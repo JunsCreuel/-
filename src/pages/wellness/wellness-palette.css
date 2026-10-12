@@ -94,14 +94,12 @@
 
 /* 제품·장비 사진 바탕: 스튜디오 컷처럼 밝은 회색 한 톤, 제품 그림자만 살짝 */
 .w-eq__fig,
-.w-dev__tile,
 .w-gel__fig,
 .w-pc--contain {
   background: radial-gradient(ellipse at 50% 38%, #fcfcfb 0%, #eceeee 100%);
 }
 
 .w-eq__fig img,
-.w-dev__tile img,
 .w-gel__fig:not(.w-gel__fig--hand) img,
 .w-pc--contain > img {
   filter: drop-shadow(0 16px 20px rgb(29 26 23 / 0.14));
