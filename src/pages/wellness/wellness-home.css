@@ -858,14 +858,13 @@
 .ws-gel__ings li.has-img {
   display: flex;
   align-items: center;
-  gap: 16px;
-  border-bottom: 0;
+  gap: 14px;
 }
 
 .ws-gel__ings li img {
   flex: none;
-  width: 72px;
-  height: 72px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 

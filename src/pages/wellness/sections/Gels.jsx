@@ -36,7 +36,7 @@ export default function Gels() {
                   <ul>
                     {g.ingredients.map((ing) => (
                       <li key={ing.name} className={ing.img ? 'has-img' : undefined}>
-                        {ing.img && <img src={ing.img} alt="" width="72" height="72" loading="lazy" />}
+                        {ing.img && <img src={ing.img} alt="" width="60" height="60" loading="lazy" />}
                         <div>
                           <p className="ws-gel__ing-name">{ing.name}</p>
                           {ing.en && <p className="ws-gel__ing-en">{ing.en}</p>}
