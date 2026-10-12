@@ -31,9 +31,6 @@ export default function About() {
           <Reveal mode="toggle" className="w-about__arch">
             <img src={PHOTOS.neck} alt="따뜻한 빛이 닿은 목선과 쇄골" width="735" height="1105" loading="lazy" decoding="async" />
           </Reveal>
-          <Reveal mode="toggle" className="w-about__small">
-            <img src={PHOTOS.leg} alt="다리를 부드럽게 쓸어 주는 손" width="720" height="1280" loading="lazy" decoding="async" />
-          </Reveal>
 
           <div className="w-about__text">
             <Reveal as="h2" className="w-display">
