@@ -4,7 +4,7 @@ import { Reveal } from '../ui'
 // 페이지 맨 아래 마지막 CTA
 export default function CtaBand() {
   return (
-    <section className="w-section w-section--ink w-cta">
+    <section className="w-section w-cta">
       <div className="w-container w-cta__inner">
         <Reveal as="h2" className="w-cta__title">
           오늘보다 더 예쁜,
