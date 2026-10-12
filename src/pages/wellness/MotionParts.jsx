@@ -23,7 +23,11 @@ export function CountUp({ to, duration = 1400, className, suffix = '' }) {
 
   const shown = reduced ? to : value
   return (
-    <span ref={ref} className={className} aria-label={`${to}${suffix}`}>
+    <span ref={ref} className={className}>
+      <span className="sr-only">
+        {to.toLocaleString('ko-KR')}
+        {suffix}
+      </span>
       <span aria-hidden="true">
         {shown.toLocaleString('ko-KR')}
         {suffix}
@@ -60,40 +64,33 @@ export function ScrollProgress() {
   return <div ref={barRef} className="w-progress" aria-hidden="true" />
 }
 
-// 흘러가는 문구 띠. 기본 속도로 흐르다가 스크롤하면 그 방향으로 빨라지고, 마우스를 올리면 천천히 멈춘다.
+// 흘러가는 문구 띠. 화면에 보이는 동안만 일정한 속도로 천천히 흐르고, 마우스를 올리면 더 느려진다.
+// 같은 줄을 COPIES번 이어 붙여 아주 넓은 화면에서도 빈칸이 생기지 않게 하고, 한 줄 길이만큼 흐르면 처음 자리로 돌린다.
+const COPIES = 4
+const SPEED = 0.45 // 16ms(한 프레임)당 이동 px
+
 export function Marquee({ items, className = '' }) {
   const wrapRef = useRef(null)
   const trackRef = useRef(null)
+  const xRef = useRef(0) // 화면 밖으로 나갔다 돌아와도 이어서 흐르도록 위치를 기억한다
   const visible = useInView(wrapRef, { once: false, threshold: 0 })
 
   useEffect(() => {
     const track = trackRef.current
     const wrap = wrapRef.current
     if (!track || !wrap || !visible || prefersReducedMotion()) return undefined
-    let x = 0
-    let boost = 0
     let hover = false
-    let lastY = window.scrollY
     let last = performance.now()
     let raf
     const loop = (now) => {
       const dt = Math.min(50, now - last)
       last = now
-      const half = track.scrollWidth / 2
-      const base = hover ? 0.2 : 1
-      x -= ((base + boost) * dt) / 16
-      boost *= 0.92
-      if (half > 0) {
-        if (x <= -half) x += half
-        if (x > 0) x -= half
-      }
+      const one = track.scrollWidth / COPIES
+      let x = xRef.current - ((hover ? 0.12 : SPEED) * dt) / 16
+      if (one > 0 && x <= -one) x += one
+      xRef.current = x
       track.style.transform = `translate3d(${x.toFixed(1)}px,0,0)`
       raf = requestAnimationFrame(loop)
-    }
-    const onScroll = () => {
-      const dy = window.scrollY - lastY
-      lastY = window.scrollY
-      boost = Math.max(-14, Math.min(14, boost + dy * 0.12))
     }
     const onEnter = () => {
       hover = true
@@ -102,12 +99,10 @@ export function Marquee({ items, className = '' }) {
       hover = false
     }
     raf = requestAnimationFrame(loop)
-    window.addEventListener('scroll', onScroll, { passive: true })
     wrap.addEventListener('pointerenter', onEnter)
     wrap.addEventListener('pointerleave', onLeave)
     return () => {
       cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onScroll)
       wrap.removeEventListener('pointerenter', onEnter)
       wrap.removeEventListener('pointerleave', onLeave)
     }
@@ -123,8 +118,11 @@ export function Marquee({ items, className = '' }) {
   return (
     <div ref={wrapRef} className={`w-marquee ${className}`} role="group" aria-label={items.join(', ')}>
       <div ref={trackRef} className="w-marquee__track" aria-hidden="true">
-        {row}
-        {row}
+        {Array.from({ length: COPIES }, (_, i) => (
+          <span key={i} className="w-marquee__copy">
+            {row}
+          </span>
+        ))}
       </div>
     </div>
   )

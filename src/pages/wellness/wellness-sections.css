@@ -124,8 +124,9 @@
 .w-bridge {
   max-width: 40rem;
   margin-top: 2.4rem;
+  font-family: var(--w-font-serif);
   font-size: clamp(1.2rem, 3.4vw, 1.55rem);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: -0.02em;
 }
