@@ -44,11 +44,11 @@
 
 /* 좁은 화면에서는 구분선 대신 항목마다 줄을 바꿔 "|"가 줄 끝에 남지 않게 한다 */
 @media (max-width: 599px) {
-  .w-footer__sep {
+  .w-footer__info .w-footer__sep {
     display: none;
   }
 
-  .w-footer__info p > span {
+  .w-footer__info p > span:not(.w-footer__sep) {
     display: block;
   }
 }
