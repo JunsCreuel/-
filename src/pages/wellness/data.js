@@ -1,5 +1,60 @@
 const BASE = import.meta.env.BASE_URL
 
+// 랜딩 분위기 사진(Unsplash 무료 사진을 webp로 변환, public/wellness/photos/<이름>-<폭>.webp).
+// 실제 매장·고객 사진이 아니므로 alt는 비우거나 장면만 적고, 후기·오시는 길 옆에는 두지 않는다.
+const photoUrl = (name, w) => `${BASE}wellness/photos/${name}-${w}.webp`
+
+// { src, srcSet, width, height }. src는 두 번째로 작은 폭(없으면 가장 작은 폭), width/height는 가장 큰 폭 기준이다.
+function pic(name, widths, ratio) {
+  const max = widths[widths.length - 1]
+  return {
+    src: photoUrl(name, widths[Math.min(1, widths.length - 1)]),
+    srcSet: widths.map((w) => `${photoUrl(name, w)} ${w}w`).join(', '),
+    width: max,
+    height: Math.round(max / ratio),
+  }
+}
+
+export const PICS = {
+  heroWarm: pic('hero-warm', [960, 1600, 2400], 3 / 2),
+  heroWarmM: pic('hero-warm-m', [720, 1080], 2 / 3),
+  chipWarm: pic('chip-warm', [320], 1),
+  chipCare: pic('chip-care', [320], 1),
+  chipScalp: pic('chip-scalp', [320], 1),
+  chipFace: pic('chip-face', [320], 1),
+  chipBody: pic('chip-body', [320], 1),
+  chipRest: pic('chip-rest', [320], 1),
+  chipLeaf: pic('chip-leaf', [480], 3 / 2),
+  chipHands: pic('chip-hands', [480], 3 / 2),
+  ritual1: pic('ritual-1', [600, 1200], 4 / 5),
+  ritual2: pic('ritual-2', [600, 1200], 4 / 5),
+  ritual3: pic('ritual-3', [600, 1200], 4 / 5),
+  ritual4: pic('ritual-4', [600, 1200], 4 / 5),
+  condScalp: pic('cond-scalp', [480, 960], 4 / 5),
+  condFace: pic('cond-face', [480, 960], 4 / 5),
+  condNeck: pic('cond-neck', [480, 960], 4 / 5),
+  condBack: pic('cond-back', [480, 960], 4 / 5),
+  condAbdomen: pic('cond-abdomen', [480, 960], 4 / 5),
+  condLeg: pic('cond-leg', [480, 720], 4 / 5),
+  condRest: pic('cond-rest', [960, 1600], 3 / 2),
+  menuScalpDetox: pic('menu-scalp-detox', [240, 600, 1200], 4 / 5),
+  menuScalpFace: pic('menu-scalp-face', [240, 600, 1200], 4 / 5),
+  menuBackLymph: pic('menu-back-lymph', [240, 600, 1200], 4 / 5),
+  menuAbdomen: pic('menu-abdomen', [240, 600, 1200], 4 / 5),
+  menuLower: pic('menu-lower', [240, 600, 1200], 4 / 5),
+  menuFullBack: pic('menu-full-back', [240, 600, 1200], 4 / 5),
+  menuLymphNode: pic('menu-lymph-node', [240, 600, 1200], 4 / 5),
+  menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
+  chipGel: pic('chip-gel', [480], 3 / 2),
+  eqFaceGel: pic('eq-face-gel', [600, 900], 4 / 5),
+  faqArch: pic('faq-arch', [600, 900], 3 / 4),
+  bizStill: pic('biz-still', [960, 1600], 2 / 3),
+  closing: pic('closing', [960, 1600, 2400], 3 / 2),
+  // 실제 매장 사진(후기 사진 재사용, 1280px). 전면으로 키우지 않는다.
+  review1: { src: `${BASE}wellness/reviews/review-1.webp`, width: 1280, height: 853 },
+  review3: { src: `${BASE}wellness/reviews/review-3.webp`, width: 1280, height: 853 },
+}
+
 export const PHOTOS = {
   neck: `${BASE}wellness/neck.jpg`,
   scalp: `${BASE}wellness/scalp.jpg`,
@@ -27,18 +82,29 @@ export const SHOW_SIMULATOR = true
 // 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
 export const SHOW_PRICES = true
 
+// 첫 방문 이벤트 노출 여부. 이벤트가 끝나면 false로 바꿔 히어로 칩, 가격 줄의 50% 배지·취소선, 첫 방문 티켓을 한 번에 내린다.
+export const SHOW_OFFER = true
+
 // 프로그램 메뉴(가격은 네이버 예약 기준). sale이 있으면 첫 방문 50% 할인가이고, 없으면 할인 대상이 아니다.
-// photo는 PHOTOS의 키, fit: 'contain'은 누끼 제품 사진용이다.
+// title은 네이버 메뉴명이라 바꾸지 않는다. 화면 표시는 label을 쓰고, 표시명을 바꿀 때는 label만 고친다.
+// area는 상담 폼 '신경 쓰이는 곳'(AREAS) 값과 정확히 같아야 한다. min은 소요 분, note는 한 줄 과정, pic은 PICS의 키다.
+// photo는 PHOTOS의 키, fit: 'contain'은 누끼 제품 사진용이다(기존 섹션용).
 export const PROGRAMS = [
-  { id: 'scalp-detox', group: '두피 · 얼굴', title: '두피 디톡스 케어 & 헤드스파', time: '1시간', price: 130000, sale: 65000, photo: 'scalp', pos: 'center 30%', desc: '딥 클렌징으로 모공 속 각질과 피지를 깨끗하게 정리하고, 두피 타입에 맞는 제품으로 관리합니다. 목·어깨 라인까지 편안하게 케어하는 시그니처 관리입니다.' },
-  { id: 'scalp-face', group: '두피 · 얼굴', title: '두피 · 페이스 시그니처 케어', time: '1시간 30분', badge: '인기', price: 160000, sale: 80000, photo: 'moodFace', pos: '40% 40%', desc: '두피 관리에 얼굴 피부 관리를 더해, 두피부터 얼굴 피부결까지 함께 가꾸는 대표 관리입니다. 피부 컨디션에 맞춰 맞춤으로 진행합니다.' },
-  { id: 'back-lymph', group: '바디', title: '등 림프순환 케어', time: '1시간 20분', price: 120000, sale: 60000, photo: 'back', pos: 'center 25%', desc: '온열로 몸을 먼저 따뜻하게 데우고, 등부터 목·어깨·데콜테까지 바디 피부를 갈바닉 디바이스와 손길로 이어서 케어하는 집중 관리입니다. 오래 앉아 있어 상체가 무겁게 느껴지는 분께 추천합니다.' },
-  { id: 'abdomen', group: '바디', title: '복부 슬리밍 케어', time: '1시간', price: 120000, sale: 60000, photo: 'candleLeg', pos: 'center 45%', desc: '온열돔으로 몸을 따뜻하게 데운 뒤, 복부와 옆구리, 허리 뒷라인까지 바디 피부를 집중 관리하는 바디 시그니처입니다. 복부 피부 컨디션이 신경 쓰이는 분께 추천합니다.' },
-  { id: 'lower', group: '바디', title: '하체 관리', time: '1시간 10분', price: 130000, sale: 65000, photo: 'leg', pos: 'center 40%', desc: '풀 바디 웜업으로 몸을 데운 뒤, 발과 종아리부터 허벅지까지 하체 라인을 상태에 맞춰 케어합니다. 다리가 무겁게 느껴지는 분께 추천합니다.' },
-  { id: 'full-back', group: '바디', title: '전신 후면 관리', time: '1시간 30분', price: 110000, photo: 'back', pos: 'center 75%', desc: '풀 바디 웜업으로 몸을 따뜻하게 데운 뒤, 등과 하체를 집중적으로 케어합니다.' },
-  { id: 'lymph-node', group: '바디', title: '림프절 관리', time: '1시간', price: 140000, sale: 70000, photo: 'neck', pos: 'center 40%', desc: '목과 겨드랑이, 다리 안쪽 라인을 따라 부드러운 손길로 편안하게 관리합니다.' },
-  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '50분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.' },
+  { id: 'scalp-detox', group: '두피 · 얼굴', title: '두피 디톡스 케어 & 헤드스파', time: '1시간', price: 130000, sale: 65000, photo: 'scalp', pos: 'center 30%', desc: '딥 클렌징으로 모공 속 각질과 피지를 깨끗하게 정리하고, 두피 타입에 맞는 제품으로 관리합니다. 목·어깨 라인까지 편안하게 케어하는 시그니처 관리입니다.', label: '두피 디톡스 케어 & 헤드스파', area: '두피 · 얼굴', min: 60, pic: 'menuScalpDetox', note: '두피 클렌징과 헤드스파에 목·어깨 라인까지 이어지는 1시간입니다.' },
+  { id: 'scalp-face', group: '두피 · 얼굴', title: '두피 · 페이스 시그니처 케어', time: '1시간 30분', badge: '인기', price: 160000, sale: 80000, photo: 'moodFace', pos: '40% 40%', desc: '두피 관리에 얼굴 피부 관리를 더해, 두피부터 얼굴 피부결까지 함께 가꾸는 대표 관리입니다. 피부 컨디션에 맞춰 맞춤으로 진행합니다.', label: '두피 · 페이스 시그니처 케어', area: '두피 · 얼굴', min: 90, pic: 'menuScalpFace', note: '두피 관리에 얼굴 피부 관리를 더한 대표 관리입니다.' },
+  { id: 'back-lymph', group: '바디', title: '등 림프순환 케어', time: '1시간 20분', price: 120000, sale: 60000, photo: 'back', pos: 'center 25%', desc: '온열로 몸을 먼저 따뜻하게 데우고, 등부터 목·어깨·데콜테까지 바디 피부를 갈바닉 디바이스와 손길로 이어서 케어하는 집중 관리입니다. 오래 앉아 있어 상체가 무겁게 느껴지는 분께 추천합니다.', label: '등 림프순환 케어', area: '등 · 어깨', min: 80, pic: 'menuBackLymph', note: '온열로 몸을 데운 뒤, 등부터 데콜테까지 갈바닉과 손길로 관리합니다.' },
+  { id: 'abdomen', group: '바디', title: '복부 슬리밍 케어', time: '1시간', price: 120000, sale: 60000, photo: 'candleLeg', pos: 'center 45%', desc: '온열돔으로 몸을 따뜻하게 데운 뒤, 복부와 옆구리, 허리 뒷라인까지 바디 피부를 집중 관리하는 바디 시그니처입니다. 복부 피부 컨디션이 신경 쓰이는 분께 추천합니다.', label: '복부 슬리밍 케어', area: '복부', min: 60, pic: 'menuAbdomen', note: '온열돔 웜업 후 복부와 옆구리, 허리 뒷라인을 관리합니다.' },
+  { id: 'lower', group: '바디', title: '하체 관리', time: '1시간 10분', price: 130000, sale: 65000, photo: 'leg', pos: 'center 40%', desc: '풀 바디 웜업으로 몸을 데운 뒤, 발과 종아리부터 허벅지까지 하체 라인을 상태에 맞춰 케어합니다. 다리가 무겁게 느껴지는 분께 추천합니다.', label: '하체 관리', area: '하체 · 림프', min: 70, pic: 'menuLower', note: '풀 바디 웜업 후 발끝에서 허벅지까지 하체 라인을 관리합니다.' },
+  { id: 'full-back', group: '바디', title: '전신 후면 관리', time: '1시간 30분', price: 110000, photo: 'back', pos: 'center 75%', desc: '풀 바디 웜업으로 몸을 따뜻하게 데운 뒤, 등과 하체를 집중적으로 케어합니다.', label: '전신 후면 관리', area: '등 · 어깨', min: 90, pic: 'menuFullBack', note: '풀 바디 웜업 후 등과 하체에 집중하는 1시간 30분입니다.' },
+  { id: 'lymph-node', group: '바디', title: '림프절 관리', time: '1시간', price: 140000, sale: 70000, photo: 'neck', pos: 'center 40%', desc: '목과 겨드랑이, 다리 안쪽 라인을 따라 부드러운 손길로 편안하게 관리합니다.', label: '림프절 관리', area: '하체 · 림프', min: 60, pic: 'menuLymphNode', note: '목과 겨드랑이, 다리 안쪽 라인을 부드러운 손길로 관리합니다.' },
+  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '50분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.', label: '풀 바디 웜업케어 + 아로마테라피', area: '온열 웜업', min: 50, pic: 'menuWarmup', note: '아로마를 바르고 온열돔에서 쉬어 가는 50분입니다.' },
 ]
+
+// 할인(50%) 대상 관리 수. 50%는 항상 이 범위('6개 관리')와 함께 쓴다.
+export const SALE_COUNT = PROGRAMS.filter((p) => p.sale).length
+
+// 상담 폼 1단계 '신경 쓰이는 곳' 선택지. PROGRAMS.area와 pickForBooking({ area })가 이 문자열과 정확히 같아야 한다.
+export const AREAS = ['두피 · 얼굴', '등 · 어깨', '복부', '하체 · 림프', '온열 웜업', '상담 후 결정']
 
 // 숫자로 보는 스튜디오. 첫 방문 50%는 이벤트 구간에서 적용 관리와 함께 안내하므로 여기에는 두지 않는다.
 export const NUMBERS = [
