@@ -1,4 +1,4 @@
-import { REVIEWS } from '../data'
+import { PHOTOS } from '../data'
 import { Reveal } from '../ui'
 const DEVICES = [
   ['01', '페이스 갈바닉', '얼굴 피부를 위한 섬세한 디바이스 케어. 피부 상태에 맞춰 전용 제품과 함께 진행합니다.'],
@@ -10,7 +10,7 @@ export default function Equipment() {
     <Reveal as="p" className="w-eyebrow">Our Equipment</Reveal>
     <Reveal as="h2" className="w-title">따뜻한 휴식의 시작,<br />명신메디칼 전신 온열돔.</Reveal>
     <Reveal className="w-equipment">
-      <figure><img src={REVIEWS[0].photo.src} alt="자이점에서 사용하는 전신 온열돔" width="1280" height="853" loading="lazy" /><figcaption>예뻐졌다 자이점 · 온열돔 관리 공간</figcaption></figure>
+      <figure className="w-equipment__fig"><img src={PHOTOS.heatDome} alt="전신 온열돔" width="1200" height="954" loading="lazy" decoding="async" /><figcaption>전신 온열돔</figcaption></figure>
       <div><p className="w-lead">원적외선 온열 기술을 활용한 전신 온열 케어입니다. 편안히 누워 온기를 느끼며 쉬어가고, 선택한 프로그램에 따라 고민 부위 아웃케어로 이어집니다.</p>
       <ul className="w-ruled"><li>원적외선 온열 케어</li><li>누워서 즐기는 따뜻한 휴식</li><li>단독 이용 또는 집중관리와 함께</li><li>이용 중 상태와 불편함 확인</li></ul></div>
     </Reveal>

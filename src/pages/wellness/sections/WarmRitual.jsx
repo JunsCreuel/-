@@ -1,7 +1,7 @@
 import { scrollToId } from '../scroll'
 import { Reveal } from '../ui'
 export default function WarmRitual() {
-  return <section id="warm-ritual" className="w-section w-section--green"><div className="w-container">
+  return <section id="warm-ritual" className="w-section w-section--rose"><div className="w-container">
     <Reveal as="p" className="w-eyebrow">Warm Ritual</Reveal>
     <Reveal as="h2" className="w-title">추운 날,<br />나를 위한 따뜻한 예약.</Reveal>
     <Reveal as="p" className="w-lead">온열돔에서 편안히 쉬어가는 시간. 단독으로 이용하거나, 원하는 부위의 집중관리를 더해보세요.</Reveal>

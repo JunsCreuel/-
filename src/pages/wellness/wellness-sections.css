@@ -1,35 +1,53 @@
 /* 섹션 스타일 — 카드와 그림자 대신 얇은 선, 큰 글자, 넓은 여백으로 구성한다.
    모바일 기준으로 먼저 잡고 넓은 화면에서 확장한다. */
 
-/* HERO */
+/* HERO — 큰 분위기 이미지 위에 글을 얹는다. 좁은 화면에서는 이미지가 위, 글이 아래 */
 
 .w-hero {
-  padding: clamp(2.5rem, 7vw, 5rem) var(--w-gutter) clamp(3.5rem, 9vw, 6.5rem);
+  --hero-bg: #dccdbe;
+  position: relative;
+  overflow: hidden;
+  padding: 0 var(--w-gutter) clamp(3rem, 9vw, 5rem);
+  background: var(--hero-bg);
+}
+
+.w-hero__bg {
+  position: relative;
+  height: min(62vw, 340px);
+  margin-inline: calc(var(--w-gutter) * -1);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+.w-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 18%;
 }
 
 .w-hero__inner {
-  display: grid;
-  gap: 2.8rem;
-  align-items: center;
+  position: relative;
+  margin-top: -1rem;
 }
 
 .w-hero__title {
-  margin-top: 1.5rem;
-  font-size: clamp(1.95rem, 6vw, 3.2rem);
-  line-height: 1.32;
+  margin-top: 1.4rem;
+  font-size: clamp(2rem, 5.6vw, 3.1rem);
+  line-height: 1.36;
   text-wrap: balance;
 }
 
 .w-hero__sub {
   max-width: 34rem;
-  margin-top: 1.6rem;
+  margin-top: 1.5rem;
   color: var(--w-muted);
   font-size: clamp(1rem, 2.6vw, 1.08rem);
   line-height: 1.95;
 }
 
 .w-hero__place {
-  margin-top: 1.2rem;
+  margin-top: 1.1rem;
   color: var(--w-muted);
   font-size: 0.88rem;
   letter-spacing: 0.02em;
@@ -39,34 +57,22 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.8rem 1.8rem;
-  margin-top: 2.2rem;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.w-hero__sublink {
+  margin-top: 0.6rem;
 }
 
 .w-hero__trust {
   max-width: 34rem;
-  margin-top: 2.2rem;
+  margin-top: 1.8rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--w-line);
+  border-top: 1px solid color-mix(in srgb, var(--w-ink) 18%, transparent);
   color: var(--w-muted);
   font-size: 0.82rem;
   letter-spacing: 0.06em;
-}
-
-.w-hero__media {
-  width: 100%;
-  max-width: 520px;
-  margin-inline: auto;
-}
-
-.w-hero__tag {
-  margin-top: 0.9rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--w-line);
-  color: var(--w-muted);
-  font-family: var(--w-font-en);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
 }
 
 .w-hero--simple {
@@ -305,8 +311,9 @@
 }
 
 .w-tags li {
-  padding: 0.25rem 0.7rem;
+  padding: 0.25rem 0.85rem;
   border: 1px solid var(--w-line-strong);
+  border-radius: 999px;
   font-size: 0.8rem;
   letter-spacing: 0.02em;
 }
@@ -356,7 +363,7 @@
 
 .w-offer__big span {
   margin-bottom: 0.5rem;
-  color: var(--w-on-green-muted);
+  color: var(--w-on-ink-muted);
   font-size: 1rem;
   letter-spacing: 0.3em;
 }
@@ -380,7 +387,7 @@
 
 .w-offer__label {
   margin-bottom: 0.9rem;
-  color: var(--w-on-green-muted);
+  color: var(--w-on-ink-muted);
   font-size: 0.82rem;
   letter-spacing: 0.14em;
 }
@@ -398,12 +405,12 @@
 }
 
 .w-offer__list li + li {
-  border-left: 1px solid color-mix(in srgb, var(--w-ivory) 35%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--w-bg) 35%, transparent);
 }
 
 .w-offer__cond {
   margin-top: 1.8rem;
-  color: var(--w-on-green-muted);
+  color: var(--w-on-ink-muted);
   font-size: 0.9rem;
   letter-spacing: 0.04em;
 }
@@ -417,7 +424,7 @@
 }
 
 .w-offer__cta p {
-  color: var(--w-on-green-muted);
+  color: var(--w-on-ink-muted);
   font-size: 0.86rem;
 }
 
@@ -488,8 +495,8 @@
 }
 
 .w-tabs a.is-active {
-  border-bottom-color: var(--w-green);
-  color: var(--w-green);
+  border-bottom-color: var(--w-ink);
+  color: var(--w-ink);
   font-weight: 600;
 }
 
@@ -590,16 +597,27 @@
   .w-hero:not(.w-hero--simple) {
     display: flex;
     align-items: center;
-    min-height: min(calc(100svh - var(--w-nav-h)), 860px);
+    min-height: min(calc(100svh - var(--w-nav-h)), 680px);
+    padding-block: 4rem;
+  }
+
+  /* 이미지는 오른쪽에 두고 왼쪽 가장자리를 배경색으로 풀어 글 영역과 자연스럽게 이어 준다 */
+  .w-hero__bg {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(64%, 980px);
+    height: auto;
+    margin: 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 40%);
+    mask-image: linear-gradient(to right, transparent, #000 40%);
   }
 
   .w-hero__inner {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 5rem;
+    margin-top: 0;
   }
 
-  .w-hero__media {
-    margin-inline: auto 0;
+  .w-hero__text {
+    max-width: 40rem;
   }
 }
 
@@ -626,24 +644,388 @@
   }
 }
 
-/* 부위별 시그니처와 디바이스: 기존 선과 여백 중심의 디자인 유지 */
-.w-care-grid { display: grid; gap: 2rem; margin-top: 2.5rem; }
-.w-care-card { display: flex; flex-direction: column; gap: 1rem; padding: 1.8rem 0; border-top: 1px solid var(--w-line); min-width: 0; }
-.w-care-card h3 { font-size: clamp(1.3rem, 3vw, 1.65rem); }
-.w-care-card > p:not(.w-program__no):not(.w-method__en) { line-height: 1.9; }
-.w-care-card .w-link { align-self: flex-start; margin-top: auto; padding-top: 1.4rem; }
-.w-care-card .w-tags { margin-top: auto; }
-.w-total-care, .w-equipment { display: grid; gap: 2rem; margin-top: 3.5rem; align-items: center; }
-.w-total-care .w-photo { aspect-ratio: 4 / 3; }
-.w-equipment figure { margin: 0; }
-.w-equipment img { display: block; width: 100%; height: auto; }
-.w-equipment figcaption { padding-top: .7rem; font-size: .8rem; color: var(--w-muted); }
-.w-equipment .w-lead { margin-top: 0; }
-.w-equipment .w-ruled { display: block; }
-.w-device-heading { margin-top: 4rem; font-size: clamp(1.5rem, 4vw, 2.2rem); }
-.w-section--green .w-care-card { border-color: var(--w-on-green-muted); }
-.w-section--green .w-feel__note { color: var(--w-on-green-muted); }
+/* 핵심 가치 5가지 */
+
+.w-values {
+  padding-block: clamp(3rem, 7vw, 5rem);
+  background: var(--w-bg);
+}
+
+.w-values__eyebrow,
+.w-values__title {
+  text-align: center;
+}
+
+.w-values__eyebrow {
+  color: var(--w-accent);
+}
+
+.w-values__list {
+  display: grid;
+  gap: 0;
+  margin-top: 2.4rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.w-values__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--w-line);
+}
+
+.w-values__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--w-accent) 14%, var(--w-bg));
+  color: var(--w-accent-deep);
+}
+
+.w-values__icon svg {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.w-values__item h3 {
+  font-size: 1.05rem;
+}
+
+.w-values__item p {
+  margin-top: 0.3rem;
+  color: var(--w-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+/* 부위별 시그니처·디바이스·온열돔 이용 카드 */
+
+.w-care-grid {
+  display: grid;
+  gap: 1.4rem;
+  margin-top: 2.5rem;
+}
+
+.w-care-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1.6rem;
+  overflow: hidden;
+  border: 1px solid var(--w-line);
+  border-radius: var(--w-radius);
+  background: var(--w-card);
+}
+
+.w-care-card h3 {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+}
+
+.w-care-card > p:not(.w-program__no):not(.w-method__en) {
+  color: var(--w-muted);
+  line-height: 1.85;
+}
+
+.w-care-card .w-link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--w-accent-deep);
+}
+
+.w-care-card .w-tags {
+  margin-top: 0.3rem;
+}
+
+.w-care-card--photo {
+  padding-top: 0;
+}
+
+.w-care-card__photo {
+  aspect-ratio: 4 / 3;
+  margin: 0 -1.6rem 0.5rem;
+  overflow: hidden;
+  background: var(--w-band);
+}
+
+.w-care-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.w-care-card .w-program__no {
+  font-size: 1.7rem;
+  color: var(--w-accent);
+}
+
+.w-total-care,
+.w-equipment {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 3.5rem;
+}
+
+.w-total-care .w-photo {
+  aspect-ratio: 4 / 3;
+}
+
+.w-equipment figure {
+  margin: 0;
+}
+
+.w-equipment__fig {
+  padding: 1.5rem 1.5rem 1rem;
+  border-radius: var(--w-radius);
+  background: var(--w-band);
+}
+
+.w-equipment img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.w-equipment figcaption {
+  padding-top: 0.7rem;
+  color: var(--w-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.w-equipment .w-lead {
+  margin-top: 0;
+}
+
+.w-equipment .w-ruled {
+  display: block;
+}
+
+.w-device-heading {
+  margin-top: 4rem;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+/* 연한 로즈 베이지 띠 (온열돔 단독 이용) */
+
+.w-section--rose {
+  background: #ecdcd6;
+  color: var(--w-ink);
+}
+
+.w-section--rose .w-care-card {
+  background: color-mix(in srgb, var(--w-card) 70%, transparent);
+  border-color: color-mix(in srgb, var(--w-ink) 12%, transparent);
+}
+
+.w-section--rose .w-eyebrow {
+  color: var(--w-accent-deep);
+}
+
+.w-section--ink .w-care-card {
+  border-color: var(--w-on-ink-muted);
+}
+
+.w-section--ink .w-feel__note {
+  color: var(--w-on-ink-muted);
+}
+
+@media (min-width: 600px) {
+  .w-values__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: 1px solid var(--w-line);
+  }
+
+  .w-values__item {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.8rem 1.2rem;
+    border-bottom: 0;
+    text-align: center;
+  }
+
+  .w-values__item:nth-child(n + 4) {
+    border-top: 1px solid var(--w-line);
+  }
+
+  .w-values__item + .w-values__item {
+    border-left: 1px solid var(--w-line);
+  }
+
+  .w-values__item:nth-child(4) {
+    border-left: 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .w-values__list {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .w-values__item:nth-child(n + 4) {
+    border-top: 0;
+  }
+
+  .w-values__item:nth-child(4) {
+    border-left: 1px solid var(--w-line);
+  }
+}
+
 @media (min-width: 800px) {
-  .w-care-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
-  .w-total-care, .w-equipment { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.5rem; }
+  .w-care-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.6rem;
+  }
+
+  .w-total-care,
+  .w-equipment {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.5rem;
+  }
+}
+
+/* 창업·운영 상담: 왼쪽 안내, 오른쪽 문의 폼 */
+
+.w-startup {
+  display: grid;
+  gap: 2.6rem;
+}
+
+.w-startup__points {
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.w-startup__points li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--w-line);
+  font-size: 0.97rem;
+}
+
+.w-startup__steps {
+  margin-top: 1.8rem;
+}
+
+.w-startup__label {
+  color: var(--w-accent-deep);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.w-startup__steps ol {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  counter-reset: step;
+}
+
+.w-startup__steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  counter-increment: step;
+}
+
+.w-startup__steps li::before {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--w-accent) 16%, var(--w-band));
+  color: var(--w-accent-deep);
+  content: counter(step);
+  font-family: var(--w-font-en);
+  font-size: 0.8rem;
+}
+
+.w-startup__note {
+  margin-top: 0.8rem;
+  color: var(--w-muted);
+  font-size: 0.82rem;
+}
+
+.w-startup__form {
+  padding: clamp(1.4rem, 4vw, 2.2rem);
+  border: 1px solid var(--w-line);
+  border-radius: var(--w-radius);
+  background: var(--w-card);
+}
+
+.w-startup__form h3 {
+  font-size: 1.25rem;
+}
+
+.w-startup__form .w-form {
+  margin-top: 1.4rem;
+}
+
+@media (min-width: 900px) {
+  .w-startup {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .w-startup__form {
+    position: sticky;
+    top: calc(var(--w-nav-h) + 1.5rem);
+  }
+}
+
+/* FAQ 구분 탭 */
+
+.w-faq__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.8rem;
+}
+
+.w-faq__tabs button {
+  min-height: 44px;
+  padding: 0 1.3rem;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--w-muted);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.w-faq__tabs button.is-active {
+  border-color: var(--w-accent);
+  background: var(--w-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 마지막 CTA 띠 */
+
+.w-cta {
+  padding: clamp(3.5rem, 9vw, 6rem) var(--w-gutter);
+  background: #dccdbe;
+  text-align: center;
+}
+
+.w-cta__title {
+  font-size: clamp(1.6rem, 4.6vw, 2.6rem);
+  line-height: 1.4;
+}
+
+.w-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
 }
