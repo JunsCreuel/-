@@ -5,7 +5,8 @@ import { OPEN_BRANCHES, telHref } from './data'
 import { scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
-// 상단 바: 가운데 로고 + 오른쪽 햄버거. 메뉴는 햄버거를 누르면 아래로 펼쳐지는 패널에 모은다.
+// 상단 바: 왼쪽 로고 · 가운데 메뉴(데스크톱) · 오른쪽 전화번호와 예약 버튼.
+// 좁은 화면에서는 메뉴를 햄버거 패널로 모은다.
 export default function WellnessNav({ branch, items }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -37,14 +38,14 @@ export default function WellnessNav({ branch, items }) {
     scrollToId(id)
   }
 
-  // 오픈한 지점이 하나뿐이면 지점 선택은 보이지 않는다.
+  // 예약은 오른쪽 버튼으로 따로 두고, 가운데 메뉴에는 나머지 항목만 보여 준다.
+  const links = items.filter((item) => item.id !== 'booking')
   const hasChoice = OPEN_BRANCHES.length > 1
 
   return (
     <>
       <header className={`w-nav${scrolled ? ' is-scrolled' : ''}`}>
         <div className="w-nav__inner">
-          <span aria-hidden="true" />
           <Link
             to={branch.path}
             className="w-nav__brand"
@@ -56,19 +57,36 @@ export default function WellnessNav({ branch, items }) {
           >
             <BrandLogo variant="nav" decorative />
           </Link>
-          <button
-            ref={burgerRef}
-            type="button"
-            className={`w-nav__burger${menuOpen ? ' is-open' : ''}`}
-            aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
-            aria-expanded={menuOpen}
-            aria-controls="w-nav-panel"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-          </button>
+
+          <nav className="w-nav__links" aria-label="주요 메뉴">
+            {links.map((item) => (
+              <button key={item.id} type="button" onClick={() => goTo(item.id)}>
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="w-nav__actions">
+            <a className="w-nav__tel" href={telHref(branch.phone)}>
+              {branch.phone}
+            </a>
+            <button type="button" className="w-nav__cta" onClick={() => goTo('booking')}>
+              예약하기
+            </button>
+            <button
+              ref={burgerRef}
+              type="button"
+              className={`w-nav__burger${menuOpen ? ' is-open' : ''}`}
+              aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
+              aria-expanded={menuOpen}
+              aria-controls="w-nav-panel"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
         {menuOpen && (
