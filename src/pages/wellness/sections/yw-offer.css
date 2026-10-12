@@ -1,0 +1,431 @@
+/* No. 07 First Visit — 절취선 티켓 한 장(에스프레소 커튼 위).
+   이 파일은 공통 CSS(wellness.css, wellness-x.css)보다 먼저 번들되므로, 공통 규칙을 덮어야 하는 곳은 .yw-offer로 한 단계 높인다.
+   기울기와 빛 반사는 마우스 기기에서만, 모션 줄이기면 티켓·숫자·금액·취소선이 모두 최종 상태로 바로 보인다. */
+
+.yw-offer {
+  overflow: clip;
+}
+
+/* ── 티켓 ─────────────────────────────────────────────────── */
+
+.yw-offer .yw-ticket {
+  --tp: clamp(1.5rem, 3vw, 2.75rem); /* 티켓 안쪽 여백 */
+  --stub: 13rem; /* 넓은 화면 오른쪽 스텁 폭 */
+  --notch: 1rem; /* 반원 홈 반지름 */
+  --mask-a: radial-gradient(circle var(--notch) at 0 var(--cut, calc(100% - 9rem)), #0000 98%, #000);
+  --mask-b: radial-gradient(circle var(--notch) at 100% var(--cut, calc(100% - 9rem)), #0000 98%, #000);
+  position: relative;
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  width: min(72rem, 100%);
+  margin-inline: auto;
+  padding: var(--tp);
+  border-radius: 1.5rem;
+  background: var(--w-highlight);
+  color: var(--w-ink);
+  opacity: 0;
+  transform: perspective(70rem) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg)) translateY(2.5rem)
+    rotate(-2.5deg);
+  transition:
+    transform 1s var(--yw-ease),
+    opacity 0.6s ease;
+  /* 반원 홈: 두 개의 원형 구멍을 겹친다(좁은 화면은 가로 절취선의 좌우, 넓은 화면은 세로 절취선의 위아래) */
+  -webkit-mask: var(--mask-a), var(--mask-b);
+  -webkit-mask-composite: source-in;
+  mask: var(--mask-a), var(--mask-b);
+  mask-composite: intersect;
+}
+
+.yw-offer .yw-ticket.is-in {
+  opacity: 1;
+  transform: perspective(70rem) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg)) translateY(0)
+    rotate(0deg);
+}
+
+/* 등장이 끝나면 기울기가 전환 없이 바로 따라간다(lerp는 JS가 한다) */
+.yw-offer .yw-ticket.is-settled {
+  transition: opacity 0.6s ease;
+}
+
+.yw-offer .yw-ticket__main,
+.yw-offer .yw-ticket__list {
+  min-width: 0;
+}
+
+/* 어두운 장 안이지만 티켓은 밝은 종이라 잉크색으로 되돌린다 */
+.yw-offer .yw-ticket .yw-folio {
+  color: var(--w-accent-deep);
+}
+
+.yw-offer .yw-ticket .yw-paren {
+  color: var(--w-ink);
+}
+
+.yw-offer .yw-ticket .yw-paren::before,
+.yw-offer .yw-ticket .yw-paren::after,
+.yw-offer .yw-ticket .yw-paren__dot {
+  color: var(--w-accent-deep);
+}
+
+.yw-offer .yw-ticket :focus-visible {
+  outline-color: var(--w-espresso);
+}
+
+/* ── 50% 큰 글자 ──────────────────────────────────────────── */
+
+.yw-offer .yw-ticket__big {
+  margin: 0.4rem 0 0;
+  color: var(--w-ink);
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.yw-ticket__label {
+  display: block;
+  color: var(--w-accent-deep);
+  font: 500 0.78rem/1 var(--w-font-label);
+  letter-spacing: 0.2em;
+}
+
+/* 50%와 'N개 관리'는 같은 줄의 한 덩어리 */
+.yw-ticket__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.yw-offer .yw-ticket__pct {
+  margin-top: -0.06em;
+  padding: 0.06em 0.04em 0 0;
+  background: linear-gradient(100deg, var(--w-espresso), var(--w-bronze) 45%, var(--w-champagne) 60%, var(--w-espresso)) 0 0 /
+    220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font: 500 clamp(5rem, 26vw, 7rem) / 0.85 var(--w-font-en);
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.yw-offer .yw-ticket__pct small {
+  margin-left: 0.04em;
+  font-size: 0.4em;
+}
+
+.yw-offer .yw-ticket.is-in .yw-ticket__pct {
+  animation: yw-ticket-grad 2.4s ease-out both;
+}
+
+@keyframes yw-ticket-grad {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+.yw-ticket__scope {
+  color: var(--w-ink);
+  font: 400 1.3rem/1.3 var(--w-font-serif);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.yw-ticket__lead {
+  max-width: 26em;
+  margin-top: 1.4rem;
+  font: 400 1.1rem/1.65 var(--w-font-serif);
+  letter-spacing: -0.01em;
+}
+
+.yw-ticket__small {
+  margin-top: 0.6rem;
+  color: color-mix(in srgb, var(--w-ink) 70%, transparent);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* ── 할인 적용 관리 6줄 ───────────────────────────────────── */
+
+.yw-ticket__listlabel {
+  margin-bottom: 0.7rem;
+  color: var(--w-accent-deep);
+  font: 500 0.72rem/1 var(--w-font-label);
+  letter-spacing: 0.2em;
+}
+
+.yw-ticket__list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.15rem 0.75rem;
+  padding-block: 0.8rem;
+  border-top: 1px dashed rgb(42 35 32 / 0.25);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+
+.yw-ticket__list li:last-child {
+  border-bottom: 1px dashed rgb(42 35 32 / 0.25);
+}
+
+.yw-ticket__list .is-run > li {
+  opacity: 1;
+}
+
+.yw-ticket__name {
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.yw-ticket__price {
+  display: inline-flex;
+  align-items: baseline;
+  justify-self: end;
+  gap: 0.45rem;
+  font-family: var(--w-font-label);
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.yw-ticket__price s {
+  position: relative;
+  color: rgb(29 26 23 / 0.55);
+  font-size: 0.86em;
+  text-decoration: none;
+}
+
+/* 정가 취소선: 금액이 다 내려간 뒤 왼쪽부터 그어진다 */
+.yw-ticket__price s::after {
+  position: absolute;
+  inset: 52% -0.1em auto;
+  height: 1px;
+  background: var(--w-bronze);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--yw-ease);
+  transition-delay: calc(var(--i, 0) * 90ms + 0.9s);
+}
+
+.yw-ticket__list .is-run s::after {
+  transform: scaleX(1);
+}
+
+.yw-ticket__price i {
+  color: var(--w-bronze);
+  font-size: 0.8em;
+  font-style: normal;
+}
+
+/* 금액 자리 폭을 고정해 6자리→5자리로 줄 때 흔들리지 않게 한다 */
+.yw-ticket__price b {
+  display: inline-block;
+  min-width: 4.7em;
+  color: var(--w-espresso);
+  font-size: 1.08em;
+  font-weight: 500;
+  text-align: right;
+}
+
+@media (min-width: 40rem) {
+  .yw-ticket__list li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+/* ── 스텁(절취선 너머) ────────────────────────────────────── */
+
+.yw-ticket__stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 calc(-1 * var(--tp)) calc(-1 * var(--tp));
+  padding: calc(var(--tp) * 0.9) var(--tp) var(--tp);
+  border-top: 2px dashed rgb(42 35 32 / 0.3);
+}
+
+.yw-ticket__stub .yw-paren {
+  align-self: center;
+}
+
+/* 원형 '예약하기'(좁은 화면은 폭 100% 알약). 자석 이동은 공통 transform이 맡으므로 여기서는 transform을 쓰지 않는다 */
+.yw-offer .yw-ticket__round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid var(--w-espresso);
+  border-radius: 999px;
+  background: var(--w-espresso);
+  color: #fff;
+  font: inherit;
+  font-size: 0.97rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.yw-offer .yw-ticket__round:active {
+  scale: 0.97;
+}
+
+.yw-ticket__vert {
+  display: none;
+}
+
+/* 태블릿: 알약 버튼과 괄호 링크를 한 줄에 */
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .yw-ticket__stub {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+  }
+
+  .yw-offer .yw-ticket__round {
+    width: auto;
+    min-width: 16rem;
+  }
+}
+
+/* ── 넓은 화면: 3칸 + 세로 절취선 ─────────────────────────── */
+
+@media (min-width: 64rem) {
+  .yw-offer .yw-ticket {
+    --mask-a: radial-gradient(circle var(--notch) at calc(100% - var(--stub) + 1px) 0, #0000 98%, #000);
+    --mask-b: radial-gradient(circle var(--notch) at calc(100% - var(--stub) + 1px) 100%, #0000 98%, #000);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) var(--stub);
+    column-gap: clamp(1.5rem, 3vw, 2.75rem);
+    padding-right: 0;
+  }
+
+  .yw-ticket__main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .yw-offer .yw-ticket__pct {
+    font-size: clamp(6rem, 12vw, 11rem);
+  }
+
+  .yw-ticket__small {
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+
+  .yw-ticket__list {
+    align-self: center;
+  }
+
+  .yw-ticket__stub {
+    align-items: center;
+    margin: calc(-1 * var(--tp)) 0;
+    padding: var(--tp) 1.75rem;
+    border-top: 0;
+    border-left: 2px dashed rgb(42 35 32 / 0.3);
+  }
+
+  .yw-offer .yw-ticket__round {
+    width: 8rem;
+    min-height: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    background: linear-gradient(var(--w-espresso) 0 0) bottom / 100% 0% no-repeat;
+    color: var(--w-espresso);
+    font: 500 1.05rem/1.3 var(--w-font-serif);
+    letter-spacing: 0;
+    transition:
+      transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-size 0.45s var(--yw-ease),
+      color 0.3s ease;
+  }
+
+  .yw-offer .yw-ticket__round:focus-visible {
+    background-size: 100% 100%;
+    color: #fff;
+  }
+
+  .yw-ticket__vert {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    display: block;
+    font: 400 0.7rem/1 var(--w-font-label);
+    letter-spacing: 0.3em;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    opacity: 0.55;
+    translate: 0 -50%;
+  }
+}
+
+/* ── 마우스 기기: 채워지는 원, 커서를 따라오는 빛 ─────────── */
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-offer .yw-ticket::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    background: radial-gradient(28rem circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.45), transparent 60%);
+    content: '';
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .yw-offer .yw-ticket.is-settled:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+  .yw-offer .yw-ticket__round:hover {
+    background-size: 100% 100%;
+    color: #fff;
+  }
+}
+
+/* ── 모션 줄이기: 기울기·등장·카운트·흐르는 그라데이션 없이 최종 상태 ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-offer .yw-ticket,
+  .yw-offer .yw-ticket.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .yw-offer .yw-ticket.is-in .yw-ticket__pct {
+    animation: none;
+  }
+
+  .yw-offer .yw-ticket::before {
+    display: none;
+  }
+
+  .yw-ticket__list li {
+    opacity: 1;
+    transition: none;
+  }
+
+  .yw-ticket__price s::after {
+    transform: scaleX(1);
+    transition: none;
+  }
+}
