@@ -84,6 +84,8 @@ export const BRANCHES = {
     hours: '월~금 10:00 – 19:00',
     phone: '010-9419-2121',
     booking: 'https://m.site.naver.com/2fZsm',
+    // 네이버 플레이스 고유 번호(예약 단축 링크가 넘어가는 장소 페이지에서 확인)
+    place: '1565549120',
   },
   marine: {
     id: 'marine',
@@ -105,8 +107,9 @@ export const MARINE_OPEN = false
 // 화면에 노출하는 지점 목록
 export const OPEN_BRANCHES = Object.values(BRANCHES).filter((b) => b.id !== 'marine' || MARINE_OPEN)
 
-// 지도 링크는 주소로 만든 네이버 지도 검색 주소를 쓴다. 장소 고유 링크가 생기면 이 함수만 바꾸면 된다.
+// 지도 링크: 네이버 플레이스 번호가 있으면 매장 페이지로 바로, 없으면 주소 검색으로 연결한다.
 export function mapHref(branch) {
+  if (branch.place) return `https://map.naver.com/p/entry/place/${branch.place}`
   return `https://map.naver.com/p/search/${encodeURIComponent(branch.mapQuery)}`
 }
 
