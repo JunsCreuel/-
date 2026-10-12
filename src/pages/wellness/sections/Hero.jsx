@@ -9,9 +9,9 @@ export default function Hero() {
     <section id="top" className="ws-hero">
       <div className="ws-container">
         <Reveal as="h1" className="ws-hero__title">
-          <span>오늘은 건강하게,</span>
+          <span>온기로 한 번,</span>
           <span className="ws-hero__title-end">
-            내일은 더 <em className="ws-accent">환하게.</em>
+            손길로 <em className="ws-accent">한 번 더.</em>
           </span>
         </Reveal>
 
@@ -24,8 +24,8 @@ export default function Hero() {
               <span className="ws-hero__quote">“예뻐졌다”</span>
             </h2>
             <p className="ws-hero__lead">
-              온열돔으로 몸을 따뜻하게 풀고, 손길과 디바이스로 두피부터 얼굴과 바디까지 섬세하게 관리합니다. 4년 동안 다듬어 온
-              예뻐졌다의 관리를 용호점에서 만나 보세요.
+              온열돔으로 몸을 먼저 풀고, 고민 부위는 아웃케어로 한 번 더 관리합니다. 두피부터 얼굴, 바디까지 내 고민에 맞춰 한
+              곳에서.
             </p>
             <div className="ws-actions">
               <button type="button" className="ws-btn" onClick={() => scrollToId('booking')}>
