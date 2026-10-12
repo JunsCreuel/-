@@ -20,7 +20,7 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
             <span className="w-display__sub">나를 위한 시간, 지금 예약해 보세요.</span>
           </Reveal>
           <Reveal as="p" delay={120} className="w-lead">
-            원하는 관리와 시간을 남겨 주시면 확인 후 연락드려 일정을 잡아 드립니다. 네이버 예약이나 전화로도 바로 예약하실 수 있어요.
+            원하는 관리와 시간을 남겨 주시면 확인 후 연락드려 일정을 잡아 드립니다. 네이버 예약이나 전화로도 바로 예약하실 수 있습니다.
           </Reveal>
 
           <Reveal delay={160} className="w-cc__panel" id="visit">
