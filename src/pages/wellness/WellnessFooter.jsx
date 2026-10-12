@@ -1,84 +1,91 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRAND, BRANCHES, MARINE_OPEN, OPEN_BRANCHES, mapHref, reserveAction, telHref } from './data'
+import { BRAND, BRANCHES, MARINE_OPEN, OPEN_BRANCHES, PHOTOS, mapHref, reserveAction, telHref } from './data'
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
+import './wellness-home.css'
 
-// 약관/방침 문서가 준비되기 전까지는 링크 없이 항목만 보여 준다.
-const POLICIES = ['이용약관', '개인정보처리방침', '영상정보처리기기운영관리방침', '사업자정보확인']
-
-export default function WellnessFooter({ items }) {
+// 딥그린 푸터: 태그라인 + 예약 버튼, 브랜드 · 오시는 길 · 예약 문의 · QR, 맨 아래 사업자 정보.
+// 홈의 "오시는 길" 메뉴는 이 푸터(id="location")로 이동한다.
+export default function WellnessFooter() {
   const { zai, marine } = BRANCHES
   const naver = reserveAction(zai)
+  const visits = MARINE_OPEN ? [zai, marine] : [zai]
 
   return (
-    <footer className="w-footer">
+    <footer id="location" className="w-footer">
       <div className="w-footer__main">
-        <div className="w-container">
-          <BrandLogo variant="nav" />
-          <div className="w-footer__rule" />
+        <div className="w-footer__top">
+          <p className="w-footer__tagline">
+            오늘은 건강하게,
+            <br />
+            내일은 더 <em>환하게.</em>
+          </p>
+          <button type="button" className="ws-btn ws-btn--light" onClick={() => scrollToId('booking')}>
+            예약하기
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+              <path d="M0 6h16M11 1l5 5-5 5" />
+            </svg>
+          </button>
+        </div>
 
-          <div className="w-footer__grid">
-            <div className="w-footer__info">
-              <p>상호명 : {BRAND.company}</p>
-              <p>
-                대표 : {BRAND.representative} | 사업자등록번호 : {BRAND.bizNo}
-              </p>
-              <p>
-                {MARINE_OPEN ? zai.name : '주소'} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
-              </p>
-              {MARINE_OPEN && (
-                <p>
-                  {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
-                </p>
-              )}
-              <p>
-                영업시간 : {MARINE_OPEN && `${zai.name} `}
-                {zai.hours}
-              </p>
-            </div>
-
-            <div className="w-footer__cols">
-              <ul className="w-footer__col">
-                <li>
-                  <a className="is-ext" href={naver.href} target="_blank" rel="noopener noreferrer">
-                    네이버 예약
-                  </a>
-                </li>
-                <li>
-                  <a className="is-ext" href={mapHref(zai)} target="_blank" rel="noopener noreferrer">
-                    네이버 지도
-                  </a>
-                </li>
-              </ul>
-              <ul className="w-footer__col">
-                {items.map((item) => (
-                  <li key={item.id}>
-                    <button type="button" onClick={() => scrollToId(item.id)}>
-                      {item.label}
-                    </button>
+        <div className="w-footer__grid">
+          <div className="w-footer__brand">
+            <BrandLogo variant="nav" />
+            <p className="w-footer__words">온열 · 회복 · 두피 · 얼굴 · 바디</p>
+            {OPEN_BRANCHES.length > 1 && (
+              <ul className="w-footer__branches">
+                {OPEN_BRANCHES.map((b) => (
+                  <li key={b.id}>
+                    <Link to={b.path}>{b.label}</Link>
                   </li>
                 ))}
-                {OPEN_BRANCHES.length > 1 &&
-                  OPEN_BRANCHES.map((b) => (
-                    <li key={b.id}>
-                      <Link to={b.path}>{b.label}</Link>
-                    </li>
-                  ))}
               </ul>
+            )}
+          </div>
+
+          {visits.map((b) => (
+            <div key={b.id} className="w-footer__col">
+              <p className="w-footer__label">오시는 길 · {b.label}</p>
+              <p>{b.address}</p>
+              {b.hours && <p className="w-footer__muted">{b.hours}</p>}
+              <a className="w-footer__link" href={mapHref(b)} target="_blank" rel="noopener noreferrer">
+                네이버 지도 ↗
+              </a>
             </div>
+          ))}
+
+          <div className="w-footer__col">
+            <p className="w-footer__label">예약 문의</p>
+            <a className="w-footer__tel" href={telHref(zai.phone)}>
+              {zai.phone}
+            </a>
+            {naver.external && (
+              <a className="w-footer__link" href={naver.href} target="_blank" rel="noopener noreferrer">
+                네이버 예약 ↗
+              </a>
+            )}
+          </div>
+
+          <div className="w-footer__qr">
+            <img src={PHOTOS.qrBooking} alt="네이버 예약 QR 코드" width="112" height="112" loading="lazy" />
+            <p>
+              QR을 스캔하고
+              <br />
+              휴대폰으로
+              <br />
+              바로 예약하세요
+            </p>
           </div>
         </div>
       </div>
 
       <div className="w-footer__bar">
-        <div className="w-container w-footer__bar-inner">
-          <p className="w-footer__copy">COPYRIGHT ⓒ 2026 {BRAND.name} ALL RIGHTS RESERVED</p>
-          <ul className="w-footer__policies" aria-label="약관 및 방침">
-            {POLICIES.map((label) => (
-              <li key={label}>{label}</li>
-            ))}
-          </ul>
+        <div className="w-footer__bar-inner">
+          <p>
+            상호명 : {BRAND.company} · 대표 : {BRAND.representative} · 사업자등록번호 : {BRAND.bizNo}
+          </p>
+          <p>ⓒ 2026 {BRAND.company}</p>
         </div>
       </div>
     </footer>
