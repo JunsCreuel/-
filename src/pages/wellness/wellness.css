@@ -122,6 +122,11 @@ body.is-wellness {
   padding-top: var(--w-nav-h);
 }
 
+/* 섹션이 아닌 이동 대상(#warm-ritual 등)도 상단 바 아래에 제목이 보이게 */
+.wellness [id]:not(.w-section) {
+  scroll-margin-top: calc(var(--w-nav-h) + 1.5rem);
+}
+
 /* 레이아웃 */
 
 .w-section {
