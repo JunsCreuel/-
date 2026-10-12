@@ -23,7 +23,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 18%;
+  object-position: 50% 58%;
 }
 
 .w-hero__inner {
@@ -605,7 +605,7 @@
   .w-hero__bg {
     position: absolute;
     inset: 0 0 0 auto;
-    width: min(64%, 980px);
+    width: min(52%, 740px);
     height: auto;
     margin: 0;
     -webkit-mask-image: linear-gradient(to right, transparent, #000 40%);
