@@ -138,7 +138,7 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
 export function ChoiceChips({ legend, name, options, value, onChange, error, idPrefix }) {
   const errId = `err-${idPrefix}-${name}`
   return (
-    <fieldset className="w-step__choices" aria-describedby={error ? errId : undefined}>
+    <fieldset className="w-step__choices" aria-describedby={error ? errId : undefined} data-invalid={error ? true : undefined}>
       <legend className="sr-only">{legend}</legend>
       {options.map((o) => (
         <label key={o} className={`w-opt${value === o ? ' is-on' : ''}`}>

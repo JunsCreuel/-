@@ -54,7 +54,7 @@ export default function About() {
               예뻐졌다 WELLNESS STUDIO는 온열돔으로 몸을 먼저 따뜻하게 준비한 뒤 손길과 디바이스로 고민 부위를 하나씩 살핍니다. 두피부터 얼굴과 바디까지, 한 번의 방문으로 이어지는 토탈 케어입니다.
             </Reveal>
             <Reveal delay={160}>
-              <button type="button" className="w-btn w-btn--arrow" aria-expanded={open} aria-controls="w-about-steps" onClick={() => setOpen((v) => !v)}>
+              <button type="button" className="w-btn w-btn--arrow" aria-expanded={open} aria-controls={open ? 'w-about-steps' : undefined} onClick={() => setOpen((v) => !v)}>
                 {open ? '닫기' : '자세히 보기'}
               </button>
             </Reveal>
@@ -107,7 +107,7 @@ export default function About() {
                         <span className="w-acc__icon" aria-hidden="true" />
                       </button>
                     </h3>
-                    <div className="w-acc__panel" id={`w-acc-${m.no}`} role="region" aria-label={m.ko}>
+                    <div className="w-acc__panel" id={`w-acc-${m.no}`} role="region" aria-label={m.ko} inert={!isOpen}>
                       <p>{m.text}</p>
                     </div>
                   </div>

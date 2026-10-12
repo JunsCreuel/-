@@ -81,6 +81,7 @@ export default function Simulator() {
     const summary = `[시뮬레이터 입력 조건] 규모 ${v.area}평, 평당 임대료 ${fmtMan(v.rent)}, 월 매출 ${fmtMan(v.sales)}, 인건비 ${fmtMan(v.labor)}, 재료·소모품 ${v.material}%, 기타 고정비 ${fmtMan(v.etc)}`
     window.dispatchEvent(new CustomEvent('w-sim-summary', { detail: summary }))
     scrollToId('startup')
+    document.getElementById('startup-form-title')?.focus({ preventScroll: true })
   }
 
   return (

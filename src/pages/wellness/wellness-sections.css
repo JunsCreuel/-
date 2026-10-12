@@ -720,6 +720,11 @@
   font-size: 1.25rem;
 }
 
+/* 계산기에서 넘어올 때 포커스를 받는 제목: 테두리는 그리지 않는다 */
+.w-startup__form h3:focus {
+  outline: none;
+}
+
 .w-startup__form .w-form {
   margin-top: 1.4rem;
 }
