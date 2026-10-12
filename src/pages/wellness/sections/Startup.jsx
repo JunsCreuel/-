@@ -7,7 +7,7 @@ const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '�
 
 export default function Startup() {
   return (
-    <section id="startup" className="w-section w-section--band">
+    <section id="startup" className="w-section">
       <div className="w-container w-startup">
         <div className="w-startup__intro">
           <Reveal as="p" className="w-eyebrow">Business Inquiry</Reveal>
@@ -16,20 +16,22 @@ export default function Startup() {
           <ul className="w-tags"><li>신규 창업 상담</li><li>기존 샵 도입 상담</li></ul>
           <p className="w-program__text">희망 지역, 준비 단계, 궁금한 내용을 알려주시면 상담 가능한 범위를 안내해 드립니다.</p>
 
-          <ul className="w-startup__points">
-            <li>온열돔과 디바이스 아웃케어를 결합한 운영 방식</li>
-            <li>100% 예약제 운영</li>
-            <li>4년간의 운영 경험</li>
-            <li>교육 · 운영 지원 · 매뉴얼 <Todo>제공 내용</Todo></li>
-          </ul>
-
-          <Reveal as="div" className="w-startup__steps">
-            <p className="w-startup__label">상담 후 진행 단계(예시)</p>
-            <ol>
-              {STEPS.map((step) => <li key={step}>{step}</li>)}
-            </ol>
-            <p className="w-startup__note">일반적인 진행 예시이며, 실제 절차와 일정은 상담에서 안내해 드립니다.</p>
-          </Reveal>
+          <details className="w-more">
+            <summary>상담 후 진행 단계 보기</summary>
+            <ul className="w-startup__points">
+              <li>온열돔과 디바이스 아웃케어를 결합한 운영 방식</li>
+              <li>100% 예약제 운영</li>
+              <li>4년간의 운영 경험</li>
+              <li>교육 · 운영 지원 · 매뉴얼 <Todo>제공 내용</Todo></li>
+            </ul>
+            <div className="w-startup__steps">
+              <p className="w-startup__label">상담 후 진행 단계(예시)</p>
+              <ol>
+                {STEPS.map((step) => <li key={step}>{step}</li>)}
+              </ol>
+              <p className="w-startup__note">일반적인 진행 예시이며, 실제 절차와 일정은 상담에서 안내해 드립니다.</p>
+            </div>
+          </details>
 
           <div className="w-hero__actions"><a className="w-btn w-btn--primary" href={telHref(BRANCHES.zai.phone)}>창업·운영 전화 상담</a><a className="w-link" href={telHref(BRANCHES.zai.phone)}>{BRANCHES.zai.phone}</a></div>
         </div>
