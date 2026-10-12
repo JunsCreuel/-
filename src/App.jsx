@@ -57,6 +57,8 @@ export default function App() {
           <Route path="wellness" element={<WellnessLayout />}>
             <Route index element={<WellnessHome />} />
             <Route path="marine" element={MARINE_OPEN ? <WellnessMarine /> : <Navigate to="/wellness" replace />} />
+            {/* 잘못된 하위 주소(#/wellness/xxx)는 빈 화면 대신 랜딩으로 돌려보낸다 */}
+            <Route path="*" element={<Navigate to="/wellness" replace />} />
           </Route>
         </Routes>
       </HashRouter>
