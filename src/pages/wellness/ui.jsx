@@ -5,6 +5,17 @@ export function Todo({ children }) {
   return <span className="w-todo">[확인 필요: {children}]</span>
 }
 
+// 섹션 머리말: 짧은 선 + 한글 라벨. center면 양쪽에 선을 둔다.
+export function Eyebrow({ children, center = false, className = '' }) {
+  return (
+    <p className={`ws-eyebrow${center ? ' ws-eyebrow--center' : ''}${className ? ` ${className}` : ''}`}>
+      <span aria-hidden="true" />
+      {children}
+      {center && <span aria-hidden="true" />}
+    </p>
+  )
+}
+
 // 화면에 들어올 때 서서히 나타나는 래퍼.
 // mode="toggle"이면 화면을 벗어날 때 다시 사라져 스크롤마다 fade in/out 된다.
 const CAN_OBSERVE = typeof IntersectionObserver !== 'undefined'
