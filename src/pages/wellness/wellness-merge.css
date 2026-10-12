@@ -24,6 +24,7 @@
 .w-about__line em,
 .w-story__title em,
 .w-pair__title em,
+.w-gel__title em,
 .w-cta__title em {
   color: var(--w-accent);
   font-style: normal;
@@ -690,5 +691,162 @@
 @media (prefers-reduced-motion: reduce) {
   .w-opt {
     transition: none;
+  }
+}
+
+/* GEL — 디바이스별 전용 젤·세럼. 제품마다 사진 한 장과 성분 목록 */
+
+.w-gel__list {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2rem);
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+.w-gel__item {
+  display: grid;
+  gap: clamp(1.4rem, 4vw, 3rem);
+  align-items: center;
+  padding: clamp(1.2rem, 3.4vw, 2.4rem);
+  border: 1px solid var(--w-line);
+  border-radius: 28px;
+  background: var(--w-card);
+}
+
+.w-gel__fig {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #f7f0ea, #ecdcd5);
+}
+
+/* 제품 컷은 칸 안에 띄워 맞추고, 손이 나오는 사진은 오른쪽 아래로 붙여 크게 보여 준다 */
+.w-gel__fig img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: clamp(1rem, 3.4vw, 1.8rem);
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+.w-gel__fig--hand img {
+  padding: 0;
+  object-position: right bottom;
+}
+
+.w-gel__body {
+  min-width: 0;
+}
+
+.w-gel__kind {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--w-accent-deep);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.w-gel__kind span {
+  font-family: var(--w-font-num);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.wellness .w-gel__name {
+  margin-top: 0.7rem;
+  font-family: var(--w-font-serif);
+  font-size: clamp(1.45rem, 4.2vw, 2rem);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.w-gel__en {
+  margin-top: 0.5rem;
+  color: var(--w-muted);
+  font-family: var(--w-font-num);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.w-gel__text {
+  margin-top: 1rem;
+  color: var(--w-muted);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+.w-gel__ing {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--w-line-strong);
+}
+
+.w-gel__ing-label {
+  margin-bottom: 0.4rem;
+  color: var(--w-accent-deep);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.w-gel__ings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  gap: 0 1.8rem;
+}
+
+.w-gel__ings li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--w-line);
+}
+
+.w-gel__ings li.has-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 0;
+}
+
+.w-gel__ings li.has-icon img {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+.w-gel__ing-name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.w-gel__ing-en {
+  color: var(--w-muted);
+  font-family: var(--w-font-num);
+  font-size: 0.78rem;
+}
+
+.w-gel__ing-desc {
+  margin-top: 0.15rem;
+  color: var(--w-muted);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.w-gel .w-method__note {
+  margin-top: 2rem;
+}
+
+@media (min-width: 900px) {
+  .w-gel__item {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* 두 번째 제품은 사진을 오른쪽에 둬서 좌우가 번갈아 보이게 한다 */
+  .w-gel__item:nth-child(even) .w-gel__fig {
+    order: 2;
   }
 }
