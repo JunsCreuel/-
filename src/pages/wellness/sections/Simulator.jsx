@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTween } from '../motion'
 import { scrollToId } from '../scroll'
-import { Reveal, Todo } from '../ui'
+import { Todo } from '../ui'
 
 // 창업 비용 구조 계산기. 입력한 숫자로 "매출 − 비용"을 계산해 보여 주는 계산기일 뿐이며, 처음 값은 슬라이더 위치를 잡기 위한 예시다.
 // 예뻐졌다의 실제 매출·비용·수익 수치가 아니다. 근거 없는 예상 수익처럼 보이지 않도록(가맹사업법 제9조),
@@ -53,10 +53,9 @@ function Nudge() {
   )
 }
 
-// embedded면 창업 장(Startup)의 접힘 안에 들어가는 모양이다: 자체 섹션·라벨·제목·리드 없이 sr-only h3를 두고,
-// 늘 보이던 힌트 문장은 ⓘ 토글팁(말풍선)으로 옮긴다. 계산 로직·입력 전 결과 숨김·고지 전문·'이 조건으로 상담 신청'은 같다.
-// embedded가 아니면 예전 독립 섹션(#simulator) 렌더 그대로다.
-export default function Simulator({ embedded = false }) {
+// 창업 장(Startup)의 접힘 안에 들어가는 계산기: 자체 섹션·라벨·제목·리드 없이 sr-only h3를 두고,
+// 힌트 문장은 ⓘ 토글팁(말풍선)으로 보여 준다. 계산 로직·입력 전 결과 숨김·고지 전문·'이 조건으로 상담 신청'은 예전과 같다.
+export default function Simulator() {
   const [v, setV] = useState(defaults)
   const [touched, setTouched] = useState(false) // 슬라이더를 한 번이라도 움직였는지
   const [said, setSaid] = useState('') // 스크린리더 안내(움직임이 멈춘 뒤 한 번만 읽힌다)
@@ -140,25 +139,21 @@ export default function Simulator({ embedded = false }) {
             <div key={f.id} className="w-sim__field">
               <div className="w-sim__row">
                 <label htmlFor={`sim-${f.id}`}>{f.label}</label>
-                {embedded && (
-                  <button
-                    type="button"
-                    className="yw-tip"
-                    aria-label={`${f.label} 도움말`}
-                    aria-expanded={tip === f.id}
-                    aria-controls={`sim-hint-${f.id}`}
-                    onClick={(e) => toggleTip(e, f.id)}
-                  >
-                    <span aria-hidden="true">i</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="yw-tip"
+                  aria-label={`${f.label} 도움말`}
+                  aria-expanded={tip === f.id}
+                  aria-controls={`sim-hint-${f.id}`}
+                  onClick={(e) => toggleTip(e, f.id)}
+                >
+                  <span aria-hidden="true">i</span>
+                </button>
                 <output htmlFor={`sim-${f.id}`}>{shown}</output>
               </div>
-              {embedded && (
-                <p id={`sim-hint-${f.id}`} className="yw-tip__body" hidden={tip !== f.id} style={{ '--tail': `${tipX}px` }}>
-                  {f.hint}
-                </p>
-              )}
+              <p id={`sim-hint-${f.id}`} className="yw-tip__body" hidden={tip !== f.id} style={{ '--tail': `${tipX}px` }}>
+                {f.hint}
+              </p>
               <input
                 id={`sim-${f.id}`}
                 type="range"
@@ -168,10 +163,9 @@ export default function Simulator({ embedded = false }) {
                 value={v[f.id]}
                 style={{ '--fill': `${fill}%` }}
                 aria-valuetext={shown}
-                aria-describedby={embedded ? `sim-hint-${f.id}` : undefined}
+                aria-describedby={`sim-hint-${f.id}`}
                 onChange={(e) => set(f.id, e.target.value)}
               />
-              {!embedded && <p className="w-sim__hint">{f.hint}</p>}
             </div>
           )
         })}
@@ -184,7 +178,7 @@ export default function Simulator({ embedded = false }) {
         <p className="w-sim__eyebrow">입력값 기준 월 계산 결과</p>
         <p className={`w-sim__profit${touched && loss ? ' is-loss' : ''}`}>
           {shownResult}
-          {embedded && !touched && <Nudge />}
+          {!touched && <Nudge />}
         </p>
         <p className="w-sim__sub">
           {!touched ? '왼쪽 조건을 직접 움직이면 계산 결과가 나타납니다.' : loss ? '이 조건에서는 비용이 매출보다 큽니다.' : '입력한 월 매출에서 입력한 비용을 뺀 금액입니다.'}
@@ -235,36 +229,12 @@ export default function Simulator({ embedded = false }) {
     </p>
   )
 
-  if (embedded) {
-    return (
-      // Escape로 열린 도움말을 닫는다(포커스가 계산기 안 어디에 있든)
-      <div className="yw-sim" onKeyDown={onTipKey}>
-        <h3 className="sr-only">창업 비용 구조 계산기</h3>
-        {grid}
-        {note}
-      </div>
-    )
-  }
-
   return (
-    <section id="simulator" className="w-section w-section--band w-sim">
-      <div className="w-container">
-        <Reveal as="p" className="w-label">
-          Cost Calculator
-        </Reveal>
-        <Reveal as="h2" delay={80} className="w-title">
-          창업 비용 구조,
-          <br />
-          직접 넣어 계산해 보세요.
-        </Reveal>
-        <Reveal as="p" delay={120} className="w-lead">
-          매장 규모와 임대료, 매출과 비용을 직접 넣으면 매출에서 비용을 뺀 금액을 바로 계산합니다. 처음 값은 계산 방식을 보여 드리기 위한 예시입니다.
-        </Reveal>
-
-        {grid}
-
-        {note}
-      </div>
-    </section>
+    // Escape로 열린 도움말을 닫는다(포커스가 계산기 안 어디에 있든)
+    <div className="yw-sim" onKeyDown={onTipKey}>
+      <h3 className="sr-only">창업 비용 구조 계산기</h3>
+      {grid}
+      {note}
+    </div>
   )
 }
