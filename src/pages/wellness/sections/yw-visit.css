@@ -238,12 +238,21 @@
   aspect-ratio: 16 / 10;
   overflow: clip;
   border-radius: 1.25rem 1.25rem 0; /* 오른쪽 아래는 노치가 덮으므로 각지게(둥근 가장자리 잔선 방지) */
-  background: color-mix(in srgb, var(--w-ink) 6%, var(--w-band));
 }
 
+/* 로딩 전 자리 색은 프레임이 아니라 사진에 주고, 노치 자리(오른쪽 아래 32%×18%)는 사진에서 마스크로 비운다.
+   프레임 폭이 소수 px이면 노치와 사진이 같은 가장자리 픽셀을 반씩 덮어 오른쪽 끝에 1px 어두운 선이 남기 때문이다.
+   노치 위·왼쪽 가장자리와 겹치도록 2px 더 남긴다. */
 .wellness .yw-visit__frame img {
   width: 100%;
   height: 100%;
+  background: color-mix(in srgb, var(--w-ink) 6%, var(--w-band));
+  -webkit-mask:
+    linear-gradient(#000 0 0) 0 0 / 100% calc(82% + 2px) no-repeat,
+    linear-gradient(#000 0 0) 0 0 / calc(68% + 2px) 100% no-repeat;
+  mask:
+    linear-gradient(#000 0 0) 0 0 / 100% calc(82% + 2px) no-repeat,
+    linear-gradient(#000 0 0) 0 0 / calc(68% + 2px) 100% no-repeat;
   object-fit: cover;
   object-position: 50% 55%;
 }
