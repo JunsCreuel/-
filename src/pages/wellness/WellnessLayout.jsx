@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { BRANCHES } from './data'
 import FloatingInquiry from './FloatingInquiry'
+import { ScrollProgress } from './MotionParts'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
@@ -63,6 +64,7 @@ export default function WellnessLayout() {
 
   return (
     <div className="wellness">
+      <ScrollProgress />
       <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} />
       <main>
         <Outlet />
