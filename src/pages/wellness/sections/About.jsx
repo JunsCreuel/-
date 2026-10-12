@@ -2,6 +2,13 @@ import { useState } from 'react'
 import { PHOTOS } from '../data'
 import { Reveal } from '../ui'
 
+// 소개 펼침 영역: 예뻐졌다 이야기, 세 가지 조합, 관리 순서
+const PAIRS = [
+  { no: '01', tag: '온열돔 · 전신웜업케어', a: '온기', b: '휴식', text: '온열돔에 편히 누워 있는 동안 몸 전체가 깊고 고르게 데워집니다. 땀과 함께 긴장이 풀리면서 다음 관리를 받을 준비가 됩니다.' },
+  { no: '02', tag: '아웃케어', a: '손길', b: '디바이스', text: '따뜻해진 몸에 손길과 갈바닉·웰스파 디바이스로 고민 부위를 집중 관리합니다. 어깨와 등, 복부, 하체처럼 무거운 곳을 하나씩 풀어 드립니다.' },
+  { no: '03', tag: '두피-얼굴 관리', a: '두피', b: '얼굴', text: '두피 클렌징부터 얼굴 근막 케어까지 한 흐름으로 이어집니다. 머리는 가볍게, 얼굴은 생기 있게 마무리합니다.' },
+]
+
 const METHODS = [
   { no: '01', en: 'CONSULTATION', ko: '오늘의 고민을 듣습니다', text: '두피와 피부 상태, 신경 쓰이는 복부 라인, 무겁게 느껴지는 등과 하체. 오늘 집중하고 싶은 부위와 컨디션을 먼저 살핍니다.' },
   { no: '02', en: 'HEAT DOME', ko: '온열돔으로 따뜻하게', text: '명신메디칼 전신 온열돔에서 편안히 쉬어갑니다. 이용 중 상태와 불편함을 확인하며, 선택한 관리에 맞춰 온열 케어를 진행합니다.' },
@@ -36,12 +43,12 @@ export default function About() {
               Studio
             </Reveal>
             <Reveal as="p" delay={80} className="w-about__line">
-              온열이 몸을 준비시키고,
+              온기로 풀고,
               <br />
-              아웃케어가 완성합니다.
+              손끝으로 <em>완성</em>합니다.
             </Reveal>
             <Reveal as="p" delay={120} className="w-about__lead">
-              아웃케어는 온열돔 후 고민 부위를 한 번 더 돌보는 집중관리입니다. 따뜻한 휴식부터 섬세한 디바이스 케어까지, 나에게 맞는 하나의 흐름으로 이어집니다.
+              예뻐졌다 WELLNESS STUDIO는 온열돔으로 몸을 먼저 따뜻하게 준비한 뒤 손길과 디바이스로 고민 부위를 하나씩 살핍니다. 두피부터 얼굴과 바디까지, 한 번의 방문으로 이어지는 토탈 케어입니다.
             </Reveal>
             <Reveal delay={160}>
               <button type="button" className="w-btn w-btn--arrow" aria-expanded={open} aria-controls="w-about-steps" onClick={() => setOpen((v) => !v)}>
@@ -53,6 +60,35 @@ export default function About() {
 
         {open && (
           <div id="w-about-steps" className="w-about__steps">
+            <div className="w-story">
+              <p className="w-label">예뻐졌다의 4년</p>
+              <h3 className="w-story__title">
+                4년, 40개 이상의 매장.
+                <br />
+                그리고 다시, <em>용호점</em>.
+              </h3>
+              <p className="w-story__text">
+                예뻐졌다는 문을 연 지 4년 만에 40개가 넘는 매장과 함께하는 브랜드가 되었습니다. 그 시간 동안 쌓은 관리 노하우에 한층 업그레이드된 장비와 프로그램을 더해 용호점이 예뻐졌다 WELLNESS STUDIO로 새롭게 문을 열었습니다.
+              </p>
+            </div>
+
+            <div className="w-pairs">
+              {PAIRS.map((p) => (
+                <article key={p.no} className="w-pair">
+                  <p className="w-pair__tag">
+                    <span>{p.no}</span>
+                    {p.tag}
+                  </p>
+                  <h3 className="w-pair__title">
+                    {p.a} <em>+</em>
+                    <br />
+                    {p.b}
+                  </h3>
+                  <p className="w-pair__text">{p.text}</p>
+                </article>
+              ))}
+            </div>
+
             <div className="w-method__rows">
               {METHODS.map((m) => (
                 <div key={m.no} className="w-method__row">
