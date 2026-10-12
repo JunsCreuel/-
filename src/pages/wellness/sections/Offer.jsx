@@ -11,7 +11,7 @@ export default function Offer() {
     <section id="offer" className="w-section w-section--ink w-offer">
       <div className="w-container w-offer__inner">
         <Reveal as="p" className="w-eyebrow">
-          확장 이전 오픈 기념 이벤트
+          첫 방문 이벤트
         </Reveal>
         <Reveal className="w-offer__big" role="img" aria-label="첫 방문 혜택 50%">
           <span aria-hidden="true">첫 방문 혜택</span>
@@ -23,7 +23,7 @@ export default function Offer() {
           새로워진 예뻐졌다, 첫 방문은 반값으로
         </Reveal>
         <Reveal as="p" delay={120} className="w-lead">
-          용호점 확장 이전을 기념해 첫 방문 고객께 관리{SHOW_PRICES ? ' 요금' : ''}을 50% 할인해 드립니다.
+          첫 방문 고객께 관리{SHOW_PRICES ? ' 요금' : ''}을 50% 할인해 드립니다.
           <br />
           전단지가 없어도 적용되며 고객 1인 1회에 한합니다.
         </Reveal>
