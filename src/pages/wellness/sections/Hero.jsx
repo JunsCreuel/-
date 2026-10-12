@@ -7,7 +7,7 @@ export default function Hero() {
     <section id="top" className="w-hero">
       {/* 분위기용 이미지: 글 뒤에 깔리므로 대체 텍스트는 비워 둔다 */}
       <div className="w-hero__bg" aria-hidden="true">
-        <img src={PHOTOS.moodHero} alt="" width="800" height="668" decoding="async" fetchpriority="high" />
+        <img src={PHOTOS.neck} alt="" width="735" height="1105" decoding="async" fetchpriority="high" />
       </div>
 
       <div className="w-container w-hero__inner">
@@ -16,9 +16,9 @@ export default function Hero() {
             첫 방문 이벤트 · 50% 할인
           </Reveal>
           <Reveal as="h1" delay={80} className="w-hero__title">
-            오늘은 건강하게,
+            오늘보다 더 예쁜,
             <br />
-            내일은 더 <em>환하게.</em>
+            <em>내일의 나.</em>
           </Reveal>
           <Reveal as="p" delay={130} className="w-hero__kicker">
             관리 후 가장 먼저 듣는 말, <span>“예뻐졌다”</span>

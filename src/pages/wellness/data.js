@@ -18,7 +18,6 @@ export const PHOTOS = {
   gelActivating: `${BASE}wellness/gel/activating-gel.webp`,
   ingKelp: `${BASE}wellness/gel/kelp.webp`,
   ingTheobromine: `${BASE}wellness/gel/theobromine.webp`,
-  moodHero: `${BASE}wellness/mood/hero.webp`,
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
 

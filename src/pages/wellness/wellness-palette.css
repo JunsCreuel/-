@@ -1,8 +1,8 @@
-/* 색 적용 — "Freshly squeezed" 팔레트(#FFBF00 · #F2CF7E · #FFE642 · #FF7900)
-   기준 색 값은 wellness.css의 토큰이다. 여기서는 토큰만으로 풀리지 않는 곳(주황 위 글자색, 큰 색 면 구간,
+/* 색 적용 — 하얀 바탕 + 주황 포인트(#FF7900), 글자 형광펜만 노랑(#FFE642)
+   기준 색 값은 wellness.css의 토큰이다. 여기서는 토큰만으로 풀리지 않는 곳(주황 위 글자색, 색 면 구간,
    사진 바탕, 형광펜 강조)을 덮는다. 다른 wellness CSS보다 뒤에 불러와야 한다. */
 
-/* 주황·노랑 위에서는 흰 글자의 대비가 낮아 짙은 글자로 쓴다 */
+/* 주황 위에서는 흰 글자의 대비가 낮아 짙은 글자로 쓴다 */
 .w-btn--primary,
 .w-submit,
 .w-float,
@@ -21,29 +21,39 @@
   color: #fff;
 }
 
-/* 노랑: 칩, 가격 배지, 제목 형광펜 */
+/* 포인트는 주황: 칩, 프로그램 배지, 할인율, 카드의 + 버튼 */
 .w-chip {
-  border-color: var(--w-yellow);
-  background: var(--w-yellow);
+  border-color: var(--w-accent);
+  background: var(--w-accent);
   color: var(--w-ink);
 }
 
 .w-pc .w-tags li.is-badge {
-  border-color: var(--w-yellow);
-  background: var(--w-yellow);
+  border-color: var(--w-accent);
+  background: var(--w-accent);
   color: var(--w-ink);
 }
 
 .w-pc__price b {
-  background: var(--w-yellow);
+  background: var(--w-accent);
   color: var(--w-ink);
 }
 
+.w-pc__toggle {
+  border-color: var(--w-accent);
+  background: var(--w-accent);
+  color: var(--w-ink);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* 노랑은 제목 강조어의 형광펜 밑줄에만 */
 .w-hero__title em,
 .w-about__line em,
 .w-story__title em,
 .w-pair__title em,
-.w-gel__title em {
+.w-gel__title em,
+.w-cta__title em {
   background: linear-gradient(transparent 62%, var(--w-yellow) 62%);
   color: var(--w-ink);
 }
@@ -55,21 +65,41 @@
   color: var(--w-accent-deep);
 }
 
-/* 히어로와 제품·장비 사진 바탕은 샌드 노랑 계열로 */
-.w-hero {
-  --hero-bg: #fff6dc;
+/* 구간은 흰 바탕으로 깔끔하게, 이어지는 흰 구간은 얇은 선으로만 나눈다 */
+.w-quick {
+  border-top: 1px solid var(--w-line);
 }
 
+.w-programs-sec,
+.w-gel {
+  background: var(--w-bg);
+}
+
+.w-eq-sec,
+.w-gel,
+.w-cta {
+  border-top: 1px solid var(--w-line);
+}
+
+/* 제품·장비 사진 바탕: 여러 색이 섞인 그라데이션 대신 스튜디오 컷처럼 깨끗한 밝은 회색 하나로.
+   제품 가장자리가 묻히지 않도록 그림자만 살짝 준다 */
 .w-eq__fig,
 .w-dev__tile,
-.w-gel__fig {
-  background: linear-gradient(160deg, #fff6d6, var(--w-sand));
+.w-gel__fig,
+.w-pc--contain {
+  background: radial-gradient(ellipse at 50% 38%, #fcfcfb 0%, #eceeee 100%);
 }
 
-/* 큰 색 면 구간: 고민은 샌드, 이벤트는 주황, 마지막 CTA는 앰버. 밝은 바탕이라 글자색 토큰을 뒤집는다 */
+.w-eq__fig img,
+.w-dev__tile img,
+.w-gel__fig:not(.w-gel__fig--hand) img,
+.w-pc--contain > img {
+  filter: drop-shadow(0 16px 20px rgb(34 31 27 / 0.14));
+}
+
+/* 고민 구간은 밝은 회색 띠, 첫 방문 이벤트는 주황 면. 밝은 바탕이라 글자색 토큰을 뒤집는다 */
 .w-concern,
-.w-offer,
-.w-cta {
+.w-offer {
   --w-bg: #221f1b;
   --w-ink: #ffffff;
   --w-on-ink-muted: color-mix(in srgb, #221f1b 88%, transparent);
@@ -77,24 +107,9 @@
 }
 
 .w-concern {
-  --w-ink-band: var(--w-sand);
+  --w-ink-band: #f6f6f4;
 }
 
 .w-offer {
   --w-ink-band: var(--w-orange);
-}
-
-.w-cta {
-  --w-ink-band: var(--w-amber);
-}
-
-.w-cta .w-btn--primary {
-  border-color: #221f1b;
-  background: #221f1b;
-  color: #fff;
-}
-
-.w-section--ink .w-cta__title em {
-  background: linear-gradient(transparent 62%, #fff 62%);
-  color: #221f1b;
 }

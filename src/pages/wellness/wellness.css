@@ -3,15 +3,13 @@
    색은 흰 바탕과 노랑·주황 포인트, 짙은 웜 블랙 글씨에서 파생한다. */
 
 :root {
-  /* 팔레트 "Freshly squeezed": 하얀 바탕을 기본으로 깔고, 노랑·주황 계열을 큰 색 면과 포인트에만 쓴다 */
-  --w-amber: #ffbf00;
-  --w-sand: #f2cf7e;
-  --w-yellow: #ffe642;
+  /* 하얀 바탕을 기본으로 깔고, 포인트는 주황 하나로 준다. 노랑은 글자 형광펜에만 쓴다 */
+  --w-yellow: #ffe642; /* 글자 형광펜에만 쓴다 */
   --w-orange: #ff7900;
 
   --w-ink: #221f1b;
   --w-bg: #ffffff;
-  --w-band: #fff8e8;
+  --w-band: #f6f6f4;
   --w-card: #ffffff;
   --w-accent: var(--w-orange);
   /* 주황은 흰 바탕의 작은 글자에서 대비가 낮아, 글자·링크에는 한 단계 진한 주황을 쓴다 */

@@ -605,10 +605,6 @@
   text-wrap: balance;
 }
 
-.w-section--ink .w-cta__title em {
-  color: #d9a79f;
-}
-
 .w-cta__actions {
   display: flex;
   flex-wrap: wrap;
@@ -616,16 +612,6 @@
   justify-content: center;
   gap: 0.8rem;
   margin-top: 2.2rem;
-}
-
-.w-cta .w-btn:not(.w-btn--primary) {
-  border-color: color-mix(in srgb, var(--w-bg) 55%, transparent);
-  color: var(--w-bg);
-}
-
-.w-cta .w-btn:not(.w-btn--primary):hover {
-  border-color: var(--w-bg);
-  color: var(--w-bg);
 }
 
 /* 반응형 */
