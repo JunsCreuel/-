@@ -55,6 +55,7 @@ export default function WellnessFooter({ items }) {
                 영업시간 : {MARINE_OPEN && `${zai.name} `}
                 {zai.hours}
               </p>
+              <p className="w-footer__credit">일부 분위기 사진: Unsplash</p>
             </div>
 
             <div className="w-footer__cols">
