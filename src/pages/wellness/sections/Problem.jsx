@@ -11,49 +11,44 @@ const CONCERNS = [
 
 const WHO = ['장시간 앉아서 근무하시는 분', '장시간 서서 근무하시는 분', '피로가 일상이 되신 분']
 
+// 고민 구간: 문장 목록 대신 알약 칩으로 보여 주고, 마지막에 한 줄로 이어 준다.
 export default function Problem() {
   return (
-    <>
-      <section id="problem" className="w-section">
-        <div className="w-container">
-          <Reveal as="p" className="w-eyebrow">
-            Concern
-          </Reveal>
-          <Reveal as="h2" delay={80} className="w-title">
-            충분히 쉬어도
-            <br />
-            개운하지 않다면
-          </Reveal>
+    <section id="problem" className="w-section w-section--ink w-concern">
+      <div className="w-container">
+        <Reveal as="p" className="w-label">
+          Concern
+        </Reveal>
+        <Reveal as="h2" delay={80} className="w-title">
+          충분히 쉬어도
+          <br />
+          개운하지 않다면
+        </Reveal>
 
-          <ul className="w-ruled">
-            {CONCERNS.map((text, i) => (
-              <Reveal as="li" key={text} delay={(i % 2) * 70}>
-                {text}
-              </Reveal>
-            ))}
-          </ul>
+        <ul className="w-chips">
+          {CONCERNS.map((text, i) => (
+            <Reveal as="li" key={text} delay={i * 50}>
+              {text}
+            </Reveal>
+          ))}
+        </ul>
 
-          <Reveal as="ul" className="w-who">
-            {WHO.map((text) => (
-              <li key={text}>{text}</li>
-            ))}
-          </Reveal>
+        <Reveal as="ul" className="w-who">
+          {WHO.map((text) => (
+            <li key={text}>{text}</li>
+          ))}
+        </Reveal>
 
-          <Reveal as="p" className="w-bridge">
-            피로는 매일 쌓이지만, 스스로를 돌보는 시간은 번번이 뒤로 밀립니다.
-          </Reveal>
-        </div>
-      </section>
+        <Reveal as="p" className="w-bridge">
+          피로는 매일 쌓이지만, 스스로를 돌보는 시간은 번번이 뒤로 밀립니다.
+        </Reveal>
 
-      <section className="w-section w-section--ink w-turn">
-        <div className="w-container">
-          <Reveal as="p" className="w-turn__text">
-            온몸을 따뜻하게 감싼 다음,
-            <br />
-            나의 고민 부위를 한 번 더 돌봅니다.
-          </Reveal>
-        </div>
-      </section>
-    </>
+        <Reveal as="p" className="w-concern__turn">
+          온몸을 따뜻하게 감싼 다음,
+          <br />
+          나의 고민 부위를 한 번 더 돌봅니다.
+        </Reveal>
+      </div>
+    </section>
   )
 }

@@ -46,29 +46,32 @@ export default function Faq() {
 
   return (
     <section id="faq" className="w-section">
-      <div className="w-container w-faq">
-        <Reveal as="p" className="w-eyebrow">
-          FAQ
-        </Reveal>
-        <Reveal as="h2" delay={80} className="w-title">
-          자주 묻는 질문
-        </Reveal>
+      <div className="w-container w-faq w-faq--split">
+        <div className="w-faq__head">
+          <Reveal as="p" className="w-label">
+            Frequently asked
+          </Reveal>
+          <Reveal as="h2" delay={80} className="w-display">
+            FAQ
+            <span className="w-display__sub">자주 묻는 질문</span>
+          </Reveal>
 
-        <div className="w-faq__tabs" role="tablist" aria-label="질문 구분">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="tab"
-              id={`faq-tab-${t.id}`}
-              aria-selected={t.id === tab}
-              aria-controls="faq-panel"
-              className={t.id === tab ? 'is-active' : undefined}
-              onClick={() => setTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
+          <div className="w-pilltabs" role="tablist" aria-label="질문 구분">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                id={`faq-tab-${t.id}`}
+                aria-selected={t.id === tab}
+                aria-controls="faq-panel"
+                className={t.id === tab ? 'is-active' : undefined}
+                onClick={() => setTab(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <Reveal className="w-faq__list" role="tabpanel" id="faq-panel" aria-labelledby={`faq-tab-${tab}`}>
