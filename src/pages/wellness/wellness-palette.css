@@ -1,0 +1,100 @@
+/* 색 적용 — "Freshly squeezed" 팔레트(#FFBF00 · #F2CF7E · #FFE642 · #FF7900)
+   기준 색 값은 wellness.css의 토큰이다. 여기서는 토큰만으로 풀리지 않는 곳(주황 위 글자색, 큰 색 면 구간,
+   사진 바탕, 형광펜 강조)을 덮는다. 다른 wellness CSS보다 뒤에 불러와야 한다. */
+
+/* 주황·노랑 위에서는 흰 글자의 대비가 낮아 짙은 글자로 쓴다 */
+.w-btn--primary,
+.w-submit,
+.w-float,
+.w-pilltabs button.is-active,
+.w-opt.is-on,
+.w-step__q b,
+.w-cc__icon,
+.w-pc-arrow:hover,
+.w-rv__btns button:hover {
+  color: var(--w-ink);
+}
+
+/* 누르면 한 단계 진한 주황으로 바뀌므로 그때만 흰 글자 */
+.w-btn--primary:hover,
+.w-submit:hover {
+  color: #fff;
+}
+
+/* 노랑: 칩, 가격 배지, 제목 형광펜 */
+.w-chip {
+  border-color: var(--w-yellow);
+  background: var(--w-yellow);
+  color: var(--w-ink);
+}
+
+.w-pc .w-tags li.is-badge {
+  border-color: var(--w-yellow);
+  background: var(--w-yellow);
+  color: var(--w-ink);
+}
+
+.w-pc__price b {
+  background: var(--w-yellow);
+  color: var(--w-ink);
+}
+
+.w-hero__title em,
+.w-about__line em,
+.w-story__title em,
+.w-pair__title em,
+.w-gel__title em {
+  background: linear-gradient(transparent 62%, var(--w-yellow) 62%);
+  color: var(--w-ink);
+}
+
+/* 주황 글자는 대비가 낮아 작은 숫자·번호에는 진한 주황 */
+.w-nums__list > li.is-accent .w-nums__big,
+.w-pair__tag span,
+.w-dev__no span {
+  color: var(--w-accent-deep);
+}
+
+/* 히어로와 제품·장비 사진 바탕은 샌드 노랑 계열로 */
+.w-hero {
+  --hero-bg: #fff6dc;
+}
+
+.w-eq__fig,
+.w-dev__tile,
+.w-gel__fig {
+  background: linear-gradient(160deg, #fff6d6, var(--w-sand));
+}
+
+/* 큰 색 면 구간: 고민은 샌드, 이벤트는 주황, 마지막 CTA는 앰버. 밝은 바탕이라 글자색 토큰을 뒤집는다 */
+.w-concern,
+.w-offer,
+.w-cta {
+  --w-bg: #221f1b;
+  --w-ink: #ffffff;
+  --w-on-ink-muted: color-mix(in srgb, #221f1b 88%, transparent);
+  --w-ink-soft: color-mix(in srgb, #221f1b 10%, transparent);
+}
+
+.w-concern {
+  --w-ink-band: var(--w-sand);
+}
+
+.w-offer {
+  --w-ink-band: var(--w-orange);
+}
+
+.w-cta {
+  --w-ink-band: var(--w-amber);
+}
+
+.w-cta .w-btn--primary {
+  border-color: #221f1b;
+  background: #221f1b;
+  color: #fff;
+}
+
+.w-section--ink .w-cta__title em {
+  background: linear-gradient(transparent 62%, #fff 62%);
+  color: #221f1b;
+}

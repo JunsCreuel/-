@@ -13,6 +13,11 @@ export const PHOTOS = {
   bodyGalvanic: `${BASE}wellness/equipment/body-galvanic.webp`,
   wellspa: `${BASE}wellness/equipment/wellspa.webp`,
   qr: `${BASE}wellness/qr-naver.png`,
+  gelShaping: `${BASE}wellness/gel/shaping-gel.webp`,
+  gelSerum: `${BASE}wellness/gel/body-serum.webp`,
+  gelActivating: `${BASE}wellness/gel/activating-gel.webp`,
+  ingKelp: `${BASE}wellness/gel/kelp.webp`,
+  ingTheobromine: `${BASE}wellness/gel/theobromine.webp`,
   moodHero: `${BASE}wellness/mood/hero.webp`,
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
@@ -39,7 +44,7 @@ export const NUMBERS = [
   { n: '40', unit: '+', label: '함께하는 예뻐졌다 매장' },
   { n: '100', unit: '%', label: '100% 예약제 · 1:1 프라이빗 관리' },
   { n: '8', unit: '가지 관리', label: '두피부터 림프까지 8가지 관리' },
-  { n: '50', unit: '%', label: '확장 이전 오픈 기념 할인', accent: true },
+  { n: '50', unit: '%', label: '첫 방문 이벤트 할인', accent: true },
 ]
 
 // 네이버 리뷰에 남겨 주신 후기. 글은 작성자가 쓴 그대로 싣는다(고치거나 줄이지 않는다).

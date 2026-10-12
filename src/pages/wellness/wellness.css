@@ -1,16 +1,22 @@
 /* 예뻐졌다 WELLNESS STUDIO 랜딩 — 공통 토큰/기본 스타일
    기존 앱 토큰(src/index.css)과 섞이지 않도록 --w- 접두를 쓰고,
-   색은 아이보리·샌드 바탕과 로즈 브라운 포인트, 짙은 브라운 글씨에서 파생한다. */
+   색은 흰 바탕과 노랑·주황 포인트, 짙은 웜 블랙 글씨에서 파생한다. */
 
 :root {
-  /* 시안 기준 팔레트: 크림 아이보리 바탕, 샌드 보조 배경, 로즈 브라운 포인트, 짙은 웜 브라운 글씨 */
-  --w-ink: #2f2622;
-  --w-bg: #f8f4f0;
-  --w-band: #f0e8e2;
-  --w-card: #fbf9f6;
-  --w-accent: #a0706a;
-  --w-accent-deep: #865a55;
-  --w-ink-band: #3a2e2a;
+  /* 팔레트 "Freshly squeezed": 하얀 바탕을 기본으로 깔고, 노랑·주황 계열을 큰 색 면과 포인트에만 쓴다 */
+  --w-amber: #ffbf00;
+  --w-sand: #f2cf7e;
+  --w-yellow: #ffe642;
+  --w-orange: #ff7900;
+
+  --w-ink: #221f1b;
+  --w-bg: #ffffff;
+  --w-band: #fff8e8;
+  --w-card: #ffffff;
+  --w-accent: var(--w-orange);
+  /* 주황은 흰 바탕의 작은 글자에서 대비가 낮아, 글자·링크에는 한 단계 진한 주황을 쓴다 */
+  --w-accent-deep: #b85200;
+  --w-ink-band: #221f1b;
 
   /* 브랜드 로고 원본에서 읽은 색: 마크는 따뜻한 차콜, 가는 글씨는 그보다 조금 더 짙게 */
   --w-logo-mark: #322e28;
@@ -136,7 +142,7 @@ body.is-wellness {
 
 .w-eyebrow {
   margin-bottom: 1rem;
-  color: var(--w-accent);
+  color: var(--w-accent-deep);
   font-family: var(--w-font-en);
   font-size: 0.8rem;
   letter-spacing: 0.16em;
