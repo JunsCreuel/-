@@ -4,7 +4,7 @@
 /* HERO — 큰 분위기 이미지 위에 글을 얹는다. 좁은 화면에서는 이미지가 위, 글이 아래 */
 
 .w-hero {
-  --hero-bg: #dccdbe;
+  --hero-bg: #ffffff;
   position: relative;
   overflow: hidden;
   padding: 0 var(--w-gutter) clamp(3rem, 9vw, 5rem);
