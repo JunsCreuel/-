@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PHOTOS } from '../data'
 import { scrollToId } from '../scroll'
 import Tabs from '../Tabs'
@@ -44,6 +45,40 @@ const USES = [
   { id: 'combo', label: '온열돔 + 집중관리', text: '따뜻하게 쉰 다음, 신경 쓰이는 한 부위를 더 세심하게 돌보세요.' },
 ]
 
+// 디바이스 카드: 사진 면과 설명 면이 3D로 뒤집힌다. 마우스를 올리면 뒤집히고(마우스 기기),
+// 터치·키보드에서는 "자세히 보기" 버튼으로 뒤집는다. 두 면의 글은 모두 DOM에 있어 스크린리더도 읽을 수 있다.
+function DeviceCard({ d, index }) {
+  const [flipped, setFlipped] = useState(false)
+  const backId = `w-flip-back-${d.no}`
+  return (
+    <Reveal delay={index * 80} className="w-dev">
+      <div className={`w-flip${flipped ? ' is-flipped' : ''}`}>
+        <div className="w-flip__inner">
+          <div className="w-flip__face w-flip__front">
+            <img src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
+          </div>
+          <div className="w-flip__face w-flip__back" id={backId}>
+            <p className="w-flip__text">{d.text}</p>
+            <ul className="w-tags">
+              {d.tags.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p className="w-dev__no">
+        <span>{d.no}</span>
+        {d.name}
+      </p>
+      <h4 className="w-dev__lead">{d.lead}</h4>
+      <button type="button" className="w-dev__toggle" aria-expanded={flipped} aria-controls={backId} onClick={() => setFlipped((v) => !v)}>
+        {flipped ? '사진 보기' : '자세히 보기'}
+      </button>
+    </Reveal>
+  )
+}
+
 // 온열돔과 디바이스: 큰 제품 사진 옆에 핵심만 두고, 디바이스·이용 방법은 알약 탭으로 하나씩 보여 준다.
 export default function Equipment() {
   return (
@@ -86,25 +121,7 @@ export default function Equipment() {
         </div>
         <div className="w-dev-grid">
           {DEVICES.map((d, i) => (
-            <Reveal key={d.no} delay={i * 80} className="w-dev">
-              <div className="w-dev__tile">
-                <img src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
-              </div>
-              <p className="w-dev__no">
-                <span>{d.no}</span>
-                {d.name}
-              </p>
-              <h4 className="w-dev__lead">{d.lead}</h4>
-              <details className="w-dev__more">
-                <summary>자세히 보기</summary>
-                <p>{d.text}</p>
-                <ul className="w-tags">
-                  {d.tags.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </details>
-            </Reveal>
+            <DeviceCard key={d.no} d={d} index={i} />
           ))}
         </div>
         <p className="w-method__note">
