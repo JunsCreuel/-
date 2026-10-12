@@ -1,5 +1,9 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { PICS } from '../data'
+import { Folio, Pic } from '../editorial'
+import { prefersReducedMotion } from '../motion'
 import { Reveal } from '../ui'
+import './yw-faq.css'
 
 const CUSTOMER_FAQS = [
   { q: '온열돔만 이용할 수도 있나요?', a: '네, 온열돔 단독 이용도 가능합니다. 정기적으로 방문하고 싶으신 분은 이용권 구성을 상담해 주세요. 원하는 부위의 아웃케어를 함께 선택할 수도 있습니다.' },
@@ -44,48 +48,106 @@ const TABS = [
   { id: 'startup', label: '창업 FAQ', faqs: STARTUP_FAQS },
 ]
 
+// 질문을 열 때 답이 높이 0에서 부드럽게 펼쳐진다(Web Animations API). 닫힘과 모션 줄이기는 즉시.
+function onItemToggle(e) {
+  const item = e.currentTarget
+  if (!item.open || prefersReducedMotion()) return
+  const ans = item.querySelector('.yw-faq__a')
+  if (!ans?.animate) return
+  ans.animate([{ height: '0px', opacity: 0 }, { height: `${ans.scrollHeight}px`, opacity: 1 }], {
+    duration: 320,
+    easing: 'cubic-bezier(.2,.7,.2,1)',
+  })
+}
+
+// 09 Q&A — 왼쪽에 고정된 제목·탭·아치 사진, 오른쪽에 큰 질문 목록. 한 번에 하나만 열린다(details name).
 export default function Faq() {
   const [tab, setTab] = useState('customer')
+  // 탭을 한 번이라도 바꾼 뒤에만 질문이 순서대로 올라온다(첫 화면에서는 그대로 둔다).
+  const [switched, setSwitched] = useState(false)
+  const tabRefs = useRef([])
   const current = TABS.find((t) => t.id === tab)
 
-  return (
-    <section id="faq" className="w-section">
-      <div className="w-container w-faq w-faq--split">
-        <div className="w-faq__head">
-          <Reveal as="p" className="w-label">
-            Frequently asked
-          </Reveal>
-          <Reveal as="h2" delay={80} className="w-display">
-            FAQ
-            <span className="w-display__sub">자주 묻는 질문</span>
-          </Reveal>
+  function select(id) {
+    if (id === tab) return
+    setTab(id)
+    setSwitched(true)
+  }
 
-          <div className="w-pilltabs" role="tablist" aria-label="질문 구분">
-            {TABS.map((t) => (
+  // ←→(그리고 Home·End)로 탭을 옮기면서 바로 고른다. 포커스는 고른 탭 하나에만 머문다(roving tabindex).
+  function onTabKey(e) {
+    const i = TABS.findIndex((t) => t.id === tab)
+    let next = -1
+    if (e.key === 'ArrowRight') next = (i + 1) % TABS.length
+    else if (e.key === 'ArrowLeft') next = (i - 1 + TABS.length) % TABS.length
+    else if (e.key === 'Home') next = 0
+    else if (e.key === 'End') next = TABS.length - 1
+    if (next < 0) return
+    e.preventDefault()
+    select(TABS[next].id)
+    tabRefs.current[next]?.focus()
+  }
+
+  return (
+    <section id="faq" className="yw-section yw-curtain--light yw-faq" data-theme="light">
+      <div className="yw-wrap yw-faq__grid">
+        <div className="yw-faq__side">
+          <Folio no="08" en="Q&A" />
+          <h2 className="yw-display yw-faq__title">FAQ</h2>
+
+          <div className="yw-faq__tabs" role="tablist" aria-label="질문 구분" onKeyDown={onTabKey}>
+            {TABS.map((t, i) => (
               <button
                 key={t.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el
+                }}
                 type="button"
                 role="tab"
                 id={`faq-tab-${t.id}`}
                 aria-selected={t.id === tab}
                 aria-controls="faq-panel"
-                className={t.id === tab ? 'is-active' : undefined}
-                onClick={() => setTab(t.id)}
+                tabIndex={t.id === tab ? 0 : -1}
+                className={`yw-faq__tab${t.id === tab ? ' is-active' : ''}`}
+                onClick={() => select(t.id)}
               >
                 {t.label}
               </button>
             ))}
           </div>
+
+          <Reveal variant="wipe" className="yw-faq__photo">
+            <Pic pic={PICS.faqArch} sizes="20rem" />
+          </Reveal>
         </div>
 
-        <Reveal className="w-faq__list" role="tabpanel" id="faq-panel" aria-labelledby={`faq-tab-${tab}`}>
-          {current.faqs.map((item) => (
-            <details key={`${tab}-${item.q}`} className="w-faq__item" name="w-faq">
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
+        <div
+          key={tab}
+          className={`yw-faq__list${switched ? ' is-switched' : ''}`}
+          role="tabpanel"
+          id="faq-panel"
+          aria-labelledby={`faq-tab-${tab}`}
+        >
+          {current.faqs.map((item, i) => (
+            <details
+              key={item.q}
+              name="w-faq"
+              className="yw-faq__item"
+              style={{ '--i': i }}
+              // 고객 탭의 첫 질문만 처음부터 열어 둔다. 목록은 탭마다 새로 그려지므로 이 값은 마운트 때만 쓰인다.
+              open={tab === 'customer' && i === 0}
+              onToggle={onItemToggle}
+            >
+              <summary>
+                <span className="yw-faq__q">{item.q}</span>
+                <i className="yw-faq__icon" aria-hidden="true" />
+              </summary>
+              <div className="yw-faq__a">
+                <p>{item.a}</p>
+              </div>
             </details>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   )
