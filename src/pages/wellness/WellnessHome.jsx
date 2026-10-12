@@ -16,6 +16,7 @@ import Proof from './sections/Proof'
 import './wellness-sections.css'
 import './wellness-compose.css'
 import './wellness-merge.css'
+import './wellness-palette.css'
 
 // 예뻐졌다 WELLNESS STUDIO 자이점(용호) 랜딩
 export default function WellnessHome() {
