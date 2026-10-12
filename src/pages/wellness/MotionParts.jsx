@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { easeOutCubic, prefersReducedMotion, useInView } from './motion'
+import { easeOutCubic, onScrollFrame, prefersReducedMotion, useInView } from './motion'
 
 // 0에서 목표값까지 세어 올라가는 숫자. 화면에 들어올 때 한 번 실행하고, 모션 줄이기면 바로 최종값을 보여 준다.
 export function CountUp({ to, duration = 1400, className, suffix = '' }) {
@@ -42,24 +42,11 @@ export function ScrollProgress() {
   useEffect(() => {
     const el = barRef.current
     if (!el) return undefined
-    let raf = 0
-    const update = () => {
-      raf = 0
+    return onScrollFrame(({ y }) => {
       const max = document.documentElement.scrollHeight - window.innerHeight
-      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0
+      const p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0
       el.style.setProperty('--p', p.toFixed(4))
-    }
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      if (raf) cancelAnimationFrame(raf)
-    }
+    })
   }, [])
   return <div ref={barRef} className="w-progress" aria-hidden="true" />
 }
