@@ -55,15 +55,30 @@
   color: var(--w-accent-deep);
 }
 
-/* 히어로와 제품·장비 사진 바탕은 샌드 노랑 계열로 */
 .w-hero {
   --hero-bg: #fff6dc;
 }
 
+/* 프로그램 구간: 베이지 대신 노랑 면. 노랑 위에서는 보조 글자색을 한 단계 짙게 */
+.w-programs-sec {
+  --w-muted: color-mix(in srgb, var(--w-ink) 82%, transparent);
+  background: var(--w-yellow);
+}
+
+/* 제품·장비 사진 바탕: 여러 색이 섞인 그라데이션 대신 스튜디오 컷처럼 깨끗한 밝은 회색 하나로.
+   제품 가장자리가 묻히지 않도록 그림자만 살짝 준다 */
 .w-eq__fig,
 .w-dev__tile,
-.w-gel__fig {
-  background: linear-gradient(160deg, #fff6d6, var(--w-sand));
+.w-gel__fig,
+.w-pc--contain {
+  background: radial-gradient(ellipse at 50% 38%, #fcfcfb 0%, #eceeee 100%);
+}
+
+.w-eq__fig img,
+.w-dev__tile img,
+.w-gel__fig:not(.w-gel__fig--hand) img,
+.w-pc--contain > img {
+  filter: drop-shadow(0 16px 20px rgb(34 31 27 / 0.14));
 }
 
 /* 큰 색 면 구간: 고민은 샌드, 이벤트는 주황, 마지막 CTA는 앰버. 밝은 바탕이라 글자색 토큰을 뒤집는다 */
