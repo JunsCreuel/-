@@ -152,11 +152,11 @@ export const GELS = [
     photo: { src: `${DEV}gel-body-serum.webp`, alt: '손바닥에 덜어 낸 에이지락 바디 세럼', width: 900, height: 649, bleed: true },
     reverse: true,
     ingredients: [
-      { name: '바디 실루엣 블렌드', text: '보태니컬 성분 복합체로 바디 피부를 탄탄하게 가꿔 줍니다.' },
-      { name: 'AI 펩타이드', text: 'AI로 찾아낸 펩타이드로 탄력 있는 바디 피부를 돕습니다.' },
-      { name: '타라열매 & 코토니 추출물', text: '외부 환경으로부터 피부를 보호해 매끄럽고 촉촉하게 지켜 줍니다.' },
-      { name: '스킨 컨디셔닝 블렌드', text: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀' },
-      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
+      { name: '바디 실루엣 블렌드', text: '보태니컬 성분 복합체로 바디 피부를 탄탄하게 가꿔 줍니다.', img: `${DEV}ing-silhouette.webp` },
+      { name: 'AI 펩타이드', text: 'AI로 찾아낸 펩타이드로 탄력 있는 바디 피부를 돕습니다.', img: `${DEV}ing-peptide.webp` },
+      { name: '타라열매 & 코토니 추출물', text: '외부 환경으로부터 피부를 보호해 매끄럽고 촉촉하게 지켜 줍니다.', img: `${DEV}ing-tara.webp` },
+      { name: '스킨 컨디셔닝 블렌드', text: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀', img: `${DEV}ing-conditioning.webp` },
+      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드', img: `${DEV}ing-ageloc.webp` },
     ],
   },
   {
@@ -167,10 +167,10 @@ export const GELS = [
     text: '웰스파 관리 때 함께 쓰는 전용 젤입니다. 순환이 답답하게 느껴질 때, 뻐근하게 뭉친 부위와 붓기가 신경 쓰일 때 사용합니다.',
     photo: { src: `${DEV}gel-body-activating.webp`, alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤', width: 801, height: 900, bleed: true },
     ingredients: [
-      { name: '서양벌노랑이꽃 추출물', text: '정체된 바디 사이클을 깨우고 전반적인 밸런스를 챙겨 줍니다.' },
-      { name: '록샘파이어 추출물', text: '가벼운 아침을 위한 상쾌한 리프레시 케어' },
-      { name: '윈터체리뿌리 추출물', text: '바디 피부에 쌓인 스트레스를 덜어 편안하게 가꿔 줍니다.' },
-      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
+      { name: '서양벌노랑이꽃 추출물', text: '정체된 바디 사이클을 깨우고 전반적인 밸런스를 챙겨 줍니다.', img: `${DEV}ing-trefoil.webp` },
+      { name: '록샘파이어 추출물', text: '가벼운 아침을 위한 상쾌한 리프레시 케어', img: `${DEV}ing-samphire.webp` },
+      { name: '윈터체리뿌리 추출물', text: '바디 피부에 쌓인 스트레스를 덜어 편안하게 가꿔 줍니다.', img: `${DEV}ing-winterberry.webp` },
+      { name: '에이지락 블렌드', text: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드', img: `${DEV}ing-ageloc.webp` },
     ],
   },
 ]
