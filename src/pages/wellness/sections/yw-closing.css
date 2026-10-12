@@ -239,11 +239,11 @@
   }
 }
 
-/* ── 64rem 이상: 170svh 안의 sticky 무대, 원형 마스크가 스크롤로 열린다 ── */
+/* ── 64rem 이상: 150svh 안의 sticky 무대, 원형 마스크가 스크롤로 열린다 ── */
 
 .yw-close.is-pinned {
-  height: 170vh;
-  height: 170svh;
+  height: 150vh;
+  height: 150svh;
   min-height: 0;
 }
 
