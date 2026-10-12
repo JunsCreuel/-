@@ -36,7 +36,9 @@ export default function Startup() {
         </div>
 
         <div className="w-startup__form">
-          <h3>창업·운영 상담 신청</h3>
+          <h3 id="startup-form-title" tabIndex={-1}>
+            창업·운영 상담 신청
+          </h3>
           <StartupForm />
         </div>
       </div>

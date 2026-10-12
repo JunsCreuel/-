@@ -76,7 +76,7 @@ export default function WellnessNav({ branch, items }) {
               className={`w-nav__burger${menuOpen ? ' is-open' : ''}`}
               aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
               aria-expanded={menuOpen}
-              aria-controls="w-nav-panel"
+              aria-controls={menuOpen ? 'w-nav-panel' : undefined}
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span aria-hidden="true" />
