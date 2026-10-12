@@ -5,6 +5,7 @@
   inset: 0 0 auto 0;
   z-index: 50;
   border-bottom: 1px solid var(--w-line);
+  background: rgb(255 255 255 / 0.94);
   background: color-mix(in srgb, var(--w-bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -52,6 +53,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+  flex: none;
   width: 44px;
   height: 44px;
   margin-right: -0.5rem;
@@ -174,6 +176,7 @@
   display: flex;
   gap: 0.6rem;
   padding: 0.7rem var(--w-gutter) calc(0.7rem + env(safe-area-inset-bottom));
+  background: rgb(255 255 255 / 0.94);
   background: color-mix(in srgb, var(--w-bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -228,9 +231,28 @@
   }
 }
 
+.w-nav__right .w-btn {
+  white-space: nowrap;
+}
+
 @media (max-width: 380px) {
   .w-nav__right .w-btn {
     padding: 0 0.9rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .w-nav__inner {
+    gap: 0.5rem;
+  }
+
+  .w-nav .w-logo--nav {
+    --u: 0.18px;
+  }
+
+  .w-nav__right .w-btn {
+    padding: 0 0.75rem;
+    font-size: 0.82rem;
   }
 }
 

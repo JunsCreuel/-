@@ -88,7 +88,7 @@ export function useScrollParallax(ref, strength = 28) {
 }
 
 // 성공 순간의 폭죽. 화면 전체를 덮는 캔버스를 잠깐 만들었다가 지운다(모션 줄이기면 아무것도 하지 않는다).
-const CONFETTI_COLORS = ['#ff7900', '#ff9a3c', '#ffb074', '#b85200', '#221f1b', '#ffffff']
+const CONFETTI_COLORS = ['#a3835f', '#d8c19d', '#eee2cc', '#7a5a3d', '#2a2320', '#ffffff']
 
 export function fireConfetti(origin) {
   if (typeof document === 'undefined' || prefersReducedMotion()) return

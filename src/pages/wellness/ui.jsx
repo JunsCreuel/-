@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 // 아직 확정되지 않은 값의 자리표시. 값이 정해지면 이 컴포넌트를 실제 값으로 교체한다.
+// 개발 화면(npm run dev)에서만 보이고, 배포 빌드에서는 그리지 않는다.
 export function Todo({ children }) {
+  if (import.meta.env.PROD) return null
   return <span className="w-todo">[확인 필요: {children}]</span>
 }
 

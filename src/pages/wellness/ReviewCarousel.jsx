@@ -21,6 +21,7 @@ export default function ReviewCarousel({ reviews }) {
   const [inView, setInView] = useState(false)
   const stageRef = useRef(null)
   const dragX = useRef(null)
+  const swiped = useRef(false) // 방금 끌어서 넘겼으면 이어지는 click은 무시한다
 
   const running = n > 1 && !paused && !hover && inView
 
@@ -47,13 +48,17 @@ export default function ReviewCarousel({ reviews }) {
 
   function onPointerDown(e) {
     dragX.current = e.clientX
+    swiped.current = false
   }
 
   function onPointerUp(e) {
     if (dragX.current === null) return
     const dx = e.clientX - dragX.current
     dragX.current = null
-    if (Math.abs(dx) > 40) go(pos.active + (dx < 0 ? 1 : -1))
+    if (Math.abs(dx) > 40) {
+      swiped.current = true
+      go(pos.active + (dx < 0 ? 1 : -1))
+    }
   }
 
   function onKeyDown(e) {
@@ -93,7 +98,7 @@ export default function ReviewCarousel({ reviews }) {
               data-state={state}
               style={{ '--off': off }}
               aria-hidden={off !== 0}
-              onClick={off !== 0 ? () => go(i) : undefined}
+              onClick={off !== 0 ? () => !swiped.current && go(i) : undefined}
             >
               <div className="w-rv__photo">
                 <img

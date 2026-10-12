@@ -4,21 +4,21 @@ import { scrollToId } from '../scroll'
 import Tabs from '../Tabs'
 import { Reveal } from '../ui'
 
-const FEATURES = ['원적외선 온열 케어', '누워서 즐기는 따뜻한 휴식', '단독 이용 또는 집중관리와 함께', '이용 중 상태와 불편함 확인']
+const FEATURES = ['전신 온열 케어', '누워서 즐기는 따뜻한 휴식', '단독 이용 또는 집중관리와 함께', '이용 중 상태와 불편함 확인']
 
 const DEVICES = [
   {
-    no: '02',
+    no: '01',
     name: '페이스 갈바닉',
     sub: '얼굴',
     photo: PHOTOS.faceGalvanic,
     alt: '갈바닉 기기 본체와 교체형 헤드 3종',
-    lead: '미세전류와 전용 젤로 피부 컨디션을 섬세하게 가꾸는 디바이스',
-    text: '갈바닉 미세전류를 전용 젤과 함께 사용해 제품이 피부에 고르게 닿도록 돕습니다. 부위에 맞는 헤드로 바꿔 가며 피부결과 촉촉함, 얼굴 라인까지 섬세하게 관리합니다.',
+    lead: '갈바닉 전류와 전용 젤로 피부 컨디션을 섬세하게 가꾸는 디바이스',
+    text: '갈바닉 전류를 전용 젤과 함께 사용해 제품이 피부에 고르게 닿도록 돕습니다. 부위에 맞는 헤드로 바꿔 가며 피부결과 촉촉함, 얼굴 라인까지 섬세하게 관리합니다.',
     tags: ['얼굴 전용', '교체형 헤드', '오일 대신 전용 젤'],
   },
   {
-    no: '03',
+    no: '02',
     name: '바디 갈바닉',
     sub: '바디',
     photo: PHOTOS.bodyGalvanic,
@@ -28,13 +28,13 @@ const DEVICES = [
     tags: ['바디 전용 갈바닉', '넓은 면적 컨덕터', '자동 프로그램'],
   },
   {
-    no: '04',
+    no: '03',
     name: '웰스파',
     sub: '바디',
     photo: PHOTOS.wellspa,
     alt: '웰스파 바디 디바이스 앞면과 마사지 헤드',
     lead: '무겁게 느껴지는 바디 라인을 부드럽게 쓸어 주듯 관리하는 디바이스',
-    text: '웰스파 전용 제품과 함께 하체, 팔뚝, 복부처럼 붓고 무겁게 느껴지는 부위를 마사지하듯 관리합니다. 온열돔으로 몸이 따뜻해진 뒤 아웃케어로 이어서 진행합니다.',
+    text: '웰스파 전용 제품과 함께 하체, 팔뚝, 복부처럼 무겁게 느껴지는 부위를 부드럽게 쓸어 주듯 관리합니다. 온열돔으로 몸이 따뜻해진 뒤 아웃케어로 이어서 진행합니다.',
     tags: ['바디 라인 관리', '하체 · 팔뚝 · 복부', '웰스파 전용 제품'],
   },
 ]
@@ -96,10 +96,10 @@ export default function Equipment() {
             <Reveal as="h2" delay={80} className="w-title">
               따뜻한 휴식의 시작,
               <br />
-              명신메디칼 전신 온열돔.
+              전신 온열돔.
             </Reveal>
             <Reveal as="p" delay={120} className="w-lead">
-              원적외선 온열 기술을 활용한 전신 온열 케어입니다. 편안히 누워 온기를 느끼며 쉬어가고, 선택한 프로그램에 따라 고민 부위 아웃케어로 이어집니다.
+              전신을 고르게 데우는 온열 케어입니다. 편안히 누워 온기를 느끼며 쉬어가고, 선택한 프로그램에 따라 고민 부위 아웃케어로 이어집니다.
             </Reveal>
             <Reveal as="ul" delay={160} className="w-tags">
               {FEATURES.map((f) => (
@@ -125,13 +125,13 @@ export default function Equipment() {
           ))}
         </div>
         <p className="w-method__note">
-          뉴스킨 디바이스와 각 기기에 맞는 전용 제품을 사용합니다. 사용하는 디바이스와 관리 구성은 프로그램에 따라 다르며, 예약 전에 안내해 드립니다. 체감은 개인에 따라 다를 수 있습니다.
+          뉴스킨 디바이스와 각 기기에 맞는 전용 제품을 사용합니다. 사용하는 디바이스와 관리 구성은 프로그램에 따라 다르며, 예약 전에 안내해 드립니다. 체감은 개인에 따라 다를 수 있습니다. NU SKIN, ageLOC은 Nu Skin Enterprises, Inc.의 상표입니다.
         </p>
 
         <div className="w-eq__groups w-eq__groups--single">
           <Reveal className="w-eq__group" id="warm-ritual">
             <h3 className="w-eq__title">
-              추운 날,
+              몸이 무거운 날,
               <br />
               나를 위한 따뜻한 예약.
             </h3>

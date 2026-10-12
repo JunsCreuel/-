@@ -40,7 +40,7 @@ export default function BookingSteps() {
     setErrors(found)
     if (Object.keys(found).length > 0) {
       setPending(false)
-      requestAnimationFrame(() => formRef.current?.querySelector('[aria-invalid="true"], .w-step__choices:has(.w-form__error) input')?.focus())
+      requestAnimationFrame(() => formRef.current?.querySelector('[aria-invalid="true"], [data-invalid] input')?.focus())
       return
     }
     if (!SUBMIT_ENABLED) {

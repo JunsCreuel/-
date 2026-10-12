@@ -1,6 +1,6 @@
 import { BRANCHES, telHref } from '../data'
 import StartupForm from '../StartupForm'
-import { Reveal, Todo } from '../ui'
+import { Reveal } from '../ui'
 
 // 일반적인 창업 진행 단계 예시. 실제 절차와 다를 수 있어 확정된 사실처럼 쓰지 않는다.
 const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '운영 조건 협의', '준비 과정 및 교육', '오픈 준비']
@@ -10,7 +10,7 @@ export default function Startup() {
     <section id="startup" className="w-section">
       <div className="w-container w-startup">
         <div className="w-startup__intro">
-          <Reveal as="p" className="w-eyebrow">Business Inquiry</Reveal>
+          <Reveal as="p" className="w-label">Business Inquiry</Reveal>
           <Reveal as="h2" className="w-title">웰니스 공간을<br />시작하고 싶으신가요?</Reveal>
           <Reveal as="p" className="w-lead">온열돔과 부위별 디바이스 케어를 결합한 웰니스 운영 방식이 궁금하다면, 창업·운영 상담으로 만나보세요.</Reveal>
           <ul className="w-tags"><li>신규 창업 상담</li><li>기존 샵 도입 상담</li></ul>
@@ -22,7 +22,6 @@ export default function Startup() {
               <li>온열돔과 디바이스 아웃케어를 결합한 운영 방식</li>
               <li>100% 예약제 운영</li>
               <li>4년간의 운영 경험</li>
-              <li>교육 · 운영 지원 · 매뉴얼 <Todo>제공 내용</Todo></li>
             </ul>
             <div className="w-startup__steps">
               <p className="w-startup__label">상담 후 진행 단계(예시)</p>
@@ -37,7 +36,9 @@ export default function Startup() {
         </div>
 
         <div className="w-startup__form">
-          <h3>창업·운영 상담 신청</h3>
+          <h3 id="startup-form-title" tabIndex={-1}>
+            창업·운영 상담 신청
+          </h3>
           <StartupForm />
         </div>
       </div>

@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRAND, BRANCHES, MARINE_OPEN, OPEN_BRANCHES, mapHref, reserveAction, telHref } from './data'
+import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, reserveAction, telHref } from './data'
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
-// 약관/방침 문서가 준비되기 전까지는 링크 없이 항목만 보여 준다.
-const POLICIES = ['이용약관', '개인정보처리방침', '영상정보처리기기운영관리방침', '사업자정보확인']
+// 약관·방침 문서. 눌리지 않는 글자는 링크처럼 오해되므로 href가 있는 항목만 보여 준다.
+// 개인정보처리방침 등 문서가 준비되면 href에 주소를 넣는다(CCTV 방침은 CCTV를 운영할 때만).
+const POLICIES = [
+  { label: '이용약관', href: null },
+  { label: '개인정보처리방침', href: null },
+]
+const SHOWN_POLICIES = POLICIES.filter((p) => p.href)
 
 export default function WellnessFooter({ items }) {
   const { zai, marine } = BRANCHES
@@ -22,14 +27,28 @@ export default function WellnessFooter({ items }) {
             <div className="w-footer__info">
               <p>상호명 : {BRAND.company}</p>
               <p>
-                대표 : {BRAND.representative} | 사업자등록번호 : {BRAND.bizNo}
+                <span>대표 : {BRAND.representative}</span>
+                <span className="w-footer__sep" aria-hidden="true">|</span>
+                <span>사업자등록번호 : {BRAND.bizNo}</span>
               </p>
               <p>
-                {MARINE_OPEN ? zai.name : '주소'} : {zai.address} | TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+                <span>
+                  {MARINE_OPEN ? zai.name : '주소'} : {displayAddress(zai.address)}
+                </span>
+                <span className="w-footer__sep" aria-hidden="true">|</span>
+                <span>
+                  TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
+                </span>
               </p>
               {MARINE_OPEN && (
                 <p>
-                  {marine.name} : {marine.address} | TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                  <span>
+                    {marine.name} : {displayAddress(marine.address)}
+                  </span>
+                  <span className="w-footer__sep" aria-hidden="true">|</span>
+                  <span>
+                    TEL : <a href={telHref(marine.phone)}>{marine.phone}</a>
+                  </span>
                 </p>
               )}
               <p>
@@ -73,12 +92,18 @@ export default function WellnessFooter({ items }) {
 
       <div className="w-footer__bar">
         <div className="w-container w-footer__bar-inner">
-          <p className="w-footer__copy">COPYRIGHT ⓒ 2026 {BRAND.name} ALL RIGHTS RESERVED</p>
-          <ul className="w-footer__policies" aria-label="약관 및 방침">
-            {POLICIES.map((label) => (
-              <li key={label}>{label}</li>
-            ))}
-          </ul>
+          <p className="w-footer__copy">
+            ⓒ 2026 {BRAND.ko} {BRAND.name}. All rights reserved.
+          </p>
+          {SHOWN_POLICIES.length > 0 && (
+            <ul className="w-footer__policies" aria-label="약관 및 방침">
+              {SHOWN_POLICIES.map((p) => (
+                <li key={p.label}>
+                  <a href={p.href}>{p.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </footer>
