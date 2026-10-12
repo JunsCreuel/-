@@ -13,7 +13,7 @@ export default function Hero() {
       <div className="w-container w-hero__inner">
         <div className="w-hero__text">
           <Reveal as="p" className="w-chip">
-            확장 이전 오픈 · 첫 방문 고객 50%
+            첫 방문 이벤트 · 50% 할인
           </Reveal>
           <Reveal as="h1" delay={80} className="w-hero__title">
             오늘은 건강하게,
