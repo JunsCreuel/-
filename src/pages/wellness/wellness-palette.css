@@ -1,64 +1,75 @@
-/* 색 적용 — 하얀 바탕 + 주황 포인트(#FF7900), 글자 형광펜만 노랑(#FFE642)
-   기준 색 값은 wellness.css의 토큰이다. 여기서는 토큰만으로 풀리지 않는 곳(주황 위 글자색, 색 면 구간,
+/* 색 적용 — "에스프레소 & 샴페인": 흰 바탕, 깊은 에스프레소 버튼·면, 브론즈 포인트, 샴페인 형광펜.
+   기준 색 값은 wellness.css의 토큰이다. 여기서는 토큰만으로 풀리지 않는 곳(채움 버튼, 색 면 구간,
    사진 바탕, 형광펜 강조)을 덮는다. 다른 wellness CSS보다 뒤에 불러와야 한다. */
 
-/* 주황 위에서는 흰 글자의 대비가 낮아 짙은 글자로 쓴다 */
+/* 채움 버튼·선택된 요소: 에스프레소 바탕에 흰 글자, 누르면 짙은 브론즈 */
 .w-btn--primary,
 .w-submit,
 .w-float,
 .w-pilltabs button.is-active,
 .w-opt.is-on,
 .w-step__q b,
-.w-cc__icon,
-.w-pc-arrow:hover,
-.w-rv__btns button:hover {
-  color: var(--w-ink);
-}
-
-/* 누르면 한 단계 진한 주황으로 바뀌므로 그때만 흰 글자 */
-.w-btn--primary:hover,
-.w-submit:hover {
+.w-cc__icon {
+  border-color: var(--w-espresso);
+  background: var(--w-espresso);
   color: #fff;
 }
 
-/* 포인트는 주황: 칩, 프로그램 배지, 할인율, 카드의 + 버튼 */
-.w-chip {
-  border-color: var(--w-accent);
-  background: var(--w-accent);
-  color: var(--w-ink);
+.w-btn--primary:hover,
+.w-submit:hover,
+.w-float:hover {
+  border-color: var(--w-accent-deep);
+  background: var(--w-accent-deep);
+  color: #fff;
 }
 
-.w-pc .w-tags li.is-badge {
+.w-pc-arrow:hover,
+.w-rv__btns button:hover {
+  border-color: var(--w-espresso);
+  background: var(--w-espresso);
+  color: #fff;
+}
+
+/* 히어로 칩: 얇은 브론즈 테두리 */
+.w-chip {
   border-color: var(--w-accent);
-  background: var(--w-accent);
+  background: transparent;
+  color: var(--w-accent-deep);
+  letter-spacing: 0.08em;
+}
+
+/* 프로그램 카드: 사진 위 배지·할인율은 샴페인, + 버튼은 흰 원 */
+.w-pc .w-tags li.is-badge {
+  border-color: var(--w-champagne);
+  background: var(--w-champagne);
   color: var(--w-ink);
 }
 
 .w-pc__price b {
-  background: var(--w-accent);
+  background: var(--w-champagne);
   color: var(--w-ink);
 }
 
 .w-pc__toggle {
-  border-color: var(--w-accent);
-  background: var(--w-accent);
+  border-color: transparent;
+  background: rgb(255 255 255 / 0.92);
   color: var(--w-ink);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
 
-/* 노랑은 제목 강조어의 형광펜 밑줄에만 */
+/* 제목 강조어: 은은한 샴페인 형광펜 */
 .w-hero__title em,
 .w-about__line em,
 .w-story__title em,
 .w-pair__title em,
 .w-gel__title em,
 .w-cta__title em {
-  background: linear-gradient(transparent 62%, var(--w-yellow) 62%);
+  background: linear-gradient(transparent 64%, var(--w-highlight) 64%);
   color: var(--w-ink);
 }
 
-/* 주황 글자는 대비가 낮아 작은 숫자·번호에는 진한 주황 */
+/* 작은 숫자·번호는 짙은 브론즈 */
 .w-nums__list > li.is-accent .w-nums__big,
 .w-pair__tag span,
 .w-dev__no span {
@@ -81,8 +92,7 @@
   border-top: 1px solid var(--w-line);
 }
 
-/* 제품·장비 사진 바탕: 여러 색이 섞인 그라데이션 대신 스튜디오 컷처럼 깨끗한 밝은 회색 하나로.
-   제품 가장자리가 묻히지 않도록 그림자만 살짝 준다 */
+/* 제품·장비 사진 바탕: 스튜디오 컷처럼 밝은 회색 한 톤, 제품 그림자만 살짝 */
 .w-eq__fig,
 .w-dev__tile,
 .w-gel__fig,
@@ -94,22 +104,24 @@
 .w-dev__tile img,
 .w-gel__fig:not(.w-gel__fig--hand) img,
 .w-pc--contain > img {
-  filter: drop-shadow(0 16px 20px rgb(34 31 27 / 0.14));
+  filter: drop-shadow(0 16px 20px rgb(29 26 23 / 0.14));
 }
 
-/* 고민 구간은 밝은 회색 띠, 첫 방문 이벤트는 주황 면. 밝은 바탕이라 글자색 토큰을 뒤집는다 */
-.w-concern,
-.w-offer {
-  --w-bg: #221f1b;
-  --w-ink: #ffffff;
-  --w-on-ink-muted: color-mix(in srgb, #221f1b 88%, transparent);
-  --w-ink-soft: color-mix(in srgb, #221f1b 10%, transparent);
-}
-
+/* 고민 구간은 밝은 회색 띠(글자색 토큰을 뒤집어 짙은 글자) */
 .w-concern {
-  --w-ink-band: #f6f6f4;
+  --w-ink-band: var(--w-band);
+  --w-bg: #1d1a17;
+  --w-ink: #ffffff;
+  --w-on-ink-muted: color-mix(in srgb, #1d1a17 70%, transparent);
+  --w-ink-soft: color-mix(in srgb, #1d1a17 8%, transparent);
 }
 
+/* 첫 방문 이벤트는 에스프레소 면, 큰 숫자는 샴페인 */
 .w-offer {
-  --w-ink-band: var(--w-orange);
+  --w-ink-band: var(--w-espresso);
+}
+
+.w-offer__big strong {
+  color: var(--w-champagne);
+  font-weight: 300;
 }

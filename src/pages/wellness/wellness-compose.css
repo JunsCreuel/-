@@ -6,12 +6,14 @@
 .w-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.6rem;
   margin: 0 0 1rem;
-  color: var(--w-muted);
-  font-family: var(--w-font-en);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
+  color: var(--w-accent-deep);
+  font-family: var(--w-font-label);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 .w-label::before {
@@ -155,12 +157,11 @@
 
 .w-about__arch::after {
   position: absolute;
-  inset: 0;
-  border: 1px solid var(--w-accent);
+  inset: -12px;
+  border: 1px solid color-mix(in srgb, var(--w-accent) 75%, transparent);
   border-radius: 999px 999px 0 0;
   content: '';
   pointer-events: none;
-  transform: translate(14px, 16px);
 }
 
 .w-about__text {

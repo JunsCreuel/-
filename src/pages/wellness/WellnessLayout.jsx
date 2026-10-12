@@ -33,12 +33,12 @@ export default function WellnessLayout() {
   const { pathname } = useLocation()
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
-  // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자용 Jost를 이 페이지에 있는 동안만 불러온다.
+  // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자·라벨용 Jost, 영문 큰 제목용 Cormorant Garamond를 이 페이지에 있는 동안만 불러온다.
   useEffect(() => {
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href =
-      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;600&family=Jost:wght@300;400&display=swap'
+      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap'
     document.head.appendChild(link)
     return () => link.remove()
   }, [])
