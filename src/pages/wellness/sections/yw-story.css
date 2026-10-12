@@ -36,35 +36,6 @@
   line-height: 1.8;
 }
 
-/* 문장 속 사진 칩: 공통 .yw-ichip은 닫힌 상태를 clip-path로 만들어서, Chromium IntersectionObserver가
-   면적 0으로 보고 is-in을 붙이지 않는다(사진도 지연 로딩되지 않음). 이 섹션에서는 clip-path 대신
-   mask 크기로 가운데에서 연다. 관찰·지연 로딩에는 영향이 없고 보이는 모습은 같다. */
-.yw-story .yw-ichip {
-  clip-path: none;
-  -webkit-mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
-  mask: linear-gradient(#000 0 0) center / 0% 0% no-repeat;
-  transition:
-    -webkit-mask-size 0.9s var(--yw-ease),
-    mask-size 0.9s var(--yw-ease),
-    scale 0.45s var(--yw-ease);
-}
-
-.yw-story .yw-ichip.is-in {
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-}
-
-/* 줄이 다 올라온 뒤에는 줄 마스크(.yw-line overflow: clip)를 풀어 칩 확대(2.4배)가 위아래로 잘리지 않게 한다 */
-.yw-story__title.is-in .yw-line {
-  animation: yw-story-unclip 1ms linear 1.3s both;
-}
-
-@keyframes yw-story-unclip {
-  to {
-    overflow: visible;
-  }
-}
-
 /* 숫자 줄: 4년 · 40+ · 1:1 */
 .yw-story__nums {
   display: grid;
@@ -528,17 +499,6 @@
 /* ── 모션 줄이기: 고정 없이 최종 상태, 흔들림 없음 ─────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .yw-story .yw-ichip {
-    -webkit-mask: none;
-    mask: none;
-  }
-
-  .yw-story__title .yw-line,
-  .yw-story__title.is-in .yw-line {
-    overflow: visible;
-    animation: none;
-  }
-
   .yw-ritual.is-pinned {
     height: auto;
   }

@@ -7,21 +7,6 @@
   background: var(--yw-warm);
 }
 
-/* 젤 질감 칩: 공통 .yw-ichip은 칩 자신에 inset(50%)를 걸어 두는데, Chrome의 IntersectionObserver는 대상 자신의
-   clip-path까지 반영해 교차 면적을 0으로 본다(그래서 is-in이 영영 붙지 않는다). 이 장에서는 마스크를 안쪽 img로 옮긴다. */
-.yw-eq .yw-ichip {
-  clip-path: none;
-}
-
-.yw-eq .yw-ichip img {
-  clip-path: inset(50% round 0.2em);
-  transition: clip-path 0.9s var(--yw-ease);
-}
-
-.yw-eq .yw-ichip.is-in img {
-  clip-path: inset(0 round 0.2em);
-}
-
 /* ── 머리: 폴리오·제목·한 줄 | 카운터·화살표 ─────────────────── */
 
 .yw-eq__head {
@@ -589,9 +574,5 @@
 
   .yw-eq__use {
     animation: none;
-  }
-
-  .yw-eq .yw-ichip img {
-    clip-path: none;
   }
 }

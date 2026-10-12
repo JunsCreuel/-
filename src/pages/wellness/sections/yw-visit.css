@@ -209,11 +209,10 @@
   margin: clamp(2rem, 5vw, 2.75rem) 0 0;
 }
 
-/* 와이프(Reveal variant='wipe')는 figure 자신이 아니라 안쪽 프레임을 자른다.
-   Chromium의 IntersectionObserver는 관찰 대상 자신의 clip-path까지 반영해, figure를 inset(0 100% 0 0)으로 다 가리면
-   화면에 들어와도 교차 0으로 보고 끝내 열리지 않는다. 그래서 figure의 클립은 풀고 같은 와이프를 프레임에 준다. */
+/* 와이프(Reveal variant='wipe')는 figure 전체(캡션 포함)가 아니라 안쪽 프레임만 자르고, 캡션은 뒤따라 페이드한다 */
 .yw-visit .w-reveal.yw-rv--wipe.yw-visit__photo {
-  clip-path: none;
+  -webkit-mask: none;
+  mask: none;
 }
 
 .yw-visit .yw-visit__photo .yw-visit__frame {
