@@ -135,9 +135,9 @@ export const GELS = [
     no: '01',
     label: '바디 갈바닉 전용 젤',
     name: '에이지락 바디 쉐이핑 젤',
-    en: 'Body Shaping Gel · 150 mL',
+    en: 'Body Shaping Gel · 300 mL',
     text: '바디 갈바닉 관리에 함께 쓰는 전용 젤입니다. 갈바닉 전류가 피부에 고르게 닿도록 돕고, 복부처럼 넓은 부위를 부드럽게 관리할 수 있게 해 줍니다.',
-    photo: { src: `${DEV}gel-body-shaping.webp`, alt: '파란색 튜브의 에이지락 바디 쉐이핑 젤', width: 140, height: 350, white: true },
+    photo: { src: `${DEV}gel-body-shaping.webp`, alt: '파란색 튜브의 에이지락 바디 쉐이핑 젤', width: 347, height: 900 },
     ingredients: [
       { name: '호스테일켈프 추출물', en: 'Laminaria Digitata Extract', text: '바다에서 자라는 갈조류에서 얻은 성분', img: `${DEV}ing-kelp.webp` },
       { name: '테오브로민', en: 'Theobromine', text: '카카오에 들어 있는 성분', img: `${DEV}ing-theobromine.webp` },
@@ -149,7 +149,7 @@ export const GELS = [
     name: '에이지락 바디 세럼',
     en: 'Body Serum · 100 mL',
     text: '웰스파 관리 때 함께 쓰는 전용 세럼입니다. 셀룰라이트가 신경 쓰이는 부위와 탄력, 바디 라인을 관리할 때 사용합니다.',
-    photo: { src: `${DEV}gel-body-serum.webp`, alt: '손바닥에 덜어 낸 에이지락 바디 세럼', width: 900, height: 649 },
+    photo: { src: `${DEV}gel-body-serum.webp`, alt: '손바닥에 덜어 낸 에이지락 바디 세럼', width: 900, height: 649, bleed: true },
     reverse: true,
     ingredients: [
       { name: '바디 실루엣 블렌드', text: '보태니컬 성분 복합체로 바디 피부를 탄탄하게 가꿔 줍니다.' },
@@ -165,7 +165,7 @@ export const GELS = [
     name: '에이지락 바디 액티베이팅 젤',
     en: 'Body Activating Gel · 150 mL',
     text: '웰스파 관리 때 함께 쓰는 전용 젤입니다. 순환이 답답하게 느껴질 때, 뻐근하게 뭉친 부위와 붓기가 신경 쓰일 때 사용합니다.',
-    photo: { src: `${DEV}gel-body-activating.webp`, alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤', width: 801, height: 900 },
+    photo: { src: `${DEV}gel-body-activating.webp`, alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤', width: 801, height: 900, bleed: true },
     ingredients: [
       { name: '서양벌노랑이꽃 추출물', text: '정체된 바디 사이클을 깨우고 전반적인 밸런스를 챙겨 줍니다.' },
       { name: '록샘파이어 추출물', text: '가벼운 아침을 위한 상쾌한 리프레시 케어' },

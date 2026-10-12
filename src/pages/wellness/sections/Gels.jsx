@@ -20,7 +20,7 @@ export default function Gels() {
         <div className="ws-gels__list">
           {GELS.map((g) => (
             <Reveal as="article" key={g.no} className={`ws-gel${g.reverse ? ' is-reverse' : ''}`}>
-              <div className={`ws-gel__photo${g.photo.white ? ' is-white' : ''}`}>
+              <div className={`ws-gel__photo${g.photo.bleed ? ' is-bleed' : ''}`}>
                 <img src={g.photo.src} alt={g.photo.alt} width={g.photo.width} height={g.photo.height} loading="lazy" />
               </div>
               <div className="ws-gel__body">
