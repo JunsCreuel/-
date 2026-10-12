@@ -100,7 +100,7 @@ export default function Programs() {
 
         <div className="w-pc-note">
           <p className="w-method__note">
-            {SHOW_PRICES ? '가격은 네이버 예약 기준입니다. ' : ''}관리 구성과 소요시간은 컨디션에 따라 달라질 수 있으며 예약 전에 안내해 드립니다.
+            {SHOW_PRICES ? '가격은 네이버 예약 기준입니다. ' : ''}관리 구성과 소요시간은 컨디션에 따라 달라질 수 있으며 예약 전에 안내해 드립니다. 일부 사진은 분위기 연출용(AI 생성 포함)으로 실제 관리 장면과 다를 수 있습니다.
           </p>
           {naver.external && (
             <a className="w-btn w-btn--primary w-btn--sm" href={naver.href} target="_blank" rel="noopener noreferrer">

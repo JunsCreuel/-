@@ -4,8 +4,13 @@ import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, r
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
-// 약관/방침 문서가 준비되기 전까지는 링크 없이 항목만 보여 준다.
-const POLICIES = ['이용약관', '개인정보처리방침', '영상정보처리기기운영관리방침', '사업자정보확인']
+// 약관·방침 문서. 눌리지 않는 글자는 링크처럼 오해되므로 href가 있는 항목만 보여 준다.
+// 개인정보처리방침 등 문서가 준비되면 href에 주소를 넣는다(CCTV 방침은 CCTV를 운영할 때만).
+const POLICIES = [
+  { label: '이용약관', href: null },
+  { label: '개인정보처리방침', href: null },
+]
+const SHOWN_POLICIES = POLICIES.filter((p) => p.href)
 
 export default function WellnessFooter({ items }) {
   const { zai, marine } = BRANCHES
@@ -87,12 +92,18 @@ export default function WellnessFooter({ items }) {
 
       <div className="w-footer__bar">
         <div className="w-container w-footer__bar-inner">
-          <p className="w-footer__copy">COPYRIGHT ⓒ 2026 {BRAND.name} ALL RIGHTS RESERVED</p>
-          <ul className="w-footer__policies" aria-label="약관 및 방침">
-            {POLICIES.map((label) => (
-              <li key={label}>{label}</li>
-            ))}
-          </ul>
+          <p className="w-footer__copy">
+            ⓒ 2026 {BRAND.ko} {BRAND.name}. All rights reserved.
+          </p>
+          {SHOWN_POLICIES.length > 0 && (
+            <ul className="w-footer__policies" aria-label="약관 및 방침">
+              {SHOWN_POLICIES.map((p) => (
+                <li key={p.label}>
+                  <a href={p.href}>{p.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </footer>
