@@ -257,9 +257,11 @@
   font-size: 0.8em;
 }
 
+/* 진행선은 장식이라 좁은 폰(320)에서는 줄어들어, 카운터·버튼 사이 간격(1rem)을 지킨다(360 이상은 그대로) */
 .yw-voices__timer {
   position: relative;
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
   width: clamp(3.5rem, 12vw, 6rem);
   height: 2px;
   overflow: clip;
