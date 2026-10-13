@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useTween } from '../motion'
+import { useMediaQuery, useTween } from '../motion'
 import { scrollToId } from '../scroll'
 import { Todo } from '../ui'
 
@@ -148,6 +148,9 @@ export default function Simulator() {
   const r = calc(s)
   const profitShown = useTween(r.profit)
   const fields = fieldsFor(s, r)
+  // 계산기가 2열이면(900px 이상, wellness-motion.css .w-sim__grid) 입력이 결과 왼쪽, 1열이면 결과 위에 있다.
+  // 슬라이더 전 안내의 방향 낱말을 이 배치에 맞춘다(손짓 아이콘 방향과 같은 기준).
+  const twoCol = useMediaQuery('(min-width: 900px)')
 
   // 막대: 매출을 100%로 보고 비용 칸과 남는 칸을 나눈다. 비용이 매출을 넘으면 비용 합을 100%로 본다.
   const total = Math.max(s.sales, r.store + s.labor + r.material)
@@ -296,7 +299,7 @@ export default function Simulator() {
           {!touched && <Nudge />}
         </p>
         <p className="w-sim__sub">
-          {!touched ? '왼쪽 조건을 직접 움직이면 계산 결과가 나타납니다.' : loss ? '이 조건에서는 비용이 매출보다 큽니다.' : '입력한 월 매출에서 입력한 비용을 뺀 금액입니다.'}
+          {!touched ? `${twoCol ? '왼쪽' : '위'} 조건을 직접 움직이면 계산 결과가 나타납니다.` : loss ? '이 조건에서는 비용이 매출보다 큽니다.' : '입력한 월 매출에서 입력한 비용을 뺀 금액입니다.'}
         </p>
 
         {touched && (
