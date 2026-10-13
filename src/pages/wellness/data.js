@@ -50,6 +50,8 @@ export const PICS = {
   faqArch: pic('faq-arch', [600, 900], 3 / 4),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
+  // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
+  domeCut: pic('dome-cut', [700, 1376], 1376 / 747),
   // 실제 매장 사진(후기 사진 재사용, 1280px). 전면으로 키우지 않는다.
   review1: { src: `${BASE}wellness/reviews/review-1.webp`, width: 1280, height: 853 },
   review3: { src: `${BASE}wellness/reviews/review-3.webp`, width: 1280, height: 853 },
@@ -85,8 +87,13 @@ export const SHOW_PRICES = true
 // 금액 표시: 130000 → '130,000원'
 export const won = (n) => `${n.toLocaleString('ko-KR')}원`
 
-// 첫 방문 이벤트 노출 여부. 이벤트가 끝나면 false로 바꿔 히어로 칩, 가격 줄의 50% 배지·취소선, 첫 방문 티켓을 한 번에 내린다.
+// 첫 방문 이벤트 노출 여부. 이벤트가 끝나면 false로 바꿔 히어로 칩, 가격 줄의 첫 방문가, 첫 방문 티켓을 한 번에 내린다.
 export const SHOW_OFFER = true
+
+// 첫 방문 50%의 적용 조건. 상시 할인이 아니라 첫 방문 고객 1인 1회, 첫 방문 티켓으로 예약할 때만 적용된다.
+// 50%·첫 방문가가 보이는 곳에는 짧은 조건(OFFER_TERM)을 늘 함께 쓰고, 각주·티켓에는 전체 조건(OFFER_TERM_FULL)을 쓴다.
+export const OFFER_TERM = '첫 방문 1인 1회 한정'
+export const OFFER_TERM_FULL = '첫 방문 고객 1인 1회 한정 · 첫 방문 티켓으로 예약 시 적용'
 
 // 프로그램 메뉴(가격은 네이버 예약 기준). sale이 있으면 첫 방문 50% 할인가이고, 없으면 할인 대상이 아니다.
 // title은 네이버 메뉴명이라 바꾸지 않는다. 화면 표시는 label을 쓰고, 표시명을 바꿀 때는 label만 고친다.
