@@ -706,8 +706,10 @@
   translate: 0 0.5rem;
 }
 
-/* 어두운 장 위에서는 헤더 예약 버튼처럼 크림 채움으로 뒤집어 에스프레소 바탕에 묻히지 않게 한다(헤더와 씰은 형제) */
-.w-nav[data-theme='dark'] ~ .yw-seal {
+/* 씰이 놓인 자리의 장이 어두우면(FloatingInquiry가 씰 가운데 아래 장의 data-theme을 씀) 헤더 예약 버튼처럼 크림 채움으로 뒤집어
+   에스프레소 바탕에 묻히지 않게 한다. 어두운 장 위에서는 마우스를 올려도 크림 그대로다(브론즈 채움은 밝은 장 위에서만). */
+.yw-seal[data-theme='dark'],
+.yw-seal[data-theme='dark']:hover {
   background: var(--yw-cream);
   color: var(--w-espresso);
 }
