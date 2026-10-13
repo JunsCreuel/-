@@ -66,6 +66,19 @@ export default function WellnessNav({ branch, items }) {
     return lockPageScroll()
   }, [menuOpen])
 
+  // 열린 채 넓은 화면(900px 이상, wellness-nav.css에서 햄버거·패널·배경이 사라지는 기준)이 되면 메뉴를 닫는다.
+  // 닫지 않으면 보이지 않는 메뉴가 열린 상태로 남아 헤더 테마 판정이 멈추고(어두운 장 위 흰 헤더) 닫을 수단도 없다.
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    const wide = window.matchMedia('(min-width: 900px)')
+    const closeIfWide = () => {
+      if (wide.matches) setMenuOpen(false)
+    }
+    closeIfWide()
+    wide.addEventListener('change', closeIfWide)
+    return () => wide.removeEventListener('change', closeIfWide)
+  }, [menuOpen])
+
   function goTo(id) {
     setMenuOpen(false)
     scrollToId(id)
