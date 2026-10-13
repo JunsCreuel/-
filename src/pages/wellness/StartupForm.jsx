@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BRANCHES, telHref } from './data'
 import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
 import { fireConfetti } from './motion'
+import { scrollToId } from './scroll'
 import './wellness-consult.css'
 
 // 접수 연결(Firebase 등) 전까지는 false로 둔다. false면 입력한 내용은 어디로도 전송되지 않고,
@@ -76,11 +77,18 @@ export default function StartupForm() {
     return () => window.removeEventListener('w-sim-summary', onSummary)
   }, [])
 
-  // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다)
+  // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다).
+  // 단계마다 길이가 달라(4단계가 가장 길다) 아래쪽 '이전'·'다음'을 누르면 새 단계의 머리와 첫 칸이 고정 헤더 뒤나 화면 밖에 남을 수 있다.
+  // 폼 머리(진행 막대)가 헤더에 가렸거나 첫 칸이 화면 아래로 벗어났으면 폼 제목으로 올린다(scroll-margin-top으로 헤더 아래에 멈춘다).
   useEffect(() => {
     if (prevStep.current === step) return
     prevStep.current = step
-    stepRef.current?.querySelector('input, textarea')?.focus({ preventScroll: true })
+    const first = stepRef.current?.querySelector('input, textarea')
+    first?.focus({ preventScroll: true })
+    const navBottom = document.querySelector('.w-nav')?.getBoundingClientRect().bottom ?? 0
+    const formTop = formRef.current?.getBoundingClientRect().top ?? 0
+    const firstBottom = first?.getBoundingClientRect().bottom ?? 0
+    if (formTop < navBottom || firstBottom > window.innerHeight) scrollToId('startup-form-title')
   }, [step])
 
   function set(field, value) {
