@@ -207,12 +207,18 @@ export default function Simulator() {
     setSaid('')
   }
 
-  // 상담 문의에는 입력 조건만 넘긴다(계산된 손익은 넘기지 않는다)
+  // 상담 문의에는 입력 조건만 넘긴다(계산된 손익은 넘기지 않는다).
+  // 한 열 배치(64rem 미만: 머리 → 진행 단계 → 전화 → 폼 → 계산기)에서는 폼이 장 머리보다 한 화면 가까이 아래에 있어,
+  // 장 머리로 가면 포커스를 받은 폼 제목이 화면 밖에 남는다. 예약 쪽 pickForBooking(scroll.js)과 같은 기준으로,
+  // 폼 제목이 장 머리보다 화면 절반 넘게 아래에 있으면 폼 제목으로 바로 내려간다.
   function toInquiry() {
     const summary = `[시뮬레이터 입력 조건] 규모 ${s.area}평, 월세 ${fmtMan(r.rent)}, 관리비 ${fmtMan(r.mgmt)}, 기타 고정비 ${fmtMan(s.etc)}(매장 고정비 ${fmtMan(r.store)}), 월 매출 ${fmtMan(s.sales)}, 인건비 ${fmtMan(s.labor)}, 재료·소모품 ${s.material}%`
     window.dispatchEvent(new CustomEvent('w-sim-summary', { detail: summary }))
-    scrollToId('startup')
-    document.getElementById('startup-form-title')?.focus({ preventScroll: true })
+    const section = document.getElementById('startup')
+    const title = document.getElementById('startup-form-title')
+    const stacked = section && title && title.getBoundingClientRect().top - section.getBoundingClientRect().top > window.innerHeight * 0.5
+    scrollToId(stacked ? 'startup-form-title' : 'startup')
+    title?.focus({ preventScroll: true })
   }
 
   const field = (f) => {
