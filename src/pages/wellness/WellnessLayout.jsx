@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import CursorLayer from './CursorLayer'
 import { BRANCHES } from './data'
 import FloatingInquiry from './FloatingInquiry'
 import { ScrollProgress } from './MotionParts'
@@ -12,11 +13,13 @@ import './wellness.css'
 const NAV_ITEMS = {
   zai: [
     { id: 'about', label: '소개', bar: true },
+    { id: 'concern', label: '고민 부위' },
     { id: 'programs', label: '프로그램', bar: true },
     { id: 'equipment', label: '장비', bar: true },
     { id: 'warm-ritual', label: '온열돔 단독 이용' },
     { id: 'reviews', label: '후기', bar: true },
     { id: 'offer', label: '이벤트' },
+    { id: 'faq', label: 'FAQ' },
     { id: 'booking', label: '상담 예약' },
     { id: 'visit', label: '오시는 길', bar: true },
     { id: 'startup', label: '창업·운영 상담' },
@@ -35,7 +38,7 @@ export default function WellnessLayout() {
   const { pathname } = useLocation()
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
-  // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자·라벨용 Jost, 영문 큰 제목용 Cormorant Garamond를 이 페이지에 있는 동안만 불러온다.
+  // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자·라벨용 Jost, 영문 큰 제목·숫자용 Cormorant Garamond(300·이탤릭 포함)를 이 페이지에 있는 동안만 불러온다.
   // 내려받는 양을 줄이려고 화면에서 실제로 쓰는 굵기만 불러온다(한글 글꼴은 굵기마다 따로 내려받는다).
   useEffect(() => {
     const pre = document.createElement('link')
@@ -45,7 +48,7 @@ export default function WellnessLayout() {
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href =
-      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Noto+Sans+KR:wght@400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap'
+      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Noto+Sans+KR:wght@400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap'
     document.head.append(pre, link)
     return () => {
       pre.remove()
@@ -91,6 +94,7 @@ export default function WellnessLayout() {
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
       <MobileBar branch={branch} />
       <FloatingInquiry />
+      <CursorLayer />
     </div>
   )
 }

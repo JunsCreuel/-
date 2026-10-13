@@ -1,0 +1,694 @@
+/* No. 03 Today's Condition — 부위 사진 타일 + 시간 알약 + 추천 카드(에스프레소 커튼 위).
+   이 파일은 공통 CSS(wellness.css, wellness-x.css)보다 먼저 번들되므로, 공통 규칙을 덮어야 하는 곳은 .yw-cond로 한 단계 높인다.
+   호버 효과는 (hover: hover) and (pointer: fine) 안에서만 켜고, 모션 줄이기면 와이프·확대·숨 원 없이 바로 바뀐다. */
+
+.yw-cond {
+  overflow: clip;
+}
+
+/* 좁은 화면에서 제목 줄이 한 글자만 남지 않게 고르게 나눈다 */
+.yw-cond__title .yw-line > span {
+  text-wrap: balance;
+}
+
+/* ── 배치 ─────────────────────────────────────────────────── */
+
+.yw-cond__grid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.yw-cond__pick {
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .yw-cond__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(20rem, 5fr);
+    align-items: start;
+  }
+}
+
+/* ── 부위 타일 ────────────────────────────────────────────── */
+
+.yw-cond__tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* 태블릿부터는 3열(2열이면 타일이 화면보다 커진다) */
+@media (min-width: 40rem) {
+  .yw-cond__tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+.yw-cond .yw-cond__tile {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  padding: 0.75rem;
+  overflow: clip;
+  border: 0;
+  border-radius: 1.25rem;
+  background: #1d1a17;
+  color: var(--yw-cream);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+  transition:
+    opacity 0.4s ease,
+    outline-color 0.3s ease;
+}
+
+.yw-cond .yw-cond__tile.is-wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 7;
+}
+
+.yw-cond .yw-cond__tile img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: grayscale(0.55) brightness(0.78);
+  transition:
+    filter 0.5s ease,
+    transform 0.6s var(--yw-ease);
+}
+
+.yw-cond .yw-cond__tile.is-wide img {
+  object-position: 50% 55%;
+}
+
+/* 이름이 읽히도록 아래쪽만 어둡게 */
+.yw-cond .yw-cond__tile::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(29 26 23 / 0.78), transparent 60%);
+  content: '';
+  pointer-events: none;
+}
+
+.yw-cond__name {
+  display: block;
+  font-family: var(--w-font-serif);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.yw-cond__sub {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
+@media (min-width: 40rem) {
+  .yw-cond .yw-cond__tile {
+    padding: 0.9rem;
+  }
+
+  .yw-cond .yw-cond__tile.is-wide {
+    aspect-ratio: 21 / 6;
+  }
+
+  .yw-cond__name {
+    font-size: 1.2rem;
+  }
+
+  .yw-cond__sub {
+    font-size: 0.78rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .yw-cond .yw-cond__tile {
+    padding: 1rem;
+  }
+
+  .yw-cond__name {
+    font-size: 1.35rem;
+  }
+
+  .yw-cond__sub {
+    font-size: 0.82rem;
+  }
+}
+
+/* 체크 원: 고르면 오른쪽 위에서 커진다 */
+.yw-cond__check {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--w-champagne);
+  color: var(--w-espresso);
+  scale: 0;
+  transition: scale 0.45s var(--yw-ease);
+}
+
+.yw-cond__check svg {
+  width: 62%;
+  height: 62%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (min-width: 64rem) {
+  .yw-cond__check {
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* 고른 타일: 색이 돌아오고 커지며 샴페인 고리와 체크 원이 붙는다 */
+.yw-cond .yw-cond__tile[aria-checked='true'] {
+  outline-color: var(--w-champagne);
+}
+
+.yw-cond .yw-cond__tile[aria-checked='true'] img {
+  filter: none;
+  transform: scale(1.04);
+}
+
+.yw-cond .yw-cond__tile[aria-checked='true'] .yw-cond__check {
+  scale: 1;
+}
+
+.yw-cond .yw-cond__tile:focus-visible {
+  border-radius: 1.25rem;
+  outline: 2px solid var(--yw-cream);
+  outline-offset: 3px;
+}
+
+/* 화면에 들어오면 타일이 아래에서부터 차례로 열린다(끝나면 clip-path를 남기지 않아 고리·포커스가 잘리지 않는다) */
+.yw-cond__tiles:not(.is-in) .yw-cond__tile {
+  clip-path: inset(100% 0 0 0 round 1.25rem);
+}
+
+.yw-cond__tiles.is-in .yw-cond__tile {
+  animation: yw-cond-tile-in 0.9s var(--yw-ease) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+.yw-cond__tiles.is-in .yw-cond__tile img {
+  animation: yw-cond-tile-zoom 1.2s var(--yw-ease) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes yw-cond-tile-in {
+  from {
+    clip-path: inset(100% 0 0 0 round 1.25rem);
+  }
+
+  to {
+    clip-path: inset(0 round 1.25rem);
+  }
+}
+
+@keyframes yw-cond-tile-zoom {
+  from {
+    scale: 1.12;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+/* 마우스 기기: 올린 사진만 색이 돌아오고, 나머지는 45%로 물러난다 */
+@media (hover: hover) and (pointer: fine) {
+  .yw-cond .yw-cond__tile:hover img {
+    filter: none;
+    transform: scale(1.04);
+  }
+
+  .yw-cond__tiles:has(.yw-cond__tile:hover) .yw-cond__tile:not(:hover):not([aria-checked='true']) {
+    opacity: 0.45;
+  }
+}
+
+/* ── 시간 알약 ────────────────────────────────────────────── */
+
+.yw-cond__time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.25rem;
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.yw-cond__time-label {
+  color: color-mix(in srgb, var(--yw-cream) 72%, transparent);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.yw-cond__pills {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.yw-cond .yw-cond__pill {
+  flex: none;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgb(244 237 226 / 0.5);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--yw-cream);
+  font: inherit;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.yw-cond .yw-cond__pill[aria-pressed='true'] {
+  border-color: var(--w-champagne);
+  background: var(--w-champagne);
+  color: var(--w-espresso);
+}
+
+.yw-cond .yw-cond__pill:active {
+  scale: 0.97;
+}
+
+.yw-cond .yw-cond__pill:focus-visible {
+  border-radius: 999px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-cond .yw-cond__pill:not([aria-pressed='true']):hover {
+    border-color: var(--yw-cream);
+    background: rgb(244 237 226 / 0.08);
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .yw-cond__time {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* 좁은 폰에서는 한 줄 가로 스크롤(포커스 고리가 잘리지 않게 안쪽 여백을 둔다) */
+  .yw-cond__pills {
+    flex-wrap: nowrap;
+    margin: -0.3rem calc(-1 * var(--w-gutter));
+    padding: 0.3rem var(--w-gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .yw-cond__pills::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── 추천 카드 ────────────────────────────────────────────── */
+
+.yw-cond .yw-cond__card {
+  position: relative;
+  min-width: 0;
+  padding: clamp(1.1rem, 4vw, 1.5rem);
+  border-radius: 1.5rem;
+  background: var(--yw-ivory);
+  color: var(--w-ink);
+  scroll-margin-top: calc(var(--w-nav-h) + 1rem);
+  scroll-margin-bottom: 1rem;
+}
+
+@media (max-width: 47.99rem) {
+  /* 모바일 독에 가리지 않게 */
+  .yw-cond .yw-cond__card {
+    scroll-margin-bottom: 5.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .yw-cond .yw-cond__card {
+    position: sticky;
+    top: calc(var(--w-nav-h) + 2rem);
+  }
+}
+
+.yw-cond .yw-cond__card :focus-visible {
+  outline-color: var(--w-espresso);
+}
+
+/* 고르기 전: 카드가 들어올 자리만 점선으로 비워 두고, 크림 원이 숨 쉬듯 커졌다 작아진다 */
+.yw-cond .yw-cond__card.is-empty {
+  padding: 1rem 1.25rem;
+  border: 1px dashed rgb(244 237 226 / 0.38);
+  background: transparent;
+  color: var(--yw-cream);
+}
+
+.yw-cond__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 6rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.yw-cond__empty p {
+  max-width: 22em;
+  text-wrap: balance;
+  color: color-mix(in srgb, var(--yw-cream) 82%, transparent);
+}
+
+.yw-cond__breath {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--yw-cream);
+  animation: yw-cond-breath 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes yw-cond-breath {
+  from {
+    scale: 1;
+    opacity: 0.75;
+  }
+
+  to {
+    scale: 1.15;
+    opacity: 1;
+  }
+}
+
+@media (min-width: 64rem) {
+  .yw-cond__empty {
+    flex-direction: column;
+    min-height: 14rem;
+    text-align: center;
+  }
+}
+
+/* 태블릿(1열 배치)에서는 카드를 가로로 눕혀 사진 왼쪽, 글 오른쪽에 둔다 */
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .yw-cond .yw-cond__card:not(.is-empty) {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+  }
+
+  .yw-cond .yw-cond__card:not(.is-empty) > * {
+    grid-column: 2;
+  }
+
+  .yw-cond .yw-cond__card:not(.is-empty) > .yw-cond__photo {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    aspect-ratio: 4 / 5;
+  }
+
+  .yw-cond .yw-cond__card:not(.is-empty) > .yw-cond__eyebrow {
+    margin-top: 0.25rem;
+  }
+}
+
+/* 사진: 바뀔 때마다 오른쪽에서 왼쪽으로 와이프되며 살짝 줄어든다 */
+.yw-cond__photo {
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: clip;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--w-champagne) 35%, var(--yw-ivory));
+  animation: yw-cond-wipe 0.7s var(--yw-ease) both;
+}
+
+.yw-cond .yw-cond__photo img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  animation: yw-cond-settle 0.9s var(--yw-ease) both;
+}
+
+@media (min-width: 64rem) {
+  .yw-cond__photo {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* 낮은 데스크톱 화면에서는 카드가 화면 안에 들어오도록 사진을 낮춘다 */
+@media (min-width: 64rem) and (max-height: 58rem) {
+  .yw-cond__photo {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (min-width: 64rem) and (max-height: 48rem) {
+  .yw-cond__photo {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+@keyframes yw-cond-wipe {
+  from {
+    clip-path: inset(0 0 0 100% round 1rem);
+  }
+
+  to {
+    clip-path: inset(0 round 1rem);
+  }
+}
+
+@keyframes yw-cond-settle {
+  from {
+    scale: 1.08;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+.yw-cond__eyebrow {
+  margin-top: 1.1rem;
+  color: var(--w-accent-deep);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+/* 이름·과정·가격: 바뀔 때마다 짧게 올라온다 */
+.yw-cond__info {
+  animation: yw-cond-rise 0.5s var(--yw-ease) both;
+}
+
+@keyframes yw-cond-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.yw-cond__meta {
+  margin-top: 0.35rem;
+  color: var(--w-muted);
+  font-family: var(--w-font-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.yw-cond .yw-cond__prog {
+  margin: 0.2rem 0 0;
+  font-family: var(--w-font-serif);
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-cond__note {
+  margin-top: 0.5rem;
+  color: var(--w-muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.yw-cond .yw-cond__price {
+  display: flex;
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+}
+
+.yw-cond .yw-cond__card .yw-price__was {
+  color: var(--w-muted);
+}
+
+.yw-cond__warn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  color: var(--w-accent-deep);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.yw-cond__warn::before {
+  flex: none;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+  content: '';
+}
+
+/* 버튼 줄 */
+.yw-cond__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 1.25rem;
+}
+
+/* 아이보리 카드 위의 괄호 링크는 잉크색(.yw-dark의 크림을 덮는다) */
+.yw-cond .yw-cond__card .yw-paren {
+  color: var(--w-ink);
+}
+
+.yw-cond .yw-cond__card .yw-paren::before,
+.yw-cond .yw-cond__card .yw-paren::after,
+.yw-cond .yw-cond__card .yw-paren__dot {
+  color: var(--w-accent-deep);
+}
+
+@media (max-width: 63.99rem) {
+  .yw-cond__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .yw-cond .yw-cond__cta {
+    width: 100%;
+  }
+
+  .yw-cond .yw-cond__naver {
+    justify-content: center;
+  }
+}
+
+/* 함께 보면 좋은 관리 ↔ 추천 관리 */
+.yw-cond .yw-cond__alt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 1rem;
+  padding: 0.85rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--w-line);
+  background: none;
+  color: var(--w-ink);
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+
+.yw-cond .yw-cond__alt > span {
+  text-decoration: underline transparent;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color 0.3s ease;
+}
+
+.yw-cond .yw-cond__alt > i {
+  flex: none;
+  color: var(--w-accent-deep);
+  font-style: normal;
+  transition: translate 0.4s var(--yw-ease);
+}
+
+.yw-cond .yw-cond__alt:focus-visible {
+  border-radius: 0.5rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-cond .yw-cond__alt:hover > span {
+    text-decoration-color: currentColor;
+  }
+
+  .yw-cond .yw-cond__alt:hover > i {
+    translate: 0.3rem 0;
+  }
+}
+
+/* ── 모션 줄이기: 와이프·확대·숨 원 없이 즉시 ────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-cond .yw-cond__tile,
+  .yw-cond .yw-cond__tile img,
+  .yw-cond__photo,
+  .yw-cond .yw-cond__photo img,
+  .yw-cond__info,
+  .yw-cond__breath {
+    animation: none !important;
+  }
+
+  .yw-cond__tiles:not(.is-in) .yw-cond__tile {
+    clip-path: none;
+  }
+
+  .yw-cond .yw-cond__tile img,
+  .yw-cond .yw-cond__tile[aria-checked='true'] img {
+    transform: none !important;
+  }
+
+  .yw-cond__check {
+    transition: none;
+  }
+}
