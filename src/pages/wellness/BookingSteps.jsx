@@ -41,7 +41,11 @@ export default function BookingSteps() {
   const formRef = useRef(null)
   const step2Ref = useRef(null)
   const phone = BRANCHES.zai.phone
-  const ready = Object.keys(validate(form)).length === 0
+  const now = validate(form)
+  const ready = Object.keys(now).length === 0
+  // 오류는 제출할 때 켜고(errors), 화면에는 그중 지금도 틀린 칸만 보인다. 칩을 고르거나(위 섹션에서 이어받은 선택 포함)
+  // 이름·연락처·동의를 바로잡으면 그 칸의 문구와 aria-invalid·data-invalid가 다시 제출하기 전에 바로 사라진다.
+  const shown = Object.fromEntries(Object.entries(errors).filter(([k]) => now[k]))
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -132,7 +136,7 @@ export default function BookingSteps() {
           <br />
           요즘 가장 신경 쓰이는 곳은 어디인가요?
         </p>
-        <ChoiceChips idPrefix="b" legend="신경 쓰이는 곳" name="area" options={AREAS} value={form.area} onChange={(v) => set('area', v)} error={errors.area} />
+        <ChoiceChips idPrefix="b" legend="신경 쓰이는 곳" name="area" options={AREAS} value={form.area} onChange={(v) => set('area', v)} error={shown.area} />
         <p className="yw-pick__notice" role="status">
           {notice}
         </p>
@@ -143,7 +147,7 @@ export default function BookingSteps() {
           <b>2</b>
           편하신 방문 시간대를 알려 주세요.
         </p>
-        <ChoiceChips idPrefix="b" legend="방문 시간대" name="time" options={TIMES} value={form.time} onChange={(v) => set('time', v)} error={errors.time} />
+        <ChoiceChips idPrefix="b" legend="방문 시간대" name="time" options={TIMES} value={form.time} onChange={(v) => set('time', v)} error={shown.time} />
       </section>
 
       <section className="w-step">
@@ -162,11 +166,11 @@ export default function BookingSteps() {
             value={form.name}
             onChange={(e) => set('name', e.target.value)}
             aria-required="true"
-            {...(errors.name ? { 'aria-invalid': true, 'aria-describedby': 'err-b-name' } : {})}
+            {...(shown.name ? { 'aria-invalid': true, 'aria-describedby': 'err-b-name' } : {})}
           />
-          {errors.name && (
+          {shown.name && (
             <p className="w-form__error" id="err-b-name">
-              {errors.name}
+              {shown.name}
             </p>
           )}
         </div>
@@ -177,7 +181,7 @@ export default function BookingSteps() {
             setForm((prev) => ({ ...prev, ...next }))
             setPending(false)
           }}
-          error={errors.phone}
+          error={shown.phone}
         />
         <ConsentBox
           idPrefix="b"
@@ -186,7 +190,7 @@ export default function BookingSteps() {
           refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 상담 신청이 제한되며, 전화 또는 네이버 예약으로 직접 예약하실 수 있습니다."
           checked={form.agree}
           onChange={(v) => set('agree', v)}
-          error={errors.agree}
+          error={shown.agree}
         />
       </section>
 
