@@ -132,7 +132,8 @@ function OfferTicket() {
               </span>
               <span className="yw-ticket__row" aria-hidden="true">
                 <strong className="yw-ticket__pct">
-                  <CountUp to={50} />
+                  {/* 티켓이 나타날 때(is-in) 세기 시작한다. 숫자만 따로 보면 휴대폰에서는 긴 티켓이 아직 투명할 때 다 세어 버린다 */}
+                  <CountUp to={50} start={inView} />
                   <small>%</small>
                 </strong>
                 <span className="yw-ticket__scope">{SALE_COUNT}개 관리</span>
