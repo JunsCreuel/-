@@ -137,11 +137,15 @@ export default function StartupForm() {
   }
 
   const ready = Object.keys(validate(step, form)).length === 0
-  const err = (id) => (errors[id] ? { 'aria-invalid': true, 'aria-describedby': `err-s-${id}` } : {})
+  // 오류는 '다음'·제출 때 켜고(errors), 화면에는 그중 지금도 틀린 칸만 보인다. 칩을 고르거나 칸을 바로잡으면
+  // 그 칸의 문구와 aria-invalid·data-invalid가 '다음'을 다시 누르기 전에 바로 사라진다.
+  const now = validateAll(form)
+  const shown = Object.fromEntries(Object.entries(errors).filter(([k]) => now[k]))
+  const err = (id) => (shown[id] ? { 'aria-invalid': true, 'aria-describedby': `err-s-${id}` } : {})
   const errText = (id) =>
-    errors[id] ? (
+    shown[id] ? (
       <p className="w-form__error" id={`err-s-${id}`}>
-        {errors[id]}
+        {shown[id]}
       </p>
     ) : null
 
@@ -178,7 +182,7 @@ export default function StartupForm() {
           {STEPS[step].title}
         </p>
 
-        {step === 0 && <ChoiceChips idPrefix="s" legend="상담 유형" name="kind" options={KINDS} value={form.kind} onChange={(v) => set('kind', v)} error={errors.kind} />}
+        {step === 0 && <ChoiceChips idPrefix="s" legend="상담 유형" name="kind" options={KINDS} value={form.kind} onChange={(v) => set('kind', v)} error={shown.kind} />}
 
         {step === 1 && (
           <>
@@ -193,7 +197,7 @@ export default function StartupForm() {
               <p className="w-field__label" id="s-timing-label">
                 창업 희망 시기 <i aria-hidden="true">*</i>
               </p>
-              <ChoiceChips idPrefix="s" legend="창업 희망 시기" name="timing" options={TIMINGS} value={form.timing} onChange={(v) => set('timing', v)} error={errors.timing} />
+              <ChoiceChips idPrefix="s" legend="창업 희망 시기" name="timing" options={TIMINGS} value={form.timing} onChange={(v) => set('timing', v)} error={shown.timing} />
             </div>
           </>
         )}
@@ -214,7 +218,7 @@ export default function StartupForm() {
                 setForm((prev) => ({ ...prev, ...next }))
                 setPending(false)
               }}
-              error={errors.phone}
+              error={shown.phone}
             />
           </>
         )}
@@ -238,7 +242,7 @@ export default function StartupForm() {
               refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 문의 신청이 제한되며, 전화로 직접 문의하실 수 있습니다."
               checked={form.agree}
               onChange={(v) => set('agree', v)}
-              error={errors.agree}
+              error={shown.agree}
             />
           </>
         )}
