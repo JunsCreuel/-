@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { PICS } from '../data'
-import { Folio, Footnote, InlineChip, Pic, SplitLines } from '../editorial'
+import { Folio, Footnote, Pic, SplitLines } from '../editorial'
 import { CountUp } from '../MotionParts'
 import { clamp, easeOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
 import './yw-story.css'
@@ -179,14 +179,7 @@ export default function About() {
           <SplitLines
             as="h2"
             className="yw-story__title"
-            lines={[
-              <>
-                온기로 <InlineChip pic={PICS.chipLeaf} /> 시작해,
-              </>,
-              <>
-                손끝으로 <InlineChip pic={PICS.chipHands} /> 완성합니다.
-              </>,
-            ]}
+            lines={['온기로 시작해,', '손끝으로 완성합니다.']}
           />
         </div>
         <div className="yw-story__aside">
