@@ -134,6 +134,7 @@ export function useMediaQuery(query) {
 // 끄는 동안 .is-dragging(스냅 끔), 놓으면 관성으로 미끄러진 뒤 가장 가까운 항목에 맞춘다.
 // 끌기 시작(포인터 캡처·.is-dragging)과 이어지는 click 막기는 같은 문턱(DRAG_SLOP, 6px)을 쓴다. 그 이하로 움직인 누르기는
 // 안쪽 버튼의 클릭으로 그대로 간다(캡처를 먼저 걸면 click이 버튼이 아니라 트랙에서 일어나 사라진다).
+// 관성으로 미끄러지는 동안 눌러 멈추고 끌지 않고 놓으면(트랙 밖에서 놓아도) 그 자리에서 가까운 항목에 맞추고 .is-dragging을 푼다.
 const DRAG_SLOP = 6
 
 export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
@@ -217,10 +218,15 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
       lastT = now
     }
 
+    // 트랙 밖에서 놓은 경우도 받도록 window에서 듣는다(끄는 동안은 캡처라 트랙에서 올라온다).
     const onUp = (e) => {
       if (e.pointerId !== pid) return
       pid = null
-      if (!dragging) return
+      if (!dragging) {
+        // 미끄러지던 트랙을 눌러 멈췄으면 지난 끌기의 .is-dragging이 남아 있다(스냅·호버 꺼짐). 가까운 항목에 맞추며 푼다.
+        if (el.classList.contains('is-dragging')) snap()
+        return
+      }
       dragging = false
       if (Math.abs(e.clientX - startX) > DRAG_SLOP) {
         suppress = true
@@ -243,8 +249,8 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
 
     el.addEventListener('pointerdown', onDown)
     el.addEventListener('pointermove', onMove)
-    el.addEventListener('pointerup', onUp)
-    el.addEventListener('pointercancel', onUp)
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
     el.addEventListener('click', onClick, true)
     el.addEventListener('dragstart', onDragStart)
     return () => {
@@ -252,8 +258,8 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
       el.classList.remove('is-dragging')
       el.removeEventListener('pointerdown', onDown)
       el.removeEventListener('pointermove', onMove)
-      el.removeEventListener('pointerup', onUp)
-      el.removeEventListener('pointercancel', onUp)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
       el.removeEventListener('click', onClick, true)
       el.removeEventListener('dragstart', onDragStart)
     }
