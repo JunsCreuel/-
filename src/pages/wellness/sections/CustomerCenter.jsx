@@ -1,12 +1,11 @@
 import BookingSteps from '../BookingSteps'
-import { BRANCHES, PHOTOS, PICS, displayAddress, mapHref, reserveAction, telHref } from '../data'
-import { Folio, Pic } from '../editorial'
-import { Reveal } from '../ui'
+import { BRANCHES, PHOTOS, displayAddress, mapHref, reserveAction, telHref } from '../data'
+import { Folio } from '../editorial'
 import './yw-visit.css'
 
-// No. 09 Reservation — 전화·네이버 예약·지도를 큰 원형 버튼 3개로 모으고, 실제 관리실 사진과 상담 신청 3단계 폼을 둔다.
+// No. 09 Reservation — 전화·네이버 예약·지도를 큰 원형 버튼 3개로 모으고, 영업시간·주소(데스크톱은 QR까지) 옆에 상담 신청 3단계 폼을 둔다.
 // 위에서 고른 관리는 BookingSteps가 'w:pick' 이벤트로 이어받는다. #visit(오시는 길) 앵커도 이 장 왼쪽 열이다.
-// 모바일 순서(머리 → 원형 버튼 → 정보 → 사진 → 폼)가 DOM 순서와 같다.
+// 모바일 순서(머리 → 원형 버튼 → 정보 → 폼)가 DOM 순서와 같다.
 
 function PhoneIcon() {
   return (
@@ -103,14 +102,6 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
               </p>
             </div>
           )}
-
-          <Reveal variant="wipe" as="figure" className="yw-visit__photo">
-            <div className="yw-visit__frame">
-              <Pic pic={PICS.review3} sizes="(min-width: 64rem) 34vw, 92vw" alt="용호 자이점 관리실 내부" />
-              <span className="yw-visit__notch" aria-hidden="true" />
-            </div>
-            <figcaption>용호 자이점 관리실</figcaption>
-          </Reveal>
         </div>
 
         <div className="yw-visit__form">

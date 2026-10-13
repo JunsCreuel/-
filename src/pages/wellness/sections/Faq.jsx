@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { PICS } from '../data'
+import { OFFER_TERM, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
 import { Folio, Pic } from '../editorial'
 import { prefersReducedMotion } from '../motion'
 import { Reveal } from '../ui'
@@ -23,7 +23,11 @@ const CUSTOMER_FAQS = [
   },
   {
     q: '예약 없이 방문할 수 있나요?',
-    a: '100% 예약제로 운영하고 있습니다. 네이버 예약 또는 전화로 일정을 확정해 주시기 바랍니다. 첫 방문 혜택은 예약 시 함께 안내해 드립니다.',
+    // 첫 방문 50%는 상시 할인이 아니라 조건부라 범위(SALE_COUNT)와 조건(OFFER_TERM, 첫 방문 티켓 예약)을 함께 쓴다.
+    // 이벤트를 내리면(SHOW_OFFER=false) 이 문장도 함께 빠진다.
+    a: `100% 예약제로 운영하고 있습니다. 네이버 예약 또는 전화로 일정을 확정해 주시기 바랍니다.${
+      SHOW_OFFER ? ` 첫 방문 혜택(${SALE_COUNT}개 관리 50%)은 ${OFFER_TERM}이며, 첫 방문 티켓으로 예약하실 때 적용됩니다.` : ''
+    }`,
   },
 ]
 

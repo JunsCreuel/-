@@ -1,4 +1,4 @@
-/* No. 09 Reservation — 원형 연락 버튼 3개, 영업시간·주소·QR, 노치 관리실 사진, 상담 신청 카드(이어받기 알약·맥박).
+/* No. 09 Reservation — 원형 연락 버튼 3개, 영업시간·주소·QR, 상담 신청 카드(이어받기 알약·맥박).
    이 파일은 공통 CSS(wellness-*.css, wellness-x.css)보다 먼저 번들되므로, 공유 클래스(.w-steps, .w-opt 등)는
    .yw-visit 범위로 우선순위를 올려 덮는다. 마린 페이지의 폼(wellness-consult.css)은 건드리지 않는다.
    호버 효과는 (hover: hover) and (pointer: fine) 안에서만 켜고, 터치에서는 누르는 동안(:active) 같은 모습을 보여 준다. */
@@ -24,6 +24,14 @@
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(2rem, 5vw, 4.5rem);
     align-items: start;
+  }
+}
+
+/* 왼쪽 정보 열은 폼보다 짧다. 열 전체가 내비 아래에 다 들어오는 높은 화면에서만, 폼을 따라 내려오며 옆에 머문다 */
+@media (min-width: 64rem) and (min-height: 52rem) {
+  .yw-visit__info {
+    position: sticky;
+    top: calc(var(--w-nav-h) + 2rem);
   }
 }
 
@@ -203,105 +211,6 @@
   }
 }
 
-/* ── 노치 관리실 사진 ─────────────────────────────────────── */
-
-.yw-visit__photo {
-  margin: clamp(2rem, 5vw, 2.75rem) 0 0;
-}
-
-/* 와이프(Reveal variant='wipe')는 figure 전체(캡션 포함)가 아니라 안쪽 프레임만 자르고, 캡션은 뒤따라 페이드한다 */
-.yw-visit .w-reveal.yw-rv--wipe.yw-visit__photo {
-  -webkit-mask: none;
-  mask: none;
-}
-
-.yw-visit .yw-visit__photo .yw-visit__frame {
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 1s var(--yw-ease);
-}
-
-.yw-visit .yw-visit__photo.is-in .yw-visit__frame {
-  clip-path: inset(0);
-}
-
-.yw-visit .yw-visit__photo figcaption {
-  opacity: 0;
-  transition: opacity 0.6s ease 0.5s;
-}
-
-.yw-visit .yw-visit__photo.is-in figcaption {
-  opacity: 1;
-}
-
-.yw-visit__frame {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  overflow: clip;
-  border-radius: 1.25rem 1.25rem 0; /* 오른쪽 아래는 노치가 덮으므로 각지게(둥근 가장자리 잔선 방지) */
-}
-
-/* 로딩 전 자리 색은 프레임이 아니라 사진에 주고, 노치 자리(오른쪽 아래 32%×18%)는 사진에서 마스크로 비운다.
-   프레임 폭이 소수 px이면 노치와 사진이 같은 가장자리 픽셀을 반씩 덮어 오른쪽 끝에 1px 어두운 선이 남기 때문이다.
-   노치 위·왼쪽 가장자리와 겹치도록 2px 더 남긴다. */
-.wellness .yw-visit__frame img {
-  width: 100%;
-  height: 100%;
-  background: color-mix(in srgb, var(--w-ink) 6%, var(--w-band));
-  -webkit-mask:
-    linear-gradient(#000 0 0) 0 0 / 100% calc(82% + 2px) no-repeat,
-    linear-gradient(#000 0 0) 0 0 / calc(68% + 2px) 100% no-repeat;
-  mask:
-    linear-gradient(#000 0 0) 0 0 / 100% calc(82% + 2px) no-repeat,
-    linear-gradient(#000 0 0) 0 0 / calc(68% + 2px) 100% no-repeat;
-  object-fit: cover;
-  object-position: 50% 55%;
-}
-
-/* 오른쪽 아래 모서리를 파낸 노치. 바탕색 조각이 사진 위에 남고(와이프 중에도), 양옆 이음새는 둥글게 다듬는다 */
-.yw-visit__notch {
-  --r: 1rem;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 32%;
-  height: 18%;
-  border-top-left-radius: var(--r);
-  background: var(--w-band);
-}
-
-.yw-visit__notch::before,
-.yw-visit__notch::after {
-  position: absolute;
-  width: var(--r);
-  height: var(--r);
-  background: radial-gradient(circle at 0 0, transparent calc(var(--r) - 0.5px), var(--w-band) var(--r));
-  content: '';
-}
-
-.yw-visit__notch::before {
-  right: 0;
-  bottom: 100%;
-}
-
-.yw-visit__notch::after {
-  right: 100%;
-  bottom: 0;
-}
-
-.yw-visit__photo figcaption {
-  margin-top: 0.6rem;
-  color: var(--w-muted);
-  font-family: var(--w-font-label);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-}
-
-@media (min-width: 64rem) {
-  .yw-visit__frame {
-    aspect-ratio: 4 / 3;
-  }
-}
-
 /* ── 상담 신청 카드 ───────────────────────────────────────── */
 
 .yw-visit .w-steps {
@@ -419,13 +328,5 @@
 
   .yw-visit__round a:active .yw-visit__circle {
     scale: none;
-  }
-
-  .yw-visit .yw-visit__photo .yw-visit__frame {
-    clip-path: none;
-  }
-
-  .yw-visit .yw-visit__photo figcaption {
-    opacity: 1;
   }
 }

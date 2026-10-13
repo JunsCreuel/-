@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BRANCHES, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
+import { BRANCHES, OFFER_TERM, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
 import { ParenLink, SplitLines } from '../editorial'
 import { clamp, easeOutCubic, hasFinePointer, onScrollFrame, prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
@@ -321,7 +321,11 @@ export default function Hero() {
       </p>
 
       <div className="yw-wrap yw-hero__text">
-        {SHOW_OFFER && <p className="yw-hero__chip">첫 방문 이벤트 · {SALE_COUNT}개 관리 50%</p>}
+        {SHOW_OFFER && (
+          <p className="yw-hero__chip">
+            {OFFER_TERM} · {SALE_COUNT}개 관리 50%
+          </p>
+        )}
         <SplitLines
           as="h1"
           trigger="mount"
