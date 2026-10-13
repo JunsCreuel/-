@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { OPEN_BRANCHES, telHref } from './data'
 import { onScrollFrame } from './motion'
-import { scrollToId, scrollToTop } from './scroll'
+import { lockPageScroll, scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
 // 상단 바: 왼쪽 로고, 가운데 주요 메뉴(넓은 화면), 오른쪽 상담 예약 버튼.
@@ -57,6 +57,13 @@ export default function WellnessNav({ branch, items }) {
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
+  // 패널이 열린 동안 뒤 페이지 스크롤을 잠근다. 패널 안을 밀거나 패널 끝까지 내린 뒤 이어 밀어도 뒤 페이지가 움직이지 않고,
+  // 닫으면 연 자리 그대로다(메뉴 항목의 scrollToId 이동은 잠금과 상관없이 된다).
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    return lockPageScroll()
   }, [menuOpen])
 
   function goTo(id) {

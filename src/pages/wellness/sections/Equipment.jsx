@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
 import { Folio, Footnote, InlineChip, Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
-import { pickForBooking } from '../scroll'
+import { lockPageScroll, pickForBooking } from '../scroll'
 import './yw-equipment.css'
 
 // No. 05 Equipment & Gel — 전신 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
@@ -303,12 +303,7 @@ function GelSheet({ device, onClose }) {
   useEffect(() => {
     const dlg = ref.current
     if (!dlg) return undefined
-    const root = document.documentElement
-    const prev = { overflow: root.style.overflow, padding: root.style.paddingRight }
-    // 자리를 차지하는 스크롤바(윈도 등)가 사라지며 페이지가 옆으로 밀리지 않게 그 폭만큼 오른쪽을 채운다
-    const bar = window.innerWidth - root.clientWidth
-    root.style.overflow = 'hidden'
-    if (bar > 0) root.style.paddingRight = `${bar}px`
+    const unlock = lockPageScroll() // 열린 동안 뒤 페이지 스크롤 잠금(햄버거 메뉴와 같은 도우미, scroll.js)
     if (!dlg.open) dlg.showModal()
     syncSheetEdges(dlg)
     const onResize = () => syncSheetEdges(dlg)
@@ -322,8 +317,7 @@ function GelSheet({ device, onClose }) {
       dlg.removeEventListener('close', onDialogClose)
       window.removeEventListener('resize', onResize)
       if (dlg.open) dlg.close()
-      root.style.overflow = prev.overflow
-      root.style.paddingRight = prev.padding
+      unlock()
     }
   }, [])
 
