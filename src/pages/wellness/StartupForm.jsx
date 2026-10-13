@@ -56,10 +56,22 @@ export default function StartupForm() {
   const prevStep = useRef(step) // 단계가 실제로 바뀌었을 때만 포커스를 옮기기 위해
   const phone = BRANCHES.zai.phone
 
-  // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다)
+  // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다).
+  // 비어 있으면 요약을 넣고, 지난번에 넣은 요약이 그대로 남아 있으면 그 부분만 새 요약으로 바꾼다.
+  // 요약 앞뒤에 덧붙인 질문은 그대로 두고, 처음부터 직접 쓴 문의나 요약 줄을 직접 고친 경우에는 건드리지 않는다.
+  const lastSummary = useRef('')
   useEffect(() => {
-    const onSummary = (e) =>
-      setForm((prev) => (!prev.message || prev.message.startsWith('[시뮬레이터') ? { ...prev, message: String(e.detail) } : prev))
+    const onSummary = (e) => {
+      const next = String(e.detail)
+      const before = lastSummary.current // 갱신 함수는 나중에 실행되므로 여기서 잡아 둔다
+      lastSummary.current = next
+      setForm((prev) => {
+        const m = prev.message
+        if (!m.trim()) return { ...prev, message: next }
+        if (before && m.includes(before)) return { ...prev, message: m.replace(before, () => next) }
+        return prev
+      })
+    }
     window.addEventListener('w-sim-summary', onSummary)
     return () => window.removeEventListener('w-sim-summary', onSummary)
   }, [])
