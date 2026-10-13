@@ -24,8 +24,6 @@ export const PICS = {
   chipFace: pic('chip-face', [320], 1),
   chipBody: pic('chip-body', [320], 1),
   chipRest: pic('chip-rest', [320], 1),
-  chipLeaf: pic('chip-leaf', [480], 3 / 2),
-  chipHands: pic('chip-hands', [480], 3 / 2),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
