@@ -209,7 +209,7 @@ function DomeCard() {
 
 // 디바이스 카드: 기기 사진 위에 전용 젤 사진 면이 겹쳐 있다. 마우스 기기는 올리면, 터치·키보드는 '젤 보기'로 덮인다.
 // 젤 면은 clip-path로 접혀 있어 지연 로딩이 걷히는 순간에야 시작되므로, 트랙이 화면에 들어오면(near) 미리 받는다.
-// '성분 보기'는 onSheet(기기, 누른 버튼)로 성분 시트를 연다. 두 버튼 모두 트랙 끌기와 겹치지 않는다(3px 넘게 움직여야 끌기).
+// '성분 보기'는 onSheet(기기, 누른 버튼)로 성분 시트를 연다. 두 버튼 모두 트랙 끌기와 겹치지 않는다(6px 넘게 움직여야 끌기, motion.js DRAG_SLOP).
 function DeviceCard({ d, near, onSheet }) {
   const gelLoading = near ? 'eager' : 'lazy'
   const [gelOn, setGelOn] = useState(false)

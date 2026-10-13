@@ -131,8 +131,11 @@ export function useMediaQuery(query) {
 }
 
 // 가로 스크롤 트랙을 마우스로 끌어 넘기기. 터치·펜은 네이티브 스크롤을 그대로 쓴다.
-// 끄는 동안 .is-dragging(스냅 끔), 놓으면 관성으로 미끄러진 뒤 가장 가까운 항목에 맞춘다. 6px 넘게 끌었으면 이어지는 click을 막는다.
-// 안쪽 버튼의 클릭이 트랙으로 빼앗기지 않도록, 포인터 캡처와 .is-dragging은 실제로 3px 넘게 움직였을 때 건다.
+// 끄는 동안 .is-dragging(스냅 끔), 놓으면 관성으로 미끄러진 뒤 가장 가까운 항목에 맞춘다.
+// 끌기 시작(포인터 캡처·.is-dragging)과 이어지는 click 막기는 같은 문턱(DRAG_SLOP, 6px)을 쓴다. 그 이하로 움직인 누르기는
+// 안쪽 버튼의 클릭으로 그대로 간다(캡처를 먼저 걸면 click이 버튼이 아니라 트랙에서 일어나 사라진다).
+const DRAG_SLOP = 6
+
 export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
   useEffect(() => {
     const el = ref.current
@@ -196,7 +199,7 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
       if (e.pointerId !== pid) return
       const dx = e.clientX - startX
       if (!dragging) {
-        if (Math.abs(dx) <= 3) return
+        if (Math.abs(dx) <= DRAG_SLOP) return
         dragging = true
         el.classList.add('is-dragging')
         try {
@@ -219,7 +222,7 @@ export function useDragScroll(ref, { itemSelector = ':scope > *' } = {}) {
       pid = null
       if (!dragging) return
       dragging = false
-      if (Math.abs(e.clientX - startX) > 6) {
+      if (Math.abs(e.clientX - startX) > DRAG_SLOP) {
         suppress = true
         setTimeout(() => {
           suppress = false
