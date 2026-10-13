@@ -40,6 +40,35 @@ export function scrollToTop() {
   window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
 }
 
+// 뒤 페이지 스크롤 잠금(햄버거 메뉴 패널·'성분 보기' 시트가 열린 동안). 잠근 쪽이 돌려받은 함수를 불러 푼다.
+// html에 overflow: hidden을 걸어 손가락·휠로는 움직이지 않게 하되, 스크롤 위치와 scrollToId 같은 코드 이동은 그대로 둔다.
+// 자리를 차지하는 스크롤바(윈도 등)가 사라지며 페이지가 옆으로 밀리지 않게 그 폭만큼 오른쪽을 채운다.
+// 둘 이상이 겹쳐 잠가도 마지막 잠금이 풀릴 때 처음 값으로 돌아간다.
+let lockCount = 0
+let lockSaved = null
+
+export function lockPageScroll() {
+  const root = document.documentElement
+  if (lockCount === 0) {
+    lockSaved = { overflow: root.style.overflow, padding: root.style.paddingRight }
+    const bar = window.innerWidth - root.clientWidth
+    root.style.overflow = 'hidden'
+    if (bar > 0) root.style.paddingRight = `${bar}px`
+  }
+  lockCount += 1
+  let released = false
+  return () => {
+    if (released) return
+    released = true
+    lockCount -= 1
+    if (lockCount === 0 && lockSaved) {
+      root.style.overflow = lockSaved.overflow
+      root.style.paddingRight = lockSaved.padding
+      lockSaved = null
+    }
+  }
+}
+
 // 고른 부위·관리를 상담 폼으로 넘기고 예약 장으로 내려간다.
 // area는 data.js AREAS 문자열과 정확히 같아야 한다. 상담 폼(BookingSteps)이 window 'w:pick' 이벤트를 받아 1단계를 미리 선택한다.
 // 한 열 화면(64rem 미만)에서는 상담 폼이 원형 연락 버튼·영업시간·주소 아래에 있어, 예약 장 머리로 가면 미리 고른 칩과 맥박이 화면 밖에 남는다.
