@@ -570,6 +570,72 @@
   }
 }
 
+/* ── 평당 단가·매장 고정비 합계 ───────────────────────────── */
+
+/* 월세·관리비 금액 아래 '평당 10만원' */
+.yw-biz .yw-sim .w-sim__row output {
+  display: grid;
+  justify-items: end;
+  line-height: 1.25;
+}
+
+.yw-sim__rate {
+  color: var(--w-muted);
+  font-family: var(--w-font);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* 매장 고정비(월세·관리비·기타) 합계: 비용 정보라 처음부터 보인다 */
+.yw-sim__store {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: var(--yw-warm, #f6f1e8);
+}
+
+.yw-sim__store-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.yw-sim__store-row b {
+  color: var(--w-accent-deep);
+  font-family: var(--w-font-num);
+  font-size: 1.15rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 500;
+}
+
+.yw-sim__store-sub {
+  margin: 0;
+  color: var(--w-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+/* 결과 막대·범례: 월세·관리비·기타를 '매장 고정비' 한 칸으로 */
+.yw-biz .yw-sim .w-sim__seg.is-fixed,
+.yw-biz .yw-sim .w-sim__legend i.is-fixed {
+  background: #6f6861;
+}
+
+.yw-sim__detail {
+  display: block;
+  margin-top: 0.1rem;
+  color: rgb(255 255 255 / 0.6);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
 /* ── 손짓: 슬라이더를 움직이기 전, 결과 자리에서 슬라이더 쪽을 가리킨다 ── */
 
 .yw-sim__nudge {

@@ -70,11 +70,18 @@ export default function ReviewCarousel({ reviews }) {
     swiped.current = false
   }
 
+  // 무대 안에 글 선택이 있는지(마우스로 글을 끌어 고른 경우). 페이지 다른 곳에 남은 선택은 보지 않는다.
+  function hasStageSelection() {
+    const sel = window.getSelection?.()
+    return !!sel && !sel.isCollapsed && !!stageRef.current?.contains(sel.anchorNode)
+  }
+
   function onPointerUp(e) {
     if (dragX.current === null) return
     const dx = e.clientX - dragX.current
     dragX.current = null
-    if (Math.abs(dx) > 40) {
+    // 글을 끌어 선택한 경우에는 넘기지 않는다(넘기면 선택이 옆으로 밀려난 카드에 남는다). 사진 위를 끌면 그대로 넘긴다.
+    if (Math.abs(dx) > 40 && !hasStageSelection()) {
       swiped.current = true
       go(pos.active + (dx < 0 ? 1 : -1))
     }

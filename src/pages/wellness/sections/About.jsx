@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { PICS } from '../data'
-import { Folio, Footnote, InlineChip, Pic, SplitLines } from '../editorial'
+import { Folio, Footnote, Pic, SplitLines } from '../editorial'
 import { CountUp } from '../MotionParts'
 import { clamp, easeOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
 import './yw-story.css'
@@ -35,6 +35,7 @@ export default function About() {
   const stepRef = useRef(0)
   const tweenRef = useRef({ raf: 0, to: -1 })
   const goalRef = useRef({ to: -1, at: 0 }) // 이동 중인 목표 단계(키를 빠르게 연달아 누를 때 기준)
+  const touchRef = useRef(null) // 손가락으로 다이얼을 누른 동안: 누른 자리, 가로로 끌기 시작했는지(live), 브라우저가 옮기려던 값(v), 스크롤로 넘어갔는지
   const [step, setStep] = useState(0)
   const [hintOff, setHintOff] = useState(false)
 
@@ -120,12 +121,52 @@ export default function About() {
   }
 
   const onDialInput = (e) => {
+    const g = touchRef.current
+    if (g && !g.live) {
+      // Blink(안드로이드 크롬)는 트랙에 손가락이 닿는 순간 값을 그 자리로 옮기고 input을 낸다. 세로 스크롤일 수 있으므로
+      // 가로로 끌기 시작하기 전에는 반영하지 않고 원래 값으로 되돌린다(스크롤 없이 손을 떼면 onDialTouchEnd가 그 단계로 옮긴다).
+      g.v = Number(e.currentTarget.value)
+      e.currentTarget.value = String(Math.round(tRef.current * 100))
+      return
+    }
     const v = Number(e.currentTarget.value)
     endHint()
     goalRef.current.to = -1
     if (!pinned) stopTween()
     apply(v / 100)
     if (pinned) scrollToT(v / 100, 'auto')
+  }
+
+  // 손가락(터치)으로 누르면 가로로 8px 넘게, 세로보다 크게 움직였을 때부터 다이얼 끌기로 본다.
+  // 브라우저가 세로 스크롤로 가져가면(pointercancel) 끌기가 아니다. 마우스·펜·키보드는 이전과 같다.
+  const onDialPointerDown = (e) => {
+    touchRef.current = e.pointerType === 'touch' ? { x: e.clientX, y: e.clientY, live: false, v: null, scrolled: false } : null
+  }
+
+  const onDialPointerMove = (e) => {
+    const g = touchRef.current
+    if (!g || g.live || e.pointerType !== 'touch') return
+    const dx = Math.abs(e.clientX - g.x)
+    if (dx > 8 && dx > Math.abs(e.clientY - g.y)) g.live = true
+  }
+
+  const onDialPointerCancel = () => {
+    if (touchRef.current) touchRef.current.scrolled = true
+  }
+
+  // 손을 뗄 때 끝낸다(pointercancel 뒤에도 세로 스크롤이 이어지는 동안 오는 input을 막아야 해서 touchend까지 기다린다).
+  // 끌지도 스크롤하지도 않은 짧은 탭이면 이전처럼 누른 자리의 단계로 간다.
+  const onDialTouchEnd = () => {
+    const g = touchRef.current
+    touchRef.current = null
+    if (g && !g.live && !g.scrolled && g.v !== null) {
+      endHint()
+      goTo(Math.round(g.v / 100))
+    }
+  }
+
+  const onDialTouchCancel = () => {
+    touchRef.current = null
   }
 
   const onDialKey = (e) => {
@@ -142,11 +183,14 @@ export default function About() {
     goTo(baseStep() + dir)
   }
 
-  // 고정 없는 모드: 손을 떼면(pointerup·change) 가까운 단계로 맞춘다.
+  // 고정 없는 모드: 손을 떼면(pointerup·change) 가까운 단계로 맞춘다. 이미 어떤 단계로 옮겨 가는 중(탭으로 고른 단계 등)이면 그대로 둔다.
   useEffect(() => {
     const dial = dialRef.current
     if (!dial || pinned) return undefined
-    const snap = () => tweenTo(Math.round(tRef.current))
+    const snap = () => {
+      if (tweenRef.current.raf) return
+      tweenTo(Math.round(tRef.current))
+    }
     dial.addEventListener('change', snap)
     dial.addEventListener('pointerup', snap)
     dial.addEventListener('pointercancel', snap)
@@ -179,14 +223,7 @@ export default function About() {
           <SplitLines
             as="h2"
             className="yw-story__title"
-            lines={[
-              <>
-                온기로 <InlineChip pic={PICS.chipLeaf} /> 시작해,
-              </>,
-              <>
-                손끝으로 <InlineChip pic={PICS.chipHands} /> 완성합니다.
-              </>,
-            ]}
+            lines={['온기로 시작해,', '손끝으로 완성합니다.']}
           />
         </div>
         <div className="yw-story__aside">
@@ -298,6 +335,11 @@ export default function About() {
                   aria-valuetext={`${step + 1}단계, ${STEPS[step].ko}`}
                   onChange={onDialInput}
                   onKeyDown={onDialKey}
+                  onPointerDown={onDialPointerDown}
+                  onPointerMove={onDialPointerMove}
+                  onPointerCancel={onDialPointerCancel}
+                  onTouchEnd={onDialTouchEnd}
+                  onTouchCancel={onDialTouchCancel}
                 />
               </div>
               <p className="yw-ritual__hint">

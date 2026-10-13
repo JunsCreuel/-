@@ -153,11 +153,15 @@
   inset: 0;
   z-index: 49;
   background: color-mix(in srgb, var(--w-ink) 30%, transparent);
+  /* 열린 동안 뒤 페이지는 잠겨 있다(WellnessNav). 배경에서 시작한 손짓도 스크롤로 쓰지 않는다 */
+  touch-action: none;
 }
 
+/* 좁은 폰에서 패널 끝까지 내린 뒤 이어지는 스크롤이 뒤 페이지로 넘어가지 않게 한다 */
 .w-nav__panel {
   max-height: calc(100svh - var(--w-nav-h));
   overflow-y: auto;
+  overscroll-behavior: contain;
   border-top: 1px solid var(--w-line);
   background: var(--w-bg);
 }
@@ -257,7 +261,7 @@
   background: var(--w-band);
 }
 
-/* 태블릿 이상 */
+/* 태블릿 이상(이 900px 기준은 WellnessNav가 열린 메뉴를 닫는 기준과 같다) */
 
 @media (min-width: 900px) {
   .w-nav__inner {

@@ -2,9 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { easeOutCubic, onScrollFrame, prefersReducedMotion, useInView } from './motion'
 
 // 0에서 목표값까지 세어 올라가는 숫자. 화면에 들어올 때 한 번 실행하고, 모션 줄이기면 바로 최종값을 보여 준다.
-export function CountUp({ to, duration = 1400, className, suffix = '' }) {
+// start를 주면 숫자 자신 대신 그 값(true가 되는 때)에 맞춰 시작한다. 등장 효과로 늦게 보이는 덩어리(첫 방문 티켓) 안의 숫자가
+// 덩어리가 아직 투명할 때 다 세어 버리지 않게, 덩어리의 등장 시점에 묶을 때 쓴다.
+export function CountUp({ to, duration = 1400, className, suffix = '', start }) {
   const ref = useRef(null)
-  const inView = useInView(ref)
+  const seen = useInView(ref)
+  const inView = start ?? seen
   const reduced = prefersReducedMotion()
   const [value, setValue] = useState(0)
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BRANCHES, telHref } from './data'
 import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
 import { fireConfetti } from './motion'
+import { scrollToId } from './scroll'
 import './wellness-consult.css'
 
 // 접수 연결(Firebase 등) 전까지는 false로 둔다. false면 입력한 내용은 어디로도 전송되지 않고,
@@ -56,19 +57,38 @@ export default function StartupForm() {
   const prevStep = useRef(step) // 단계가 실제로 바뀌었을 때만 포커스를 옮기기 위해
   const phone = BRANCHES.zai.phone
 
-  // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다)
+  // 수익 시뮬레이터에서 넘어온 조건 요약을 문의 내용에 채운다(직접 쓴 내용이 있으면 덮어쓰지 않는다).
+  // 비어 있으면 요약을 넣고, 지난번에 넣은 요약이 그대로 남아 있으면 그 부분만 새 요약으로 바꾼다.
+  // 요약 앞뒤에 덧붙인 질문은 그대로 두고, 처음부터 직접 쓴 문의나 요약 줄을 직접 고친 경우에는 건드리지 않는다.
+  const lastSummary = useRef('')
   useEffect(() => {
-    const onSummary = (e) =>
-      setForm((prev) => (!prev.message || prev.message.startsWith('[시뮬레이터') ? { ...prev, message: String(e.detail) } : prev))
+    const onSummary = (e) => {
+      const next = String(e.detail)
+      const before = lastSummary.current // 갱신 함수는 나중에 실행되므로 여기서 잡아 둔다
+      lastSummary.current = next
+      setForm((prev) => {
+        const m = prev.message
+        if (!m.trim()) return { ...prev, message: next }
+        if (before && m.includes(before)) return { ...prev, message: m.replace(before, () => next) }
+        return prev
+      })
+    }
     window.addEventListener('w-sim-summary', onSummary)
     return () => window.removeEventListener('w-sim-summary', onSummary)
   }, [])
 
-  // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다)
+  // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다).
+  // 단계마다 길이가 달라(4단계가 가장 길다) 아래쪽 '이전'·'다음'을 누르면 새 단계의 머리와 첫 칸이 고정 헤더 뒤나 화면 밖에 남을 수 있다.
+  // 폼 머리(진행 막대)가 헤더에 가렸거나 첫 칸이 화면 아래로 벗어났으면 폼 제목으로 올린다(scroll-margin-top으로 헤더 아래에 멈춘다).
   useEffect(() => {
     if (prevStep.current === step) return
     prevStep.current = step
-    stepRef.current?.querySelector('input, textarea')?.focus({ preventScroll: true })
+    const first = stepRef.current?.querySelector('input, textarea')
+    first?.focus({ preventScroll: true })
+    const navBottom = document.querySelector('.w-nav')?.getBoundingClientRect().bottom ?? 0
+    const formTop = formRef.current?.getBoundingClientRect().top ?? 0
+    const firstBottom = first?.getBoundingClientRect().bottom ?? 0
+    if (formTop < navBottom || firstBottom > window.innerHeight) scrollToId('startup-form-title')
   }, [step])
 
   function set(field, value) {
@@ -125,11 +145,15 @@ export default function StartupForm() {
   }
 
   const ready = Object.keys(validate(step, form)).length === 0
-  const err = (id) => (errors[id] ? { 'aria-invalid': true, 'aria-describedby': `err-s-${id}` } : {})
+  // 오류는 '다음'·제출 때 켜고(errors), 화면에는 그중 지금도 틀린 칸만 보인다. 칩을 고르거나 칸을 바로잡으면
+  // 그 칸의 문구와 aria-invalid·data-invalid가 '다음'을 다시 누르기 전에 바로 사라진다.
+  const now = validateAll(form)
+  const shown = Object.fromEntries(Object.entries(errors).filter(([k]) => now[k]))
+  const err = (id) => (shown[id] ? { 'aria-invalid': true, 'aria-describedby': `err-s-${id}` } : {})
   const errText = (id) =>
-    errors[id] ? (
+    shown[id] ? (
       <p className="w-form__error" id={`err-s-${id}`}>
-        {errors[id]}
+        {shown[id]}
       </p>
     ) : null
 
@@ -166,7 +190,7 @@ export default function StartupForm() {
           {STEPS[step].title}
         </p>
 
-        {step === 0 && <ChoiceChips idPrefix="s" legend="상담 유형" name="kind" options={KINDS} value={form.kind} onChange={(v) => set('kind', v)} error={errors.kind} />}
+        {step === 0 && <ChoiceChips idPrefix="s" legend="상담 유형" name="kind" options={KINDS} value={form.kind} onChange={(v) => set('kind', v)} error={shown.kind} />}
 
         {step === 1 && (
           <>
@@ -181,7 +205,7 @@ export default function StartupForm() {
               <p className="w-field__label" id="s-timing-label">
                 창업 희망 시기 <i aria-hidden="true">*</i>
               </p>
-              <ChoiceChips idPrefix="s" legend="창업 희망 시기" name="timing" options={TIMINGS} value={form.timing} onChange={(v) => set('timing', v)} error={errors.timing} />
+              <ChoiceChips idPrefix="s" legend="창업 희망 시기" name="timing" options={TIMINGS} value={form.timing} onChange={(v) => set('timing', v)} error={shown.timing} />
             </div>
           </>
         )}
@@ -202,7 +226,7 @@ export default function StartupForm() {
                 setForm((prev) => ({ ...prev, ...next }))
                 setPending(false)
               }}
-              error={errors.phone}
+              error={shown.phone}
             />
           </>
         )}
@@ -226,7 +250,7 @@ export default function StartupForm() {
               refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 문의 신청이 제한되며, 전화로 직접 문의하실 수 있습니다."
               checked={form.agree}
               onChange={(v) => set('agree', v)}
-              error={errors.agree}
+              error={shown.agree}
             />
           </>
         )}
