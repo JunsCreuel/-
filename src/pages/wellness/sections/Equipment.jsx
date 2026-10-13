@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
 import { Folio, Footnote, InlineChip, Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
 import './yw-equipment.css'
 
-// No. 05 Equipment & Gel — 실제 매장 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
+// No. 05 Equipment & Gel — 전신 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
 // 데스크톱은 마우스로 끌어 넘기고(관성 후 카드에 맞춤), 트랙패드·화살표·←→ 키로도 넘긴다. 모바일은 네이티브 스와이프와 scroll-snap.
-// 디바이스 카드에 마우스를 올리면(또는 '젤 보기') 기기 사진 위로 전용 젤 사진이 왼쪽에서 오른쪽으로 덮인다.
+// 디바이스 카드에 마우스를 올리면(또는 '젤 보기') 기기 사진 위로 전용 젤 사진이 왼쪽에서 오른쪽으로 덮이고,
+// '성분 보기'를 누르면 그 기기에 쓰는 젤의 성분 시트가 열린다.
 // 화장품·기기 광고 기준에 맞춰 사용 장면과 성분 출처만 적고 효능은 쓰지 않는다.
 
 // 온열돔 이용 방식. 버튼을 누르면 상담 폼 1단계가 '온열 웜업'으로 미리 선택된 채 예약 장으로 내려간다.
@@ -17,8 +18,73 @@ const DOME_USES = [
   { id: 'combo', label: '온열돔 + 집중관리', text: '온열돔 후 원하는 부위 하나를 더 관리합니다.', cta: '온열돔 + 집중관리 상담' },
 ]
 
-// 디바이스와 기기별 전용 제품(이전 Gel 섹션의 성분 목록을 그대로 옮겼다).
-// gel 사진은 pic(PICS, 실사 장면 → cover) 또는 src(제품 누끼 → contain + 흰 바탕)다.
+// 기기별 전용 젤·세럼. 카드의 '젤 보기' 면과 '성분 보기' 시트가 같은 데이터를 쓴다.
+// 사진은 모두 배경이 투명한 webp다. hand가 아니면 제품 누끼(밝은 바탕에 contain), hand면 손이 사진 가장자리에서 잘린
+// 손바닥 컷이라 시트에서는 사진 비율 그대로의 둥근 프레임에 꽉 채운다. w·h는 원본 크기.
+// 성분 설명은 원료를 무엇에서 얻었는지(출처)만 적고, 무엇에 좋은지(효능)는 쓰지 않는다.
+const SHAPING_GEL = {
+  name: '에이지락 바디 쉐이핑 젤',
+  volume: '300 mL',
+  src: PHOTOS.gelShaping,
+  alt: '파란색 튜브의 에이지락 바디 쉐이핑 젤',
+  w: 347,
+  h: 900,
+  usage: '갈바닉 관리에 함께 쓰는 전용 젤입니다. 갈바닉 전류가 피부에 고르게 닿도록 도와, 오일 없이 부드럽게 관리할 수 있습니다.',
+  ingredients: [
+    {
+      icon: PHOTOS.ingKelp,
+      iconAlt: '초록빛 해조류',
+      name: '호스테일켈프 추출물',
+      en: 'Laminaria Digitata Extract',
+      desc: '북대서양 연안에서 자라는 갈조류(다시마류)에서 얻은 추출물',
+    },
+    {
+      icon: PHOTOS.ingTheobromine,
+      iconAlt: '맑은 물방울 구조',
+      name: '테오브로민',
+      en: 'Theobromine',
+      desc: '카카오 열매에 들어 있는 성분',
+    },
+  ],
+}
+
+const BODY_SERUM = {
+  name: '에이지락 바디 세럼',
+  volume: '100 mL',
+  src: PHOTOS.gelSerum,
+  alt: '손바닥에 덜어 낸 에이지락 바디 세럼',
+  w: 900,
+  h: 649,
+  hand: true,
+  usage: '웰스파 관리 때 바디 피부를 촉촉하고 매끄럽게 가꾸기 위해 함께 사용하는 세럼입니다.',
+  ingredients: [
+    { name: '바디 실루엣 블렌드', desc: '여러 식물 유래 성분을 배합한 복합체' },
+    { name: 'AI 펩타이드', desc: '아미노산이 사슬처럼 이어진 펩타이드 성분' },
+    { name: '타라열매 & 코토니 추출물', desc: '타라 나무 열매 등 식물에서 얻은 추출물' },
+    { name: '스킨 컨디셔닝 블렌드', desc: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀을 배합한 블렌드' },
+    { name: '에이지락 블렌드', desc: '뉴스킨 에이지락 제품군에 공통으로 들어가는 성분 복합체' },
+  ],
+}
+
+const ACTIVATING_GEL = {
+  name: '에이지락 바디 액티베이팅 젤',
+  volume: '150 mL',
+  src: PHOTOS.gelActivating,
+  alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤',
+  w: 801,
+  h: 900,
+  hand: true,
+  usage: '웰스파 관리 때 기기 헤드가 피부 위를 부드럽게 지나가도록 함께 사용하는 젤입니다.',
+  ingredients: [
+    { name: '서양벌노랑이꽃 추출물', desc: '유럽·아시아의 풀밭에서 자라는 콩과 식물(벌노랑이)의 꽃에서 얻은 추출물' },
+    { name: '록샘파이어 추출물', desc: '바닷가 바위 틈에서 자라는 식물(록샘파이어)에서 얻은 추출물' },
+    { name: '윈터체리뿌리 추출물', desc: '윈터체리(아슈와간다)의 뿌리에서 얻은 추출물' },
+    { name: '에이지락 블렌드', desc: '뉴스킨 에이지락 제품군에 공통으로 들어가는 성분 복합체' },
+  ],
+}
+
+// 디바이스와 기기별 전용 제품. 페이스 갈바닉과 바디 갈바닉은 같은 쉐이핑 젤을 쓴다.
+// sheetEn·sheetKo는 성분 시트 머리 라벨('GEL · 페이스 갈바닉 전용')과 보조기기용 시트 이름('페이스 갈바닉 전용 젤 성분')이다.
 const DEVICES = [
   {
     no: '02',
@@ -27,9 +93,9 @@ const DEVICES = [
     sub: '얼굴 · 교체형 헤드',
     photo: PHOTOS.faceGalvanic,
     alt: '갈바닉 기기 본체와 교체형 헤드 3종',
-    gel: [{ pic: PICS.eqFaceGel, alt: '브러시로 크림을 펴 바르는 옆얼굴' }],
-    gelCaption: ['전용 젤과 함께 사용합니다'],
-    ingredients: null,
+    gels: [SHAPING_GEL],
+    sheetEn: 'GEL',
+    sheetKo: '젤',
   },
   {
     no: '03',
@@ -38,12 +104,9 @@ const DEVICES = [
     sub: '바디 · 넓은 면적 컨덕터',
     photo: PHOTOS.bodyGalvanic,
     alt: '바디 갈바닉 기기 앞면',
-    gel: [{ src: PHOTOS.gelShaping, alt: '파란색 튜브의 에이지락 바디 쉐이핑 젤' }],
-    gelCaption: ['에이지락 바디 쉐이핑 젤 · 300 mL'],
-    ingredients: [
-      { icon: PHOTOS.ingKelp, iconAlt: '초록빛 해조류', name: '호스테일켈프 추출물', en: 'Laminaria Digitata Extract', desc: '바다에서 자라는 갈조류에서 얻은 성분' },
-      { icon: PHOTOS.ingTheobromine, iconAlt: '맑은 물방울 구조', name: '테오브로민', en: 'Theobromine', desc: '카카오에 들어 있는 성분' },
-    ],
+    gels: [SHAPING_GEL],
+    sheetEn: 'GEL',
+    sheetKo: '젤',
   },
   {
     no: '04',
@@ -52,22 +115,9 @@ const DEVICES = [
     sub: '하체 · 팔뚝 · 복부',
     photo: PHOTOS.wellspa,
     alt: '웰스파 바디 디바이스 앞면과 헤드',
-    gel: [
-      { src: PHOTOS.gelSerum, alt: '손바닥에 덜어 낸 에이지락 바디 세럼' },
-      { src: PHOTOS.gelActivating, alt: '손바닥에 짜내는 에이지락 바디 액티베이팅 젤' },
-    ],
-    gelCaption: ['에이지락 바디 세럼 · 100 mL', '에이지락 바디 액티베이팅 젤 · 150 mL'],
-    // 바디 세럼과 바디 액티베이팅 젤의 성분(겹치는 '에이지락 블렌드'는 한 번만)
-    ingredients: [
-      { name: '바디 실루엣 블렌드', desc: '식물 유래 성분 복합체' },
-      { name: 'AI 펩타이드', desc: '펩타이드 성분' },
-      { name: '타라열매 & 코토니 추출물', desc: '식물에서 얻은 추출물' },
-      { name: '스킨 컨디셔닝 블렌드', desc: '마카다미아넛오일, 해바라기씨오일 추출물, 알란토인, 판테놀' },
-      { name: '서양벌노랑이꽃 추출물', desc: '꽃에서 얻은 식물 추출물' },
-      { name: '록샘파이어 추출물', desc: '바닷가 식물에서 얻은 추출물' },
-      { name: '윈터체리뿌리 추출물', desc: '식물 뿌리에서 얻은 추출물' },
-      { name: '에이지락 블렌드', desc: '세월의 흐름에 따른 피부 고민을 케어하는 프리미엄 블렌드' },
-    ],
+    gels: [BODY_SERUM, ACTIVATING_GEL],
+    sheetEn: 'SERUM & GEL',
+    sheetKo: '세럼과 젤',
   },
 ]
 
@@ -83,7 +133,8 @@ function snapPoints(track) {
   return cards.map((card) => clamp(card.offsetLeft - padL, 0, max))
 }
 
-// 첫 카드: 실제 매장 온열돔. 이용 방식 칩(radiogroup)을 고르면 한 줄 설명과 버튼 문구가 함께 바뀐다.
+// 첫 카드: 전신 온열돔(매장 기기 누끼를 디바이스 카드 사진 면과 같은 흰 바탕에 올린다).
+// 이용 방식 칩(radiogroup)을 고르면 한 줄 설명과 버튼 문구가 함께 바뀐다.
 function DomeCard() {
   const [use, setUse] = useState(DOME_USES[0].id)
   const radios = useRef([])
@@ -105,123 +156,339 @@ function DomeCard() {
 
   return (
     <article id="warm-ritual" className="yw-eq__card yw-eq__card--dome">
-      <figure className="yw-eq__photo">
-        <Pic pic={PICS.review1} sizes="(min-width: 64rem) 34rem, 82vw" alt="용호 자이점 전신 온열돔" />
-        <figcaption>용호 자이점 온열돔</figcaption>
-      </figure>
-      <div className="yw-eq__body">
-        <p className="yw-eq__no">
-          <span className="yw-eq__num">01</span>
-          <span className="yw-eq__dot"> · </span>
-          <span className="yw-eq__en">WARM UP</span>
-        </p>
-        <h3 className="yw-eq__name">전신 온열돔</h3>
-        <p className="yw-eq__sub">누워서 쉬어 가는 전신 온열</p>
-        <div className="yw-eq__uses" role="radiogroup" aria-label="온열돔 이용 방식" onKeyDown={onRadioKey}>
-          {DOME_USES.map((u, i) => (
-            <button
-              key={u.id}
-              ref={(el) => {
-                radios.current[i] = el
-              }}
-              type="button"
-              role="radio"
-              aria-checked={u.id === use}
-              tabIndex={u.id === use ? 0 : -1}
-              className="yw-eq__chip"
-              data-cursor=""
-              onClick={() => setUse(u.id)}
-            >
-              {u.label}
-            </button>
-          ))}
+      <div className="yw-eq__tilt">
+        <div className="yw-eq__photo">
+          <Pic pic={PICS.domeCut} sizes="(min-width: 64rem) 28rem, 68vw" alt="전신 온열돔" />
         </div>
-        <div className="yw-eq__usebox" aria-live="polite">
-          <p key={use} className="yw-eq__use">
-            {current.text}
+        <div className="yw-eq__body">
+          <p className="yw-eq__no">
+            <span className="yw-eq__num">01</span>
+            <span className="yw-eq__dot"> · </span>
+            <span className="yw-eq__en">WARM UP</span>
           </p>
+          <h3 className="yw-eq__name">전신 온열돔</h3>
+          <p className="yw-eq__sub">누워서 쉬어 가는 전신 온열</p>
+          <div className="yw-eq__uses" role="radiogroup" aria-label="온열돔 이용 방식" onKeyDown={onRadioKey}>
+            {DOME_USES.map((u, i) => (
+              <button
+                key={u.id}
+                ref={(el) => {
+                  radios.current[i] = el
+                }}
+                type="button"
+                role="radio"
+                aria-checked={u.id === use}
+                tabIndex={u.id === use ? 0 : -1}
+                className="yw-eq__chip"
+                data-cursor=""
+                onClick={() => setUse(u.id)}
+              >
+                {u.label}
+              </button>
+            ))}
+          </div>
+          <div className="yw-eq__usebox" aria-live="polite">
+            <p key={use} className="yw-eq__use">
+              {current.text}
+            </p>
+          </div>
+          <button
+            type="button"
+            className="yw-btn yw-btn--ink yw-eq__cta"
+            data-magnet
+            data-cursor=""
+            onClick={() => pickForBooking({ area: '온열 웜업', label: current.cta })}
+          >
+            <span>{current.cta}</span>
+          </button>
         </div>
-        <button
-          type="button"
-          className="yw-btn yw-btn--ink yw-eq__cta"
-          data-magnet
-          data-cursor=""
-          onClick={() => pickForBooking({ area: '온열 웜업', label: current.cta })}
-        >
-          <span>{current.cta}</span>
-        </button>
       </div>
     </article>
   )
 }
 
-// 디바이스 카드: 흰 바탕 기기 사진 위에 전용 젤 사진 면이 겹쳐 있다. 마우스 기기는 올리면, 터치·키보드는 '젤 보기'로 덮인다.
+// 디바이스 카드: 기기 사진 위에 전용 젤 사진 면이 겹쳐 있다. 마우스 기기는 올리면, 터치·키보드는 '젤 보기'로 덮인다.
 // 젤 면은 clip-path로 접혀 있어 지연 로딩이 걷히는 순간에야 시작되므로, 트랙이 화면에 들어오면(near) 미리 받는다.
-function DeviceCard({ d, near }) {
+// '성분 보기'는 onSheet(기기, 누른 버튼)로 성분 시트를 연다. 두 버튼 모두 트랙 끌기와 겹치지 않는다(3px 넘게 움직여야 끌기).
+function DeviceCard({ d, near, onSheet }) {
   const gelLoading = near ? 'eager' : 'lazy'
   const [gelOn, setGelOn] = useState(false)
   return (
     <article className={`yw-eq__card${gelOn ? ' is-gel' : ''}`}>
-      <div className="yw-eq__media">
-        <img className="yw-eq__device" src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
-        <div className={`yw-eq__gel${d.gel.length > 1 ? ' yw-eq__gel--two' : ''}`} aria-hidden={!gelOn}>
-          {d.gel.map((g) =>
-            g.pic ? (
-              <Pic key={g.alt} pic={g.pic} sizes="(min-width: 64rem) 22rem, 82vw" alt={g.alt} className="yw-eq__gelimg" loading={gelLoading} />
-            ) : (
-              <img key={g.alt} src={g.src} alt={g.alt} className="yw-eq__gelimg yw-eq__gelimg--cut" loading={gelLoading} decoding="async" />
-            ),
-          )}
-          <p className="yw-eq__gelcap">
-            {d.gelCaption.map((line) => (
-              <span key={line}>{line}</span>
+      <div className="yw-eq__tilt">
+        <div className="yw-eq__media">
+          <img className="yw-eq__device" src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
+          <div className={`yw-eq__gel${d.gels.length > 1 ? ' yw-eq__gel--two' : ''}`} aria-hidden={!gelOn}>
+            {d.gels.map((g) => (
+              <img
+                key={g.name}
+                src={g.src}
+                alt={g.alt}
+                width={g.w}
+                height={g.h}
+                className="yw-eq__gelimg"
+                loading={gelLoading}
+                decoding="async"
+              />
             ))}
+            {/* 이름표: 제품마다 이름 아래 용량. 두 제품이면 사진 칸마다 하나씩 선다 */}
+            <p className="yw-eq__gelcap">
+              {d.gels.map((g) => (
+                <span key={g.name}>
+                  {g.name} <span className="yw-eq__gelvol">{g.volume}</span>
+                </span>
+              ))}
+            </p>
+          </div>
+        </div>
+        <div className="yw-eq__body">
+          <p className="yw-eq__no">
+            <span className="yw-eq__num">{d.no}</span>
+            <span className="yw-eq__dot"> · </span>
+            <span className="yw-eq__en">{d.en}</span>
           </p>
+          <h3 className="yw-eq__name">{d.name}</h3>
+          <p className="yw-eq__sub">{d.sub}</p>
+          <div className="yw-eq__actions">
+            <button type="button" className="yw-eq__gelbtn" aria-pressed={gelOn} data-cursor="" onClick={() => setGelOn((v) => !v)}>
+              <span className="sr-only">{d.name} </span>
+              {gelOn ? '기기 보기' : '젤 보기'}
+            </button>
+            <button
+              type="button"
+              className="yw-eq__ingbtn"
+              aria-haspopup="dialog"
+              data-cursor=""
+              onClick={(e) => onSheet(d, e.currentTarget)}
+            >
+              <span className="sr-only">
+                {d.name} 전용 {d.sheetKo}{' '}
+              </span>
+              성분 보기
+            </button>
+          </div>
         </div>
       </div>
-      <div className="yw-eq__body">
-        <p className="yw-eq__no">
-          <span className="yw-eq__num">{d.no}</span>
-          <span className="yw-eq__dot"> · </span>
-          <span className="yw-eq__en">{d.en}</span>
+    </article>
+  )
+}
+
+// 바텀 시트로 그려지는 폭(yw-equipment.css의 48rem 미만)
+const SHEET_MQ = '(max-width: 47.99rem)'
+
+// 시트 스크롤 가장자리 표시: 본문이 머리 밑으로 지나가면 data-scrolled(머리 아래 선),
+// 아래에 더 읽을 내용이 남아 있으면 data-more(아래 가장자리 흐림 — 웰스파처럼 두 번째 제품이 접혀 있을 때 스크롤 신호).
+// 본문 아래 여백(1.75rem)보다 적게 남았으면 가려진 글이 없으므로 흐리지 않는다.
+function syncSheetEdges(dlg) {
+  const rest = dlg.scrollHeight - dlg.clientHeight - dlg.scrollTop
+  dlg.toggleAttribute('data-scrolled', dlg.scrollTop > 2)
+  dlg.toggleAttribute('data-more', rest > 24)
+}
+
+// '성분 보기' 시트. 네이티브 <dialog>를 showModal()로 열어 포커스 가두기·ESC 닫기·뒤 페이지 비활성은 브라우저에 맡긴다.
+// 모바일(48rem 미만)은 아래에서 올라오는 바텀 시트, 그 위는 가운데 패널(yw-equipment.css). 열린 동안 뒤 페이지 스크롤을 잠근다.
+// × 버튼·ESC·바깥(배경) 누르기로 닫히고(바텀 시트는 머리를 끌어내려도 닫힌다), 닫히면 onClose가 불린다
+// (여는 쪽이 '성분 보기' 버튼으로 포커스를 돌려준다).
+// 시트는 열 때 마운트되고 닫히면 내려간다. <dialog> 자체가 스크롤 상자라 머리(손잡이·라벨·닫기)는 sticky로 붙는다.
+function GelSheet({ device, onClose }) {
+  const ref = useRef(null)
+  const titleId = useId()
+  const downOutside = useRef(false)
+  const pull = useRef(null) // 머리를 끌어내리는 중인 손가락
+  const onCloseRef = useRef(onClose)
+  useEffect(() => {
+    onCloseRef.current = onClose
+  })
+
+  useEffect(() => {
+    const dlg = ref.current
+    if (!dlg) return undefined
+    const root = document.documentElement
+    const prev = { overflow: root.style.overflow, padding: root.style.paddingRight }
+    // 자리를 차지하는 스크롤바(윈도 등)가 사라지며 페이지가 옆으로 밀리지 않게 그 폭만큼 오른쪽을 채운다
+    const bar = window.innerWidth - root.clientWidth
+    root.style.overflow = 'hidden'
+    if (bar > 0) root.style.paddingRight = `${bar}px`
+    if (!dlg.open) dlg.showModal()
+    syncSheetEdges(dlg)
+    const onResize = () => syncSheetEdges(dlg)
+    window.addEventListener('resize', onResize)
+    // close 이벤트는 비동기로 온다. 개발 모드(StrictMode)에서 정리 직후 다시 열린 경우의 늦은 close는 무시한다.
+    const onDialogClose = () => {
+      if (!dlg.open) onCloseRef.current?.()
+    }
+    dlg.addEventListener('close', onDialogClose)
+    return () => {
+      dlg.removeEventListener('close', onDialogClose)
+      window.removeEventListener('resize', onResize)
+      if (dlg.open) dlg.close()
+      root.style.overflow = prev.overflow
+      root.style.paddingRight = prev.padding
+    }
+  }, [])
+
+  // 배경(::backdrop)을 누르면 이벤트 대상이 <dialog> 자신이고 좌표가 상자 밖이다. 시트 안에서 시작한 끌기(글자 선택)는 닫지 않는다.
+  const isOutside = (e) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom
+  }
+  const onPointerDown = (e) => {
+    downOutside.current = e.target === e.currentTarget && isOutside(e)
+  }
+  const onClick = (e) => {
+    const close = downOutside.current && e.target === e.currentTarget && isOutside(e)
+    downOutside.current = false
+    if (close) e.currentTarget.close()
+  }
+
+  // 바텀 시트의 머리(손잡이·라벨)를 손가락으로 아래로 끌면 시트가 따라 내려오고, 충분히 내리거나 빠르게 쓸어내리면 닫힌다.
+  // 덜 끌었으면 제자리로 돌아간다. 마우스와 가운데 패널(48rem 이상)에서는 끌지 않고, 닫기 버튼에서 시작한 누르기도 끌기로 보지 않는다.
+  const onHeadDown = (e) => {
+    if (e.pointerType === 'mouse' || !e.isPrimary || e.target.closest('button')) return
+    if (!window.matchMedia(SHEET_MQ).matches) return
+    pull.current = { id: e.pointerId, y0: e.clientY, y: e.clientY, t: e.timeStamp, v: 0, dy: 0 }
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      /* 이미 놓인 포인터 */
+    }
+  }
+  const onHeadMove = (e) => {
+    const p = pull.current
+    const dlg = ref.current
+    if (!p || e.pointerId !== p.id || !dlg) return
+    p.v = (e.clientY - p.y) / Math.max(1, e.timeStamp - p.t)
+    p.y = e.clientY
+    p.t = e.timeStamp
+    p.dy = Math.max(0, e.clientY - p.y0)
+    dlg.style.transition = 'none'
+    dlg.style.transform = p.dy ? `translate3d(0, ${p.dy}px, 0)` : ''
+  }
+  const onHeadEnd = (e) => {
+    const p = pull.current
+    const dlg = ref.current
+    if (!p || e.pointerId !== p.id || !dlg) return
+    pull.current = null
+    const reduced = prefersReducedMotion()
+    const dismiss = e.type === 'pointerup' && (p.dy > Math.min(120, dlg.offsetHeight * 0.3) || (p.dy > 24 && p.v > 0.45))
+    if (dismiss && reduced) {
+      dlg.close()
+    } else if (dismiss) {
+      dlg.style.transition = 'transform 0.22s cubic-bezier(0.4, 0, 1, 1)'
+      dlg.style.transform = 'translate3d(0, 100%, 0)'
+      window.setTimeout(() => {
+        if (dlg.open) dlg.close()
+      }, 220)
+    } else {
+      dlg.style.transition = reduced ? '' : 'transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1)'
+      dlg.style.transform = ''
+    }
+  }
+
+  return (
+    // 배경 누르기는 마우스·터치용 보조 수단이다. 키보드는 ESC와 닫기 버튼으로 닫는다.
+    <dialog
+      ref={ref}
+      className="yw-eqs"
+      aria-labelledby={titleId}
+      data-cursor-off=""
+      onPointerDown={onPointerDown}
+      onClick={onClick}
+      onScroll={(e) => syncSheetEdges(e.currentTarget)}
+    >
+      <div
+        className="yw-eqs__head"
+        onPointerDown={onHeadDown}
+        onPointerMove={onHeadMove}
+        onPointerUp={onHeadEnd}
+        onPointerCancel={onHeadEnd}
+      >
+        <span className="yw-eqs__grip" aria-hidden="true" />
+        <p className="yw-eqs__folio" id={titleId}>
+          <span className="yw-eqs__folio-en" aria-hidden="true">
+            {device.sheetEn}
+          </span>
+          <span className="yw-eqs__folio-dot" aria-hidden="true">
+            {' · '}
+          </span>
+          {device.name} 전용<span className="sr-only"> {device.sheetKo} 성분</span>
         </p>
-        <h3 className="yw-eq__name">{d.name}</h3>
-        <p className="yw-eq__sub">{d.sub}</p>
-        <button type="button" className="yw-eq__gelbtn" aria-pressed={gelOn} data-cursor="" onClick={() => setGelOn((v) => !v)}>
-          <span className="sr-only">{d.name} </span>
-          {gelOn ? '기기 보기' : '젤 보기'}
+        <button type="button" className="yw-eqs__close" aria-label="닫기" onClick={() => ref.current?.close()}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+          </svg>
         </button>
-        {d.ingredients && (
-          <details className="yw-eq__ing">
-            <summary data-cursor="">주요 성분</summary>
-            <ul>
-              {d.ingredients.map((ing) => (
+      </div>
+
+      <div className="yw-eqs__body">
+        {device.gels.map((g, i, all) => (
+          <div key={g.name} className="yw-eqs__product">
+            <div
+              className={`yw-eqs__fig${g.hand ? ' yw-eqs__fig--hand' : ''}`}
+              style={g.hand ? { '--ar': (g.w / g.h).toFixed(4) } : undefined}
+            >
+              <img src={g.src} alt={g.alt} width={g.w} height={g.h} decoding="async" />
+            </div>
+            {/* 제품이 둘 이상이면(웰스파) 트랙 카운터처럼 '01 / 02'를 달아 아래에 다음 제품이 있음을 알린다. 구조는 제목(h2)이 전한다 */}
+            {all.length > 1 && (
+              <p className="yw-eqs__idx" aria-hidden="true">
+                <b>{pad2(i + 1)}</b> / {pad2(all.length)}
+              </p>
+            )}
+            <h2 className="yw-eqs__name">
+              {g.name} <span className="yw-eqs__vol">{g.volume}</span>
+            </h2>
+            <p className="yw-eqs__usage">{g.usage}</p>
+            <h3 className="yw-eqs__subhead">주요 성분</h3>
+            <ul className="yw-eqs__ings">
+              {g.ingredients.map((ing) => (
                 <li key={ing.name} className={ing.icon ? 'has-icon' : undefined}>
-                  {ing.icon && <img src={ing.icon} alt={ing.iconAlt} width="72" height="72" loading="lazy" decoding="async" />}
+                  {ing.icon && <img src={ing.icon} alt={ing.iconAlt} width="72" height="72" decoding="async" />}
                   <div>
-                    <p className="yw-eq__ingname">{ing.name}</p>
-                    {ing.en && <p className="yw-eq__ingen">{ing.en}</p>}
-                    <p className="yw-eq__ingdesc">{ing.desc}</p>
+                    <p className="yw-eqs__ingname">{ing.name}</p>
+                    {ing.en && (
+                      <p className="yw-eqs__ingen" lang="en">
+                        {ing.en}
+                      </p>
+                    )}
+                    <p className="yw-eqs__ingdesc">{ing.desc}</p>
                   </div>
                 </li>
               ))}
             </ul>
-          </details>
-        )}
+          </div>
+        ))}
+        <Footnote className="yw-eqs__note">성분 설명은 원료의 출처를 소개한 것이며, 체감은 개인에 따라 다를 수 있습니다.</Footnote>
       </div>
-    </article>
+    </dialog>
   )
 }
 
 export default function Equipment() {
   const trackRef = useRef(null)
   const barRef = useRef(null)
+  const sheetTrigger = useRef(null)
   const [nav, setNav] = useState({ idx: 1, atStart: true, atEnd: false })
+  const [sheet, setSheet] = useState(null)
 
   useDragScroll(trackRef, { itemSelector: '.yw-eq__card' })
   const near = useInView(trackRef, { threshold: 0 })
 
+  const openSheet = (device, trigger) => {
+    sheetTrigger.current = trigger
+    setSheet(device)
+  }
+  // 시트가 닫히면 연 버튼으로 포커스를 돌려준다. 트랙이 그 버튼 쪽으로 밀리지 않게 preventScroll.
+  const closeSheet = () => {
+    const trigger = sheetTrigger.current
+    sheetTrigger.current = null
+    setSheet(null)
+    if (trigger?.isConnected) trigger.focus({ preventScroll: true })
+  }
+
   // 트랙 스크롤을 rAF로 묶어 진행 막대(--p, --vis), 카운터, 양 끝 화살표, 속도 기울기(--skew)를 갱신한다.
+  // 기울기는 카드 안쪽 판(.yw-eq__tilt)에만 걸린다. 스냅 대상인 카드 자체를 기울이면 기울어진 상자로 스냅 위치가 1px씩 바뀌어
+  // 스크롤 → 기울기 → 다시 스냅이 끝없이 되풀이된다.
   useEffect(() => {
     const track = trackRef.current
     const bar = barRef.current
@@ -356,7 +623,7 @@ export default function Equipment() {
       >
         <DomeCard />
         {DEVICES.map((d) => (
-          <DeviceCard key={d.no} d={d} near={near} />
+          <DeviceCard key={d.no} d={d} near={near} onSheet={openSheet} />
         ))}
       </div>
 
@@ -369,6 +636,9 @@ export default function Equipment() {
           구성은 상담 시 안내합니다.
         </Footnote>
       </div>
+
+      {/* 트랙 밖에 둔다(시트 안의 누르기가 트랙 끌기로 번지지 않게). 열렸을 때만 마운트한다. */}
+      {sheet && <GelSheet key={sheet.no} device={sheet} onClose={closeSheet} />}
     </section>
   )
 }
