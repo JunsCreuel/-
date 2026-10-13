@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { SHOW_OFFER, SHOW_PRICES, won } from './data'
+import { OFFER_TERM, SHOW_OFFER, SHOW_PRICES, won } from './data'
 import { useInView } from './motion'
 
 // 새 섹션이 함께 쓰는 잡지식 부품. 스타일은 wellness-x.css의 yw- 클래스다.
@@ -123,33 +123,31 @@ export function Pic({ pic, sizes = '100vw', alt = '', className, loading = 'lazy
   )
 }
 
-// 가격 한 줄: 할인 관리는 '정가(취소선) 첫 방문 50% 할인가', 아니면 정가만. 버튼 안에도 들어가도록 span으로 그린다.
-// SHOW_PRICES가 false면 그리지 않고, SHOW_OFFER가 false면 할인 표시 없이 정가만 보인다.
-// 화면 표시는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문 할인가 65,000원'처럼 읽힌다.
-export function PriceLine({ program, compact = false, animate = true, className = '' }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { threshold: 0.6 })
+// 가격 줄: 정가가 기본 가격이고(취소선 없음), 할인 관리면 '첫 방문가 65,000원'과 조건(OFFER_TERM)이 함께 붙는다.
+// 첫 방문가는 상시 할인이 아니라 조건부라, 조건 없이 할인가만 보이는 일이 없게 한 덩어리(.yw-price__first)로 그린다.
+// 버튼 안에도 들어가도록 span으로 그린다. SHOW_PRICES가 false면 그리지 않고, SHOW_OFFER가 false면 정가만 보인다.
+// 화면 표시는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문가 65,000원, 첫 방문 1인 1회 한정'처럼 읽힌다.
+export function PriceLine({ program, compact = false, className = '' }) {
   if (!SHOW_PRICES) return null
   const onSale = SHOW_OFFER && !!program.sale
-  const on = !animate || inView
   return (
-    <span
-      ref={ref}
-      className={`yw-price${compact ? ' yw-price--compact' : ''}${onSale ? ' has-sale' : ''}${on ? ' is-in' : ''}${className ? ` ${className}` : ''}`}
-    >
+    <span className={`yw-price${compact ? ' yw-price--compact' : ''}${onSale ? ' has-sale' : ''}${className ? ` ${className}` : ''}`}>
       <span className="yw-price__vis" aria-hidden="true">
-        {onSale ? (
+        <strong className="yw-price__now">{won(program.price)}</strong>
+        {onSale && (
           <>
-            <s className="yw-price__was">{won(program.price)}</s>{' '}
-            <b className="yw-price__badge">{compact ? '50%' : '첫 방문 50%'}</b>{' '}
-            <strong className="yw-price__now">{won(program.sale)}</strong>
+            {' '}
+            <span className="yw-price__first">
+              <span className="yw-price__fare">
+                <b>첫 방문가</b> {won(program.sale)}
+              </span>{' '}
+              <small>{OFFER_TERM}</small>
+            </span>
           </>
-        ) : (
-          <strong className="yw-price__now">{won(program.price)}</strong>
         )}
       </span>
       <span className="sr-only">
-        {onSale ? `정가 ${won(program.price)}, 첫 방문 할인가 ${won(program.sale)}` : `가격 ${won(program.price)}`}
+        {onSale ? `정가 ${won(program.price)}, 첫 방문가 ${won(program.sale)}, ${OFFER_TERM}` : `가격 ${won(program.price)}`}
       </span>
     </span>
   )
