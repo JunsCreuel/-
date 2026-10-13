@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTween } from '../motion'
 import { scrollToId } from '../scroll'
-import { Reveal, Todo } from '../ui'
+import { Todo } from '../ui'
 
 // 창업 비용 구조 계산기. 입력한 숫자로 "매출 − 비용"을 계산해 보여 주는 계산기일 뿐이며, 처음 값은 슬라이더 위치를 잡기 위한 예시다.
 // 예뻐졌다의 실제 매출·비용·수익 수치가 아니다. 근거 없는 예상 수익처럼 보이지 않도록(가맹사업법 제9조),
@@ -39,10 +39,28 @@ function calc(v) {
   return { rent, material, fixed, profit, bep }
 }
 
+// 결과 자리에서 슬라이더 쪽을 가리키는 손짓(장식). 계산기가 2열(900px 이상)이면 왼쪽, 1열이면 위를 가리킨다.
+function Nudge() {
+  return (
+    <span className="yw-sim__nudge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path d="M10 9.5V4a2 2 0 0 0-4 0v10" />
+        <path d="M10 9.5V9a2 2 0 0 1 4 0v1" />
+        <path d="M14 10a2 2 0 0 1 4 0v1" />
+        <path d="M18 11a2 2 0 0 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15" />
+      </svg>
+    </span>
+  )
+}
+
+// 창업 장(Startup)의 접힘 안에 들어가는 계산기: 자체 섹션·라벨·제목·리드 없이 sr-only h3를 두고,
+// 힌트 문장은 ⓘ 토글팁(말풍선)으로 보여 준다. 계산 로직·입력 전 결과 숨김·고지 전문·'이 조건으로 상담 신청'은 예전과 같다.
 export default function Simulator() {
   const [v, setV] = useState(defaults)
   const [touched, setTouched] = useState(false) // 슬라이더를 한 번이라도 움직였는지
   const [said, setSaid] = useState('') // 스크린리더 안내(움직임이 멈춘 뒤 한 번만 읽힌다)
+  const [tip, setTip] = useState(null) // 열린 도움말(필드 id)
+  const [tipX, setTipX] = useState(0) // 말풍선 꼬리 위치(ⓘ 가운데, px)
   const r = calc(v)
   const profitShown = useTween(r.profit)
 
@@ -65,6 +83,29 @@ export default function Simulator() {
     return () => clearTimeout(id)
   }, [touched, loss, r.profit])
 
+  // 도움말 말풍선: 바깥을 누르거나 Escape면 닫는다
+  useEffect(() => {
+    if (!tip) return undefined
+    const onDown = (e) => {
+      if (!e.target.closest?.('.yw-tip')) setTip(null)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => document.removeEventListener('pointerdown', onDown)
+  }, [tip])
+
+  function toggleTip(e, id) {
+    const btn = e.currentTarget
+    setTipX(btn.offsetLeft + btn.offsetWidth / 2)
+    setTip((t) => (t === id ? null : id))
+  }
+
+  function onTipKey(e) {
+    if (e.key === 'Escape' && tip) {
+      e.stopPropagation()
+      setTip(null)
+    }
+  }
+
   function set(id, value) {
     setV((prev) => ({ ...prev, [id]: Number(value) }))
     setTouched(true)
@@ -84,105 +125,116 @@ export default function Simulator() {
     document.getElementById('startup-form-title')?.focus({ preventScroll: true })
   }
 
-  return (
-    <section id="simulator" className="w-section w-section--band w-sim">
-      <div className="w-container">
-        <Reveal as="p" className="w-label">
-          Cost Calculator
-        </Reveal>
-        <Reveal as="h2" delay={80} className="w-title">
-          창업 비용 구조,
-          <br />
-          직접 넣어 계산해 보세요.
-        </Reveal>
-        <Reveal as="p" delay={120} className="w-lead">
-          매장 규모와 임대료, 매출과 비용을 직접 넣으면 매출에서 비용을 뺀 금액을 바로 계산합니다. 처음 값은 계산 방식을 보여 드리기 위한 예시입니다.
-        </Reveal>
-
-        <div className="w-sim__grid">
-          <div className="w-sim__inputs">
-            <div className="w-sim__mini" aria-hidden="true">
-              <span>입력값 기준 계산</span>
-              <b className={touched && loss ? 'is-loss' : undefined}>{shownResult}</b>
-            </div>
-            {FIELDS.map((f) => {
-              const fill = ((v[f.id] - f.min) / (f.max - f.min)) * 100
-              const shown = f.unit === '만원' ? fmtMan(v[f.id]) : `${v[f.id].toLocaleString('ko-KR')}${f.unit}`
-              return (
-                <div key={f.id} className="w-sim__field">
-                  <div className="w-sim__row">
-                    <label htmlFor={`sim-${f.id}`}>{f.label}</label>
-                    <output htmlFor={`sim-${f.id}`}>{shown}</output>
-                  </div>
-                  <input
-                    id={`sim-${f.id}`}
-                    type="range"
-                    min={f.min}
-                    max={f.max}
-                    step={f.step}
-                    value={v[f.id]}
-                    style={{ '--fill': `${fill}%` }}
-                    aria-valuetext={shown}
-                    onChange={(e) => set(f.id, e.target.value)}
-                  />
-                  <p className="w-sim__hint">{f.hint}</p>
-                </div>
-              )
-            })}
-            <button type="button" className="w-link w-sim__reset" onClick={reset}>
-              처음 값으로 되돌리기
-            </button>
-          </div>
-
-          <div className={`w-sim__result${touched ? '' : ' is-idle'}`}>
-            <p className="w-sim__eyebrow">입력값 기준 월 계산 결과</p>
-            <p className={`w-sim__profit${touched && loss ? ' is-loss' : ''}`}>{shownResult}</p>
-            <p className="w-sim__sub">
-              {!touched ? '왼쪽 조건을 직접 움직이면 계산 결과가 나타납니다.' : loss ? '이 조건에서는 비용이 매출보다 큽니다.' : '입력한 월 매출에서 입력한 비용을 뺀 금액입니다.'}
-            </p>
-
-            {touched && (
-              <>
-                <div className="w-sim__bar" role="img" aria-label={`월 매출 ${fmtMan(v.sales)} 중 비용과 나머지의 비율`}>
-                  {parts.map((p) => (
-                    <span key={p.id} className={`w-sim__seg is-${p.id}`} style={{ width: pct(p.value) }} />
-                  ))}
-                  {!loss && <span className="w-sim__seg is-profit" style={{ width: pct(r.profit) }} />}
-                </div>
-                <ul className="w-sim__legend">
-                  {parts.map((p) => (
-                    <li key={p.id}>
-                      <i className={`is-${p.id}`} aria-hidden="true" />
-                      <span>{p.label}</span>
-                      <b>{fmtMan(p.value)}</b>
-                    </li>
-                  ))}
-                  <li>
-                    <i className="is-profit" aria-hidden="true" />
-                    <span>{loss ? '부족 금액' : '매출 − 비용'}</span>
-                    <b>{fmtMan(Math.abs(r.profit))}</b>
-                  </li>
-                </ul>
-                <p className="w-sim__bep">
-                  입력한 비용 기준 손익분기 매출 <b>{fmtMan(r.bep)}</b>
-                </p>
-              </>
-            )}
-
-            <button type="button" className="w-btn w-btn--light w-btn--arrow" onClick={toInquiry}>
-              이 조건으로 상담 신청
-            </button>
-            <p className="sr-only" aria-live="polite">
-              {said}
-            </p>
-          </div>
+  const grid = (
+    <div className="w-sim__grid">
+      <div className="w-sim__inputs">
+        <div className="w-sim__mini" aria-hidden="true">
+          <span>입력값 기준 계산</span>
+          <b className={touched && loss ? 'is-loss' : undefined}>{shownResult}</b>
         </div>
+        {FIELDS.map((f) => {
+          const fill = ((v[f.id] - f.min) / (f.max - f.min)) * 100
+          const shown = f.unit === '만원' ? fmtMan(v[f.id]) : `${v[f.id].toLocaleString('ko-KR')}${f.unit}`
+          return (
+            <div key={f.id} className="w-sim__field">
+              <div className="w-sim__row">
+                <label htmlFor={`sim-${f.id}`}>{f.label}</label>
+                <button
+                  type="button"
+                  className="yw-tip"
+                  aria-label={`${f.label} 도움말`}
+                  aria-expanded={tip === f.id}
+                  aria-controls={`sim-hint-${f.id}`}
+                  onClick={(e) => toggleTip(e, f.id)}
+                >
+                  <span aria-hidden="true">i</span>
+                </button>
+                <output htmlFor={`sim-${f.id}`}>{shown}</output>
+              </div>
+              <p id={`sim-hint-${f.id}`} className="yw-tip__body" hidden={tip !== f.id} style={{ '--tail': `${tipX}px` }}>
+                {f.hint}
+              </p>
+              <input
+                id={`sim-${f.id}`}
+                type="range"
+                min={f.min}
+                max={f.max}
+                step={f.step}
+                value={v[f.id]}
+                style={{ '--fill': `${fill}%` }}
+                aria-valuetext={shown}
+                aria-describedby={`sim-hint-${f.id}`}
+                onChange={(e) => set(f.id, e.target.value)}
+              />
+            </div>
+          )
+        })}
+        <button type="button" className="w-link w-sim__reset" onClick={reset}>
+          처음 값으로 되돌리기
+        </button>
+      </div>
 
-        <p className="w-method__note">
-          입력값과 처음 값은 계산 방식을 보여 드리기 위한 예시이며, 예뻐졌다 매장의 실제 매출·비용·수익이 아닙니다. 가맹비·교육비·인테리어·장비 구입비와 감가상각, 카드 수수료, 세금 등은 계산에 포함되지 않았고, 수익을 보장하지 않습니다. 실제 조건은 상담에서 안내해 드립니다.{' '}
-          <Todo>계산기 항목 · 처음 값 (실제 운영 수치 기준)</Todo>
+      <div className={`w-sim__result${touched ? '' : ' is-idle'}`}>
+        <p className="w-sim__eyebrow">입력값 기준 월 계산 결과</p>
+        <p className={`w-sim__profit${touched && loss ? ' is-loss' : ''}`}>
+          {shownResult}
+          {!touched && <Nudge />}
+        </p>
+        <p className="w-sim__sub">
+          {!touched ? '왼쪽 조건을 직접 움직이면 계산 결과가 나타납니다.' : loss ? '이 조건에서는 비용이 매출보다 큽니다.' : '입력한 월 매출에서 입력한 비용을 뺀 금액입니다.'}
+        </p>
+
+        {touched && (
+          <>
+            <div className="w-sim__bar" role="img" aria-label={`월 매출 ${fmtMan(v.sales)} 중 비용과 나머지의 비율`}>
+              {parts.map((p) => (
+                <span key={p.id} className={`w-sim__seg is-${p.id}`} style={{ width: pct(p.value) }} />
+              ))}
+              {!loss && <span className="w-sim__seg is-profit" style={{ width: pct(r.profit) }} />}
+            </div>
+            <ul className="w-sim__legend">
+              {parts.map((p) => (
+                <li key={p.id}>
+                  <i className={`is-${p.id}`} aria-hidden="true" />
+                  <span>{p.label}</span>
+                  <b>{fmtMan(p.value)}</b>
+                </li>
+              ))}
+              <li>
+                <i className="is-profit" aria-hidden="true" />
+                <span>{loss ? '부족 금액' : '매출 − 비용'}</span>
+                <b>{fmtMan(Math.abs(r.profit))}</b>
+              </li>
+            </ul>
+            <p className="w-sim__bep">
+              입력한 비용 기준 손익분기 매출 <b>{fmtMan(r.bep)}</b>
+            </p>
+          </>
+        )}
+
+        <button type="button" className="w-btn w-btn--light w-btn--arrow" onClick={toInquiry}>
+          이 조건으로 상담 신청
+        </button>
+        <p className="sr-only" aria-live="polite">
+          {said}
         </p>
       </div>
-    </section>
+    </div>
+  )
+
+  const note = (
+    <p className="w-method__note">
+      입력값과 처음 값은 계산 방식을 보여 드리기 위한 예시이며, 예뻐졌다 매장의 실제 매출·비용·수익이 아닙니다. 가맹비·교육비·인테리어·장비 구입비와 감가상각, 카드 수수료, 세금 등은 계산에 포함되지 않았고, 수익을 보장하지 않습니다. 실제 조건은 상담에서 안내해 드립니다.{' '}
+      <Todo>계산기 항목 · 처음 값 (실제 운영 수치 기준)</Todo>
+    </p>
+  )
+
+  return (
+    // Escape로 열린 도움말을 닫는다(포커스가 계산기 안 어디에 있든)
+    <div className="yw-sim" onKeyDown={onTipKey}>
+      <h3 className="sr-only">창업 비용 구조 계산기</h3>
+      {grid}
+      {note}
+    </div>
   )
 }

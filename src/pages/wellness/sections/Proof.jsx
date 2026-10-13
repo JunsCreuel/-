@@ -1,25 +1,27 @@
 import { REVIEWS } from '../data'
+import { Folio, Footnote } from '../editorial'
 import ReviewCarousel from '../ReviewCarousel'
-import { Reveal } from '../ui'
 
+// 07 Voices — 실제 매장 사진을 앞세운 후기. 머리는 폴리오와 큰 'Review' 한 단어, 오른쪽에 출처 배지.
+// 후기 원문(REVIEWS.text)은 고치지 않고 그대로 보여 준다.
 export default function Proof() {
   return (
-    <section id="reviews" className="w-section">
-      <div className="w-container">
-        <Reveal as="p" className="w-label">
-          Customer review
-        </Reveal>
-        <Reveal as="h2" delay={80} className="w-display">
-          Review
-          <span className="w-display__sub">다녀가신 분들의 이야기</span>
-        </Reveal>
-        <Reveal as="p" delay={120} className="w-lead">
-          관리를 받고 직접 남겨 주신 네이버 리뷰입니다.
-        </Reveal>
+    <section id="reviews" className="yw-section yw-voices" data-theme="light">
+      <div className="yw-wrap yw-voices__head">
+        <div>
+          <Folio no="06" en="Voices" />
+          <h2 className="yw-display yw-voices__title">Review</h2>
+        </div>
+        <p className="yw-voices__badge">
+          <i aria-hidden="true">N</i>
+          네이버 리뷰 · 방문 고객
+        </p>
       </div>
+
       <ReviewCarousel reviews={REVIEWS} />
-      <div className="w-container">
-        <p className="w-method__note">고객이 직접 작성한 후기를 그대로 옮겼습니다. 체감은 개인에 따라 다를 수 있습니다.</p>
+
+      <div className="yw-wrap yw-voices__foot">
+        <Footnote>고객이 직접 작성한 후기를 그대로 옮겼습니다. 체감은 개인에 따라 다를 수 있습니다.</Footnote>
       </div>
     </section>
   )

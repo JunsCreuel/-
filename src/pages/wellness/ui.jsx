@@ -9,9 +9,11 @@ export function Todo({ children }) {
 
 // 화면에 들어올 때 서서히 나타나는 래퍼.
 // mode="toggle"이면 화면을 벗어날 때 다시 사라져 스크롤마다 fade in/out 된다.
+// variant('line' | 'wipe' | 'rise' | 'fade')를 주면 새 섹션용 등장 효과(wellness-x.css의 .yw-rv--*)를 쓴다.
+// variant가 없으면 기존 22px 페이드업 그대로다(기존 섹션·마린 페이지용).
 const CAN_OBSERVE = typeof IntersectionObserver !== 'undefined'
 
-export function Reveal({ as: Tag = 'div', mode = 'once', delay = 0, className = '', children, ...rest }) {
+export function Reveal({ as: Tag = 'div', mode = 'once', delay = 0, variant, className = '', children, ...rest }) {
   const ref = useRef(null)
   const [shown, setShown] = useState(!CAN_OBSERVE)
 
@@ -36,7 +38,7 @@ export function Reveal({ as: Tag = 'div', mode = 'once', delay = 0, className = 
   return (
     <Tag
       ref={ref}
-      className={`w-reveal${shown ? ' is-in' : ''}${className ? ` ${className}` : ''}`}
+      className={`w-reveal${variant ? ` yw-rv yw-rv--${variant}` : ''}${shown ? ' is-in' : ''}${className ? ` ${className}` : ''}`}
       style={delay ? { '--w-delay': `${delay}ms` } : undefined}
       {...rest}
     >

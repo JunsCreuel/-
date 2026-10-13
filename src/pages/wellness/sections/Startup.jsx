@@ -1,46 +1,88 @@
-import { BRANCHES, telHref } from '../data'
+import { useRef, useState } from 'react'
+import { BRANCHES, PICS, SHOW_SIMULATOR, telHref } from '../data'
+import { Folio, Footnote, Pic, SplitLines } from '../editorial'
+import { CountUp } from '../MotionParts'
+import { useInView, useScrollParallax, useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
-import { Reveal } from '../ui'
+import Simulator from './Simulator'
+import './yw-business.css'
+
+// Appendix — For Partners. 고객 동선이 끝난 뒤 B2B 구역을 에스프레소 커튼 한 장으로 분리한다.
+// 배경(정물 사진·고스트 단어·궤도 원)은 모두 장식이다. 진행 단계 선은 스크롤에 따라 그어지고(--p), 계산기는 관심 있는 사람만 여는 접힘이다.
+// 수익 수치는 노출하지 않는다(계산기는 슬라이더를 움직이기 전 결과를 숨긴다).
 
 // 일반적인 창업 진행 단계 예시. 실제 절차와 다를 수 있어 확정된 사실처럼 쓰지 않는다.
 const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '운영 조건 협의', '준비 과정 및 교육', '오픈 준비']
 
 export default function Startup() {
+  const phone = BRANCHES.zai.phone
+  const ghostRef = useRef(null)
+  const orbitRef = useRef(null)
+  const tlRef = useRef(null)
+  const [calcOpen, setCalcOpen] = useState(false)
+  const orbitIn = useInView(orbitRef, { threshold: 0.1 })
+
+  useScrollParallax(ghostRef, 60)
+  useScrollProgress(tlRef, { mode: 'through' })
+
   return (
-    <section id="startup" className="w-section">
-      <div className="w-container w-startup">
-        <div className="w-startup__intro">
-          <Reveal as="p" className="w-label">Business Inquiry</Reveal>
-          <Reveal as="h2" className="w-title">웰니스 공간을<br />시작하고 싶으신가요?</Reveal>
-          <Reveal as="p" className="w-lead">온열돔과 부위별 디바이스 케어를 결합한 웰니스 운영 방식이 궁금하다면, 창업·운영 상담으로 만나보세요.</Reveal>
-          <ul className="w-tags"><li>신규 창업 상담</li><li>기존 샵 도입 상담</li></ul>
-          <p className="w-program__text">희망 지역, 준비 단계, 궁금한 내용을 알려주시면 상담 가능한 범위를 안내해 드립니다.</p>
+    <section id="startup" className="yw-section yw-dark yw-curtain yw-biz" data-theme="dark">
+      <div className="yw-biz__bg" aria-hidden="true">
+        <Pic pic={PICS.bizStill} sizes="100vw" />
+      </div>
+      <span ref={ghostRef} className="yw-biz__ghost" aria-hidden="true">
+        PARTNERS
+      </span>
+      <svg ref={orbitRef} className={`yw-biz__orbit${orbitIn ? ' is-in' : ''}`} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="49.5" pathLength="1" />
+      </svg>
 
-          <details className="w-more">
-            <summary>상담 후 진행 단계 보기</summary>
-            <ul className="w-startup__points">
-              <li>온열돔과 디바이스 아웃케어를 결합한 운영 방식</li>
-              <li>100% 예약제 운영</li>
-              <li>4년간의 운영 경험</li>
-            </ul>
-            <div className="w-startup__steps">
-              <p className="w-startup__label">상담 후 진행 단계(예시)</p>
-              <ol>
-                {STEPS.map((step) => <li key={step}>{step}</li>)}
-              </ol>
-              <p className="w-startup__note">일반적인 진행 예시이며, 실제 절차와 일정은 상담에서 안내해 드립니다.</p>
-            </div>
-          </details>
-
-          <div className="w-hero__actions"><a className="w-btn w-btn--primary" href={telHref(BRANCHES.zai.phone)}>창업·운영 전화 상담</a><a className="w-link" href={telHref(BRANCHES.zai.phone)}>{BRANCHES.zai.phone}</a></div>
+      {/* 모바일은 DOM 순서(머리 → 진행 단계 → 전화 → 폼 → 계산기), 64rem 이상은 grid 영역으로 위 2열 + 아래 전폭 */}
+      <div className="yw-wrap yw-biz__grid">
+        <div className="yw-biz__head">
+          <Folio en="Appendix — For Partners" />
+          <SplitLines as="h2" className="yw-biz__title" lines={['웰니스 공간을', '시작하고 싶으신가요?']} />
+          <p className="yw-biz__stat">
+            <CountUp to={40} suffix="+" className="yw-biz__num" />
+            <span className="yw-biz__stat-label">함께하는 예뻐졌다 매장</span>
+          </p>
         </div>
 
-        <div className="w-startup__form">
+        <div className="yw-biz__timeline" ref={tlRef}>
+          <p className="yw-biz__tl-label">상담 후 진행 단계(예시)</p>
+          <ol style={{ '--n': STEPS.length }}>
+            {STEPS.map((step, i) => (
+              <li key={step} style={{ '--i': i }}>
+                <span className="yw-biz__dot" aria-hidden="true" />
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+          <Footnote>일반적인 진행 예시이며, 실제 절차와 일정은 상담에서 안내해 드립니다.</Footnote>
+        </div>
+
+        <div className="yw-biz__actions">
+          <a className="yw-btn yw-btn--cream" data-magnet="" href={telHref(phone)}>
+            <span>창업·운영 전화 상담</span>
+          </a>
+          <a className="yw-biz__tel" href={telHref(phone)}>
+            {phone}
+          </a>
+        </div>
+
+        <div className="yw-biz__form">
           <h3 id="startup-form-title" tabIndex={-1}>
             창업·운영 상담 신청
           </h3>
           <StartupForm />
         </div>
+
+        {SHOW_SIMULATOR && (
+          <details className="yw-biz__calc" onToggle={(e) => setCalcOpen(e.currentTarget.open)}>
+            <summary>{calcOpen ? '계산기 접기' : '비용 구조 직접 계산해 보기'}</summary>
+            <Simulator />
+          </details>
+        )}
       </div>
     </section>
   )

@@ -1,25 +1,51 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { OPEN_BRANCHES, telHref } from './data'
+import { onScrollFrame } from './motion'
 import { scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
 // 상단 바: 왼쪽 로고, 가운데 주요 메뉴(넓은 화면), 오른쪽 상담 예약 버튼.
 // 좁은 화면에서는 햄버거로 전체 메뉴 패널을 연다. bar: true인 항목만 상단 메뉴 줄에 나온다.
+// 바로 아래에 있는 섹션의 data-theme('dark' | 'light')을 따라 header[data-theme]가 바뀐다(어두운 장 위에서는 크림 글자).
 export default function WellnessNav({ branch, items }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const burgerRef = useRef(null)
+  const headerRef = useRef(null)
+  const menuOpenRef = useRef(false)
+  const themeRef = useRef(null)
+
+  // 상단 바 바로 아래(가운데, 바 높이 + 2px) 요소가 속한 섹션의 테마를 읽어, 바뀔 때만 header에 쓴다. 메뉴가 열려 있으면 판정하지 않는다.
+  const syncTheme = useCallback(() => {
+    const header = headerRef.current
+    if (!header || menuOpenRef.current) return
+    const navH = header.querySelector('.w-nav__inner')?.offsetHeight || header.offsetHeight
+    const hit = document.elementFromPoint(window.innerWidth / 2, navH + 2)
+    const theme = hit?.closest('[data-theme]')?.dataset.theme || 'light'
+    if (theme !== themeRef.current) {
+      themeRef.current = theme
+      header.dataset.theme = theme
+    }
+  }, [])
 
   useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 8)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    let last = null
+    return onScrollFrame(({ y }) => {
+      const next = y > 8
+      if (next !== last) {
+        last = next
+        setScrolled(next)
+      }
+      syncTheme()
+    })
+  }, [syncTheme])
+
+  useEffect(() => {
+    menuOpenRef.current = menuOpen
+    if (!menuOpen) syncTheme()
+  }, [menuOpen, syncTheme])
 
   useEffect(() => {
     if (!menuOpen) return undefined
@@ -44,7 +70,7 @@ export default function WellnessNav({ branch, items }) {
 
   return (
     <>
-      <header className={`w-nav${scrolled ? ' is-scrolled' : ''}`}>
+      <header ref={headerRef} className={`w-nav${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' is-menu-open' : ''}`}>
         <div className="w-nav__inner">
           <Link
             to={branch.path}

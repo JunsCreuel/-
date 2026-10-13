@@ -37,6 +37,12 @@
   text-underline-offset: 0.25em;
 }
 
+.w-footer__info .w-footer__credit {
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
 .w-footer__sep {
   margin: 0 0.55em;
   color: var(--w-line-strong);
@@ -89,8 +95,8 @@
 
 .w-footer__bar {
   padding: 1.1rem var(--w-gutter);
-  /* 모바일 하단 고정 바에 가려지지 않도록 여백 확보 */
-  padding-bottom: calc(1.1rem + 4.5rem + env(safe-area-inset-bottom));
+  /* 모바일 하단 독은 푸터가 보이면 숨으므로 홈 인디케이터 여백만 둔다 */
+  padding-bottom: calc(1.1rem + env(safe-area-inset-bottom));
   border-top: 1px solid var(--w-line);
   background: var(--w-band);
 }

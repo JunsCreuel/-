@@ -9,11 +9,70 @@
   background: color-mix(in srgb, var(--w-bg) 94%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  transition: box-shadow 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    color 0.4s ease,
+    background-color 0.4s ease,
+    border-color 0.4s ease;
 }
 
 .w-nav.is-scrolled {
   box-shadow: 0 2px 20px color-mix(in srgb, var(--w-ink) 10%, transparent);
+}
+
+/* 섹션 테마 반전: 히어로 사진·에스프레소 장(data-theme='dark') 위에서는 크림 글자에 반투명 에스프레소 블러.
+   맨 위(스크롤 전)에서는 배경·테두리·그림자 없이 사진 위에 바로 놓인다. 판정은 WellnessNav가 한다. */
+.w-nav[data-theme='dark'] {
+  --w-logo-mark: #fff;
+  --w-logo-text: #fff;
+  border-color: rgb(255 255 255 / 0.12);
+  background: rgb(42 35 32 / 0.72);
+  color: var(--yw-cream, #f4ede2);
+}
+
+.w-nav[data-theme='dark']:not(.is-scrolled) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* 메뉴 패널이 열리면 바 아래 흰 패널과 이어지도록 */
+.w-nav[data-theme='dark'].is-menu-open {
+  background: rgb(42 35 32 / 0.92);
+}
+
+.w-nav .w-logo__mark,
+.w-nav .w-logo__ko,
+.w-nav .w-logo__en {
+  transition:
+    color 0.4s ease,
+    background-color 0.4s ease;
+}
+
+.w-nav[data-theme='dark'] .w-nav__right .w-btn--primary {
+  border-color: var(--yw-cream, #f4ede2);
+  background: var(--yw-cream, #f4ede2);
+  color: var(--w-espresso);
+}
+
+.w-nav[data-theme='dark'] .w-nav__right .w-btn--primary:hover {
+  border-color: #fff;
+  background: #fff;
+  color: var(--w-espresso);
+}
+
+.w-nav[data-theme='dark'] :focus-visible {
+  outline-color: var(--yw-cream, #f4ede2);
+}
+
+.w-nav[data-theme='dark'] .w-nav__panel {
+  color: var(--w-ink);
+}
+
+.w-nav[data-theme='dark'] .w-nav__panel :focus-visible {
+  outline-color: var(--w-accent);
 }
 
 .w-nav__inner {
@@ -65,10 +124,14 @@
 .w-nav__burger span {
   width: 24px;
   height: 1.5px;
-  background: var(--w-ink);
+  background: currentColor;
   transition:
     transform 0.25s ease,
     opacity 0.2s ease;
+}
+
+.w-nav__burger {
+  color: inherit;
 }
 
 .w-nav__burger.is-open span:nth-child(1) {
@@ -223,6 +286,10 @@
     text-decoration-thickness: 1px;
   }
 
+  .w-nav[data-theme='dark'] .w-nav__menu button:hover {
+    color: var(--w-champagne);
+  }
+
   .w-nav__burger,
   .w-nav__panel,
   .w-nav__backdrop,
@@ -257,6 +324,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .w-nav,
+  .w-nav .w-logo__mark,
+  .w-nav .w-logo__ko,
+  .w-nav .w-logo__en,
   .w-nav__burger span {
     transition: none;
   }
