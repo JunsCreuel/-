@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { BRANCHES, PICS, PROGRAMS, SALE_COUNT, SHOW_OFFER, SHOW_PRICES } from '../data'
+import { BRANCHES, OFFER_TERM_FULL, PICS, PROGRAMS, SALE_COUNT, SHOW_OFFER, SHOW_PRICES } from '../data'
 import { Folio, Footnote, ParenLink, Pic, PriceLine, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
@@ -234,7 +234,7 @@ export default function Condition() {
 
         <Footnote>
           추천은 참고용이며, 관리는 상담에서 컨디션을 확인한 뒤 함께 정합니다.
-          {SHOW_PRICES && SHOW_OFFER && ` 첫 방문 50%는 할인 표시가 있는 ${SALE_COUNT}개 관리에 1회 적용됩니다.`}
+          {SHOW_PRICES && SHOW_OFFER && ` 첫 방문가(50%)는 할인 대상 ${SALE_COUNT}개 관리에 한해, ${OFFER_TERM_FULL}됩니다.`}
         </Footnote>
       </div>
     </section>

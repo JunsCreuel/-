@@ -276,12 +276,13 @@
   color: color-mix(in srgb, var(--yw-cream) 62%, transparent);
 }
 
-/* 가격 줄: 정가(취소선이 그어짐) · 50% 배지 · 할인가 */
+/* 가격 줄: 정가가 기본 가격(취소선 없음)이고, 할인 관리면 아래 줄에 '첫 방문가 금액 · 조건'이 붙는다.
+   compact는 첫 방문가 덩어리가 자리가 있으면 정가 옆에 선다. */
 .yw-price {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.15rem 0.5rem;
+  gap: 0.3rem 0.75rem;
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -289,56 +290,71 @@
   display: contents;
 }
 
-.yw-price__was {
-  position: relative;
-  color: var(--w-muted);
-  font-size: 0.86em;
-  text-decoration: none;
-}
-
-.yw-price__was::after {
-  position: absolute;
-  top: 52%;
-  left: -0.1em;
-  right: -0.1em;
-  height: 1px;
-  background: currentColor;
-  content: '';
-  scale: 0 1;
-  transform-origin: left;
-  transition: scale 0.7s var(--yw-ease) 0.15s;
-}
-
-.yw-price.is-in .yw-price__was::after {
-  scale: 1 1;
-}
-
-.yw-price__badge {
-  padding: 0.12em 0.55em;
-  border-radius: 999px;
-  background: var(--w-champagne);
-  color: var(--w-ink);
-  font-family: var(--w-font-label);
-  font-size: 0.72em;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
 .yw-price__now {
   font-family: var(--w-font-label);
   font-size: 1.08em;
   font-weight: 500;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
-.yw-dark .yw-price__was {
-  color: color-mix(in srgb, var(--yw-cream) 60%, transparent);
+/* 첫 방문가 금액과 조건. 조건이 다음 줄로 넘어가면 앞의 가운뎃점은 잘려 보이지 않는다(overflow: clip) */
+.yw-price__first {
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 1.1em;
+  min-width: 0;
+  overflow: clip;
+  color: var(--w-accent-deep);
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+
+.yw-price__fare {
+  font-family: var(--w-font-label);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.yw-price__fare b {
+  font-family: var(--w-font);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.yw-price__first small {
+  position: relative;
+  color: var(--w-muted);
+  font-size: 0.86em;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.yw-price__first small::before {
+  position: absolute;
+  right: 100%;
+  margin-right: 0.45em;
+  content: '·';
+}
+
+.yw-dark .yw-price__first {
+  color: var(--w-champagne);
+}
+
+.yw-dark .yw-price__first small {
+  color: color-mix(in srgb, var(--yw-cream) 62%, transparent);
 }
 
 .yw-price--compact {
-  gap: 0.1rem 0.4rem;
+  gap: 0.15rem 0.6rem;
   font-size: 0.92rem;
+}
+
+.yw-price--compact .yw-price__first {
+  flex-basis: auto;
 }
 
 /* 문장 속 사진 칩: 가운데서부터 열리고, 마우스로 올리면 커진다.
@@ -753,10 +769,6 @@
   .w-reveal.yw-rv--fade {
     opacity: 1;
     transform: none;
-  }
-
-  .yw-price__was::after {
-    scale: 1 1;
   }
 
   .yw-seal__ring {

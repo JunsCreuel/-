@@ -135,21 +135,64 @@
   white-space: nowrap;
 }
 
+/* 50% 바로 아래의 조건 알약(상시 할인이 아님을 큰 숫자와 한 덩어리로 보인다). 버튼처럼 보이지 않게 채우지 않고 테두리만 둔다 */
+.yw-offer .yw-ticket__term {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 1rem;
+  padding: 0.42em 1em;
+  border: 1.5px solid var(--w-espresso);
+  border-radius: 999px;
+  color: var(--w-espresso);
+  font: 600 0.9rem/1.3 var(--w-font);
+  letter-spacing: 0;
+}
+
+.yw-offer .yw-ticket__term::before {
+  flex: none;
+  width: 0.38em;
+  height: 0.38em;
+  border-radius: 50%;
+  background: var(--w-bronze);
+  content: '';
+}
+
 .yw-ticket__lead {
   max-width: 26em;
-  margin-top: 1.4rem;
+  margin-top: 1.2rem;
   font: 400 1.1rem/1.65 var(--w-font-serif);
   letter-spacing: -0.01em;
 }
 
 .yw-ticket__small {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.1em;
   margin-top: 0.6rem;
+  overflow: clip;
   color: color-mix(in srgb, var(--w-ink) 70%, transparent);
   font-size: 0.82rem;
   line-height: 1.6;
+  word-break: keep-all;
 }
 
-/* ── 할인 적용 관리 6줄 ───────────────────────────────────── */
+/* 조건·안내 덩어리(' · ' 사이)는 통째로 다음 줄로 넘어간다. 가운뎃점은 덩어리 앞 틈(column-gap)에 놓이므로,
+   덩어리가 줄 머리로 넘어가면 점이 상자 왼쪽 밖으로 나가 잘린다(overflow: clip) — 줄 끝에 '·'가 홀로 남지 않는다 */
+.yw-ticket__small > span {
+  position: relative;
+}
+
+.yw-ticket__sep {
+  position: absolute;
+  right: 100%;
+  width: 1.1em;
+  text-align: center;
+}
+
+/* ── 첫 방문 티켓 적용 관리 6줄 ───────────────────────────── */
 
 .yw-ticket__listlabel {
   margin-bottom: 0.7rem;

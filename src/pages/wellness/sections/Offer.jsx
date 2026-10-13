@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BRANCHES, PROGRAMS, SALE_COUNT, SHOW_OFFER, SHOW_PRICES, won } from '../data'
+import { BRANCHES, OFFER_TERM, OFFER_TERM_FULL, PROGRAMS, SALE_COUNT, SHOW_OFFER, SHOW_PRICES, won } from '../data'
 import { Folio, ParenLink } from '../editorial'
 import { clamp, hasFinePointer, prefersReducedMotion, useInView, useTween } from '../motion'
 import { CountUp } from '../MotionParts'
@@ -7,9 +7,14 @@ import { scrollToId } from '../scroll'
 import './yw-offer.css'
 
 // No. 07 First Visit — 절취선 티켓 한 장(에스프레소 커튼 위).
-// 첫 방문 50%는 정가 옆에 할인가(sale)가 있는 관리에만 적용된다(전신 후면 관리, 풀 바디 웜업케어는 제외).
-// 50%는 늘 'N개 관리'(SALE_COUNT)와 한 덩어리로 보인다. 이벤트가 끝나면 data.js SHOW_OFFER를 false로 바꾸면 이 섹션이 사라진다.
+// 첫 방문 50%는 상시 할인이 아니다. 할인가(sale)가 있는 관리에만(전신 후면 관리, 풀 바디 웜업케어는 제외),
+// 첫 방문 고객 1인 1회, 첫 방문 티켓으로 예약할 때만 적용된다(data.js OFFER_TERM·OFFER_TERM_FULL).
+// 50%는 늘 'N개 관리'(SALE_COUNT)와 조건 알약(OFFER_TERM)과 한 덩어리로 보인다. 이벤트가 끝나면 data.js SHOW_OFFER를 false로 바꾸면 이 섹션이 사라진다.
 const SALE = PROGRAMS.filter((p) => p.sale)
+
+// 티켓 아래 작은 줄: 전체 조건(OFFER_TERM_FULL) 뒤에 이용 안내를 잇는다. ' · ' 덩어리 사이에서만 줄이 바뀌고,
+// 가운뎃점은 덩어리 앞 틈에 놓여 줄 머리로 넘어간 덩어리의 점은 잘려 보이지 않는다(줄 끝·줄 머리에 '·'가 홀로 남지 않게, 글자는 DOM에 그대로).
+const TICKET_NOTES = [...OFFER_TERM_FULL.split(' · '), '전단지 없이 적용', '100% 예약제']
 
 // 티켓 기울기(±4°)와 빛 반사 위치. 마우스 기기에서만 rAF lerp로 따라가고, 다 따라가면 멈춘다.
 const TILT_KEYS = ['rx', 'ry', 'gx', 'gy']
@@ -121,7 +126,7 @@ function OfferTicket() {
         >
           <div className="yw-ticket__main">
             <Folio no="07" en="First Visit" />
-            <h2 id="offer-title" className="yw-ticket__big" aria-label={`첫 방문, ${SALE_COUNT}개 관리 50%`}>
+            <h2 id="offer-title" className="yw-ticket__big" aria-label={`${OFFER_TERM}, ${SALE_COUNT}개 관리 50%`}>
               <span className="yw-ticket__label" aria-hidden="true">
                 FIRST VISIT
               </span>
@@ -132,16 +137,26 @@ function OfferTicket() {
                 </strong>
                 <span className="yw-ticket__scope">{SALE_COUNT}개 관리</span>
               </span>
+              <span className="yw-ticket__term" aria-hidden="true">
+                {OFFER_TERM}
+              </span>
             </h2>
             <p className="yw-ticket__lead">
-              첫 방문 고객께 아래 {SALE_COUNT}개 관리{SHOW_PRICES ? ' 요금을' : '를'} 50% 할인해 드립니다.
+              첫 방문 티켓으로 예약하시면 아래 {SALE_COUNT}개 관리{SHOW_PRICES ? ' 요금을' : '를'} 50% 할인해 드립니다.
             </p>
-            <p className="yw-ticket__small">전단지 없이 적용 · 고객 1인 1회 · 100% 예약제</p>
+            <p className="yw-ticket__small">
+              {TICKET_NOTES.map((note, i) => (
+                <span key={note}>
+                  {i > 0 && <span className="yw-ticket__sep"> · </span>}
+                  {note}
+                </span>
+              ))}
+            </p>
           </div>
 
           <div className="yw-ticket__list">
             <p id="offer-list-label" className="yw-ticket__listlabel">
-              할인 적용 관리
+              첫 방문 티켓 적용 관리
             </p>
             <ul ref={listRef} className={run ? 'is-run' : undefined} aria-labelledby="offer-list-label">
               {SALE.map((p, i) => (
@@ -173,8 +188,8 @@ function OfferTicket() {
   )
 }
 
-// 할인 관리 한 줄: 화면에 들어오면 i*90ms 뒤에 정가에서 할인가로 1.2초 동안 내려가고(1,000원 단위), 이어 정가에 취소선이 그어진다.
-// 움직이는 숫자는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문 할인가 65,000원'으로 읽힌다.
+// 첫 방문 티켓 적용 관리 한 줄: 화면에 들어오면 i*90ms 뒤에 정가에서 첫 방문가로 1.2초 동안 내려가고(1,000원 단위), 이어 정가에 취소선이 그어진다.
+// 티켓(조건이 함께 보이는 곳) 안에서만 취소선을 쓴다. 움직이는 숫자는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문가 65,000원'으로 읽힌다.
 function PriceRow({ program: p, i, run }) {
   const reduced = prefersReducedMotion()
   const [target, setTarget] = useState(reduced ? p.sale : p.price)
@@ -199,7 +214,7 @@ function PriceRow({ program: p, i, run }) {
             <b>{won(shown)}</b>
           </span>
           <span className="sr-only">
-            정가 {won(p.price)}, 첫 방문 할인가 {won(p.sale)}
+            정가 {won(p.price)}, 첫 방문가 {won(p.sale)}
           </span>
         </>
       )}

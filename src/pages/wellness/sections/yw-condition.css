@@ -561,7 +561,12 @@
   font-size: 1.05rem;
 }
 
-.yw-cond .yw-cond__card .yw-price__was {
+/* 아이보리 카드 위라 .yw-dark의 샴페인·크림 대신 밝은 면의 색으로 되돌린다 */
+.yw-cond .yw-cond__card .yw-price__first {
+  color: var(--w-accent-deep);
+}
+
+.yw-cond .yw-cond__card .yw-price__first small {
   color: var(--w-muted);
 }
 
