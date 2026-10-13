@@ -44,15 +44,11 @@ export const PICS = {
   menuLymphNode: pic('menu-lymph-node', [240, 600, 1200], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   chipGel: pic('chip-gel', [480], 3 / 2),
-  eqFaceGel: pic('eq-face-gel', [600, 900], 4 / 5),
   faqArch: pic('faq-arch', [600, 900], 3 / 4),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
   // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
   domeCut: pic('dome-cut', [700, 1376], 1376 / 747),
-  // 실제 매장 사진(후기 사진 재사용, 1280px). 전면으로 키우지 않는다.
-  review1: { src: `${BASE}wellness/reviews/review-1.webp`, width: 1280, height: 853 },
-  review3: { src: `${BASE}wellness/reviews/review-3.webp`, width: 1280, height: 853 },
 }
 
 export const PHOTOS = {

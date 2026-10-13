@@ -7,7 +7,7 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 - Unsplash+(유료) 사진은 0장입니다(수집 기록의 premium·plus 표시 모두 false).
 - 사이트 푸터에 ‘일부 분위기 사진: Unsplash’를 표기했습니다.
 - 분위기 사진은 실제 매장·고객·시술 장면이 아니므로 화면에서는 대체 텍스트를 비우고(alt='') 캡션을 달지 않습니다. 원제의 ‘massage’ 같은 표현은 화면 문구에 옮기지 않았습니다.
-- 사진 30장(Unsplash ID 기준), 파일 65개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
+- 사진 29장(Unsplash ID 기준), 파일 63개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
 
 ## Unsplash 사진
 
@@ -40,7 +40,6 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | `menu-lymph-node-240.webp`, `menu-lymph-node-600.webp`, `menu-lymph-node-1200.webp` | 메뉴 07·추천 카드 | [5KY5LP_zc44](https://unsplash.com/photos/person-with-gold-ring-on-neck-5KY5LP_zc44) | [Angélica Echeverry](https://unsplash.com/@angelicaecheverry) |
 | `menu-warmup-240.webp`, `menu-warmup-600.webp`, `menu-warmup-1200.webp` | 메뉴 08·추천 카드 | [pxqnqB1DsWs](https://unsplash.com/photos/grey-towels-on-wooden-sauna-bench-pxqnqB1DsWs) | [HUUM](https://unsplash.com/@huumsauna) |
 | `chip-gel-480.webp` | 장비 문장 ‘오일 대신’ 칩 | [GeG4U-lAF10](https://unsplash.com/photos/two-viscous-liquids-overlap-on-a-neutral-background-GeG4U-lAF10) | [ibnu ihza](https://unsplash.com/@mahendra_10) |
-| `eq-face-gel-600.webp`, `eq-face-gel-900.webp` | 장비 페이스 갈바닉 카드 ‘젤 보기’ 면 | [Xxs9WvkUPLo](https://unsplash.com/photos/facial-treatment-with-brush-applying-white-cream-to-face-Xxs9WvkUPLo) | [kimia kazemi](https://unsplash.com/@kimick) |
 | `faq-arch-600.webp`, `faq-arch-900.webp` | FAQ 아치(데스크톱) | [7Yps3czmfRw](https://unsplash.com/photos/woman-in-white-dress-shirt-7Yps3czmfRw) | [Teslariu Mihai](https://unsplash.com/@mihaiteslariu0) |
 | `biz-still-960.webp`, `biz-still-1600.webp` | 창업 장 배경 | [lwl1sXHZ56E](https://unsplash.com/photos/a-table-topped-with-bottles-and-a-vase-filled-with-flowers-lwl1sXHZ56E) | [Iliya Jokic](https://unsplash.com/@iliya9) |
 | `closing-960.webp`, `closing-1600.webp`, `closing-2400.webp` | 마지막 장면 원형 마스크 | [T7BDc761Dbs](https://unsplash.com/photos/woman-folding-a-towel-by-a-sink-with-candle-T7BDc761Dbs) | [Christian Agbede](https://unsplash.com/@chriscreations__) |
@@ -50,6 +49,7 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | 파일 | 쓰인 곳 | 출처 |
 |---|---|---|
 | `public/wellness/photos/cond-leg-480.webp`, `cond-leg-720.webp` | 컨디션 ‘다리’ 타일 | 기존에 제공받은 `public/wellness/leg.jpg`를 4:5로 자른 것(사용 허가는 운영 측 확인 사항) |
-| `public/wellness/reviews/review-1.webp` | 장비 첫 카드 ‘용호 자이점 온열돔’, 후기 1 | 매장 실사(네이버 후기 사진) — 장비·예약 구간 재사용은 매장 측 동의 확인 필요 |
-| `public/wellness/reviews/review-3.webp` | 예약 장 ‘용호 자이점 관리실’, 후기 3 | 매장 실사(네이버 후기 사진) — 위와 같음 |
+| `public/wellness/photos/dome-cut-700.webp`, `dome-cut-1376.webp` | 장비 첫 카드 ‘전신 온열돔’ | 사장님이 온열돔만 따로 따서 제공한 사진(배경 투명 webp로 변환) |
+| `public/wellness/reviews/review-1.webp` | 후기 1 | 매장 실사(네이버 후기 사진) |
+| `public/wellness/reviews/review-3.webp` | 후기 3 | 매장 실사(네이버 후기 사진) |
 | `public/wellness/equipment/*.webp`, `public/wellness/gel/*.webp` | 장비 카드 기기·젤 사진 | 기존 자료(일부 AI 생성 이미지, 화면 각주로 고지) |
