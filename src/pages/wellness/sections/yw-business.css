@@ -191,21 +191,21 @@
   }
 }
 
-/* ── 브랜드 관계: 본 브랜드 → 파생 브랜드 두 줄을 왼쪽 세로선으로 잇는다 ── */
+/* ── 브랜드 관계: 본 브랜드 → 파생 브랜드 두 줄을 왼쪽 세로선으로 잇는다 ──
+   선은 줄마다 그 줄의 점 가운데에서 다음 줄의 점 가운데까지 긋는다(좁은 폰에서 알약이 아래 줄로 내려가 줄이 길어져도 마지막 점에서 끝난다). */
 
 .yw-biz__tree {
-  position: relative;
   display: grid;
   gap: 0.85rem;
   margin: clamp(1.5rem, 4vw, 2rem) 0 0;
   padding-left: 1.4rem;
 }
 
-.yw-biz__tree::before {
+.yw-biz__tree > div:not(:last-child)::after {
   position: absolute;
-  top: 0.55rem;
-  bottom: 0.55rem;
-  left: 0.3rem;
+  top: 0.7rem;
+  bottom: calc(-0.85rem - 0.7rem);
+  left: -1.1rem;
   width: 1px;
   background: color-mix(in srgb, var(--w-champagne) 45%, transparent);
   content: '';
@@ -222,6 +222,7 @@
 /* 줄마다 선 위의 점: 본 브랜드는 빈 점, 파생 브랜드(웰니스 스튜디오)는 채운 점 */
 .yw-biz__tree > div::before {
   position: absolute;
+  z-index: 1;
   top: 0.4rem;
   left: -1.4rem;
   width: 0.6rem;
