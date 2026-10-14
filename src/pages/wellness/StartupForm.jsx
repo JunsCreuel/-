@@ -9,7 +9,8 @@ import './wellness-consult.css'
 // 제출하면 전화로 문의하라는 안내만 보여 준다(성공 화면과 폭죽도 나오지 않는다). 연결할 때 save() 안에서 저장하고 true로 바꾼다.
 const SUBMIT_ENABLED = false
 
-const KINDS = ['신규 창업 상담', '기존 샵 도입 상담']
+// 웰니스 스튜디오 창업은 모두 신규 창업이다. 두 번째는 창업이 아니라, 이미 운영 중인 샵이 장비·프로그램만 들이는 문의다.
+const KINDS = ['신규 창업 상담', '기존 샵 장비·프로그램 도입 상담']
 const TIMINGS = ['3개월 이내', '6개월 이내', '1년 이내', '아직 정하지 않았습니다']
 
 const STEPS = [
