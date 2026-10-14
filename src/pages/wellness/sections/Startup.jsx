@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, telHref } from '../data'
+import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, telHref } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
 import { CountUp } from '../MotionParts'
 import { useInView, useScrollParallax, useScrollProgress } from '../motion'
@@ -56,7 +56,7 @@ export default function Startup() {
             </div>
           </dl>
           <p className="yw-biz__relation">
-            그래서 웰니스 스튜디오 창업은 처음 창업하시는 것과 똑같이, <strong>신규 창업</strong>으로 진행됩니다.
+            웰니스 스튜디오 창업은 처음 창업하시는 것과 똑같이, <strong>신규 창업</strong>으로 진행됩니다.
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export default function Startup() {
               </li>
             ))}
           </ul>
-          <Footnote>그 밖의 창업 비용은 확정된 금액으로 공개할 예정이며, 지금은 상담에서 안내해 드립니다.</Footnote>
+          <Footnote>{STARTUP_COSTS_NOTE}</Footnote>
         </div>
 
         <div className="yw-biz__timeline" ref={tlRef}>
