@@ -583,7 +583,7 @@ export default function Equipment() {
   }
 
   return (
-    <section id="equipment" className="yw-section yw-eq" data-theme="light">
+    <section id="equipment" className="yw-section yw-curtain--light yw-eq" data-theme="light">
       <div className="yw-wrap yw-eq__head">
         <div className="yw-eq__intro">
           <Folio no="05" en="Equipment & Gel" />
