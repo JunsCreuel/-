@@ -144,10 +144,6 @@
   .w-btn:hover {
     transform: translateY(-2px);
   }
-
-  .w-btn--arrow:hover::after {
-    transform: translateX(4px);
-  }
 }
 
 .w-btn {
@@ -160,11 +156,6 @@
 
 .w-btn:active {
   transform: scale(0.98);
-}
-
-.w-btn--arrow::after {
-  display: inline-block;
-  transition: transform 0.25s ease;
 }
 
 /* 아코디언: 관리 순서 */
@@ -641,8 +632,7 @@
   .w-acc__icon::after,
   .w-wiz__track i,
   .w-pc > img,
-  .w-btn,
-  .w-btn--arrow::after {
+  .w-btn {
     transition: none;
   }
 
