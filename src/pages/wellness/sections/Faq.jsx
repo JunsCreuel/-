@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { OFFER_TERM, PARENT_STORE_COUNT, PICS, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS } from '../data'
+import { OFFER_TERM, PARENT_STORE_COUNT, PICS, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
 import { Folio, Pic } from '../editorial'
 import { prefersReducedMotion } from '../motion'
 import { Reveal } from '../ui'
@@ -43,7 +43,7 @@ const STARTUP_FAQS = [
     ? [
         {
           q: '로열티는 얼마인가요?',
-          a: `로열티는 ${ROYALTY.amount}${ROYALTY.note ? `(${ROYALTY.note})` : ''}입니다. 그 밖의 창업 비용은 확정된 금액으로 공개할 예정이며, 지금은 상담에서 안내해 드립니다.`,
+          a: `로열티는 ${ROYALTY.amount}${ROYALTY.note ? `(${ROYALTY.note})` : ''}입니다. ${STARTUP_COSTS_NOTE}`,
         },
       ]
     : []),
