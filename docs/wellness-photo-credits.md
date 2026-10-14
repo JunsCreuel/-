@@ -49,7 +49,5 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | 파일 | 쓰인 곳 | 출처 |
 |---|---|---|
 | `public/wellness/photos/cond-leg-480.webp`, `cond-leg-720.webp` | 컨디션 ‘다리’ 타일 | 기존에 제공받은 `public/wellness/leg.jpg`를 4:5로 자른 것(사용 허가는 운영 측 확인 사항) |
-| `public/wellness/photos/dome-cut-700.webp`, `dome-cut-1376.webp` | 장비 첫 카드 ‘전신 온열돔’ | 사장님이 온열돔만 따로 따서 제공한 사진(배경 투명 webp로 변환) |
-| `public/wellness/reviews/review-1.webp` | 후기 1 | 매장 실사(네이버 후기 사진) |
-| `public/wellness/reviews/review-3.webp` | 후기 3 | 매장 실사(네이버 후기 사진) |
+| `public/wellness/photos/dome-cut-700.webp`, `dome-cut-1376.webp` | 장비 첫 카드 ‘전신 온열돔’, 온열돔 스포트라이트 오각형 가운데 | 사장님이 온열돔만 따로 따서 제공한 사진(배경 투명 webp로 변환) |
 | `public/wellness/equipment/*.webp`, `public/wellness/gel/*.webp` | 장비 카드 기기·젤 사진 | 기존 자료(일부 AI 생성 이미지, 화면 각주로 고지) |
