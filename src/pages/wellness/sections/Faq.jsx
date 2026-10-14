@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { OFFER_TERM, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
+import { OFFER_TERM, PARENT_STORE_COUNT, PICS, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS } from '../data'
 import { Folio, Pic } from '../editorial'
 import { prefersReducedMotion } from '../motion'
 import { Reveal } from '../ui'
@@ -31,8 +31,22 @@ const CUSTOMER_FAQS = [
   },
 ]
 
-// 창업 FAQ: 확정되지 않은 조건은 단정하지 않고 상담 안내로 연결한다.
+// 창업 FAQ: 확정되지 않은 조건은 단정하지 않고 상담 안내로 연결한다. 금액은 확정된 것(STARTUP_COSTS)만 쓴다.
+const ROYALTY = STARTUP_COSTS.find((c) => c.id === 'royalty')
+
 const STARTUP_FAQS = [
+  {
+    q: '예뻐졌다와 예뻐졌다 웰니스 스튜디오는 어떤 관계인가요?',
+    a: `예뻐졌다 웰니스 스튜디오는 매장이 ${PARENT_STORE_COUNT}개 이상인 예뻐졌다의 파생 브랜드입니다. 그래서 웰니스 스튜디오 창업은 처음 창업하시는 것과 똑같이 신규 창업으로 진행됩니다.`,
+  },
+  ...(ROYALTY
+    ? [
+        {
+          q: '로열티는 얼마인가요?',
+          a: `로열티는 ${ROYALTY.amount}${ROYALTY.note ? `(${ROYALTY.note})` : ''}입니다. 그 밖의 창업 비용은 확정된 금액으로 공개할 예정이며, 지금은 상담에서 안내해 드립니다.`,
+        },
+      ]
+    : []),
   {
     q: '창업 상담은 어떻게 신청하나요?',
     a: '전화로 상담을 신청해 주세요. 희망 지역, 준비 단계, 궁금한 내용을 알려 주시면 상담 가능한 범위를 안내해 드립니다.',
