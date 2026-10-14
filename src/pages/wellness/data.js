@@ -72,8 +72,13 @@ export const PHOTOS = {
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
 
-// 창업 비용 계산기를 보일지 여부. 정보공개서·실제 운영 수치가 준비되기 전에 내려야 하면 false로 바꾼다.
-export const SHOW_SIMULATOR = true
+// 창업 안내. 예뻐졌다(본 브랜드)는 매장이 40개 이상이고, 예뻐졌다 웰니스 스튜디오는 그 파생 브랜드(계열 브랜드)다.
+// 그래서 웰니스 스튜디오 창업은 처음 창업하는 것과 똑같은 신규 창업이다. 40+를 웰니스 스튜디오 매장 수처럼 쓰지 않는다.
+export const PARENT_STORE_COUNT = 40
+
+// 창업 비용: 확정되어 공개하는 금액만 적는다(계산기·예상 수익은 두지 않는다).
+// 가맹비 등 다른 항목도 금액이 확정되면 여기에 줄을 더하면 창업 장과 창업 FAQ에 함께 나온다.
+export const STARTUP_COSTS = [{ id: 'royalty', label: '로열티', amount: '월 50만원', note: '고정' }]
 
 // 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
 export const SHOW_PRICES = true
