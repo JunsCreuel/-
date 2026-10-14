@@ -289,7 +289,7 @@ export function useInView(ref, { once = true, threshold = 0.35 } = {}) {
   return inView
 }
 
-// 값이 바뀔 때 부드럽게 따라가는 숫자(계산기 결과용).
+// 값이 바뀔 때 부드럽게 따라가는 숫자(첫 방문 티켓의 가격 숫자 등).
 export function useTween(target, duration = 420) {
   const [value, setValue] = useState(target)
   const fromRef = useRef(target)

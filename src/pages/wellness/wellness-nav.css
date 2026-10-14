@@ -256,11 +256,6 @@
   padding: 0 1rem;
 }
 
-.w-bar .w-btn--light {
-  flex: 0 0 28%;
-  background: var(--w-band);
-}
-
 /* 태블릿 이상(이 900px 기준은 WellnessNav가 열린 메뉴를 닫는 기준과 같다) */
 
 @media (min-width: 900px) {
