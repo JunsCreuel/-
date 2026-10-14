@@ -1,7 +1,7 @@
-/* Appendix — For Partners. 에스프레소 커튼 위 B2B 구역: 정물 사진·고스트 단어·궤도 원(장식), 40+, 그어지는 진행 단계,
-   아이보리 카드 안 창업 4단계 폼, 접힌 비용 구조 계산기(Simulator embedded).
-   이 파일은 공통 CSS보다 먼저 번들되므로 공유 클래스(.w-form, .w-sim 등)는 .yw-biz / .yw-sim 범위로 우선순위를 올려 덮는다.
-   모션 줄이기면 선은 완성 상태(--p:1), 궤도·손짓은 멈춘다. */
+/* Appendix — For Partners. 에스프레소 커튼 위 B2B 구역: 정물 사진·고스트 단어·궤도 원(장식), 본 브랜드 40+와 브랜드 관계 안내,
+   확정 금액만 적는 창업 비용 카드(로열티), 그어지는 진행 단계, 아이보리 카드 안 창업 4단계 폼.
+   이 파일은 공통 CSS보다 먼저 번들되므로 공유 클래스(.w-form 등)는 .yw-biz 범위로 우선순위를 올려 덮는다.
+   모션 줄이기면 선은 완성 상태(--p:1), 궤도는 멈춘다. */
 
 .yw-biz {
   overflow: clip;
@@ -85,8 +85,8 @@
 }
 
 /* ── 배치 ─────────────────────────────────────────────────────
-   모바일: 머리 → 진행 단계 → 전화 → 폼 → 계산기(DOM 순서).
-   64rem 이상: 위 2열(왼쪽 머리·전화 / 오른쪽 폼), 아래 전폭 진행 단계와 계산기. */
+   모바일: 머리(브랜드 관계) → 창업 비용 → 진행 단계 → 전화 → 폼(DOM 순서).
+   64rem 이상: 위 2열(왼쪽 머리·창업 비용·전화 / 오른쪽 폼), 아래 전폭 진행 단계. */
 
 .yw-biz__grid {
   position: relative;
@@ -95,10 +95,10 @@
 }
 
 .yw-biz__head,
+.yw-biz__cost,
 .yw-biz__form,
 .yw-biz__timeline,
-.yw-biz__actions,
-.yw-biz__calc {
+.yw-biz__actions {
   min-width: 0;
 }
 
@@ -114,19 +114,19 @@
   margin-top: clamp(2rem, 6vw, 3rem);
 }
 
-.yw-biz__calc {
-  margin-top: clamp(2.5rem, 7vw, 4.5rem);
+.yw-biz__cost {
+  margin-top: clamp(2rem, 6vw, 2.75rem);
 }
 
 @media (min-width: 64rem) {
   .yw-biz__grid {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
       'head form'
+      'cost form'
       'actions form'
-      'tl tl'
-      'calc calc';
+      'tl tl';
     column-gap: clamp(2rem, 5vw, 4.5rem);
     align-items: start;
   }
@@ -145,12 +145,12 @@
     margin-top: 0;
   }
 
-  .yw-biz__timeline {
-    grid-area: tl;
+  .yw-biz__cost {
+    grid-area: cost;
   }
 
-  .yw-biz__calc {
-    grid-area: calc;
+  .yw-biz__timeline {
+    grid-area: tl;
   }
 }
 
@@ -189,6 +189,153 @@
   .yw-biz__num {
     font-size: clamp(4rem, 8vw, 7.5rem);
   }
+}
+
+/* ── 브랜드 관계: 본 브랜드 → 파생 브랜드 두 줄을 왼쪽 세로선으로 잇는다 ── */
+
+.yw-biz__tree {
+  position: relative;
+  display: grid;
+  gap: 0.85rem;
+  margin: clamp(1.5rem, 4vw, 2rem) 0 0;
+  padding-left: 1.4rem;
+}
+
+.yw-biz__tree::before {
+  position: absolute;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  left: 0.3rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--w-champagne) 45%, transparent);
+  content: '';
+}
+
+.yw-biz__tree > div {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.7rem;
+}
+
+/* 줄마다 선 위의 점: 본 브랜드는 빈 점, 파생 브랜드(웰니스 스튜디오)는 채운 점 */
+.yw-biz__tree > div::before {
+  position: absolute;
+  top: 0.4rem;
+  left: -1.4rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 1px solid var(--w-champagne);
+  border-radius: 50%;
+  background: var(--w-espresso);
+  content: '';
+}
+
+.yw-biz__tree > div:last-child::before {
+  background: var(--w-champagne);
+}
+
+.yw-biz__tree dt {
+  color: var(--yw-cream);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.yw-biz__tree dd {
+  margin: 0;
+  padding: 0.05rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--w-champagne) 50%, transparent);
+  border-radius: 999px;
+  color: var(--w-champagne);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.yw-biz__relation {
+  max-width: 30ch;
+  margin: 1.1rem 0 0;
+  color: color-mix(in srgb, var(--yw-cream) 82%, transparent);
+  font-size: clamp(0.95rem, 2.4vw, 1.02rem);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.yw-biz__relation strong {
+  color: var(--yw-cream);
+  font-weight: 600;
+}
+
+/* ── 창업 비용: 확정 금액만 한 줄씩(지금은 로열티) ─────────────── */
+
+.yw-biz__cost {
+  padding: clamp(1.15rem, 3vw, 1.5rem) clamp(1.15rem, 3vw, 1.6rem);
+  border: 1px solid color-mix(in srgb, var(--w-champagne) 32%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--yw-cream) 5%, transparent);
+}
+
+.yw-biz__cost-label {
+  margin: 0;
+  color: var(--w-champagne);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.yw-biz__cost ul {
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yw-biz__cost li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--yw-cream) 14%, transparent);
+}
+
+.yw-biz__cost li:first-child {
+  border-top: 0;
+  padding-top: 0.2rem;
+}
+
+.yw-biz__cost-name {
+  color: var(--yw-cream);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.yw-biz__cost-amount {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.yw-biz__cost-amount b {
+  color: var(--yw-cream);
+  font: 400 clamp(1.5rem, 5vw, 1.85rem) / 1.1 var(--w-font-serif);
+  letter-spacing: -0.01em;
+}
+
+.yw-biz__cost-amount em {
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  background: var(--w-champagne);
+  color: var(--w-espresso);
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.yw-biz .yw-biz__cost .yw-note {
+  margin-top: 0.6rem;
 }
 
 /* ── 전화 상담 ────────────────────────────────────────────── */
@@ -236,10 +383,9 @@
   }
 }
 
-/* ── 아이보리 카드(창업 폼 · 계산기) ─────────────────────────── */
+/* ── 아이보리 카드(창업 폼) ──────────────────────────────── */
 
-.yw-biz__form,
-.yw-biz__calc .yw-sim {
+.yw-biz__form {
   padding: clamp(1.25rem, 3vw, 2.5rem);
   border-radius: 1.5rem;
   background: var(--yw-ivory);
@@ -247,8 +393,7 @@
 }
 
 /* 어두운 장의 크림 포커스 테두리는 아이보리 카드 안에서 보이지 않으므로 짙은 브론즈로 */
-.yw-biz .yw-biz__form :focus-visible,
-.yw-biz .yw-sim :focus-visible {
+.yw-biz .yw-biz__form :focus-visible {
   outline-color: var(--w-accent-deep);
 }
 
@@ -256,12 +401,6 @@
   color: var(--w-espresso);
   font: 500 clamp(1.2rem, 2.2vw, 1.45rem) / 1.35 var(--w-font-serif);
   letter-spacing: -0.01em;
-}
-
-/* 계산기에서 '이 조건으로 상담 신청'으로 넘어올 때 포커스를 받는 제목: 테두리는 그리지 않는다 */
-.yw-biz .yw-biz__form h3:focus,
-.yw-biz .yw-biz__form h3:focus-visible {
-  outline: none;
 }
 
 .yw-biz .yw-biz__form .w-form {
@@ -384,298 +523,6 @@
   }
 }
 
-/* ── 계산기 접힘 ──────────────────────────────────────────── */
-
-.yw-biz__calc {
-  padding-top: clamp(1.75rem, 4vw, 2.5rem);
-  border-top: 1px solid rgb(244 237 226 / 0.18);
-}
-
-.yw-biz__calc > summary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  min-height: 3rem;
-  padding: 0.8rem 1.4rem;
-  border: 2px solid var(--yw-cream);
-  border-radius: 999px;
-  color: var(--yw-cream);
-  font-size: 0.97rem;
-  font-weight: 600;
-  line-height: 1.3;
-  list-style: none;
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
-}
-
-.yw-biz__calc > summary::-webkit-details-marker {
-  display: none;
-}
-
-.yw-biz__calc > summary::after {
-  display: inline-block;
-  content: '↓';
-  content: '↓' / '';
-  font-family: var(--w-font-label);
-  transition: rotate 0.35s var(--yw-ease);
-}
-
-.yw-biz__calc[open] > summary::after {
-  rotate: 180deg;
-}
-
-.yw-biz__calc > summary:focus-visible {
-  outline: 2px solid var(--yw-cream);
-  outline-offset: 3px;
-}
-
-.yw-biz__calc > summary:active {
-  scale: 0.98;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-biz__calc > summary:hover {
-    background: var(--yw-cream);
-    color: var(--w-espresso);
-  }
-}
-
-@media (max-width: 47.99rem) {
-  .yw-biz__calc > summary {
-    display: flex;
-    width: 100%;
-  }
-}
-
-.yw-biz__calc .yw-sim {
-  margin-top: 1.5rem;
-}
-
-.yw-biz__calc[open] .yw-sim {
-  animation: yw-calc-in 0.5s var(--yw-ease) both;
-}
-
-@keyframes yw-calc-in {
-  from {
-    opacity: 0;
-    translate: 0 0.75rem;
-  }
-}
-
-.yw-biz .yw-sim .w-sim__grid {
-  margin-top: 0;
-}
-
-.yw-biz .yw-sim .w-method__note {
-  max-width: 52rem;
-}
-
-/* ── 계산기 도움말 토글팁(ⓘ) ──────────────────────────────── */
-
-.yw-biz .yw-sim .w-sim__field {
-  position: relative; /* ⓘ offsetLeft 기준 */
-}
-
-.yw-biz .yw-sim .w-sim__row {
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.45rem;
-}
-
-.yw-biz .yw-sim .w-sim__row output {
-  margin-left: auto;
-  padding-left: 0.5rem;
-}
-
-.yw-tip {
-  position: relative;
-  display: inline-grid;
-  flex: none;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  border: 1px solid var(--w-line-strong);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--w-accent-deep);
-  font: italic 500 0.95rem / 1 var(--w-font-en);
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-/* 누르기 쉬운 범위를 조금 넓힌다 */
-.yw-tip::before {
-  position: absolute;
-  inset: -0.55rem;
-  content: '';
-}
-
-.yw-tip[aria-expanded='true'] {
-  border-color: var(--w-espresso);
-  background: var(--w-espresso);
-  color: #fff;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-tip:hover {
-    border-color: var(--w-espresso);
-  }
-}
-
-/* 말풍선: ⓘ 아래에 꼬리를 단다(--tail = ⓘ 가운데 x) */
-.yw-tip__body {
-  position: relative;
-  width: fit-content;
-  min-width: calc(var(--tail, 1rem) + 1.25rem);
-  max-width: 100%;
-  margin: 0.6rem 0 0.15rem;
-  padding: 0.55rem 0.85rem;
-  border: 1px solid var(--w-line);
-  border-radius: 0.75rem;
-  background: var(--yw-ivory);
-  color: var(--w-muted);
-  font-size: 0.8rem;
-  line-height: 1.55;
-}
-
-.yw-tip__body::before {
-  position: absolute;
-  top: calc(-0.35rem - 1px);
-  left: calc(var(--tail, 1rem) - 0.35rem);
-  width: 0.7rem;
-  height: 0.7rem;
-  border-top: 1px solid var(--w-line);
-  border-left: 1px solid var(--w-line);
-  border-top-left-radius: 2px;
-  background: var(--yw-ivory);
-  content: '';
-  rotate: 45deg;
-}
-
-.yw-tip__body:not([hidden]) {
-  animation: yw-tip-in 0.25s var(--yw-ease) both;
-}
-
-@keyframes yw-tip-in {
-  from {
-    opacity: 0;
-    translate: 0 -0.25rem;
-  }
-}
-
-/* ── 평당 단가·매장 고정비 합계 ───────────────────────────── */
-
-/* 월세·관리비 금액 아래 '평당 10만원' */
-.yw-biz .yw-sim .w-sim__row output {
-  display: grid;
-  justify-items: end;
-  line-height: 1.25;
-}
-
-.yw-sim__rate {
-  color: var(--w-muted);
-  font-family: var(--w-font);
-  font-size: 0.74rem;
-  font-weight: 400;
-  letter-spacing: 0;
-}
-
-/* 매장 고정비(월세·관리비·기타) 합계: 비용 정보라 처음부터 보인다 */
-.yw-sim__store {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.85rem 1rem;
-  border-radius: 0.9rem;
-  background: var(--yw-warm, #f6f1e8);
-}
-
-.yw-sim__store-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.yw-sim__store-row b {
-  color: var(--w-accent-deep);
-  font-family: var(--w-font-num);
-  font-size: 1.15rem;
-  font-variant-numeric: lining-nums tabular-nums;
-  font-weight: 500;
-}
-
-.yw-sim__store-sub {
-  margin: 0;
-  color: var(--w-muted);
-  font-size: 0.8rem;
-  line-height: 1.5;
-  word-break: keep-all;
-}
-
-/* 결과 막대·범례: 월세·관리비·기타를 '매장 고정비' 한 칸으로 */
-.yw-biz .yw-sim .w-sim__seg.is-fixed,
-.yw-biz .yw-sim .w-sim__legend i.is-fixed {
-  background: #6f6861;
-}
-
-.yw-sim__detail {
-  display: block;
-  margin-top: 0.1rem;
-  color: rgb(255 255 255 / 0.6);
-  font-size: 0.74rem;
-  line-height: 1.45;
-}
-
-/* ── 손짓: 슬라이더를 움직이기 전, 결과 자리에서 슬라이더 쪽을 가리킨다 ── */
-
-.yw-sim__nudge {
-  --nx: 0rem;
-  --ny: -0.4rem;
-  display: inline-block;
-  width: 0.7em;
-  height: 0.7em;
-  margin-left: 0.3em;
-  color: var(--w-champagne);
-  vertical-align: 0.02em;
-  animation: yw-nudge 1.6s ease-in-out infinite;
-}
-
-.yw-sim__nudge svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* 계산기 2열(900px 이상)에서는 왼쪽 입력을 가리킨다 */
-@media (min-width: 900px) {
-  .yw-sim__nudge {
-    --nx: -0.5rem;
-    --ny: 0rem;
-    rotate: -90deg;
-  }
-}
-
-@keyframes yw-nudge {
-  50% {
-    translate: var(--nx) var(--ny);
-  }
-}
-
 /* ── 모션 줄이기 ──────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -694,15 +541,5 @@
 
   .yw-biz__ghost {
     translate: -50% 0;
-  }
-
-  .yw-sim__nudge,
-  .yw-tip__body:not([hidden]),
-  .yw-biz__calc[open] .yw-sim {
-    animation: none;
-  }
-
-  .yw-biz__calc > summary:active {
-    scale: none;
   }
 }
