@@ -11,6 +11,11 @@
   background: var(--yw-warm);
 }
 
+/* 앞의 어두운 온열돔 장을 둥근 윗모서리로 덮으며 올라온다(커튼의 흰 바탕 대신 이 장의 아이보리) */
+.yw-eq.yw-curtain--light {
+  background: var(--yw-warm);
+}
+
 /* ── 머리: 폴리오·제목·한 줄 | 카운터·화살표 ─────────────────── */
 
 .yw-eq__head {
