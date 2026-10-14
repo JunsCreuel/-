@@ -232,18 +232,6 @@ body.is-wellness {
   color: #fff;
 }
 
-.w-btn--light {
-  border-color: transparent;
-  background: var(--w-bg);
-  color: var(--w-ink);
-}
-
-.w-btn--light:hover {
-  border-color: transparent;
-  background: color-mix(in srgb, var(--w-bg) 86%, var(--w-accent));
-  color: var(--w-ink);
-}
-
 .w-btn--sm {
   min-height: 44px;
   padding: 0 1.3rem;

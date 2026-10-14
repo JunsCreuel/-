@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PICS } from '../data'
+import { PARENT_STORE_COUNT, PICS } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
 import { CountUp } from '../MotionParts'
 import { clamp, easeOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
@@ -242,7 +242,7 @@ export default function About() {
         </li>
         <li>
           <span className="yw-story__num">
-            <CountUp to={40} suffix="+" />
+            <CountUp to={PARENT_STORE_COUNT} suffix="+" />
           </span>
           <span className="yw-story__label">함께하는 예뻐졌다 매장</span>
         </li>
