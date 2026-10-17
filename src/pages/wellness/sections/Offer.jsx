@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { BRANCHES, OFFER_TERM, OFFER_TERM_FULL, PROGRAMS, SALE_COUNT, SHOW_OFFER, SHOW_PRICES, won } from '../data'
 import { Folio, ParenLink } from '../editorial'
-import { clamp, hasFinePointer, prefersReducedMotion, useInView, useTween } from '../motion'
-import { CountUp } from '../MotionParts'
+import { clamp, hasFinePointer, prefersReducedMotion, useInView } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-offer.css'
 
@@ -132,8 +131,8 @@ function OfferTicket() {
               </span>
               <span className="yw-ticket__row" aria-hidden="true">
                 <strong className="yw-ticket__pct">
-                  {/* 티켓이 나타날 때(is-in) 세기 시작한다. 숫자만 따로 보면 휴대폰에서는 긴 티켓이 아직 투명할 때 다 세어 버린다 */}
-                  <CountUp to={50} start={inView} />
+                  {/* 할인율·가격은 세어 올리지 않고 처음부터 실제 숫자로 보인다(중간 숫자가 잘못된 할인으로 보이지 않게) */}
+                  50
                   <small>%</small>
                 </strong>
                 <span className="yw-ticket__scope">{SALE_COUNT}개 관리</span>
@@ -161,7 +160,7 @@ function OfferTicket() {
             </p>
             <ul ref={listRef} className={run ? 'is-run' : undefined} aria-labelledby="offer-list-label">
               {SALE.map((p, i) => (
-                <PriceRow key={p.id} program={p} i={i} run={run} />
+                <PriceRow key={p.id} program={p} i={i} />
               ))}
             </ul>
           </div>
@@ -189,20 +188,9 @@ function OfferTicket() {
   )
 }
 
-// 첫 방문가 적용 관리 한 줄: 화면에 들어오면 i*90ms 뒤에 정가에서 첫 방문가로 1.2초 동안 내려가고(1,000원 단위), 이어 정가에 취소선이 그어진다.
-// 티켓(조건이 함께 보이는 곳) 안에서만 취소선을 쓴다. 움직이는 숫자는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문가 65,000원'으로 읽힌다.
-function PriceRow({ program: p, i, run }) {
-  const reduced = prefersReducedMotion()
-  const [target, setTarget] = useState(reduced ? p.sale : p.price)
-
-  useEffect(() => {
-    if (!run || reduced) return undefined
-    const t = setTimeout(() => setTarget(p.sale), i * 90)
-    return () => clearTimeout(t)
-  }, [run, reduced, i, p.sale])
-
-  const v = useTween(target, 1200)
-  const shown = Math.round(v / 1000) * 1000
+// 첫 방문가 적용 관리 한 줄: 정가(취소선) → 첫 방문가. 금액은 세어 내리지 않고 처음부터 실제 첫 방문가로 보인다.
+// 티켓(조건이 함께 보이는 곳) 안에서만 취소선을 쓴다. 보조기기에는 '정가 130,000원, 첫 방문가 65,000원'으로 읽힌다.
+function PriceRow({ program: p, i }) {
 
   return (
     <li style={{ '--i': i }}>
@@ -212,7 +200,7 @@ function PriceRow({ program: p, i, run }) {
           <span className="yw-ticket__price" aria-hidden="true">
             <s>{won(p.price)}</s>
             <i>→</i>
-            <b>{won(shown)}</b>
+            <b>{won(p.sale)}</b>
           </span>
           <span className="sr-only">
             정가 {won(p.price)}, 첫 방문가 {won(p.sale)}
