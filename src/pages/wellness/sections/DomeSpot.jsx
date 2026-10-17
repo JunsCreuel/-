@@ -95,7 +95,7 @@ export default function DomeSpot() {
               '따뜻하게 쉬어 가세요.',
             ]}
           />
-          <p className="yw-dome__sub">아로마로 시작해 온기로 채우는, 예뻐졌다의 풀 바디 웜업케어</p>
+          <p className="yw-dome__sub">아로마로 시작해 온기로 채우는, 웰니스 스튜디오의 풀 바디 웜업케어</p>
         </div>
 
         <div
