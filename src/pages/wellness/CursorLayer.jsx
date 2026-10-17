@@ -3,7 +3,7 @@ import { clamp, hasFinePointer, onScrollFrame, prefersReducedMotion } from './mo
 
 // 데스크톱 커서 링·라벨·자석(장식). 마우스가 있고 모션 줄이기가 아닐 때만 그린다. 기본 커서는 숨기지 않는다.
 // - 링: 2.5rem 브론즈 링이 마우스를 살짝 늦게(lerp .18) 따라온다.
-// - 라벨: [data-cursor='보기'] 위에서는 5.5rem 에스프레소 원에 라벨을 보여 준다. [data-cursor-off] 위에서는 숨는다.
+// - 라벨: [data-cursor='글자']가 있으면 5.5rem 원에 글자를 보여 준다(지금은 모두 빈 값이라 글자 라벨은 쓰지 않는다). [data-cursor-off] 위에서는 숨는다.
 //   속성 값을 그때그때 다시 읽으므로, 무대가 라벨을 바꾸면(← 이전 / 다음 →) 바로 반영된다.
 // - 자석: [data-magnet] 요소는 중심과 커서 거리의 .3배(±12px)만큼 --mgx/--mgy로 끌려온다(wellness-x.css).
 const LERP = 0.18

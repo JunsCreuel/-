@@ -238,7 +238,7 @@ export default function About() {
 
             <figure
               className="yw-ritual__arch"
-              data-cursor="다음 장면"
+              data-cursor=""
               onClick={() => {
                 endHint()
                 goTo((baseStep() + 1) % STEPS.length)
