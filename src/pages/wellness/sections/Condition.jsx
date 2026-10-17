@@ -5,7 +5,7 @@ import { prefersReducedMotion, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
 import './yw-condition.css'
 
-// No. 03 Today's Condition — 부위 사진 타일을 고르면(시간은 선택) 어울리는 관리가 추천 카드로 바뀌고,
+// No. 03 Today's Condition — 부위 사진 타일을 고르면 어울리는 관리가 추천 카드로 바뀌고,
 // 그 관리로 상담 예약(w:pick → 예약 장 1단계 미리 선택)까지 이어진다.
 // 타일 묶음은 radiogroup + roving tabindex(방향키·Home/End로 이동과 동시에 선택)다.
 // 데스크톱(64rem 이상)에서는 카드가 sticky로 따라오고, 모바일에서는 타일을 탭하면 카드가 보이도록 내려 준다.
@@ -21,25 +21,9 @@ const CONDITIONS = [
   { id: 'rest', label: '휴식', sub: '그냥 따뜻하게 쉬고 싶은 날', pic: PICS.condRest, area: '온열 웜업', wide: true, picks: ['warmup', 'scalp-detox'] },
 ]
 
-const TIMES = [
-  { id: 'short', label: '1시간 이내' },
-  { id: 'long', label: '1시간 넘게' },
-  { id: 'any', label: '상관없음' },
-]
-
-// 고른 시간에 맞는 관리를 앞으로(안정 정렬). any면 원래 순서다.
-function recommend(cond, time) {
-  const list = cond.picks.map((id) => PROGRAMS.find((p) => p.id === id)).filter(Boolean)
-  if (time === 'any') return list
-  const fits = (p) => (time === 'short' ? p.min <= 60 : p.min > 60)
-  return [...list.filter(fits), ...list.filter((p) => !fits(p))]
-}
-
-// 지금 보이는 관리가 고른 시간과 맞지 않으면 그 방향을 알려 준다.
-function timeGap(program, time) {
-  if (time === 'short' && program.min > 60) return '선택하신 시간보다 깁니다'
-  if (time === 'long' && program.min <= 60) return '선택하신 시간보다 짧습니다'
-  return ''
+// 부위에 어울리는 관리(picks 순서대로 추천 → 함께 보면 좋은 관리).
+function recommend(cond) {
+  return cond.picks.map((id) => PROGRAMS.find((p) => p.id === id)).filter(Boolean)
 }
 
 // 방향키 → 이전(-1)/다음(+1)
@@ -57,7 +41,6 @@ function Check() {
 
 export default function Condition() {
   const [condId, setCondId] = useState(null)
-  const [time, setTime] = useState('any')
   const [showAlt, setShowAlt] = useState(false)
   const tileRefs = useRef([])
   const tilesRef = useRef(null)
@@ -65,20 +48,14 @@ export default function Condition() {
   const tilesIn = useInView(tilesRef, { threshold: 0.2 })
 
   const cond = CONDITIONS.find((c) => c.id === condId) || null
-  const [top, alt] = cond ? recommend(cond, time) : []
+  const [top, alt] = cond ? recommend(cond) : []
   const shown = showAlt && alt ? alt : top
   const other = shown === top ? alt : top
-  const gap = shown ? timeGap(shown, time) : ''
   const eyebrow = shown && shown !== top ? '함께 보면 좋은 관리' : '추천 관리'
   const focusIndex = cond ? CONDITIONS.indexOf(cond) : 0
 
   const select = (id) => {
     setCondId(id)
-    setShowAlt(false)
-  }
-
-  const pickTime = (id) => {
-    setTime(id)
     setShowAlt(false)
   }
 
@@ -158,24 +135,6 @@ export default function Condition() {
               })}
             </div>
 
-            <div className="yw-cond__time" role="group" aria-labelledby="cond-time">
-              <p id="cond-time" className="yw-cond__time-label">
-                오늘 쓸 수 있는 시간
-              </p>
-              <div className="yw-cond__pills">
-                {TIMES.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    className="yw-cond__pill"
-                    aria-pressed={time === t.id}
-                    onClick={() => pickTime(t.id)}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           <aside
@@ -189,14 +148,13 @@ export default function Condition() {
                   <Pic pic={PICS[shown.pic]} sizes="(min-width: 64rem) 28vw, 90vw" />
                 </figure>
                 <p className="yw-cond__eyebrow">{eyebrow}</p>
-                <div key={shown.id + time} className="yw-cond__info">
+                <div key={shown.id} className="yw-cond__info">
                   <p className="yw-cond__meta">
                     {shown.group} · {shown.time}
                   </p>
                   <h3 className="yw-cond__prog">{shown.label}</h3>
                   <p className="yw-cond__note">{shown.note}</p>
                   <PriceLine program={shown} className="yw-cond__price" />
-                  {gap && <p className="yw-cond__warn">{gap}</p>}
                 </div>
                 <div className="yw-cond__actions">
                   <button
