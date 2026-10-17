@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
-import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, PICS, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
-import { Folio, Pic } from '../editorial'
+import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
+import { Folio } from '../editorial'
 import { prefersReducedMotion } from '../motion'
-import { Reveal } from '../ui'
 import './yw-faq.css'
 
 const CUSTOMER_FAQS = [
@@ -78,7 +77,7 @@ function onItemToggle(e) {
   })
 }
 
-// 09 Q&A — 왼쪽에 고정된 제목·탭·아치 사진, 오른쪽에 큰 질문 목록. 한 번에 하나만 열린다(details name).
+// 09 Q&A — 왼쪽에 고정된 제목·탭, 오른쪽에 큰 질문 목록. 한 번에 하나만 열린다(details name).
 export default function Faq() {
   const [tab, setTab] = useState('customer')
   // 탭을 한 번이라도 바꾼 뒤에만 질문이 순서대로 올라온다(첫 화면에서는 그대로 둔다).
@@ -133,10 +132,6 @@ export default function Faq() {
               </button>
             ))}
           </div>
-
-          <Reveal variant="wipe" className="yw-faq__photo">
-            <Pic pic={PICS.faqArch} sizes="20rem" />
-          </Reveal>
         </div>
 
         <div
