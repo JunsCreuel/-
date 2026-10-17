@@ -21,8 +21,11 @@ export default function App() {
     <AppProvider>
       <HashRouter>
         <Routes>
+          {/* 사이트 첫 주소(…/-/)는 웰니스 스튜디오 랜딩으로 보낸다. 공유 미리보기(index.html)와 첫 화면을 맞추기 위해서다.
+              기존 '새벽의 댓글창' 첫 화면은 #/dawn 에 남겨 둔다. */}
+          <Route index element={<Navigate to="/wellness" replace />} />
           <Route element={<Layout />}>
-            <Route index element={<Landing />} />
+            <Route path="dawn" element={<Landing />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="rooms" element={<RoomList />} />
