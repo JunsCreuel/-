@@ -274,7 +274,7 @@ export default function Programs() {
                       className="yw-menu__toggle"
                       aria-expanded={open}
                       aria-controls={panelId}
-                      data-cursor="보기"
+                      data-cursor=""
                       onClick={() => toggle(p.id)}
                     >
                       {/* 윗단: (번호) 이름 · 정가 · + / 아랫단: 소요 시간 · 첫 방문가. 보조기기는 이름 → 시간 → 가격 문장 순으로 읽는다 */}

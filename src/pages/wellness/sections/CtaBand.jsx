@@ -75,7 +75,7 @@ export default function CtaBand() {
               type="button"
               className="yw-close__round"
               data-magnet
-              data-cursor="예약"
+              data-cursor=""
               onClick={() => scrollToId('booking')}
             >
               <span>예약하기</span>
