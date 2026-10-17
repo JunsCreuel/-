@@ -212,7 +212,7 @@ export default function Programs() {
           <div className="yw-menu__head">
             <div>
               <Folio no="04" en="Menu" />
-              <SplitLines as="h2" className="yw-h2" lines={['관리 메뉴']} />
+              <SplitLines as="h2" className="yw-h2" lines={['첫 방문 관리 메뉴']} />
             </div>
             <div className="yw-menu__filter" role="group" aria-label="관리 종류">
               {FILTERS.map((f) => (
