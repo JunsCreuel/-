@@ -3,12 +3,14 @@ import { BRANCHES, OFFER_TERM, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
 import { ParenLink, SplitLines } from '../editorial'
 import { clamp, easeOutCubic, hasFinePointer, onScrollFrame, prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
+import QuickConsult from './QuickConsult'
 import './yw-hero.css'
 
 // 01 Hero — 온기 렌즈
 // 세피아로 식어 있는 사진 위에서 커서(터치는 탭) 주변 원 안만 따뜻한 색으로 살아난다. 스크롤을 시작하면 사진 전체가 데워진다(--warm).
 // 같은 사진을 세 겹(세피아 바탕 · 데워지는 전체 · 렌즈 창) 겹치지만 URL이 같아 한 번만 받는다.
 // 모션 줄이기, 또는 마우스가 없는 저사양·데이터 절약 기기에서는 렌즈 없이 컬러 사진 한 장만 둔다.
+// 첫 화면에서 바로 예약·가맹 상담을 남길 수 있게 간편 상담 카드(QuickConsult)를 둔다(휴대폰은 제목 아래, 데스크톱은 오른쪽).
 
 const SWEEP_MS = 1200
 const LERP = 0.12
@@ -229,7 +231,7 @@ export default function Hero() {
     // 터치: 탭한 자리로 옮겨 가고 닿으면 멈춘다(무한 루프 없음). 버튼·링크를 누를 때는 그대로 둔다.
     const onDown = (e) => {
       if (e.pointerType === 'mouse') return
-      if (e.target.closest?.('a, button')) return
+      if (e.target.closest?.('a, button, form, .yw-quick')) return
       const [x, y] = local(e)
       take(x, y)
     }
@@ -330,15 +332,20 @@ export default function Hero() {
           as="h1"
           trigger="mount"
           className="yw-hero__title"
-          lines={['오늘보다 더 예쁜,', <em key="e">내일의 나.</em>]}
+          lines={['오늘을 돌보는,', <em key="e">웰니스 스튜디오.</em>]}
         />
         <p className="yw-hero__kicker">
-          관리 후 가장 먼저 듣는 말, <b>“예뻐졌다”</b>
+          예뻐졌다가 쉼을 더해 만든 <b>자매 브랜드</b>
         </p>
+        <QuickConsult />
+        {/* 휴대폰은 간편 상담 카드가 첫 화면을 차지하므로 '나에게 맞는 관리 찾기'를 큰 버튼 대신 괄호 링크로 줄인다 */}
         <div className="yw-hero__actions">
-          <button type="button" className="yw-btn yw-btn--cream" data-magnet onClick={() => scrollToId('concern')}>
+          <button type="button" className="yw-btn yw-btn--cream yw-hero__find" data-magnet onClick={() => scrollToId('concern')}>
             <span>나에게 맞는 관리 찾기</span>
           </button>
+          <ParenLink onClick={() => scrollToId('concern')} tone="light" className="yw-hero__find-m">
+            나에게 맞는 관리 찾기
+          </ParenLink>
           <ParenLink href={BRANCHES.zai.booking} external tone="light">
             네이버 예약
           </ParenLink>

@@ -20,8 +20,8 @@ const ALT = {
   'scalp-detox': '두 손으로 뒷머리를 받친 두피 케어 장면',
   'scalp-face': '클렌징 거품을 바른 옆얼굴',
   'back-lymph': '어깨와 등을 감싸는 손길',
-  abdomen: '부드럽게 구겨진 생성 리넨',
-  lower: '흰 수건 위 다리에 얹은 손',
+  abdomen: '수건을 덮은 허리와 옆구리를 관리하는 손',
+  lower: '수건 위에서 발과 발목을 관리하는 손',
   'full-back': '수건을 덮고 엎드린 등에 얹은 두 손',
   'lymph-node': '목선과 쇄골에 닿은 손끝',
   warmup: '간접 조명이 비치는 원목 선반 위 수건',
@@ -212,7 +212,7 @@ export default function Programs() {
           <div className="yw-menu__head">
             <div>
               <Folio no="04" en="Menu" />
-              <SplitLines as="h2" className="yw-h2" lines={['관리 메뉴']} />
+              <SplitLines as="h2" className="yw-h2" lines={['첫 방문 관리 메뉴']} />
             </div>
             <div className="yw-menu__filter" role="group" aria-label="관리 종류">
               {FILTERS.map((f) => (
@@ -375,7 +375,7 @@ export default function Programs() {
               {SHOW_TERMS && (
                 <>
                   <span className="yw-menu__nb">첫 방문가(50%)는</span>
-                  {` 할인 대상 ${SALE_COUNT}개 관리에 한해, ${OFFER_TERM_FULL}됩니다. `}
+                  {` 할인 대상 ${SALE_COUNT}개 관리에만 적용됩니다(${OFFER_TERM_FULL}). `}
                 </>
               )}
               관리 구성과 소요시간은 컨디션에 따라 달라질 수 있고, 사진은 분위기 연출용 이미지로 실제 관리 장면과 다를 수

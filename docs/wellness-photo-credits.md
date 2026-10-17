@@ -7,20 +7,14 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 - Unsplash+(유료) 사진은 0장입니다(수집 기록의 premium·plus 표시 모두 false).
 - 사이트 푸터에 ‘일부 분위기 사진: Unsplash’를 표기했습니다.
 - 분위기 사진은 실제 매장·고객·시술 장면이 아니므로 화면에서는 대체 텍스트를 비우고(alt='') 캡션을 달지 않습니다. 원제의 ‘massage’ 같은 표현은 화면 문구에 옮기지 않았습니다.
-- 사진 29장(Unsplash ID 기준), 파일 63개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
+- 사진 22장(Unsplash ID 기준), photos 폴더 파일 59개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
 
 ## Unsplash 사진
 
 | 파일 | 쓰인 곳 | 사진 페이지 | 작가 |
 |---|---|---|---|
-| `hero-warm-960.webp`, `hero-warm-1600.webp`, `hero-warm-2400.webp` | 히어로 배경·온기 렌즈(데스크톱) | [WqoetliKP0o](https://unsplash.com/photos/womans-sweaty-shoulder-wrapped-in-towel-WqoetliKP0o) | [HUUM](https://unsplash.com/@huumsauna) |
-| `hero-warm-m-720.webp`, `hero-warm-m-1080.webp` | 히어로 배경(모바일·세로 화면, 같은 사진 세로 crop) | [WqoetliKP0o](https://unsplash.com/photos/womans-sweaty-shoulder-wrapped-in-towel-WqoetliKP0o) | [HUUM](https://unsplash.com/@huumsauna) |
-| `chip-warm-320.webp` | 리본 ‘Warm up’ 칩 | [ICFfhns6uL0](https://unsplash.com/photos/wooden-shelf-with-warm-hidden-light-ICFfhns6uL0) | [HUUM](https://unsplash.com/@huumsauna) |
-| `chip-care-320.webp` | 리본 ‘Out care’ 칩 | [ubeslMfS1lk](https://unsplash.com/photos/hand-massage-on-brown-towel-ubeslMfS1lk) | [THLT LCX](https://unsplash.com/@thlt_lcx) |
-| `chip-scalp-320.webp` | 리본 ‘Scalp’ 칩 | [WHLG1uhxLUA](https://unsplash.com/photos/a-man-getting-his-hair-washed-in-a-sink-WHLG1uhxLUA) | [Redd Francisco](https://unsplash.com/@reddfrancisco) |
-| `chip-face-320.webp` | 리본 ‘Face’ 칩 | [RbIcMsh0NSk](https://unsplash.com/photos/a-person-receiving-a-facial-treatment-RbIcMsh0NSk) | [kimia kazemi](https://unsplash.com/@kimick) |
-| `chip-body-320.webp` | 리본 ‘Body’ 칩 | [gUPznplBsLI](https://unsplash.com/photos/woman-in-white-tank-top-gUPznplBsLI) | [El S](https://unsplash.com/@evucrn) |
-| `chip-rest-320.webp` | 리본 ‘Rest’ 칩 | [0Qv4fUvlSrI](https://unsplash.com/photos/stack-of-white-rolled-towels-0Qv4fUvlSrI) | [iridial](https://unsplash.com/@iridial_) |
+| `hero-light-960.webp`, `hero-light-1600.webp`, `hero-light-2400.webp` | 히어로 배경·온기 렌즈(데스크톱) | [jjAVhJc8v08](https://unsplash.com/photos/a-wooden-table-with-a-white-sheet-on-it-jjAVhJc8v08) | [Bree Anne](https://unsplash.com/@breebuddy) |
+| `hero-light-m-720.webp`, `hero-light-m-1080.webp` | 히어로 배경(모바일·세로 화면, 같은 사진 세로 crop) | [jjAVhJc8v08](https://unsplash.com/photos/a-wooden-table-with-a-white-sheet-on-it-jjAVhJc8v08) | [Bree Anne](https://unsplash.com/@breebuddy) |
 | `ritual-1-600.webp`, `ritual-1-1200.webp` | 관리 순서 01 상담 | [HKqTFsaVCV0](https://unsplash.com/photos/persons-hand-on-white-surface-HKqTFsaVCV0) | [Lumière Rezaie](https://unsplash.com/@lumiere_rz) |
 | `ritual-2-600.webp`, `ritual-2-1200.webp` | 관리 순서 02 온열돔 웜업 | [WAm_HaI4W2E](https://unsplash.com/photos/massage-therapy-in-dim-warm-light-WAm_HaI4W2E) | [Katherine Hanlon](https://unsplash.com/@tinymountain) |
 | `ritual-3-600.webp`, `ritual-3-1200.webp` | 관리 순서 03 아웃케어 | [YBfzGCJjLuI](https://unsplash.com/photos/hands-massaging-a-persons-forearm-with-gentle-pressure-YBfzGCJjLuI) | [Stephen Olmo](https://unsplash.com/@seaolivestudios) |
@@ -34,13 +28,12 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | `menu-scalp-detox-240.webp`, `menu-scalp-detox-600.webp`, `menu-scalp-detox-1200.webp` | 메뉴 01·추천 카드 | [qyUR9meb4bU](https://unsplash.com/photos/woman-receiving-a-head-massage-on-a-pillow-qyUR9meb4bU) | [Anna Blake](https://unsplash.com/@blake_a) |
 | `menu-scalp-face-240.webp`, `menu-scalp-face-600.webp`, `menu-scalp-face-1200.webp` | 메뉴 02·추천 카드 | [J6Hg_YH2tFk](https://unsplash.com/photos/womans-face-with-cleansing-foam-during-facial-treatment-J6Hg_YH2tFk) | [kimia kazemi](https://unsplash.com/@kimick) |
 | `menu-back-lymph-240.webp`, `menu-back-lymph-600.webp`, `menu-back-lymph-1200.webp` | 메뉴 03·추천 카드 | [i0-A2noIOcs](https://unsplash.com/photos/hands-massaging-shoulder-during-massage-i0-A2noIOcs) | [Rosalie Gdy](https://unsplash.com/@rosaliegdy) |
-| `menu-abdomen-240.webp`, `menu-abdomen-600.webp`, `menu-abdomen-1200.webp` | 메뉴 04·추천 카드 | [2NDtPNiLcD0](https://unsplash.com/photos/a-close-up-of-a-bed-with-a-white-sheet-2NDtPNiLcD0) | [Kateryna Hliznitsova](https://unsplash.com/@kate_gliz) |
-| `menu-lower-240.webp`, `menu-lower-600.webp`, `menu-lower-1200.webp` | 메뉴 05·추천 카드 | [yBLLzNcA6GU](https://unsplash.com/photos/massage-on-leg-with-white-towel-yBLLzNcA6GU) | [Mat Kilkeary](https://unsplash.com/@matkilkeary) |
+| `menu-belly-240.webp`, `menu-belly-600.webp`, `menu-belly-1200.webp` | 메뉴 ‘복부 슬리밍 케어’·추천 카드 | [RcHB2c_74Tk](https://unsplash.com/photos/hand-pressing-into-lower-back-RcHB2c_74Tk) | [Rosalie Gdy](https://unsplash.com/@rosaliegdy) |
+| `menu-legcare-240.webp`, `menu-legcare-600.webp`, `menu-legcare-1200.webp` | 메뉴 ‘하체 관리’·추천 카드 | [20Xfu4OP0co](https://unsplash.com/photos/a-person-is-doing-a-foot-massage-on-a-bed-20Xfu4OP0co) | [Filipp Romanovski](https://unsplash.com/@filipp_roman_photography) |
 | `menu-full-back-240.webp`, `menu-full-back-600.webp`, `menu-full-back-1200.webp` | 메뉴 06·추천 카드 | [-AakIaAPV0w](https://unsplash.com/photos/a-woman-getting-a-back-massage-at-a-spa--AakIaAPV0w) | [Simon HUMLER](https://unsplash.com/@simonhumlr) |
 | `menu-lymph-node-240.webp`, `menu-lymph-node-600.webp`, `menu-lymph-node-1200.webp` | 메뉴 07·추천 카드 | [5KY5LP_zc44](https://unsplash.com/photos/person-with-gold-ring-on-neck-5KY5LP_zc44) | [Angélica Echeverry](https://unsplash.com/@angelicaecheverry) |
 | `menu-warmup-240.webp`, `menu-warmup-600.webp`, `menu-warmup-1200.webp` | 메뉴 08·추천 카드 | [pxqnqB1DsWs](https://unsplash.com/photos/grey-towels-on-wooden-sauna-bench-pxqnqB1DsWs) | [HUUM](https://unsplash.com/@huumsauna) |
 | `chip-gel-480.webp` | 장비 문장 ‘오일 대신’ 칩 | [GeG4U-lAF10](https://unsplash.com/photos/two-viscous-liquids-overlap-on-a-neutral-background-GeG4U-lAF10) | [ibnu ihza](https://unsplash.com/@mahendra_10) |
-| `faq-arch-600.webp`, `faq-arch-900.webp` | FAQ 아치(데스크톱) | [7Yps3czmfRw](https://unsplash.com/photos/woman-in-white-dress-shirt-7Yps3czmfRw) | [Teslariu Mihai](https://unsplash.com/@mihaiteslariu0) |
 | `biz-still-960.webp`, `biz-still-1600.webp` | 창업 장 배경 | [lwl1sXHZ56E](https://unsplash.com/photos/a-table-topped-with-bottles-and-a-vase-filled-with-flowers-lwl1sXHZ56E) | [Iliya Jokic](https://unsplash.com/@iliya9) |
 | `closing-960.webp`, `closing-1600.webp`, `closing-2400.webp` | 마지막 장면 원형 마스크 | [T7BDc761Dbs](https://unsplash.com/photos/woman-folding-a-towel-by-a-sink-with-candle-T7BDc761Dbs) | [Christian Agbede](https://unsplash.com/@chriscreations__) |
 

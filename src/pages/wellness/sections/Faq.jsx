@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
-import { OFFER_TERM, PARENT_STORE_COUNT, PICS, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
-import { Folio, Pic } from '../editorial'
+import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
+import { Folio } from '../editorial'
 import { prefersReducedMotion } from '../motion'
-import { Reveal } from '../ui'
 import './yw-faq.css'
 
 const CUSTOMER_FAQS = [
@@ -23,10 +22,10 @@ const CUSTOMER_FAQS = [
   },
   {
     q: '예약 없이 방문할 수 있나요?',
-    // 첫 방문 50%는 상시 할인이 아니라 조건부라 범위(SALE_COUNT)와 조건(OFFER_TERM, 첫 방문 티켓 예약)을 함께 쓴다.
+    // 첫 방문 50%는 상시 할인이 아니라 조건부라 범위(SALE_COUNT)와 조건(OFFER_TERM, OFFER_TERM_NOTE)을 함께 쓴다.
     // 이벤트를 내리면(SHOW_OFFER=false) 이 문장도 함께 빠진다.
     a: `100% 예약제로 운영하고 있습니다. 네이버 예약 또는 전화로 일정을 확정해 주시기 바랍니다.${
-      SHOW_OFFER ? ` 첫 방문 혜택(${SALE_COUNT}개 관리 50%)은 ${OFFER_TERM}이며, 첫 방문 티켓으로 예약하실 때 적용됩니다.` : ''
+      SHOW_OFFER ? ` 첫 방문 혜택(${SALE_COUNT}개 관리 50%)은 ${OFFER_TERM}이며, ${OFFER_TERM_NOTE}` : ''
     }`,
   },
 ]
@@ -78,7 +77,7 @@ function onItemToggle(e) {
   })
 }
 
-// 09 Q&A — 왼쪽에 고정된 제목·탭·아치 사진, 오른쪽에 큰 질문 목록. 한 번에 하나만 열린다(details name).
+// 09 Q&A — 왼쪽에 고정된 제목·탭, 오른쪽에 큰 질문 목록. 한 번에 하나만 열린다(details name).
 export default function Faq() {
   const [tab, setTab] = useState('customer')
   // 탭을 한 번이라도 바꾼 뒤에만 질문이 순서대로 올라온다(첫 화면에서는 그대로 둔다).
@@ -133,10 +132,6 @@ export default function Faq() {
               </button>
             ))}
           </div>
-
-          <Reveal variant="wipe" className="yw-faq__photo">
-            <Pic pic={PICS.faqArch} sizes="20rem" />
-          </Reveal>
         </div>
 
         <div

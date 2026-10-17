@@ -1,21 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { PICS } from '../data'
-import { Pic } from '../editorial'
 import { clamp, onScrollFrame, prefersReducedMotion, useInView } from '../motion'
 import './yw-hero.css'
 
-// 02 Ribbon — 사진 칩이 박힌 세리프 마키
+// 02 Ribbon — 세리프 단어 마키(단어 사이 사진 칩은 v20에서 뺐다)
 // 평소에는 천천히 왼쪽으로 흐르고, 스크롤 속도·방향을 따라 빨라지거나 거꾸로 흐른다. 마우스를 올리면 느려지고,
 // 손가락이나 마우스로 가로로 끌면 손을 따라 감긴다(세로 스크롤은 막지 않는다). 모션 줄이기면 한 벌만 정적으로 줄바꿈한다.
 
-const ITEMS = [
-  { en: 'Warm up', pic: PICS.chipWarm },
-  { en: 'Out care', pic: PICS.chipCare },
-  { en: 'Scalp', pic: PICS.chipScalp },
-  { en: 'Face', pic: PICS.chipFace },
-  { en: 'Body', pic: PICS.chipBody },
-  { en: 'Rest', pic: PICS.chipRest },
-]
+const ITEMS = [{ en: 'Warm up' }, { en: 'Out care' }, { en: 'Scalp' }, { en: 'Face' }, { en: 'Body' }, { en: 'Rest' }]
 
 const COPIES = 4
 const SPEED = 0.45 // 16ms당 px
@@ -28,9 +19,6 @@ function Copy() {
       {ITEMS.map((item, i) => (
         <span className="yw-ribbon__item" key={item.en}>
           <span className={`yw-ribbon__word${i % 2 === 1 ? ' is-outline' : ''}`}>{item.en}</span>
-          <span className="yw-ribbon__chip">
-            <Pic pic={item.pic} sizes="6rem" alt="" draggable={false} />
-          </span>
           <i className="yw-ribbon__dot">·</i>
         </span>
       ))}
