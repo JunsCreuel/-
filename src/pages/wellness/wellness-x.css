@@ -14,7 +14,7 @@
   --yw-max: 82.5rem;
 
   /* 움직임 */
-  --yw-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --yw-ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* ── 레이아웃 ─────────────────────────────────────────────── */
@@ -198,7 +198,7 @@
   font-size: 1.35em;
   font-weight: 300;
   line-height: 1;
-  transition: translate 0.45s var(--yw-ease);
+  transition: translate 0.2s var(--yw-ease);
 }
 
 .yw-paren::before {
@@ -407,7 +407,7 @@
 .yw-line > span {
   display: inline-block;
   transform: translateY(105%);
-  transition: transform 0.9s var(--yw-ease);
+  transition: transform 0.5s var(--yw-ease);
   transition-delay: calc(var(--i, 0) * 110ms);
 }
 
@@ -440,8 +440,8 @@
   mask: linear-gradient(#000 0 0) top / 100% 0% no-repeat;
   transform: translateY(0.8em);
   transition:
-    -webkit-mask-size 0.9s var(--yw-ease),
-    mask-size 0.9s var(--yw-ease),
+    -webkit-mask-size 0.5s var(--yw-ease),
+    mask-size 0.5s var(--yw-ease),
     transform 0.9s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
@@ -456,8 +456,8 @@
   -webkit-mask: linear-gradient(#000 0 0) left / 0% 100% no-repeat;
   mask: linear-gradient(#000 0 0) left / 0% 100% no-repeat;
   transition:
-    -webkit-mask-size 1s var(--yw-ease),
-    mask-size 1s var(--yw-ease);
+    -webkit-mask-size 0.5s var(--yw-ease),
+    mask-size 0.5s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
 
@@ -468,7 +468,7 @@
 
 .w-reveal.yw-rv--wipe img {
   scale: 1.1;
-  transition: scale 1s var(--yw-ease);
+  transition: scale 0.5s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
 
@@ -480,14 +480,14 @@
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 0.7s var(--yw-ease),
-    transform 0.7s var(--yw-ease);
+    opacity 0.4s var(--yw-ease),
+    transform 0.4s var(--yw-ease);
   transition-delay: var(--w-delay, 0ms);
 }
 
 .w-reveal.yw-rv--fade {
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.4s ease;
   transition-delay: var(--w-delay, 0ms);
 }
 
@@ -526,7 +526,7 @@
   content: '';
   scale: 0.4545; /* 5.5rem → 2.5rem */
   transition:
-    scale 0.45s var(--yw-ease),
+    scale 0.2s var(--yw-ease),
     background-color 0.3s ease,
     border-color 0.3s ease;
 }
@@ -682,7 +682,7 @@
   width: 100%;
   height: 100%;
   overflow: visible;
-  animation: yw-spin 24s linear infinite;
+  animation: none;
 }
 
 .yw-seal__ring text {
