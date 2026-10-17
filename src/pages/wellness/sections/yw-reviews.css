@@ -278,6 +278,7 @@
 .yw-vc__more {
   align-self: flex-start;
   min-height: 2.75rem;
+  min-width: 2.75rem;
   margin: 0.2rem 0 -0.4rem;
   padding: 0;
   border: 0;
