@@ -40,7 +40,6 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | `menu-lymph-node-240.webp`, `menu-lymph-node-600.webp`, `menu-lymph-node-1200.webp` | 메뉴 07·추천 카드 | [5KY5LP_zc44](https://unsplash.com/photos/person-with-gold-ring-on-neck-5KY5LP_zc44) | [Angélica Echeverry](https://unsplash.com/@angelicaecheverry) |
 | `menu-warmup-240.webp`, `menu-warmup-600.webp`, `menu-warmup-1200.webp` | 메뉴 08·추천 카드 | [pxqnqB1DsWs](https://unsplash.com/photos/grey-towels-on-wooden-sauna-bench-pxqnqB1DsWs) | [HUUM](https://unsplash.com/@huumsauna) |
 | `chip-gel-480.webp` | 장비 문장 ‘오일 대신’ 칩 | [GeG4U-lAF10](https://unsplash.com/photos/two-viscous-liquids-overlap-on-a-neutral-background-GeG4U-lAF10) | [ibnu ihza](https://unsplash.com/@mahendra_10) |
-| `faq-arch-600.webp`, `faq-arch-900.webp` | FAQ 아치(데스크톱) | [7Yps3czmfRw](https://unsplash.com/photos/woman-in-white-dress-shirt-7Yps3czmfRw) | [Teslariu Mihai](https://unsplash.com/@mihaiteslariu0) |
 | `biz-still-960.webp`, `biz-still-1600.webp` | 창업 장 배경 | [lwl1sXHZ56E](https://unsplash.com/photos/a-table-topped-with-bottles-and-a-vase-filled-with-flowers-lwl1sXHZ56E) | [Iliya Jokic](https://unsplash.com/@iliya9) |
 | `closing-960.webp`, `closing-1600.webp`, `closing-2400.webp` | 마지막 장면 원형 마스크 | [T7BDc761Dbs](https://unsplash.com/photos/woman-folding-a-towel-by-a-sink-with-candle-T7BDc761Dbs) | [Christian Agbede](https://unsplash.com/@chriscreations__) |
 

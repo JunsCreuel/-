@@ -44,7 +44,6 @@ export const PICS = {
   menuLymphNode: pic('menu-lymph-node', [240, 600, 1200], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   chipGel: pic('chip-gel', [480], 3 / 2),
-  faqArch: pic('faq-arch', [600, 900], 3 / 4),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
   // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
