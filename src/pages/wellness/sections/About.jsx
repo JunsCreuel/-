@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PARENT_STORE_COUNT, PICS } from '../data'
+import { PICS } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
-import { CountUp } from '../MotionParts'
 import { clamp, easeOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
 import './yw-story.css'
 
-// No. 01 Our Story(사진 칩이 박힌 문장 · 4년 · 40+ · 1:1)와 No. 02 Ritual(관리 네 단계 온기 다이얼).
+// No. 01 Our Story와 No. 02 Ritual(관리 네 단계 온기 다이얼).
 // 관리 순서는 데스크톱(64rem 이상, 모션 줄이기 아님)에서 고정 무대라 스크롤 진행률이 곧 다이얼 값이다.
 // 다이얼이나 단계 버튼을 움직이면 거꾸로 페이지가 그 자리로 스크롤된다. 그 밖에서는 다이얼을 끌고 놓으면 가까운 단계에 맞춰진다.
 
@@ -228,25 +227,6 @@ export default function About() {
         </div>
       </div>
 
-      <ul className="yw-wrap yw-story__nums">
-        <li>
-          <span className="yw-story__num">
-            <CountUp to={4} />
-            <small>년</small>
-          </span>
-          <span className="yw-story__label">예뻐졌다의 관리 노하우</span>
-        </li>
-        <li>
-          <span className="yw-story__num">
-            <CountUp to={PARENT_STORE_COUNT} suffix="+" />
-          </span>
-          <span className="yw-story__label">함께하는 예뻐졌다 매장</span>
-        </li>
-        <li>
-          <span className="yw-story__num">1:1</span>
-          <span className="yw-story__label">100% 예약제 프라이빗 관리</span>
-        </li>
-      </ul>
 
       <div id="ritual" ref={ritualRef} className={cls}>
         <div className="yw-ritual__stage">

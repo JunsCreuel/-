@@ -10,7 +10,7 @@
   margin: 0 0 1rem;
   color: var(--w-accent-deep);
   font-family: var(--w-font-label);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -247,7 +247,7 @@
 
 .w-pc__en {
   font-family: var(--w-font-en);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   opacity: 0.9;
 }

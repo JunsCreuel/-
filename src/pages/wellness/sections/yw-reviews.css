@@ -51,7 +51,7 @@
   border-radius: 0.3rem;
   background: #03c75a;
   color: #fff;
-  font: normal 600 0.68rem/1 var(--w-font-label);
+  font: normal 600 0.75rem/1 var(--w-font-label);
 }
 
 .yw-voices__score {
@@ -228,7 +228,7 @@
   border: 1px solid var(--w-line);
   border-radius: 999px;
   color: var(--w-muted);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 
