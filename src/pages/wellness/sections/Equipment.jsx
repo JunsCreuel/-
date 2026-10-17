@@ -612,7 +612,6 @@ export default function Equipment() {
         role="region"
         aria-label="장비와 전용 젤"
         aria-roledescription="carousel"
-        data-cursor="끌기"
         onKeyDown={onTrackKey}
       >
         <DomeCard />
