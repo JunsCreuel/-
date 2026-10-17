@@ -16,14 +16,9 @@ function pic(name, widths, ratio) {
 }
 
 export const PICS = {
-  heroWarm: pic('hero-warm', [960, 1600, 2400], 3 / 2),
-  heroWarmM: pic('hero-warm-m', [720, 1080], 2 / 3),
-  chipWarm: pic('chip-warm', [320], 1),
-  chipCare: pic('chip-care', [320], 1),
-  chipScalp: pic('chip-scalp', [320], 1),
-  chipFace: pic('chip-face', [320], 1),
-  chipBody: pic('chip-body', [320], 1),
-  chipRest: pic('chip-rest', [320], 1),
+  // 히어로: 햇살 든 아마 천과 나무 결(밝은 사진, v20)
+  heroWarm: pic('hero-light', [960, 1600, 2400], 3 / 2),
+  heroWarmM: pic('hero-light-m', [720, 1080], 2 / 3),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
