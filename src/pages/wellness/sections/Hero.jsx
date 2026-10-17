@@ -332,10 +332,10 @@ export default function Hero() {
           as="h1"
           trigger="mount"
           className="yw-hero__title"
-          lines={['오늘보다 더 예쁜,', <em key="e">내일의 나.</em>]}
+          lines={['오늘을 돌보는,', <em key="e">웰니스 스튜디오.</em>]}
         />
         <p className="yw-hero__kicker">
-          관리 후 가장 먼저 듣는 말, <b>“예뻐졌다”</b>
+          예뻐졌다가 쉼을 더해 만든 <b>자매 브랜드</b>
         </p>
         <QuickConsult />
         {/* 휴대폰은 간편 상담 카드가 첫 화면을 차지하므로 '나에게 맞는 관리 찾기'를 큰 버튼 대신 괄호 링크로 줄인다 */}

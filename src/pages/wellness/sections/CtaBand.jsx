@@ -68,7 +68,7 @@ export default function CtaBand() {
             id="closing-title"
             className="yw-close__title"
             open={open}
-            lines={['오늘보다 더 예쁜,', <em key="e">내일의 나.</em>]}
+            lines={['오늘을 돌보는,', <em key="e">웰니스 스튜디오.</em>]}
           />
           <div className="yw-close__actions">
             <button

@@ -52,7 +52,7 @@
 }
 
 .yw-hero .yw-hero__base img {
-  filter: grayscale(0.75) sepia(0.18) brightness(0.62);
+  filter: grayscale(0.55) sepia(0.12) brightness(0.9);
 }
 
 .yw-hero .yw-hero__full {
@@ -93,8 +93,9 @@
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(to top, rgb(29 26 23 / 0.5), transparent 30%),
-    linear-gradient(90deg, rgb(29 26 23 / 0.62) 0 38%, transparent 72%);
+    linear-gradient(to bottom, rgb(42 35 32 / 0.42), transparent 20%),
+    linear-gradient(to top, rgb(42 35 32 / 0.5), transparent 32%),
+    linear-gradient(90deg, rgb(42 35 32 / 0.6) 0 32%, transparent 66%);
   pointer-events: none;
 }
 
@@ -319,7 +320,9 @@
   }
 
   .yw-hero .yw-hero__shade {
-    background: linear-gradient(to top, rgb(29 26 23 / 0.72) 0 45%, transparent 75%);
+    background:
+      linear-gradient(to bottom, rgb(42 35 32 / 0.45), transparent 18%),
+      linear-gradient(to top, rgb(42 35 32 / 0.76) 0 40%, rgb(42 35 32 / 0.4) 62%, rgb(42 35 32 / 0.12) 82%);
   }
 
   .yw-hero .yw-hero__mast-r {
@@ -514,31 +517,8 @@
   }
 }
 
-.yw-ribbon .yw-ribbon__chip {
-  display: inline-block;
-  flex: none;
-  height: 0.9em;
-  aspect-ratio: 1;
-  margin-inline: 0.3em;
-  overflow: clip;
-  border: 2px solid var(--w-espresso);
-  border-radius: 50%;
-  background: var(--w-champagne);
-  vertical-align: -0.12em;
-  transition: transform 0.45s var(--yw-ease);
-}
-
-.yw-ribbon .yw-ribbon__chip img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  pointer-events: none;
-  -webkit-user-drag: none;
-}
-
 .yw-ribbon .yw-ribbon__dot {
-  padding-inline: 0.2em 0.25em;
+  padding-inline: 0.35em;
   color: var(--w-bronze);
   font-style: normal;
 }
@@ -551,21 +531,11 @@
   .yw-ribbon .yw-ribbon__wrap.is-dragging {
     cursor: grabbing;
   }
-
-  .yw-ribbon .yw-ribbon__chip:hover {
-    position: relative;
-    z-index: 2;
-    transform: scale(1.9) rotate(-6deg);
-  }
 }
 
 @media (max-width: 47.99rem) {
   .yw-ribbon .yw-ribbon__track {
     font-size: clamp(2.4rem, 12vw, 3.2rem);
-  }
-
-  .yw-ribbon .yw-ribbon__chip {
-    height: 0.85em;
   }
 }
 
@@ -589,10 +559,6 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem 0.35em;
-}
-
-.yw-ribbon--static .yw-ribbon__chip {
-  margin-inline: 0.2em 0;
 }
 
 /* 줄 끝에 점이 남지 않도록 정적 목록에서는 점 대신 간격으로 나눈다 */
@@ -635,9 +601,5 @@
 
   .yw-hero .yw-hero__lens {
     display: none;
-  }
-
-  .yw-ribbon .yw-ribbon__chip:hover {
-    transform: none;
   }
 }
