@@ -152,7 +152,7 @@ export default function DomeSpot() {
                     tabIndex={i === active ? 0 : -1}
                     className={`yw-dome__tab yw-dome__tab--${i === 2 || i === 3 ? 'below' : 'above'}`}
                     style={{ '--x': `${50 + (x / 400) * 100}%`, '--y': `${50 + (y / 400) * 100}%`, '--i': i }}
-                    data-cursor="보기"
+                    data-cursor=""
                     onClick={() => choose(i)}
                   >
                     <small>{pad(i + 1)}</small>
@@ -190,7 +190,7 @@ export default function DomeSpot() {
               type="button"
               className="yw-btn yw-btn--cream"
               data-magnet
-              data-cursor="예약"
+              data-cursor=""
               onClick={() => pickForBooking({ area: '온열 웜업', programId: WARMUP?.id, label: WARMUP?.label })}
             >
               <span>지금 예약하기</span>

@@ -123,7 +123,7 @@ export default function Condition() {
                     tabIndex={i === focusIndex ? 0 : -1}
                     className={`yw-cond__tile${c.wide ? ' is-wide' : ''}`}
                     style={{ '--i': i }}
-                    data-cursor="고르기"
+                    data-cursor=""
                     onClick={() => onTileClick(c.id)}
                   >
                     <Pic pic={c.pic} sizes={c.wide ? '(min-width: 64rem) 45vw, 92vw' : '(min-width: 64rem) 20vw, 45vw'} />
