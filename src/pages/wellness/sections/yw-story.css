@@ -1,7 +1,7 @@
 /* No. 01 Our Story · No. 02 Ritual (sections/About.jsx)
    스토리: 사진 칩이 박힌 두 줄 제목 + 인용 + 숫자 줄.
-   관리 순서: 아치 사진 4장 · 단계 버튼 · 문장 · 온기 다이얼. 64rem 이상(모션 줄이기 아님)에서는 고정 무대(.is-pinned).
-   --t(0~1)는 다이얼 위치, --warm(0~.85)은 바탕이 데워진 정도로, JS가 매 프레임 쓴다. */
+   관리 순서: 아치 사진 4장 · 단계 버튼(밑줄이 자동 진행 타이머) · 문장 · 멈춤 버튼.
+   --warm(0~.85)은 단계마다 바탕이 데워진 정도로, JS가 단계가 바뀔 때 쓴다. */
 
 /* ── 스토리 ─────────────────────────────────────────────── */
 
@@ -40,12 +40,13 @@
 
 /* ── 관리 순서 ──────────────────────────────────────────── */
 
-/* 섹션 좌우 여백 밖까지 띠를 넓히고, 다이얼 값에 따라 흰색 → 형광펜 아이보리로 데운다(전환 없이 손을 바로 따라감) */
+/* 섹션 좌우 여백 밖까지 띠를 넓히고, 단계에 따라 흰색 → 형광펜 아이보리로 천천히 데운다 */
 .yw-ritual {
   position: relative;
   margin: clamp(4rem, 10vw, 8rem) calc(-1 * var(--w-gutter)) 0;
   padding-inline: var(--w-gutter);
   background: var(--yw-ivory);
+  transition: background-color 0.6s ease;
 }
 
 @supports (background: color-mix(in srgb, red 10%, blue)) {
@@ -78,7 +79,7 @@
   letter-spacing: -0.02em;
 }
 
-/* 아치 프레임: 단계 사진 4장을 겹쳐 두고 다이얼 값으로 opacity를 바꾼다 */
+/* 아치 프레임: 단계 사진 4장을 겹쳐 두고 활성 사진만 겹쳐 바뀌며 보인다 */
 .yw-ritual__arch {
   position: relative;
   grid-area: arch;
@@ -107,8 +108,13 @@
   -webkit-user-drag: none;
 }
 
-.wellness .yw-ritual__arch img + img {
+.wellness .yw-ritual__arch img {
   opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.wellness .yw-ritual__arch img[data-active] {
+  opacity: 1;
 }
 
 .yw-ritual__count {
@@ -157,9 +163,44 @@
     border-color 0.3s ease;
 }
 
+.yw-ritual__step {
+  position: relative;
+  border-bottom-color: var(--w-line);
+}
+
 .yw-ritual__step[aria-pressed='true'] {
-  border-bottom-color: var(--w-espresso);
   color: var(--w-espresso);
+}
+
+/* 밑줄 진행 막대: 지난 단계는 채워 두고, 지금 단계는 --step-ms 동안 왼쪽부터 차오른다(끝나면 다음 단계) */
+.yw-ritual__bar {
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: var(--w-espresso);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.yw-ritual__step[data-done] .yw-ritual__bar,
+.yw-ritual:not(.is-auto) .yw-ritual__step[aria-pressed='true'] .yw-ritual__bar {
+  transform: none;
+}
+
+.yw-ritual.is-auto .yw-ritual__step[aria-pressed='true'] .yw-ritual__bar {
+  animation: yw-ritual-fill var(--step-ms, 4s) linear both;
+}
+
+.yw-ritual.is-paused .yw-ritual__step[aria-pressed='true'] .yw-ritual__bar {
+  animation-play-state: paused;
+}
+
+@keyframes yw-ritual-fill {
+  to {
+    transform: none;
+  }
 }
 
 .yw-ritual__step b {
@@ -221,136 +262,37 @@
   translate: 0 0;
 }
 
-/* 온기 다이얼 */
-.yw-ritual__dialwrap {
-  position: relative;
-  margin-top: clamp(1.75rem, 4vw, 2.5rem);
-}
-
-.yw-ritual__dial {
-  display: block;
-  width: 100%;
-  height: 2.75rem;
-  margin: 0;
+/* 멈춤·재생 */
+.yw-ritual__play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
   padding: 0;
-  background: transparent;
+  border: 0;
+  background: none;
+  color: var(--w-muted);
+  font: 400 0.75rem/1 var(--w-font-label);
+  letter-spacing: 0.12em;
   cursor: pointer;
-  touch-action: pan-y;
-  -webkit-appearance: none;
-  appearance: none;
 }
 
-.wellness .yw-ritual__dial:focus-visible {
-  outline: none;
-}
-
-.yw-ritual__dial::-webkit-slider-runnable-track {
-  height: 2px;
-  border: 0;
-  background:
-    linear-gradient(var(--w-bronze) 0 0) 0 50% / calc(var(--t, 0) * 100%) 2px no-repeat,
-    var(--w-line);
-}
-
-.yw-ritual__dial::-moz-range-track {
-  height: 2px;
-  border: 0;
-  background:
-    linear-gradient(var(--w-bronze) 0 0) 0 50% / calc(var(--t, 0) * 100%) 2px no-repeat,
-    var(--w-line);
-}
-
-.yw-ritual__dial::-webkit-slider-thumb {
-  box-sizing: border-box;
-  width: 2.75rem;
-  height: 2.75rem;
-  margin-top: calc((2px - 2.75rem) / 2);
-  border: 2px solid var(--w-espresso);
-  border-radius: 50%;
-  background: #fff
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a2320' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 7 4.5 12l5 5M14.5 7l5 5-5 5'/%3E%3C/svg%3E")
-    center / 1.35rem no-repeat;
-  box-shadow: 0 6px 16px rgb(29 26 23 / 0.12);
-  cursor: grab;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.yw-ritual__dial::-moz-range-thumb {
-  box-sizing: border-box;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 2px solid var(--w-espresso);
-  border-radius: 50%;
-  background: #fff
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a2320' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 7 4.5 12l5 5M14.5 7l5 5-5 5'/%3E%3C/svg%3E")
-    center / 1.35rem no-repeat;
-  box-shadow: 0 6px 16px rgb(29 26 23 / 0.12);
-  cursor: grab;
-}
-
-.yw-ritual__dial:active::-webkit-slider-thumb {
-  cursor: grabbing;
-}
-
-.yw-ritual__dial:active::-moz-range-thumb {
-  cursor: grabbing;
-}
-
-.yw-ritual__dial:focus-visible::-webkit-slider-thumb {
-  outline: 2px solid var(--w-bronze);
-  outline-offset: 3px;
-}
-
-.yw-ritual__dial:focus-visible::-moz-range-thumb {
-  outline: 2px solid var(--w-bronze);
-  outline-offset: 3px;
-}
-
-/* 처음 보일 때 손잡이 위에서 좌우로 두 번 흔들리는 장식(첫 조작에서 사라짐) */
-.yw-ritual__nudge {
-  position: absolute;
-  bottom: calc(100% - 0.1rem);
-  left: calc(var(--t, 0) * (100% - 2.75rem));
+.yw-ritual__play span {
   display: grid;
   place-items: center;
-  width: 2.75rem;
-  height: 1.1rem;
-  color: var(--w-bronze);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--w-line-strong);
+  border-radius: 50%;
+  font-size: 0.6rem;
+  letter-spacing: 0;
 }
 
-.yw-ritual__nudge svg {
-  display: block;
-  width: 1.6rem;
-  height: auto;
-}
-
-.yw-ritual.is-hint .yw-ritual__nudge {
-  opacity: 1;
-  animation: yw-ritual-nudge 0.6s var(--yw-ease) 0.2s 1 both;
-}
-
-@keyframes yw-ritual-nudge {
-  0%,
-  50%,
-  100% {
-    translate: 0 0;
+@media (hover: hover) and (pointer: fine) {
+  .yw-ritual__play:hover {
+    color: var(--w-espresso);
   }
-
-  25%,
-  75% {
-    translate: 0.6rem 0;
-  }
-}
-
-.yw-ritual__hint {
-  margin-top: 0.4rem;
-  color: var(--w-muted);
-  font: 400 0.75rem/1.5 var(--w-font-label);
-  letter-spacing: 0.08em;
 }
 
 .yw-ritual__body .yw-note {
@@ -405,44 +347,14 @@
   .yw-ritual__step small {
     display: block;
   }
-
-  .yw-ritual__dialwrap {
-    margin-top: 2.5rem;
-  }
-
-  /* 고정 무대: 280svh 동안 무대가 멈춰 있고, 스크롤 진행률이 다이얼 값이 된다 */
-  .yw-ritual.is-pinned {
-    height: 280vh;
-    height: 280svh;
-  }
-
-  .yw-ritual.is-pinned .yw-ritual__stage {
-    position: sticky;
-    top: 0;
-    display: grid;
-    align-items: center;
-    height: 100vh;
-    height: 100svh;
-    padding-block: var(--w-nav-h) var(--yw-r);
-  }
 }
 
-/* ── 모션 줄이기: 고정 없이 최종 상태, 흔들림 없음 ─────────── */
+/* ── 모션 줄이기: 자동 진행 없음, 사진·문장은 바로 바뀐다 ─────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .yw-ritual.is-pinned {
-    height: auto;
-  }
-
-  .yw-ritual.is-pinned .yw-ritual__stage {
-    position: static;
-    height: auto;
-  }
-
-  .yw-ritual__nudge,
-  .yw-ritual.is-hint .yw-ritual__nudge {
-    display: none;
-    animation: none;
+  .yw-ritual,
+  .wellness .yw-ritual__arch img {
+    transition: none;
   }
 
   .yw-ritual__text {
