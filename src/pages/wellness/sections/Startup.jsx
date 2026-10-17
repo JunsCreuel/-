@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, telHref } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
-import { CountUp } from '../MotionParts'
 import { useInView, useScrollParallax, useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
 import './yw-business.css'
@@ -42,7 +41,7 @@ export default function Startup() {
           <Folio en="Appendix — For Partners" />
           <SplitLines as="h2" className="yw-biz__title" lines={['웰니스 공간을', '시작하고 싶으신가요?']} />
           <p className="yw-biz__stat">
-            <CountUp to={PARENT_STORE_COUNT} suffix="+" className="yw-biz__num" />
+            <span className="yw-biz__num">{PARENT_STORE_COUNT}+</span>
             <span className="yw-biz__stat-label">본 브랜드 예뻐졌다 매장</span>
           </p>
           <dl className="yw-biz__tree" aria-label="브랜드 관계">
