@@ -59,7 +59,7 @@ export default function CtaBand() {
 
         <div className="yw-close__dot" aria-hidden="true">
           <span />
-          <span>SEE YOU AT YONGHO</span>
+          <span>SEE YOU AT WELLNESS STUDIO</span>
         </div>
 
         <div className="yw-close__text">
