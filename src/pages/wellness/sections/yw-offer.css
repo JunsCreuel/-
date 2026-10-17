@@ -197,7 +197,7 @@
 .yw-ticket__listlabel {
   margin-bottom: 0.7rem;
   color: var(--w-accent-deep);
-  font: 500 0.72rem/1 var(--w-font-label);
+  font: 500 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.2em;
 }
 
@@ -408,7 +408,7 @@
     top: 50%;
     right: 0.75rem;
     display: block;
-    font: 400 0.7rem/1 var(--w-font-label);
+    font: 400 0.75rem/1 var(--w-font-label);
     letter-spacing: 0.3em;
     white-space: nowrap;
     writing-mode: vertical-rl;

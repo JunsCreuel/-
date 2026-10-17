@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { BRAND, BRANCHES, telHref } from '../data'
 import './yw-quick.css'
 
@@ -45,7 +45,8 @@ function smsHref(text) {
   return `sms:${onlyDigits(BRANCHES.zai.phone)}?&body=${encodeURIComponent(text)}`
 }
 
-export default function QuickConsult() {
+// variant='light'는 예약 장(흰 바탕)용. listen이면 위에서 고른 관리('w:pick')를 이어받아 접수 내용에 '관심 관리'로 붙인다.
+export default function QuickConsult({ variant = 'dark', listen = false }) {
   const uid = useId()
   const phone = BRANCHES.zai.phone
   const [form, setForm] = useState({ kind: 'booking', name: '', phone: '', agree: false })
@@ -53,6 +54,18 @@ export default function QuickConsult() {
   const [termsOpen, setTermsOpen] = useState(false)
   const [done, setDone] = useState(null) // null | 'sent' | 'sms' | 'pc'
   const [copied, setCopied] = useState(false)
+  const [pick, setPick] = useState('') // 위에서 고른 관리 이름
+
+  useEffect(() => {
+    if (!listen) return undefined
+    const onPick = (e) => {
+      setPick(e.detail?.label || e.detail?.area || '')
+      setForm((prev) => ({ ...prev, kind: 'booking' }))
+      setDone(null)
+    }
+    window.addEventListener('w:pick', onPick)
+    return () => window.removeEventListener('w:pick', onPick)
+  }, [listen])
   const kind = KINDS.find((k) => k.id === form.kind)
 
   // 고친 칸의 오류는 바로 지운다(다시 제출할 때 처음부터 다시 검사한다).
@@ -62,7 +75,9 @@ export default function QuickConsult() {
   const errId = `${uid}-err`
   const invalid = (key) => (shown[key] ? { 'aria-invalid': true, 'aria-describedby': errId } : {})
 
-  const message = [`[${BRAND.company} 홈페이지 간편 상담]`, `상담: ${kind.label}`, `이름: ${form.name.trim()}`, `연락처: ${formatPhone(form.phone)}`].join('\n')
+  const message = [`[${BRAND.company} 홈페이지 간편 상담]`, `상담: ${kind.label}`, ...(pick && form.kind === 'booking' ? [`관심 관리: ${pick}`] : []), `이름: ${form.name.trim()}`, `연락처: ${formatPhone(form.phone)}`].join('\n')
+  const cls = `yw-quick${variant === 'light' ? ' yw-quick--light' : ''}`
+  const btn = variant === 'light' ? 'yw-btn yw-btn--ink' : 'yw-btn yw-btn--cream'
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -107,7 +122,7 @@ export default function QuickConsult() {
 
   if (done) {
     return (
-      <div className="yw-quick yw-quick--done" role="status">
+      <div className={`${cls} yw-quick--done`} role="status">
         <p className="yw-quick__eyebrow">{kind.label}</p>
         {done === 'sent' && (
           <>
@@ -120,7 +135,7 @@ export default function QuickConsult() {
             <p className="yw-quick__title">문자 앱에 접수 내용을 채워 두었어요</p>
             <p className="yw-quick__sub">문자 앱에서 전송을 누르시면 매장으로 바로 접수됩니다. 앱이 열리지 않았다면 아래 버튼을 눌러 주세요.</p>
             <div className="yw-quick__row">
-              <a className="yw-btn yw-btn--cream yw-quick__go" href={smsHref(message)}>
+              <a className={`${btn} yw-quick__go`} href={smsHref(message)}>
                 <span>문자로 보내기</span>
               </a>
               <a className="yw-quick__link" href={telHref(phone)}>
@@ -137,7 +152,7 @@ export default function QuickConsult() {
               {phone}
             </a>
             <div className="yw-quick__row">
-              <button type="button" className="yw-btn yw-btn--cream yw-quick__go" onClick={copyMessage}>
+              <button type="button" className={`${btn} yw-quick__go`} onClick={copyMessage}>
                 <span>{copied ? '복사했어요' : '접수 내용 복사'}</span>
               </button>
               {form.kind === 'booking' && BRANCHES.zai.booking && (
@@ -156,7 +171,7 @@ export default function QuickConsult() {
   }
 
   return (
-    <form className="yw-quick" onSubmit={onSubmit} noValidate aria-labelledby={`${uid}-title`}>
+    <form className={cls} onSubmit={onSubmit} noValidate aria-labelledby={`${uid}-title`}>
       <div className="yw-quick__head">
         <p className="yw-quick__eyebrow" aria-hidden="true">
           Quick Consult
@@ -166,6 +181,15 @@ export default function QuickConsult() {
         </h2>
         <p className="yw-quick__sub">이름과 연락처만 남겨 주시면 확인 후 연락드려요.</p>
       </div>
+
+      {pick && form.kind === 'booking' && (
+        <p className="yw-quick__pick">
+          관심 관리 <b>{pick}</b>
+          <button type="button" className="yw-quick__unpick" onClick={() => setPick('')} aria-label={`관심 관리 ${pick} 지우기`}>
+            지우기
+          </button>
+        </p>
+      )}
 
       <fieldset className="yw-quick__kinds">
         <legend className="sr-only">상담 종류</legend>
@@ -242,7 +266,7 @@ export default function QuickConsult() {
         {firstError || ''}
       </p>
 
-      <button type="submit" className="yw-btn yw-btn--cream yw-quick__submit">
+      <button type="submit" className={`${btn} yw-quick__submit`}>
         <span>{kind.label} 신청</span>
       </button>
     </form>
