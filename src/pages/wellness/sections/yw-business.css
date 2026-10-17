@@ -329,7 +329,7 @@
   border-radius: 999px;
   background: var(--w-champagne);
   color: var(--w-espresso);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 600;
   line-height: 1.5;
@@ -354,6 +354,9 @@
 }
 
 .yw-biz__tel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   padding-bottom: 0.1em;
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   color: var(--yw-cream);

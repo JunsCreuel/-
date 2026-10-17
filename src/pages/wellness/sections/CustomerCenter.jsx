@@ -1,10 +1,10 @@
-import BookingSteps from '../BookingSteps'
 import { BRANCHES, PHOTOS, displayAddress, mapHref, reserveAction, telHref } from '../data'
 import { Folio } from '../editorial'
+import QuickConsult from './QuickConsult'
 import './yw-visit.css'
 
-// No. 09 Reservation — 전화·네이버 예약·지도를 큰 원형 버튼 3개로 모으고, 영업시간·주소(데스크톱은 QR까지) 옆에 상담 신청 3단계 폼을 둔다.
-// 위에서 고른 관리는 BookingSteps가 'w:pick' 이벤트로 이어받는다. #visit(오시는 길) 앵커도 이 장 왼쪽 열이다.
+// No. 09 Reservation — 전화·네이버 예약·지도를 큰 원형 버튼 3개로 모으고, 영업시간·주소(데스크톱은 QR까지) 옆에 첫 화면과 같은 간편 상담 카드를 둔다.
+// 위에서 고른 관리는 간편 상담 카드가 'w:pick' 이벤트로 이어받아 '관심 관리'로 붙인다. #visit(오시는 길) 앵커도 이 장 왼쪽 열이다.
 // 모바일 순서(머리 → 원형 버튼 → 정보 → 폼)가 DOM 순서와 같다.
 
 function PhoneIcon() {
@@ -104,8 +104,8 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
           )}
         </div>
 
-        <div className="yw-visit__form">
-          <BookingSteps />
+        <div id="booking-form" className="yw-visit__form">
+          <QuickConsult variant="light" listen />
         </div>
       </div>
     </section>

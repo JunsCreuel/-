@@ -11,14 +11,6 @@
   background: #fff;
 }
 
-/* 스토리 제목 전용 지마켓 산스(제목 글자만 남긴 부분 폰트, 약 2KB) */
-@font-face {
-  font-family: 'Gmarket Sans Story';
-  src: url('/wellness/fonts/GmarketSansMedium-story.woff2') format('woff2');
-  font-weight: 500;
-  font-display: swap;
-}
-
 .yw-story__head {
   display: grid;
   justify-items: center;
@@ -27,52 +19,13 @@
 
 .wellness .yw-story__title {
   margin: 0;
-  font: 500 clamp(1.45rem, 7.4vw, 2.3rem) / 1.35 'Gmarket Sans Story', var(--w-font);
-  letter-spacing: -0.03em;
-  word-break: keep-all;
-}
-
-
-
-/* 숫자 줄: 4년 · 40+ · 1:1 */
-.yw-story__nums {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 3vw, 2.5rem);
-  margin-top: clamp(3rem, 8vw, 6rem);
-}
-
-.yw-story__nums > li {
-  display: grid;
-  align-content: start;
-  gap: 0.7rem;
-  min-width: 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--w-line);
-}
-
-.yw-story__num {
-  display: flex;
-  align-items: baseline;
-  gap: 0.08em;
-  color: var(--w-espresso);
-  font: 300 clamp(2.4rem, 11vw, 3rem) / 0.9 var(--w-font-en);
+  font: 400 clamp(1.45rem, 7.4vw, 2.3rem) / 1.3 var(--w-font-serif);
   letter-spacing: -0.02em;
-  font-variant-numeric: lining-nums;
-  white-space: nowrap;
-}
-
-.yw-story__num small {
-  font: 400 0.32em/1 var(--w-font-label);
-  letter-spacing: 0.04em;
-}
-
-.yw-story__label {
-  color: var(--w-muted);
-  font: 400 0.72rem/1.55 var(--w-font-label);
-  letter-spacing: 0.03em;
   word-break: keep-all;
 }
+
+
+
 
 @media (min-width: 48rem) {
   .wellness .yw-story__title {
@@ -81,13 +34,7 @@
 
 
 
-  .yw-story__num {
-    font-size: clamp(3.5rem, 7vw, 6.5rem);
-  }
 
-  .yw-story__label {
-    font-size: 0.78rem;
-  }
 }
 
 
@@ -221,7 +168,7 @@
 }
 
 .yw-ritual__step span {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.35;
   word-break: keep-all;
@@ -229,7 +176,7 @@
 
 .yw-ritual__step small {
   display: none;
-  font: 400 0.65rem/1.2 var(--w-font-label);
+  font: 400 0.75rem/1.2 var(--w-font-label);
   letter-spacing: 0.16em;
 }
 
@@ -402,7 +349,7 @@
 .yw-ritual__hint {
   margin-top: 0.4rem;
   color: var(--w-muted);
-  font: 400 0.72rem/1.5 var(--w-font-label);
+  font: 400 0.75rem/1.5 var(--w-font-label);
   letter-spacing: 0.08em;
 }
 

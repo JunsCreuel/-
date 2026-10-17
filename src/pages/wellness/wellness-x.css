@@ -60,7 +60,7 @@
 .yw-folio {
   margin: 0 0 1.1rem;
   color: var(--w-accent-deep);
-  font: 400 0.72rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -266,8 +266,8 @@
 .yw-note {
   max-width: 60rem;
   margin-top: 2rem;
-  color: var(--w-muted);
-  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--w-ink) 76%, var(--w-bg));
+  font-size: 0.8125rem;
   line-height: 1.7;
 }
 
@@ -538,7 +538,7 @@
   place-items: center;
   padding: 0 0.6rem;
   color: #fff;
-  font: 500 0.7rem/1.25 var(--w-font-label);
+  font: 500 0.75rem/1.25 var(--w-font-label);
   letter-spacing: 0.06em;
   text-align: center;
   word-break: keep-all;
@@ -783,4 +783,25 @@
   :where([data-magnet]) > span {
     transform: none;
   }
+}
+
+/* ── 누르는 영역 44px 이상(겉모양은 그대로) ─────────────────── */
+.wellness .w-nav__menu > button,
+.wellness .w-footer__col button,
+.wellness .w-footer__col a,
+.yw-eq .yw-eq__gelbtn,
+.yw-eq .yw-eq__ingbtn,
+.yw-eq .yw-eq__chip {
+  min-height: 2.75rem;
+}
+
+.wellness .w-footer__col button,
+.wellness .w-footer__col a,
+.wellness .w-footer__info a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.wellness .w-footer__info a {
+  min-height: 2.75rem;
 }

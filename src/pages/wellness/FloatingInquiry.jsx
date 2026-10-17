@@ -13,10 +13,18 @@ export default function FloatingInquiry() {
   const ref = useRef(null)
 
   useEffect(() => {
-    const target = document.getElementById('booking')
-    if (!target || typeof IntersectionObserver === 'undefined') return undefined
-    const io = new IntersectionObserver(([entry]) => setHidden(entry.isIntersecting), { threshold: 0.12 })
-    io.observe(target)
+    // 첫 화면(#top, 간편 상담 카드가 주 버튼)과 예약 장(#booking)이 보이는 동안에는 숨긴다.
+    const targets = ['top', 'booking'].map((id) => document.getElementById(id)).filter(Boolean)
+    if (!targets.length || typeof IntersectionObserver === 'undefined') return undefined
+    const seen = new Map()
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => seen.set(e.target, e.isIntersecting))
+        setHidden([...seen.values()].some(Boolean))
+      },
+      { threshold: 0.12 },
+    )
+    targets.forEach((t) => io.observe(t))
     return () => io.disconnect()
   }, [pathname])
 

@@ -112,7 +112,7 @@
   padding-bottom: 0.6rem;
   border-bottom: 1px solid rgb(244 237 226 / 0.25);
   color: rgb(244 237 226 / 0.86);
-  font: 400 0.7rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   animation: yw-hero-fade 1s var(--yw-ease) 0.2s backwards;
@@ -142,7 +142,7 @@
   padding: 0.4rem 0.95rem;
   border: 1px solid rgb(244 237 226 / 0.6);
   border-radius: 999px;
-  font: 400 0.74rem/1.3 var(--w-font-label);
+  font: 400 0.75rem/1.3 var(--w-font-label);
   letter-spacing: 0.12em;
   animation: yw-hero-rise 0.8s var(--yw-ease) 0.35s backwards;
 }
@@ -182,10 +182,6 @@
   animation: yw-hero-rise 0.8s var(--yw-ease) 0.55s backwards;
 }
 
-/* '나에게 맞는 관리 찾기' 괄호 링크는 휴대폰에서만(큰 버튼 대신) */
-.yw-hero .yw-hero__find-m {
-  display: none;
-}
 
 /* 64rem 미만: 글 묶음과 간편 상담 카드를 흐름대로 쌓고, 내용이 화면보다 길면 히어로가 늘어난다(카드가 잘리지 않게).
    위는 헤더·마스트헤드, 아래는 정보 띠 자리만큼 비운다. */
@@ -217,7 +213,7 @@
   gap: 0.6rem;
   margin: 0;
   color: var(--yw-cream);
-  font: 400 0.72rem/1.3 var(--w-font-label);
+  font: 400 0.75rem/1.3 var(--w-font-label);
   letter-spacing: 0.14em;
   text-shadow: 0 1px 10px rgb(29 26 23 / 0.5);
   opacity: 0.8;
@@ -290,7 +286,7 @@
   z-index: 2;
   padding-bottom: 4.75rem;
   color: rgb(244 237 226 / 0.8);
-  font: 400 0.66rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.26em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
@@ -352,13 +348,6 @@
     margin-top: 0.6rem;
   }
 
-  .yw-hero .yw-hero__find {
-    display: none;
-  }
-
-  .yw-hero .yw-hero__find-m {
-    display: inline-flex;
-  }
 
   .yw-hero .yw-hero__hint {
     top: calc(var(--w-nav-h) + 3.25rem);
@@ -372,7 +361,7 @@
     min-height: 0;
     padding: 0.5rem 1rem;
     border-radius: 999px;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 
   .yw-hero .yw-hero__info > div + div {
@@ -410,7 +399,7 @@
 
 @media (max-width: 22.5rem) {
   .yw-hero .yw-hero__chip {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.04em;
   }
 }
