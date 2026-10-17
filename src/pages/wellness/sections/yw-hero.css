@@ -202,44 +202,6 @@
   }
 }
 
-/* 렌즈 힌트 */
-.yw-hero .yw-hero__hint {
-  position: absolute;
-  top: 50%;
-  right: var(--yw-hero-edge);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin: 0;
-  color: var(--yw-cream);
-  font: 400 0.75rem/1.3 var(--w-font-label);
-  letter-spacing: 0.14em;
-  text-shadow: 0 1px 10px rgb(29 26 23 / 0.5);
-  opacity: 0.8;
-  translate: 0 -50%;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  animation: yw-hero-fade 0.4s ease 0.3s backwards;
-}
-
-.yw-hero .yw-hero__hint::before {
-  width: 1.1rem;
-  height: 1.1rem;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  content: '';
-  animation: none;
-}
-
-.yw-hero .yw-hero__hint.is-gone {
-  opacity: 0;
-}
-
-.yw-hero .yw-hero__hint.is-gone::before {
-  animation-play-state: paused;
-}
-
 /* 하단 정보 띠: 위치 · 영업시간 · 예약 */
 .yw-hero .yw-hero__info {
   position: absolute;
@@ -349,10 +311,6 @@
   }
 
 
-  .yw-hero .yw-hero__hint {
-    top: calc(var(--w-nav-h) + 3.25rem);
-    translate: none;
-  }
 
   .yw-hero .yw-hero__info {
     inset-inline: var(--w-gutter);
@@ -385,12 +343,8 @@
   }
 }
 
-/* 64rem 이상: 오른쪽에 간편 상담 카드가 떠 있으므로 렌즈 힌트는 마스트헤드 아래로 올리고, 세로 Scroll 표시는 뺀다 */
+/* 64rem 이상: 오른쪽에 간편 상담 카드가 떠 있으므로 세로 Scroll 표시는 뺀다 */
 @media (min-width: 64rem) {
-  .yw-hero .yw-hero__hint {
-    top: calc(var(--w-nav-h) + 3.5rem);
-    translate: none;
-  }
 
   .yw-hero .yw-hero__scroll {
     display: none;
@@ -569,8 +523,6 @@
   .yw-hero .yw-hero__kicker,
   .yw-hero .yw-hero__actions,
   .yw-hero .yw-hero__info,
-  .yw-hero .yw-hero__hint,
-  .yw-hero .yw-hero__hint::before,
   .yw-hero .yw-hero__scroll::after {
     animation: none;
   }

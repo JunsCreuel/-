@@ -14,7 +14,6 @@ import './yw-hero.css'
 
 const SWEEP_MS = 1200
 const LERP = 0.12
-const HINT_MS = 4500
 
 // 분위기 사진(글 뒤 장식이라 alt 비움). 48rem 미만과 세로로 긴 화면(세로 태블릿 등)은 세로 crop을 쓴다.
 // 가로 3:2 사진을 세로 화면에 cover로 깔면 팔 한 부분만 크게 남기 때문이다.
@@ -51,7 +50,6 @@ export default function Hero() {
   const lensRef = useRef(null)
   const lensInRef = useRef(null)
   const [mode] = useState(detectMode)
-  const [hintGone, setHintGone] = useState(false)
 
   // 스크롤 데워짐: 히어로가 보일 때만 허브를 구독해 --warm(0~1)을 쓴다. 모션 줄이기면 0으로 둔다.
   useEffect(() => {
@@ -111,15 +109,8 @@ export default function Hero() {
     let raf = 0
     let lastT = 0
     let visible = true
-    let hinted = false
     let opened = false // 스윕이 시작되거나 사용자가 움직이기 전까지 원은 닫혀 있다
     let taken = false // 사용자가 먼저 움직였으면 스윕은 건너뛴다
-
-    const hideHint = () => {
-      if (hinted) return
-      hinted = true
-      setHintGone(true)
-    }
 
     const measure = () => {
       const rect = hero.getBoundingClientRect()
@@ -204,7 +195,6 @@ export default function Hero() {
       sweep = null
       tx = x
       ty = y
-      hideHint()
       kick()
     }
 
@@ -272,12 +262,10 @@ export default function Hero() {
 
     hero.addEventListener('pointermove', onMove, { passive: true })
     hero.addEventListener('pointerdown', onDown, { passive: true })
-    const hintTimer = setTimeout(hideHint, HINT_MS)
 
     return () => {
       alive = false
       clearTimeout(sweepTimer)
-      clearTimeout(hintTimer)
       if (raf) cancelAnimationFrame(raf)
       ro?.disconnect()
       io?.disconnect()
@@ -348,12 +336,6 @@ export default function Hero() {
           </ParenLink>
         </div>
       </div>
-
-      {mode.lens && (
-        <p className={`yw-hero__hint${hintGone ? ' is-gone' : ''}`} aria-hidden="true">
-          {mode.fine ? '커서를 움직여 보세요' : '사진을 눌러 보세요'}
-        </p>
-      )}
 
       <dl className="yw-hero__info">
         <div>
