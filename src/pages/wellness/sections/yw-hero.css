@@ -181,6 +181,30 @@
   animation: yw-hero-rise 0.8s var(--yw-ease) 0.55s backwards;
 }
 
+/* '나에게 맞는 관리 찾기' 괄호 링크는 휴대폰에서만(큰 버튼 대신) */
+.yw-hero .yw-hero__find-m {
+  display: none;
+}
+
+/* 64rem 미만: 글 묶음과 간편 상담 카드를 흐름대로 쌓고, 내용이 화면보다 길면 히어로가 늘어난다(카드가 잘리지 않게).
+   위는 헤더·마스트헤드, 아래는 정보 띠 자리만큼 비운다. */
+@media (max-width: 63.99rem) {
+  .yw-section.yw-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: calc(var(--w-nav-h) + 3.75rem) 0 clamp(6rem, 14vh, 9rem);
+  }
+
+  .yw-hero .yw-hero__text {
+    position: relative;
+    bottom: auto;
+  }
+}
+
 /* 렌즈 힌트 */
 .yw-hero .yw-hero__hint {
   position: absolute;
@@ -285,8 +309,9 @@
 
 /* 모바일: 세로 crop · 아래쪽 정렬 · 독 위에 뜨는 정보 알약 */
 @media (max-width: 47.99rem) {
+  /* 64rem 미만 흐름 배치의 min-height(100svh)를 덮지 않도록 둘 중 큰 값 */
   .yw-section.yw-hero {
-    min-height: 34rem;
+    min-height: max(34rem, 100svh);
   }
 
   .yw-hero .yw-hero__media img {
@@ -301,8 +326,8 @@
     display: none;
   }
 
-  .yw-hero .yw-hero__text {
-    bottom: calc(9.5rem + env(safe-area-inset-bottom));
+  .yw-section.yw-hero {
+    padding-bottom: calc(9.5rem + env(safe-area-inset-bottom));
   }
 
   .yw-hero .yw-hero__chip {
@@ -319,18 +344,17 @@
   }
 
   .yw-hero .yw-hero__actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
-    margin-top: 1.4rem;
+    justify-content: center;
+    gap: 0 1.25rem;
+    margin-top: 0.6rem;
   }
 
-  .yw-hero .yw-hero__actions .yw-btn {
-    width: 100%;
+  .yw-hero .yw-hero__find {
+    display: none;
   }
 
-  .yw-hero .yw-hero__actions .yw-paren {
-    align-self: center;
+  .yw-hero .yw-hero__find-m {
+    display: inline-flex;
   }
 
   .yw-hero .yw-hero__hint {
@@ -369,10 +393,15 @@
   }
 }
 
-/* 64rem 이상에서는 오른쪽 아래 회전 씰 배지 위로 올린다 */
+/* 64rem 이상: 오른쪽에 간편 상담 카드가 떠 있으므로 렌즈 힌트는 마스트헤드 아래로 올리고, 세로 Scroll 표시는 뺀다 */
 @media (min-width: 64rem) {
+  .yw-hero .yw-hero__hint {
+    top: calc(var(--w-nav-h) + 3.5rem);
+    translate: none;
+  }
+
   .yw-hero .yw-hero__scroll {
-    bottom: 9.5rem;
+    display: none;
   }
 }
 
