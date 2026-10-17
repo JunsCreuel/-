@@ -303,8 +303,8 @@ body.is-wellness {
   opacity: 0;
   transform: translateY(22px);
   transition:
-    opacity 0.8s ease,
-    transform 0.8s ease;
+    opacity 0.4s ease,
+    transform 0.4s ease;
   transition-delay: var(--w-delay, 0ms);
 }
 

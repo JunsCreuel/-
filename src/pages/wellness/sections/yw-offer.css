@@ -27,8 +27,8 @@
   transform: perspective(70rem) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg)) translateY(2.5rem)
     rotate(-2.5deg);
   transition:
-    transform 1s var(--yw-ease),
-    opacity 0.6s ease;
+    transform 0.4s var(--yw-ease),
+    opacity 0.3s ease;
   /* 반원 홈: 두 개의 원형 구멍을 겹친다(좁은 화면은 가로 절취선의 좌우, 넓은 화면은 세로 절취선의 위아래) */
   -webkit-mask: var(--mask-a), var(--mask-b);
   -webkit-mask-composite: source-in;
@@ -44,7 +44,7 @@
 
 /* 등장이 끝나면 기울기가 전환 없이 바로 따라간다(lerp는 JS가 한다) */
 .yw-offer .yw-ticket.is-settled {
-  transition: opacity 0.6s ease;
+  transition: opacity 0.3s ease;
 }
 
 .yw-offer .yw-ticket__main,
@@ -115,7 +115,7 @@
 }
 
 .yw-offer .yw-ticket.is-in .yw-ticket__pct {
-  animation: yw-ticket-grad 2.4s ease-out both;
+  animation: yw-ticket-grad 1s ease-out both;
 }
 
 @keyframes yw-ticket-grad {
@@ -209,8 +209,8 @@
   padding-block: 0.8rem;
   border-top: 1px dashed rgb(42 35 32 / 0.25);
   opacity: 0;
-  transition: opacity 0.6s ease;
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transition: opacity 0.3s ease;
+  transition-delay: calc(var(--i, 0) * 50ms);
 }
 
 .yw-ticket__list li:last-child {
@@ -254,8 +254,8 @@
   content: '';
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.6s var(--yw-ease);
-  transition-delay: calc(var(--i, 0) * 90ms + 0.9s);
+  transition: transform 0.3s var(--yw-ease);
+  transition-delay: calc(var(--i, 0) * 50ms + 0.3s);
 }
 
 .yw-ticket__list .is-run s::after {
