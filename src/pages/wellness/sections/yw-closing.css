@@ -90,7 +90,7 @@
 
 .yw-close__dot > span:last-child {
   color: var(--yw-cream);
-  font: 400 0.72rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.3em;
   white-space: nowrap;
 }

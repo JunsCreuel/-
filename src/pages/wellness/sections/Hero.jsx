@@ -338,12 +338,9 @@ export default function Hero() {
           예뻐졌다가 쉼을 더해 만든 <b>자매 브랜드</b>
         </p>
         <QuickConsult />
-        {/* 휴대폰은 간편 상담 카드가 첫 화면을 차지하므로 '나에게 맞는 관리 찾기'를 큰 버튼 대신 괄호 링크로 줄인다 */}
+        {/* 첫 화면의 주 버튼은 간편 상담 하나. 나머지는 괄호 링크로 낮춘다 */}
         <div className="yw-hero__actions">
-          <button type="button" className="yw-btn yw-btn--cream yw-hero__find" data-magnet onClick={() => scrollToId('concern')}>
-            <span>나에게 맞는 관리 찾기</span>
-          </button>
-          <ParenLink onClick={() => scrollToId('concern')} tone="light" className="yw-hero__find-m">
+          <ParenLink onClick={() => scrollToId('concern')} tone="light">
             나에게 맞는 관리 찾기
           </ParenLink>
           <ParenLink href={BRANCHES.zai.booking} external tone="light">

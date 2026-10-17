@@ -212,7 +212,7 @@
 }
 
 .yw-eq__en {
-  font: 400 0.72rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.16em;
 }
 
@@ -421,7 +421,7 @@
 
 .yw-eq__gelvol {
   color: var(--w-accent-deep);
-  font: 400 0.68rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.08em;
 }
 
@@ -691,7 +691,7 @@
 }
 
 .yw-eqs__folio-en {
-  font: 400 0.72rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.2em;
 }
 
@@ -841,7 +841,7 @@
 .yw-eqs__vol {
   margin-left: 0.3rem;
   color: var(--w-accent-deep);
-  font: 400 0.74rem/1 var(--w-font-label);
+  font: 400 0.75rem/1 var(--w-font-label);
   letter-spacing: 0.08em;
   white-space: nowrap;
 }
@@ -904,7 +904,7 @@
 .yw-eqs__ingen {
   margin-top: 0.1rem;
   color: var(--w-accent-deep);
-  font: 400 0.7rem/1.4 var(--w-font-label);
+  font: 400 0.75rem/1.4 var(--w-font-label);
   letter-spacing: 0.05em;
 }
 

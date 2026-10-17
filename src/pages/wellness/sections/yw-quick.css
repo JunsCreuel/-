@@ -3,7 +3,7 @@
    64rem 이상: 첫 화면 오른쪽에 떠 있고, 바닥은 히어로 아래에서 9rem(회전 씰 배지 위)에 맞춘다.
    입력 글자는 16px 이상(iOS가 확대하지 않게). 모션 줄이기에서는 등장 애니메이션이 없다. */
 
-.yw-hero .yw-quick {
+:is(.yw-hero, .yw-visit) .yw-quick {
   display: grid;
   gap: 0.7rem;
   width: 100%;
@@ -20,7 +20,7 @@
   animation: yw-hero-rise 0.8s var(--yw-ease) 0.6s backwards;
 }
 
-.yw-hero .yw-quick :focus-visible {
+:is(.yw-hero, .yw-visit) .yw-quick :focus-visible {
   outline: 2px solid var(--w-champagne);
   outline-offset: 2px;
 }
@@ -30,15 +30,15 @@
   gap: 0.2rem;
 }
 
-.yw-hero .yw-quick__eyebrow {
+:is(.yw-hero, .yw-visit) .yw-quick__eyebrow {
   margin: 0;
   color: var(--w-champagne);
-  font: 400 0.68rem/1.3 var(--w-font-label);
+  font: 400 0.75rem/1.3 var(--w-font-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-.wellness .yw-hero .yw-quick__title {
+.wellness :is(.yw-hero, .yw-visit) .yw-quick__title {
   margin: 0;
   color: var(--yw-cream);
   font: 500 clamp(1.1rem, 4vw, 1.3rem) / 1.35 var(--w-font-serif);
@@ -46,7 +46,7 @@
   word-break: keep-all;
 }
 
-.yw-hero .yw-quick__sub {
+:is(.yw-hero, .yw-visit) .yw-quick__sub {
   margin: 0;
   color: rgb(244 237 226 / 0.78);
   font-size: 0.86rem;
@@ -105,7 +105,7 @@
   gap: 0.5rem;
 }
 
-.yw-hero .yw-quick__input {
+:is(.yw-hero, .yw-visit) .yw-quick__input {
   width: 100%;
   min-width: 0;
   min-height: 2.9rem;
@@ -121,16 +121,16 @@
     background-color 0.2s ease;
 }
 
-.yw-hero .yw-quick__input::placeholder {
+:is(.yw-hero, .yw-visit) .yw-quick__input::placeholder {
   color: rgb(244 237 226 / 0.62);
 }
 
-.yw-hero .yw-quick__input:focus {
+:is(.yw-hero, .yw-visit) .yw-quick__input:focus {
   border-color: var(--w-champagne);
   background: rgb(255 255 255 / 0.12);
 }
 
-.yw-hero .yw-quick__input[aria-invalid='true'] {
+:is(.yw-hero, .yw-visit) .yw-quick__input[aria-invalid='true'] {
   border-color: #f0a58f;
 }
 
@@ -162,7 +162,7 @@
 .yw-quick__more {
   flex: none;
   min-width: 2.75rem;
-  min-height: 2.25rem;
+  min-height: 2.75rem;
   padding: 0;
   border: 0;
   background: none;
@@ -174,7 +174,7 @@
   cursor: pointer;
 }
 
-.yw-hero .yw-quick__terms {
+:is(.yw-hero, .yw-visit) .yw-quick__terms {
   margin: -0.2rem 0 0;
   padding: 0.65rem 0.8rem;
   border-radius: 0.7rem;
@@ -185,24 +185,24 @@
   word-break: keep-all;
 }
 
-.yw-hero .yw-quick__error {
+:is(.yw-hero, .yw-visit) .yw-quick__error {
   margin: -0.25rem 0 0;
   color: #f6c2b3;
   font-size: 0.8rem;
   line-height: 1.4;
 }
 
-.yw-hero .yw-quick__error:empty {
+:is(.yw-hero, .yw-visit) .yw-quick__error:empty {
   display: none;
 }
 
-.yw-hero .yw-quick__submit {
+:is(.yw-hero, .yw-visit) .yw-quick__submit {
   width: 100%;
   min-height: 3rem;
 }
 
 /* 접수 뒤 안내 */
-.yw-hero .yw-quick--done {
+:is(.yw-hero, .yw-visit) .yw-quick--done {
   gap: 0.6rem;
 }
 
@@ -214,13 +214,13 @@
   margin-top: 0.2rem;
 }
 
-.yw-hero .yw-quick__go {
+:is(.yw-hero, .yw-visit) .yw-quick__go {
   min-height: 2.9rem;
   padding-inline: 1.4rem;
 }
 
-.yw-hero .yw-quick__link,
-.yw-hero .yw-quick__tel {
+:is(.yw-hero, .yw-visit) .yw-quick__link,
+:is(.yw-hero, .yw-visit) .yw-quick__tel {
   color: var(--yw-cream);
   font-family: var(--w-font-label);
   letter-spacing: 0.04em;
@@ -228,14 +228,14 @@
   text-underline-offset: 0.25em;
 }
 
-.yw-hero .yw-quick__link {
+:is(.yw-hero, .yw-visit) .yw-quick__link {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
   font-size: 0.9rem;
 }
 
-.yw-hero .yw-quick__tel {
+:is(.yw-hero, .yw-visit) .yw-quick__tel {
   justify-self: start;
   font-size: 1.35rem;
 }
@@ -252,6 +252,113 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
   cursor: pointer;
+}
+
+/* 관심 관리(위에서 고른 관리) 한 줄 */
+.yw-quick__pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.yw-quick__pick b {
+  font-weight: 600;
+}
+
+.yw-quick__unpick {
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* 예약 장(흰 바탕)용 밝은 변형 */
+.yw-visit .yw-quick--light {
+  margin-top: 0;
+  border-color: var(--w-line);
+  background: #fff;
+  color: var(--w-ink);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  animation: none;
+}
+
+.yw-visit .yw-quick--light :focus-visible {
+  outline-color: var(--w-accent-deep);
+}
+
+.yw-visit .yw-quick--light .yw-quick__eyebrow {
+  color: var(--w-accent-deep);
+}
+
+.wellness .yw-visit .yw-quick--light .yw-quick__title {
+  color: var(--w-espresso);
+}
+
+.yw-visit .yw-quick--light .yw-quick__sub,
+.yw-visit .yw-quick--light .yw-quick__more,
+.yw-visit .yw-quick--light .yw-quick__again {
+  color: var(--w-muted);
+}
+
+.yw-visit .yw-quick--light .yw-quick__kinds {
+  border-color: var(--w-line);
+}
+
+.yw-visit .yw-quick--light .yw-quick__kind {
+  color: var(--w-ink);
+}
+
+.yw-visit .yw-quick--light .yw-quick__kind.is-on {
+  background: var(--w-espresso);
+  color: #fff;
+}
+
+.yw-visit .yw-quick--light .yw-quick__input {
+  border-color: var(--w-line-strong);
+  background: #fff;
+  color: var(--w-ink);
+}
+
+.yw-visit .yw-quick--light .yw-quick__input::placeholder {
+  color: var(--w-muted);
+}
+
+.yw-visit .yw-quick--light .yw-quick__input:focus {
+  border-color: var(--w-accent-deep);
+  background: #fff;
+}
+
+.yw-visit .yw-quick--light .yw-quick__input[aria-invalid='true'] {
+  border-color: #b4442a;
+}
+
+.yw-visit .yw-quick--light .yw-quick__agree input {
+  accent-color: var(--w-espresso);
+}
+
+.yw-visit .yw-quick--light .yw-quick__terms {
+  background: var(--w-band);
+  color: var(--w-muted);
+}
+
+.yw-visit .yw-quick--light .yw-quick__error {
+  color: #b4442a;
+}
+
+.yw-visit .yw-quick--light .yw-quick__link,
+.yw-visit .yw-quick--light .yw-quick__tel {
+  color: var(--w-ink);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -276,7 +383,7 @@
     display: none;
   }
 
-  .yw-quick__head {
+  .yw-hero .yw-quick__head {
     grid-template-columns: auto 1fr;
     align-items: baseline;
     gap: 0.6rem;
@@ -300,7 +407,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yw-hero .yw-quick {
+  :is(.yw-hero, .yw-visit) .yw-quick {
     animation: none;
   }
 }
