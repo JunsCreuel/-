@@ -13,7 +13,7 @@ import './yw-dome.css'
 const POINTS = [
   { id: 'warm', label: '전신 웜업', text: '편하게 누운 채, 온열돔 안에서 몸을 천천히 따뜻하게 데웁니다.' },
   { id: 'aroma', label: '아로마', text: '그날 컨디션에 맞는 아로마를 바르고 시작합니다.' },
-  { id: 'rest', label: '깊은 휴식', text: '아무것도 하지 않고 50분 동안 누워서 쉬어 갑니다.' },
+  { id: 'rest', label: '깊은 휴식', text: '아무것도 하지 않고 40분 동안 누워서 쉬어 갑니다.' },
   { id: 'focus', label: '집중관리', text: '원하시면 온열돔 뒤에 고민 부위 하나를 이어서 관리합니다.' },
   { id: 'private', label: '프라이빗', text: '100% 예약제로, 한 분씩 프라이빗하게 진행합니다.' },
 ]
@@ -90,7 +90,7 @@ export default function DomeSpot() {
             className="yw-h2 yw-dome__title"
             lines={[
               <>
-                <em>50분</em>, 누워서
+                <em>40분</em>, 누워서
               </>,
               '따뜻하게 쉬어 가세요.',
             ]}
