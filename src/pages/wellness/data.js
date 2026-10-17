@@ -106,7 +106,7 @@ export const PROGRAMS = [
   { id: 'lower', group: '바디', title: '하체 관리', time: '1시간 10분', price: 130000, sale: 65000, photo: 'leg', pos: 'center 40%', desc: '풀 바디 웜업으로 몸을 데운 뒤, 발과 종아리부터 허벅지까지 하체 라인을 상태에 맞춰 케어합니다. 다리가 무겁게 느껴지는 분께 추천합니다.', label: '하체 관리', area: '하체 · 림프', min: 70, pic: 'menuLower', note: '풀 바디 웜업 후 발끝에서 허벅지까지 하체 라인을 관리합니다.' },
   { id: 'full-back', group: '바디', title: '전신 후면 관리', time: '1시간 30분', price: 110000, photo: 'back', pos: 'center 75%', desc: '풀 바디 웜업으로 몸을 따뜻하게 데운 뒤, 등과 하체를 집중적으로 케어합니다.', label: '전신 후면 관리', area: '등 · 어깨', min: 90, pic: 'menuFullBack', note: '풀 바디 웜업 후 등과 하체에 집중하는 1시간 30분입니다.' },
   { id: 'lymph-node', group: '바디', title: '림프절 관리', time: '1시간', price: 140000, sale: 70000, photo: 'neck', pos: 'center 40%', desc: '목과 겨드랑이, 다리 안쪽 라인을 따라 부드러운 손길로 편안하게 관리합니다.', label: '림프절 관리', area: '하체 · 림프', min: 60, pic: 'menuLymphNode', note: '목과 겨드랑이, 다리 안쪽 라인을 부드러운 손길로 관리합니다.' },
-  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '50분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.', label: '풀 바디 웜업케어 + 아로마테라피', area: '온열 웜업', min: 50, pic: 'menuWarmup', note: '아로마를 바르고 온열돔에서 쉬어 가는 50분입니다.' },
+  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '40분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.', label: '풀 바디 웜업케어 + 아로마테라피', area: '온열 웜업', min: 40, pic: 'menuWarmup', note: '아로마를 바르고 온열돔에서 쉬어 가는 40분입니다.' },
 ]
 
 // 할인(50%) 대상 관리 수. 50%는 항상 이 범위('6개 관리')와 함께 쓴다.
