@@ -234,7 +234,7 @@ export default function Condition() {
 
         <Footnote>
           추천은 참고용이며, 관리는 상담에서 컨디션을 확인한 뒤 함께 정합니다.
-          {SHOW_PRICES && SHOW_OFFER && ` 첫 방문가(50%)는 할인 대상 ${SALE_COUNT}개 관리에 한해, ${OFFER_TERM_FULL}됩니다.`}
+          {SHOW_PRICES && SHOW_OFFER && ` 첫 방문가(50%)는 할인 대상 ${SALE_COUNT}개 관리에만 적용됩니다(${OFFER_TERM_FULL}).`}
         </Footnote>
       </div>
     </section>
