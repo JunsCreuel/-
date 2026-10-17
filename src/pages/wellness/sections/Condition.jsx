@@ -144,11 +144,11 @@ export default function Condition() {
           >
             {shown ? (
               <>
-                <figure key={shown.id} className="yw-cond__photo">
+                <figure key={`photo-${shown.id}`} className="yw-cond__photo">
                   <Pic pic={PICS[shown.pic]} sizes="(min-width: 64rem) 28vw, 90vw" />
                 </figure>
                 <p className="yw-cond__eyebrow">{eyebrow}</p>
-                <div key={shown.id} className="yw-cond__info">
+                <div key={`info-${shown.id}`} className="yw-cond__info">
                   <p className="yw-cond__meta">
                     {shown.group} · {shown.time}
                   </p>
