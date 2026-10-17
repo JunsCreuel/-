@@ -17,7 +17,7 @@
   backdrop-filter: blur(14px);
   color: var(--yw-cream);
   text-align: left;
-  animation: yw-hero-rise 0.8s var(--yw-ease) 0.6s backwards;
+  animation: yw-hero-rise 0.4s var(--yw-ease) 0.2s backwards;
 }
 
 :is(.yw-hero, .yw-visit) .yw-quick :focus-visible {

@@ -87,8 +87,8 @@
   object-fit: cover;
   filter: grayscale(0.55) brightness(0.78);
   transition:
-    filter 0.5s ease,
-    transform 0.6s var(--yw-ease);
+    filter 0.3s ease,
+    transform 0.3s var(--yw-ease);
 }
 
 .yw-cond .yw-cond__tile.is-wide img {
@@ -166,7 +166,7 @@
   background: var(--w-champagne);
   color: var(--w-espresso);
   scale: 0;
-  transition: scale 0.45s var(--yw-ease);
+  transition: scale 0.2s var(--yw-ease);
 }
 
 .yw-cond__check svg {
@@ -214,12 +214,12 @@
 }
 
 .yw-cond__tiles.is-in .yw-cond__tile {
-  animation: yw-cond-tile-in 0.9s var(--yw-ease) backwards;
+  animation: yw-cond-tile-in 0.4s var(--yw-ease) backwards;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
 
 .yw-cond__tiles.is-in .yw-cond__tile img {
-  animation: yw-cond-tile-zoom 1.2s var(--yw-ease) backwards;
+  animation: yw-cond-tile-zoom 0.5s var(--yw-ease) backwards;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
 
@@ -316,7 +316,7 @@
   height: 1.25rem;
   border-radius: 50%;
   background: var(--yw-cream);
-  animation: yw-cond-breath 2.4s ease-in-out infinite alternate;
+  animation: none;
 }
 
 @keyframes yw-cond-breath {
@@ -371,7 +371,7 @@
   overflow: clip;
   border-radius: 1rem;
   background: color-mix(in srgb, var(--w-champagne) 35%, var(--yw-ivory));
-  animation: yw-cond-wipe 0.7s var(--yw-ease) both;
+  animation: yw-cond-wipe 0.3s var(--yw-ease) both;
 }
 
 .yw-cond .yw-cond__photo img {
@@ -379,7 +379,7 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-  animation: yw-cond-settle 0.9s var(--yw-ease) both;
+  animation: yw-cond-settle 0.4s var(--yw-ease) both;
 }
 
 @media (min-width: 64rem) {
@@ -431,7 +431,7 @@
 
 /* 이름·과정·가격: 바뀔 때마다 짧게 올라온다 */
 .yw-cond__info {
-  animation: yw-cond-rise 0.5s var(--yw-ease) both;
+  animation: yw-cond-rise 0.25s var(--yw-ease) both;
 }
 
 @keyframes yw-cond-rise {

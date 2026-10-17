@@ -107,7 +107,7 @@
 .yw-visit__u {
   padding-bottom: 0.1em;
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-  transition: background-size 0.4s var(--yw-ease);
+  transition: background-size 0.2s var(--yw-ease);
 }
 
 .yw-visit__round a:focus-visible {
@@ -248,7 +248,7 @@
   color: var(--w-espresso);
   font-size: 0.85rem;
   line-height: 1.45;
-  animation: yw-pick-in 0.5s var(--yw-ease) both;
+  animation: yw-pick-in 0.3s var(--yw-ease) both;
 }
 
 .yw-visit .yw-pick b {

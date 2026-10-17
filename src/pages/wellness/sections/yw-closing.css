@@ -201,7 +201,7 @@
   font-size: 0.9rem;
   line-height: 1.4;
   cursor: pointer;
-  transition: background-size 0.45s var(--yw-ease);
+  transition: background-size 0.2s var(--yw-ease);
 }
 
 .yw-close .yw-close__small:focus-visible {

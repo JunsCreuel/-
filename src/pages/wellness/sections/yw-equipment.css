@@ -305,7 +305,7 @@
   color: var(--w-ink);
   font-size: 0.95rem;
   line-height: 1.6;
-  animation: yw-eq-rise 0.6s var(--yw-ease) both;
+  animation: yw-eq-rise 0.25s var(--yw-ease) both;
 }
 
 @keyframes yw-eq-rise {
@@ -347,7 +347,7 @@
   display: grid;
   background: #fff;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 0.7s var(--yw-ease);
+  transition: clip-path 0.35s var(--yw-ease);
 }
 
 /* 젤 사진은 모두 누끼라 잘리지 않게 담고, 아래 이름표(두 줄, 높이 고정)를 비켜 조금 위에 둔다.
@@ -395,8 +395,8 @@
   opacity: 0;
   translate: 0 0.5rem;
   transition:
-    opacity 0.35s ease,
-    translate 0.5s var(--yw-ease);
+    opacity 0.2s ease,
+    translate 0.3s var(--yw-ease);
 }
 
 .yw-eq__gelcap > span {
