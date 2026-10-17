@@ -55,7 +55,7 @@ export default function Startup() {
             </div>
           </dl>
           <p className="yw-biz__relation">
-            웰니스 스튜디오 창업은 처음 창업하시는 것과 똑같이, <strong>신규 창업</strong>으로 진행됩니다.
+            웰니스 스튜디오 창업은 기존 매장 운영 여부와 관계없이 <strong>신규 창업</strong>으로 진행됩니다.
           </p>
         </div>
 
