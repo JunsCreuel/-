@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
-import { Folio, Footnote, InlineChip, Pic } from '../editorial'
+import { Folio, Footnote, Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
 import './yw-equipment.css'
@@ -589,7 +589,7 @@ export default function Equipment() {
           <Folio no="05" en="Equipment & Gel" />
           <h2 className="yw-h2">온열돔과 세 가지 디바이스</h2>
           <p className="yw-lead">
-            오일 대신 <InlineChip pic={PICS.chipGel} /> 디바이스마다 맞춘 전용 젤을 사용합니다.
+            오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>
         </div>
         <div className="yw-eq__nav">

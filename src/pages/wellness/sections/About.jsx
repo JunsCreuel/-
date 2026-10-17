@@ -226,10 +226,6 @@ export default function About() {
             lines={['온기로 시작해,', '손끝으로 완성합니다.']}
           />
         </div>
-        <div className="yw-story__aside">
-          <p className="yw-story__quote">그리고 다시, 용호점.</p>
-          <p className="yw-story__body">쌓아 온 관리에 새 장비와 프로그램을 더해 WELLNESS STUDIO로 새롭게 문을 열었습니다.</p>
-        </div>
       </div>
 
       <ul className="yw-wrap yw-story__nums">
