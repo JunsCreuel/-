@@ -24,14 +24,6 @@
   line-height: 0.9;
 }
 
-.yw-voices__lead {
-  max-width: 30ch;
-  margin: 1.1rem 0 0;
-  color: var(--w-muted);
-  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
-  line-height: 1.7;
-  word-break: keep-all;
-}
 
 .yw-voices__stats {
   padding: clamp(1.25rem, 3vw, 1.75rem);
