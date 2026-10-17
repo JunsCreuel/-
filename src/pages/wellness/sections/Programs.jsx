@@ -375,7 +375,7 @@ export default function Programs() {
               {SHOW_TERMS && (
                 <>
                   <span className="yw-menu__nb">첫 방문가(50%)는</span>
-                  {` 할인 대상 ${SALE_COUNT}개 관리에 한해, ${OFFER_TERM_FULL}됩니다. `}
+                  {` 할인 대상 ${SALE_COUNT}개 관리에만 적용됩니다(${OFFER_TERM_FULL}). `}
                 </>
               )}
               관리 구성과 소요시간은 컨디션에 따라 달라질 수 있고, 사진은 분위기 연출용 이미지로 실제 관리 장면과 다를 수

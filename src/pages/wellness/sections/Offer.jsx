@@ -8,7 +8,7 @@ import './yw-offer.css'
 
 // No. 07 First Visit — 절취선 티켓 한 장(에스프레소 커튼 위).
 // 첫 방문 50%는 상시 할인이 아니다. 할인가(sale)가 있는 관리에만(전신 후면 관리, 풀 바디 웜업케어는 제외),
-// 첫 방문 고객 1인 1회, 첫 방문 티켓으로 예약할 때만 적용된다(data.js OFFER_TERM·OFFER_TERM_FULL).
+// 첫 방문 고객 1인 1회 한정, 티켓팅 시 첫 방문가 적용, 1회 관리 시 별도 재료 비용(data.js OFFER_TERM·OFFER_TERM_FULL).
 // 50%는 늘 'N개 관리'(SALE_COUNT)와 조건 알약(OFFER_TERM)과 한 덩어리로 보인다. 이벤트가 끝나면 data.js SHOW_OFFER를 false로 바꾸면 이 섹션이 사라진다.
 const SALE = PROGRAMS.filter((p) => p.sale)
 
@@ -143,7 +143,7 @@ function OfferTicket() {
               </span>
             </h2>
             <p className="yw-ticket__lead">
-              첫 방문 티켓으로 예약하시면 아래 {SALE_COUNT}개 관리{SHOW_PRICES ? ' 요금을' : '를'} 50% 할인해 드립니다.
+              티켓팅 시 아래 {SALE_COUNT}개 관리에 첫 방문가(50%)가 적용됩니다.
             </p>
             <p className="yw-ticket__small">
               {TICKET_NOTES.map((note, i) => (
@@ -157,7 +157,7 @@ function OfferTicket() {
 
           <div className="yw-ticket__list">
             <p id="offer-list-label" className="yw-ticket__listlabel">
-              첫 방문 티켓 적용 관리
+              첫 방문가 적용 관리
             </p>
             <ul ref={listRef} className={run ? 'is-run' : undefined} aria-labelledby="offer-list-label">
               {SALE.map((p, i) => (
@@ -189,7 +189,7 @@ function OfferTicket() {
   )
 }
 
-// 첫 방문 티켓 적용 관리 한 줄: 화면에 들어오면 i*90ms 뒤에 정가에서 첫 방문가로 1.2초 동안 내려가고(1,000원 단위), 이어 정가에 취소선이 그어진다.
+// 첫 방문가 적용 관리 한 줄: 화면에 들어오면 i*90ms 뒤에 정가에서 첫 방문가로 1.2초 동안 내려가고(1,000원 단위), 이어 정가에 취소선이 그어진다.
 // 티켓(조건이 함께 보이는 곳) 안에서만 취소선을 쓴다. 움직이는 숫자는 aria-hidden이고, 보조기기에는 '정가 130,000원, 첫 방문가 65,000원'으로 읽힌다.
 function PriceRow({ program: p, i, run }) {
   const reduced = prefersReducedMotion()

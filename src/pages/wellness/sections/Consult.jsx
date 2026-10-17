@@ -1,9 +1,9 @@
-import { OFFER_TERM, PHOTOS, SALE_COUNT, SHOW_OFFER, reserveAction, telHref } from '../data'
+import { OFFER_TERM, OFFER_TERM_NOTE, PHOTOS, SALE_COUNT, SHOW_OFFER, reserveAction, telHref } from '../data'
 import { Reveal } from '../ui'
 import '../wellness-consult.css'
 
 // 상담 예약 섹션. 모든 "예약하기" 버튼이 이 섹션(id="booking")으로 이동한다.
-// 첫 방문 50%는 상시 할인이 아니라 조건부라, 자이점 랜딩(히어로 칩·Q&A)과 같은 범위(SALE_COUNT)·조건(OFFER_TERM, 첫 방문 티켓 예약)으로 쓴다.
+// 첫 방문 50%는 상시 할인이 아니라 조건부라, 자이점 랜딩(히어로 칩·Q&A)과 같은 범위(SALE_COUNT)·조건(OFFER_TERM, OFFER_TERM_NOTE)으로 쓴다.
 // 이벤트를 내리면(SHOW_OFFER=false) 함께 빠진다.
 export default function Consult({ branch }) {
   const naver = reserveAction(branch)
@@ -31,7 +31,7 @@ export default function Consult({ branch }) {
           </Reveal>
           <Reveal as="p" delay={120} className="w-lead">
             네이버 예약 또는 전화로 원하는 관리와 일정을 문의해 주세요.
-            {SHOW_OFFER && ` 첫 방문 혜택(${SALE_COUNT}개 관리 50%)은 ${OFFER_TERM}이며, 첫 방문 티켓으로 예약하실 때 적용됩니다.`}
+            {SHOW_OFFER && ` 첫 방문 혜택(${SALE_COUNT}개 관리 50%)은 ${OFFER_TERM}이며, ${OFFER_TERM_NOTE}`}
           </Reveal>
 
           <div className="w-hero__actions">
