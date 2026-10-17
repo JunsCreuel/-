@@ -181,7 +181,6 @@ export default function Proof() {
           <h2 id="reviews-title" className="yw-display yw-voices__title">
             Review
           </h2>
-          <p className="yw-voices__lead">다녀가신 분들이 네이버에 남겨 주신 이야기를, 쓰신 그대로 옮겼습니다.</p>
         </div>
         <Stats branch={branch} />
       </div>

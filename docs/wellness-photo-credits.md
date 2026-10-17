@@ -7,7 +7,7 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 - Unsplash+(유료) 사진은 0장입니다(수집 기록의 premium·plus 표시 모두 false).
 - 사이트 푸터에 ‘일부 분위기 사진: Unsplash’를 표기했습니다.
 - 분위기 사진은 실제 매장·고객·시술 장면이 아니므로 화면에서는 대체 텍스트를 비우고(alt='') 캡션을 달지 않습니다. 원제의 ‘massage’ 같은 표현은 화면 문구에 옮기지 않았습니다.
-- 사진 22장(Unsplash ID 기준), photos 폴더 파일 59개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
+- 사진 22장(Unsplash ID 기준), photos 폴더 파일 58개. 히어로의 데스크톱·모바일은 같은 사진을 다르게 자른 것입니다.
 
 ## Unsplash 사진
 
@@ -33,7 +33,6 @@ v14 인터랙티브 리디자인(#/wellness)에서 쓰는 분위기 사진의 �
 | `menu-full-back-240.webp`, `menu-full-back-600.webp`, `menu-full-back-1200.webp` | 메뉴 06·추천 카드 | [-AakIaAPV0w](https://unsplash.com/photos/a-woman-getting-a-back-massage-at-a-spa--AakIaAPV0w) | [Simon HUMLER](https://unsplash.com/@simonhumlr) |
 | `menu-lymph-node-240.webp`, `menu-lymph-node-600.webp`, `menu-lymph-node-1200.webp` | 메뉴 07·추천 카드 | [5KY5LP_zc44](https://unsplash.com/photos/person-with-gold-ring-on-neck-5KY5LP_zc44) | [Angélica Echeverry](https://unsplash.com/@angelicaecheverry) |
 | `menu-warmup-240.webp`, `menu-warmup-600.webp`, `menu-warmup-1200.webp` | 메뉴 08·추천 카드 | [pxqnqB1DsWs](https://unsplash.com/photos/grey-towels-on-wooden-sauna-bench-pxqnqB1DsWs) | [HUUM](https://unsplash.com/@huumsauna) |
-| `chip-gel-480.webp` | 장비 문장 ‘오일 대신’ 칩 | [GeG4U-lAF10](https://unsplash.com/photos/two-viscous-liquids-overlap-on-a-neutral-background-GeG4U-lAF10) | [ibnu ihza](https://unsplash.com/@mahendra_10) |
 | `biz-still-960.webp`, `biz-still-1600.webp` | 창업 장 배경 | [lwl1sXHZ56E](https://unsplash.com/photos/a-table-topped-with-bottles-and-a-vase-filled-with-flowers-lwl1sXHZ56E) | [Iliya Jokic](https://unsplash.com/@iliya9) |
 | `closing-960.webp`, `closing-1600.webp`, `closing-2400.webp` | 마지막 장면 원형 마스크 | [T7BDc761Dbs](https://unsplash.com/photos/woman-folding-a-towel-by-a-sink-with-candle-T7BDc761Dbs) | [Christian Agbede](https://unsplash.com/@chriscreations__) |
 
