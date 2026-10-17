@@ -255,90 +255,6 @@
   }
 }
 
-/* ── 시간 알약 ────────────────────────────────────────────── */
-
-.yw-cond__time {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem 1.25rem;
-  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
-}
-
-.yw-cond__time-label {
-  color: color-mix(in srgb, var(--yw-cream) 72%, transparent);
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-}
-
-.yw-cond__pills {
-  display: flex;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.yw-cond .yw-cond__pill {
-  flex: none;
-  min-height: 2.75rem;
-  margin: 0;
-  padding: 0.55rem 1rem;
-  border: 1px solid rgb(244 237 226 / 0.5);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--yw-cream);
-  font: inherit;
-  font-size: 0.85rem;
-  line-height: 1.2;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.yw-cond .yw-cond__pill[aria-pressed='true'] {
-  border-color: var(--w-champagne);
-  background: var(--w-champagne);
-  color: var(--w-espresso);
-}
-
-.yw-cond .yw-cond__pill:active {
-  scale: 0.97;
-}
-
-.yw-cond .yw-cond__pill:focus-visible {
-  border-radius: 999px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-cond .yw-cond__pill:not([aria-pressed='true']):hover {
-    border-color: var(--yw-cream);
-    background: rgb(244 237 226 / 0.08);
-  }
-}
-
-@media (max-width: 63.99rem) {
-  .yw-cond__time {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  /* 좁은 폰에서는 한 줄 가로 스크롤(포커스 고리가 잘리지 않게 안쪽 여백을 둔다) */
-  .yw-cond__pills {
-    flex-wrap: nowrap;
-    margin: -0.3rem calc(-1 * var(--w-gutter));
-    padding: 0.3rem var(--w-gutter);
-    overflow-x: auto;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-
-  .yw-cond__pills::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 /* ── 추천 카드 ────────────────────────────────────────────── */
 
 .yw-cond .yw-cond__card {
@@ -568,25 +484,6 @@
 
 .yw-cond .yw-cond__card .yw-price__first small {
   color: var(--w-muted);
-}
-
-.yw-cond__warn {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.6rem;
-  color: var(--w-accent-deep);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.yw-cond__warn::before {
-  flex: none;
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: currentColor;
-  content: '';
 }
 
 /* 버튼 줄 */
