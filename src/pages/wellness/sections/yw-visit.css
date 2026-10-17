@@ -330,3 +330,8 @@
     scale: none;
   }
 }
+
+/* 예약 장 제목: 휴대폰에서 마지막 단어만 홀로 내려가지 않게 줄 길이를 고르게 */
+.yw-visit .yw-h2 {
+  text-wrap: balance;
+}
