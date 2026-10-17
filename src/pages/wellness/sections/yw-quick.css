@@ -1,0 +1,306 @@
+/* 히어로 간편 상담 카드(QuickConsult) — 사진 위 반투명 유리 카드, 크림 글자.
+   64rem 미만: 히어로 글 묶음 흐름 속(제목·한 줄 소개 아래), 이름·연락처 두 칸을 한 줄에.
+   64rem 이상: 첫 화면 오른쪽에 떠 있고, 바닥은 히어로 아래에서 9rem(회전 씰 배지 위)에 맞춘다.
+   입력 글자는 16px 이상(iOS가 확대하지 않게). 모션 줄이기에서는 등장 애니메이션이 없다. */
+
+.yw-hero .yw-quick {
+  display: grid;
+  gap: 0.7rem;
+  width: 100%;
+  max-width: 36rem;
+  margin-top: 1.4rem;
+  padding: clamp(1rem, 3.5vw, 1.4rem);
+  border: 1px solid rgb(244 237 226 / 0.22);
+  border-radius: 1.25rem;
+  background: rgb(42 35 32 / 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--yw-cream);
+  text-align: left;
+  animation: yw-hero-rise 0.8s var(--yw-ease) 0.6s backwards;
+}
+
+.yw-hero .yw-quick :focus-visible {
+  outline: 2px solid var(--w-champagne);
+  outline-offset: 2px;
+}
+
+.yw-quick__head {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.yw-hero .yw-quick__eyebrow {
+  margin: 0;
+  color: var(--w-champagne);
+  font: 400 0.68rem/1.3 var(--w-font-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.wellness .yw-hero .yw-quick__title {
+  margin: 0;
+  color: var(--yw-cream);
+  font: 500 clamp(1.1rem, 4vw, 1.3rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+.yw-hero .yw-quick__sub {
+  margin: 0;
+  color: rgb(244 237 226 / 0.78);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* 상담 종류: 두 칸 알약 스위치(라디오) */
+.yw-quick__kinds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.25rem;
+  border: 1px solid rgb(244 237 226 / 0.25);
+  border-radius: 999px;
+}
+
+.yw-quick__kind {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 2.5rem;
+  border-radius: 999px;
+  color: rgb(244 237 226 / 0.85);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.yw-quick__kind input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.yw-quick__kind.is-on {
+  background: var(--w-champagne);
+  color: var(--w-espresso);
+}
+
+.yw-quick__kind:has(input:focus-visible) {
+  outline: 2px solid var(--w-champagne);
+  outline-offset: 2px;
+}
+
+/* 이름 · 연락처 */
+.yw-quick__fields {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 0.5rem;
+}
+
+.yw-hero .yw-quick__input {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.9rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgb(244 237 226 / 0.32);
+  border-radius: 0.8rem;
+  background: rgb(255 255 255 / 0.08);
+  color: var(--yw-cream);
+  font: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.yw-hero .yw-quick__input::placeholder {
+  color: rgb(244 237 226 / 0.62);
+}
+
+.yw-hero .yw-quick__input:focus {
+  border-color: var(--w-champagne);
+  background: rgb(255 255 255 / 0.12);
+}
+
+.yw-hero .yw-quick__input[aria-invalid='true'] {
+  border-color: #f0a58f;
+}
+
+/* 동의 한 줄 + 보기 */
+.yw-quick__agree {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.yw-quick__agree label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  cursor: pointer;
+}
+
+.yw-quick__agree input {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--w-champagne);
+}
+
+.yw-quick__more {
+  flex: none;
+  min-width: 2.75rem;
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(244 237 226 / 0.85);
+  font: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.yw-hero .yw-quick__terms {
+  margin: -0.2rem 0 0;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.7rem;
+  background: rgb(0 0 0 / 0.22);
+  color: rgb(244 237 226 / 0.82);
+  font-size: 0.76rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.yw-hero .yw-quick__error {
+  margin: -0.25rem 0 0;
+  color: #f6c2b3;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.yw-hero .yw-quick__error:empty {
+  display: none;
+}
+
+.yw-hero .yw-quick__submit {
+  width: 100%;
+  min-height: 3rem;
+}
+
+/* 접수 뒤 안내 */
+.yw-hero .yw-quick--done {
+  gap: 0.6rem;
+}
+
+.yw-quick__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.2rem;
+}
+
+.yw-hero .yw-quick__go {
+  min-height: 2.9rem;
+  padding-inline: 1.4rem;
+}
+
+.yw-hero .yw-quick__link,
+.yw-hero .yw-quick__tel {
+  color: var(--yw-cream);
+  font-family: var(--w-font-label);
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.yw-hero .yw-quick__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.9rem;
+}
+
+.yw-hero .yw-quick__tel {
+  justify-self: start;
+  font-size: 1.35rem;
+}
+
+.yw-quick__again {
+  justify-self: start;
+  min-height: 2.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(244 237 226 / 0.7);
+  font: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-quick__kind:not(.is-on):hover {
+    background: rgb(244 237 226 / 0.12);
+  }
+
+  .yw-quick__more:hover,
+  .yw-quick__again:hover {
+    color: var(--yw-cream);
+  }
+}
+
+/* 휴대폰: 한 줄 소개를 빼고 간격을 줄여 첫 화면 안에 들어오게 한다 */
+@media (max-width: 47.99rem) {
+  .yw-hero .yw-quick {
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+  }
+
+  .yw-hero .yw-quick:not(.yw-quick--done) .yw-quick__sub {
+    display: none;
+  }
+
+  .yw-quick__head {
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+}
+
+/* 데스크톱: 첫 화면 오른쪽에 띄운다. 글 묶음(.yw-hero__text) 기준이라 바닥은 9rem − 글 묶음 바닥 높이만큼 올린다. */
+@media (min-width: 64rem) {
+  .yw-hero .yw-quick {
+    position: absolute;
+    right: var(--w-gutter);
+    bottom: calc(9rem - clamp(6rem, 14vh, 9rem));
+    width: clamp(19rem, 26vw, 23rem);
+    margin: 0;
+    padding: 1.4rem 1.4rem 1.25rem;
+  }
+
+  .yw-quick__fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-hero .yw-quick {
+    animation: none;
+  }
+}

@@ -16,14 +16,9 @@ function pic(name, widths, ratio) {
 }
 
 export const PICS = {
-  heroWarm: pic('hero-warm', [960, 1600, 2400], 3 / 2),
-  heroWarmM: pic('hero-warm-m', [720, 1080], 2 / 3),
-  chipWarm: pic('chip-warm', [320], 1),
-  chipCare: pic('chip-care', [320], 1),
-  chipScalp: pic('chip-scalp', [320], 1),
-  chipFace: pic('chip-face', [320], 1),
-  chipBody: pic('chip-body', [320], 1),
-  chipRest: pic('chip-rest', [320], 1),
+  // 히어로: 햇살 든 아마 천과 나무 결(밝은 사진, v20)
+  heroWarm: pic('hero-light', [960, 1600, 2400], 3 / 2),
+  heroWarmM: pic('hero-light-m', [720, 1080], 2 / 3),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
@@ -38,13 +33,12 @@ export const PICS = {
   menuScalpDetox: pic('menu-scalp-detox', [240, 600, 1200], 4 / 5),
   menuScalpFace: pic('menu-scalp-face', [240, 600, 1200], 4 / 5),
   menuBackLymph: pic('menu-back-lymph', [240, 600, 1200], 4 / 5),
-  menuAbdomen: pic('menu-abdomen', [240, 600, 1200], 4 / 5),
-  menuLower: pic('menu-lower', [240, 600, 1200], 4 / 5),
+  menuAbdomen: pic('menu-belly', [240, 600, 1200], 4 / 5),
+  menuLower: pic('menu-legcare', [240, 600, 1200], 4 / 5),
   menuFullBack: pic('menu-full-back', [240, 600, 1200], 4 / 5),
   menuLymphNode: pic('menu-lymph-node', [240, 600, 1200], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   chipGel: pic('chip-gel', [480], 3 / 2),
-  faqArch: pic('faq-arch', [600, 900], 3 / 4),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
   // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
@@ -92,10 +86,13 @@ export const won = (n) => `${n.toLocaleString('ko-KR')}원`
 // 첫 방문 이벤트 노출 여부. 이벤트가 끝나면 false로 바꿔 히어로 칩, 가격 줄의 첫 방문가, 첫 방문 티켓을 한 번에 내린다.
 export const SHOW_OFFER = true
 
-// 첫 방문 50%의 적용 조건. 상시 할인이 아니라 첫 방문 고객 1인 1회, 첫 방문 티켓으로 예약할 때만 적용된다.
+// 첫 방문 50%의 적용 조건(사장님 문구). 상시 할인이 아니라 첫 방문 고객 1인 1회 한정이고, 티켓팅 시 첫 방문가가 적용되며
+// 1회 관리 시에는 별도 재료 비용이 발생한다.
 // 50%·첫 방문가가 보이는 곳에는 짧은 조건(OFFER_TERM)을 늘 함께 쓰고, 각주·티켓에는 전체 조건(OFFER_TERM_FULL)을 쓴다.
+// OFFER_TERM_NOTE는 FAQ처럼 문장으로 풀어 쓰는 곳에서 OFFER_TERM 뒤에 잇는다.
 export const OFFER_TERM = '첫 방문 1인 1회 한정'
-export const OFFER_TERM_FULL = '첫 방문 고객 1인 1회 한정 · 첫 방문 티켓으로 예약 시 적용'
+export const OFFER_TERM_FULL = '첫 방문 고객 1인 1회 한정 · 티켓팅 시 첫 방문가 적용 · 1회 관리 시 별도 재료 비용 발생'
+export const OFFER_TERM_NOTE = '티켓팅 시 첫 방문가가 적용되고, 1회 관리 시에는 별도 재료 비용이 발생합니다.'
 
 // 프로그램 메뉴(가격은 네이버 예약 기준). sale이 있으면 첫 방문 50% 할인가이고, 없으면 할인 대상이 아니다.
 // title은 네이버 메뉴명이라 바꾸지 않는다. 화면 표시는 label을 쓰고, 표시명을 바꿀 때는 label만 고친다.
