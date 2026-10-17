@@ -128,7 +128,7 @@ function MenuFrame({ frame, imgRefs, onWiped }) {
 }
 
 // 05 Menu: 호텔 스파 메뉴판처럼 8개 관리를 한 줄씩 훑는다. 줄에는 이름 · 소요 시간 / 정가 · 첫 방문가만 둔다.
-// 첫 방문가(50%)는 상시 할인이 아니라 조건부라, 목록 위 안내 · 펼친 패널 · 각주에 조건(OFFER_TERM_FULL)을 함께 쓴다.
+// 첫 방문가(50%)는 상시 할인이 아니라 조건부라, 목록 위 안내와 각주에 조건(OFFER_TERM_FULL)을 함께 쓴다.
 // 데스크톱(64rem 이상)은 왼쪽 sticky 프레임 사진이 활성 줄(마우스·포커스·화면 가운데 줄)을 따라 와이프로 바뀐다.
 // 모바일·태블릿은 줄에 사진을 두지 않고, 펼치면 사진이 위에서 아래로 열린다.
 export default function Programs() {
@@ -337,10 +337,7 @@ export default function Programs() {
                                 {sale && (
                                   <>
                                     {' · '}
-                                    <b className="yw-menu__nb">첫 방문가 {won(p.sale)}</b>{' '}
-                                    <span className="yw-menu__fare-term">
-                                      <Terms />
-                                    </span>
+                                    <b className="yw-menu__nb">첫 방문가 {won(p.sale)}</b>
                                   </>
                                 )}
                               </p>
