@@ -442,32 +442,6 @@
   font-weight: 500;
 }
 
-/* 조건 줄은 목록 위 안내 · 소요 시간과 같은 0.8rem */
-.yw-menu__fare-term {
-  display: block;
-  margin-top: 0.1rem;
-  color: var(--w-muted);
-  font-size: 0.8rem;
-}
-
-/* 글 칸이 조건 줄 한 줄(약 19.3rem)보다 좁으면(360px 미만 휴대폰, 640~730px 태블릿의 사진 옆 칸)
-   목록 위 안내처럼 두 덩어리를 쌓고 가운뎃점은 눈에만 숨긴다 */
-@container (max-width: 20.5rem) {
-  .yw-menu__fare-term .yw-menu__nb {
-    display: block;
-  }
-
-  .yw-menu__fare-term .yw-menu__sep {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-}
-
 .yw-menu__actions {
   display: flex;
   flex-wrap: wrap;
