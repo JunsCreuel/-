@@ -71,7 +71,7 @@
   transform: rotate(-90deg);
   transform-box: fill-box;
   transform-origin: center;
-  transition: stroke-dashoffset 2s var(--yw-ease);
+  transition: stroke-dashoffset 1s var(--yw-ease);
 }
 
 .yw-biz__orbit.is-in circle {

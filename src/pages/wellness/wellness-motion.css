@@ -555,7 +555,7 @@
 /* 입력이 다 차서 다음으로 갈 수 있을 때 버튼이 숨 쉬듯 반짝, 선택지를 고르면 톡 튀어나온다 */
 
 .w-submit.is-ready {
-  animation: w-pulse 2.2s ease-out infinite;
+  animation: none;
 }
 
 @keyframes w-pulse {

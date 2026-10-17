@@ -319,7 +319,7 @@
   color: var(--w-bronze);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .yw-ritual__nudge svg {
@@ -330,7 +330,7 @@
 
 .yw-ritual.is-hint .yw-ritual__nudge {
   opacity: 1;
-  animation: yw-ritual-nudge 1.4s var(--yw-ease) 0.35s 1 both;
+  animation: yw-ritual-nudge 0.6s var(--yw-ease) 0.2s 1 both;
 }
 
 @keyframes yw-ritual-nudge {

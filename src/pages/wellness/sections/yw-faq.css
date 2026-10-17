@@ -81,7 +81,7 @@
 
 /* 탭을 바꾸면 질문들이 60ms 간격으로 짧게 올라온다 */
 .yw-faq__list.is-switched .yw-faq__item {
-  animation: yw-faq-rise 0.45s var(--yw-ease) both;
+  animation: yw-faq-rise 0.25s var(--yw-ease) both;
   animation-delay: calc(var(--i, 0) * 60ms);
 }
 
@@ -113,7 +113,7 @@
   font-size: clamp(1.05rem, 1.5vw, 1.3rem);
   line-height: 1.55;
   letter-spacing: -0.01em;
-  transition: background-size 0.4s var(--yw-ease);
+  transition: background-size 0.2s var(--yw-ease);
 }
 
 .yw-faq__item > summary:focus-visible .yw-faq__q {
