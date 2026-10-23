@@ -4,7 +4,6 @@
    모션 줄이기면 선은 완성 상태(--p:1), 궤도는 멈춘다. */
 
 .yw-biz {
-  --yw-pad: clamp(4.5rem, 12vh, 9rem); /* 창업 섹션은 기존 여백 그대로 */
   overflow: clip;
 }
 
