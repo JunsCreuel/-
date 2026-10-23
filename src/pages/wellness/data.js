@@ -91,6 +91,32 @@ export const SHOW_OFFER = true
 // OFFER_TERM_NOTE는 FAQ처럼 문장으로 풀어 쓰는 곳에서 OFFER_TERM 뒤에 잇는다.
 export const OFFER_TERM = '첫 방문 1인 1회 한정'
 export const OFFER_TERM_FULL = '첫 방문 고객 1인 1회 한정 · 티켓팅 시 첫 방문가 적용 · 1회 관리 시 별도 재료 비용 발생'
+
+// 첫 화면 이벤트 팝업(EventPopups.jsx). 끄려면 SHOW_POPUPS를 false로, 기간이 있으면 until('YYYY-MM-DD', 그날까지 표시)을 넣는다.
+// to는 '자세히 보기'로 내려갈 섹션 id다.
+export const SHOW_POPUPS = true
+export const EVENT_POPUPS = [
+  {
+    id: 'first-visit',
+    pic: 'bizStill',
+    eyebrow: '첫 방문 이벤트',
+    title: '6개 관리 50%',
+    text: OFFER_TERM_FULL,
+    cta: '이벤트 보기',
+    to: 'offer',
+    until: null,
+  },
+  {
+    id: 'dome-solo',
+    pic: 'menuWarmup',
+    eyebrow: '국산 명신메디칼 온열돔',
+    title: '온열돔 단독 이용',
+    text: '편하게 누운 채 40분, 온열돔만 따로 이용하실 수 있어요.',
+    cta: '온열돔 보기',
+    to: 'equipment',
+    until: null,
+  },
+]
 export const OFFER_TERM_NOTE = '티켓팅 시 첫 방문가가 적용되고, 1회 관리 시에는 별도 재료 비용이 발생합니다.'
 
 // 프로그램 메뉴(가격은 네이버 예약 기준). sale이 있으면 첫 방문 50% 할인가이고, 없으면 할인 대상이 아니다.
