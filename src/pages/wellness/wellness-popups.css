@@ -50,8 +50,18 @@
 
 .yw-pop__photo {
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1;
   overflow: hidden;
+}
+
+/* 이미지에 없는 조건(할인 조건 등) 한 줄 */
+.yw-pop__note {
+  display: block;
+  padding: 0.6rem 0.9rem;
+  color: var(--w-muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  word-break: keep-all;
 }
 
 .wellness .yw-pop__photo img {
@@ -59,38 +69,6 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-}
-
-.yw-pop__text {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1.1rem 1.2rem 1.25rem;
-}
-
-.yw-pop__eyebrow {
-  color: var(--w-accent-deep);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.yw-pop__title {
-  font: 500 1.6rem/1.25 var(--w-font-serif);
-  letter-spacing: -0.02em;
-}
-
-.yw-pop__desc {
-  color: var(--w-muted);
-  font-size: 0.85rem;
-  line-height: 1.6;
-  word-break: keep-all;
-}
-
-.yw-pop__cta {
-  margin-top: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
 }
 
 .yw-pop__foot {
@@ -179,6 +157,7 @@
   .yw-pop__list {
     grid-auto-flow: column;
     grid-auto-columns: 20rem;
+    align-items: start;
     gap: 1rem;
   }
 
