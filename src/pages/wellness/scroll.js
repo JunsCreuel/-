@@ -1,3 +1,5 @@
+import { SECTION_PAGE } from './pages'
+
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
@@ -14,10 +16,70 @@ function offsetFromTarget(el) {
   return el.getBoundingClientRect().top - ty - (parseFloat(cs.scrollMarginTop) || 0)
 }
 
+// ── 페이지 사이 이동 ──────────────────────────────────────
+// 메뉴·버튼은 섹션 id로 부르고, 그 섹션이 지금 페이지에 없으면 실린 페이지(pages.js SECTION_PAGE)로 옮겨 간 뒤 내려간다.
+// 라우터의 navigate는 WellnessLayout이 등록한다. 옮겨 간 페이지가 그려지면 WellnessLayout이 arrivePage()로 남은 일을 끝낸다.
+let navigator = null
+let pending = null
+
+export function setNavigator(fn) {
+  navigator = fn
+  return () => {
+    if (navigator === fn) navigator = null
+  }
+}
+
+const currentPath = () => window.location.hash.replace(/^#/, '').split(/[?#]/)[0] || '/'
+
+// path로 옮겨 가고, 도착하면 onArrive를 부른다(없으면 맨 위에서 시작). 이미 그 페이지면 바로 부른다.
+export function goToPage(path, onArrive) {
+  if (currentPath() === path || !navigator) {
+    if (onArrive) onArrive()
+    else scrollToTop()
+    return
+  }
+  pending = onArrive || null
+  navigator(path)
+}
+
+// 새 페이지가 그려진 뒤 WellnessLayout이 부른다. 남은 일이 없으면 맨 위에서 시작한다.
+export function arrivePage() {
+  const run = pending
+  pending = null
+  if (run) run()
+  else window.scrollTo(0, 0)
+}
+
+// 도착한 페이지에서 섹션으로 곧장 옮긴다(부드럽게 내려가지 않는다). 웹폰트가 늦게 적용돼 위쪽 높이가 바뀌면 한 번 더 맞춘다.
+function jumpToId(id) {
+  const el = document.getElementById(id)
+  if (!el) {
+    window.scrollTo(0, 0)
+    return
+  }
+  el.scrollIntoView({ block: 'start' })
+  const align = () => {
+    const off = offsetFromTarget(el)
+    if (Math.abs(off) > 6) window.scrollTo({ top: window.scrollY + off, behavior: 'auto' })
+  }
+  document.fonts?.ready.then(align)
+  setTimeout(align, 400)
+}
+
+// 메뉴 항목(WellnessLayout NAV_ITEMS): page가 있으면 그 페이지 맨 위로, section이 있으면 그 섹션으로, 둘 다 없으면 같은 페이지 안의 id로 간다.
+export function goToMenu(item) {
+  if (item.section) scrollToId(item.section)
+  else if (item.page) goToPage(item.page)
+  else scrollToId(item.id)
+}
+
 // HashRouter에서는 #id 링크가 라우트를 깨뜨리므로 스크롤은 직접 처리한다.
 export function scrollToId(id) {
   const el = document.getElementById(id)
-  if (!el) return
+  if (!el) {
+    if (SECTION_PAGE[id]) goToPage(SECTION_PAGE[id], () => jumpToId(id))
+    return
+  }
   const smooth = !prefersReducedMotion()
   el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' })
   if (!smooth) return
@@ -73,10 +135,15 @@ export function lockPageScroll() {
 // area는 data.js AREAS 문자열과 정확히 같아야 한다. 예약 장 간편 상담 카드(QuickConsult listen)가 window 'w:pick' 이벤트를 받아 '관심 관리'로 붙인다.
 // 한 열 화면(64rem 미만)에서는 상담 폼이 원형 연락 버튼·영업시간·주소 아래에 있어, 예약 장 머리로 가면 미리 고른 칩과 맥박이 화면 밖에 남는다.
 // 폼이 장 머리보다 화면 절반 넘게 아래에 있으면 폼(#booking-form)으로 바로 내려간다.
+// 예약 장이 다른 페이지에 있으면 그 페이지로 옮겨 가 간편 상담 카드가 그려진 뒤에 넘기고, 내려가지 않고 곧장 그 자리에서 시작한다.
 export function pickForBooking({ area, programId, label } = {}) {
-  window.dispatchEvent(new CustomEvent('w:pick', { detail: { area, programId, label } }))
-  const section = document.getElementById('booking')
-  const form = document.getElementById('booking-form')
-  const stacked = section && form && form.getBoundingClientRect().top - section.getBoundingClientRect().top > window.innerHeight * 0.5
-  scrollToId(stacked ? 'booking-form' : 'booking')
+  const pick = (move) => {
+    window.dispatchEvent(new CustomEvent('w:pick', { detail: { area, programId, label } }))
+    const section = document.getElementById('booking')
+    const form = document.getElementById('booking-form')
+    const stacked = section && form && form.getBoundingClientRect().top - section.getBoundingClientRect().top > window.innerHeight * 0.5
+    move(stacked ? 'booking-form' : 'booking')
+  }
+  if (document.getElementById('booking')) pick(scrollToId)
+  else goToPage(SECTION_PAGE.booking, () => pick(jumpToId))
 }

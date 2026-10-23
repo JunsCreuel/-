@@ -1,27 +1,31 @@
 import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import CursorLayer from './CursorLayer'
 import EventPopups from './EventPopups'
-import { BRANCHES } from './data'
+import { BRANCHES, SHOW_OFFER } from './data'
 import FloatingInquiry from './FloatingInquiry'
 import { ScrollProgress } from './MotionParts'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
+import { PAGES } from './pages'
+import { arrivePage, setNavigator } from './scroll'
 import './wellness.css'
 
-// nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다. bar: true인 항목만 상단 바 메뉴 줄에 나오고, 전체 목록은 햄버거 패널과 푸터에 쓴다.
+// 메뉴 항목. page는 옮겨 갈 하위 페이지(맨 위에서 시작), section은 옮겨 간 뒤 내려갈 섹션 id다(pages.js).
+// page·section이 없는 항목(마린시티점)은 같은 페이지 안의 섹션 id로 내려간다.
+// bar: true인 항목만 상단 바 메뉴 줄에 나오고, 전체 목록은 햄버거 패널과 푸터에 쓴다.
 const NAV_ITEMS = {
   zai: [
-    { id: 'about', label: '브랜드', bar: true },
-    { id: 'programs', label: '관리 프로그램', bar: true },
-    { id: 'equipment', label: '장비', bar: true },
-    { id: 'offer', label: '이벤트', bar: true },
-    { id: 'reviews', label: '후기', bar: true },
-    { id: 'branches', label: '지점 안내', bar: true },
-    { id: 'startup', label: '창업', bar: true },
-    { id: 'faq', label: '자주 묻는 질문' },
-    { id: 'booking', label: '상담 예약' },
+    { id: 'about', label: '브랜드', bar: true, page: PAGES.brand },
+    { id: 'programs', label: '관리 프로그램', bar: true, page: PAGES.program },
+    { id: 'equipment', label: '장비', bar: true, page: PAGES.equipment },
+    ...(SHOW_OFFER ? [{ id: 'offer', label: '이벤트', bar: true, page: PAGES.event }] : []),
+    { id: 'reviews', label: '후기', bar: true, page: PAGES.review },
+    { id: 'branches', label: '지점 안내', bar: true, page: PAGES.location },
+    { id: 'startup', label: '창업', bar: true, page: PAGES.startup },
+    { id: 'faq', label: '자주 묻는 질문', page: PAGES.location, section: 'faq' },
+    { id: 'booking', label: '상담 예약', page: PAGES.location, section: 'booking' },
   ],
   marine: [
     { id: 'intro', label: '소개' },
@@ -78,15 +82,20 @@ export default function WellnessLayout() {
     document.title = `예뻐졌다 WELLNESS STUDIO ${branch.label} | 온열돔·두피·바디 관리`
   }, [branch.label])
 
-  // 지점 페이지를 오갈 때 항상 맨 위에서 시작한다.
+  // 메뉴·버튼이 다른 페이지의 섹션을 부르면 scroll.js가 이 navigate로 옮겨 간다.
+  const navigate = useNavigate()
+  useEffect(() => setNavigator(navigate), [navigate])
+
+  // 페이지를 옮기면 맨 위에서 시작한다. 다른 페이지의 섹션을 불러 옮겨 왔으면 그 섹션으로 간다.
+  // 자식(페이지)의 effect가 먼저 돌아, 이때는 간편 상담 카드의 'w:pick' 수신도 이미 붙어 있다.
   useEffect(() => {
-    window.scrollTo(0, 0)
+    arrivePage()
   }, [pathname])
 
   return (
     <div className="wellness">
       <ScrollProgress />
-      <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} />
+      <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} pathname={pathname} />
       <main>
         <Outlet />
       </main>
