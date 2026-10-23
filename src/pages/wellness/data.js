@@ -73,10 +73,9 @@ export const PHOTOS = {
 export const PARENT_STORE_COUNT = 40
 
 // 창업 비용: 확정되어 공개하는 금액만, 사장님이 확인해 준 그대로 적는다(계산기·예상 수익은 두지 않는다).
-// 로열티는 매달 50만원, 고정 금액(사장님 확인).
-// 가맹비 등 다른 항목도 금액이 확정되면 여기에 줄을 더하면 창업 장 '창업 비용 안내' 카드에 나온다.
-// 창업 FAQ의 '로열티는 얼마인가요?'는 id 'royalty' 줄을 읽는다.
-export const STARTUP_COSTS = [{ id: 'royalty', label: '로열티', amount: '월 50만원', note: '고정' }]
+// 지금은 공개하는 금액이 없어 비어 있고, 비어 있으면 창업 장 '창업 비용 안내' 카드와 창업 FAQ의 로열티 문답이 함께 사라진다.
+// 금액이 확정되면 { id, label, amount, note } 줄을 더한다. id 'royalty' 줄이 있으면 FAQ '로열티는 얼마인가요?'가 그 값을 읽는다.
+export const STARTUP_COSTS = []
 export const STARTUP_COSTS_NOTE = '그 밖의 창업 비용은 확정된 금액으로 공개할 예정이며, 지금은 상담에서 안내해 드립니다.'
 
 // 프로그램 가격을 화면에 보일지 여부. false로 바꾸면 프로그램 카드와 이벤트 안내에서 금액이 모두 사라진다.
