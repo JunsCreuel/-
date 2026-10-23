@@ -1,7 +1,7 @@
 import { BRANCHES, BRAND_STORY, PICS, PROGRAMS } from '../data'
 import { Folio, ParenLink, Pic } from '../editorial'
 import { PAGES, pageHref } from '../pages'
-import { scrollToId } from '../scroll'
+import { openProgram, scrollToId } from '../scroll'
 import './yw-home.css'
 
 // 메인 전용 짧은 블록. 자세한 내용은 하위 페이지(pages.js)에 있고, 여기서는 한눈에 보고 넘어가게만 한다.
@@ -21,7 +21,8 @@ export function HomeIntro() {
   )
 }
 
-// 관리 프로그램 사진 카드. 카드를 누르면 관리 프로그램(가격표) 페이지로 간다.
+// 관리 프로그램 사진 카드. 카드를 누르면 관리 프로그램(가격표) 페이지에서 그 관리를 펼쳐 보여 준다.
+// 새 탭으로 열면(href) 관리 프로그램 페이지 맨 위에서 시작한다.
 export function HomePrograms() {
   return (
     <section id="programs" className="yw-section yw-hprog" data-theme="light" aria-labelledby="hprog-title">
@@ -38,7 +39,15 @@ export function HomePrograms() {
         <ul className="yw-hprog__list">
           {PROGRAMS.map((p) => (
             <li key={p.id}>
-              <a className="yw-pcard" href={pageHref(PAGES.program)}>
+              <a
+                className="yw-pcard"
+                href={pageHref(PAGES.program)}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+                  e.preventDefault()
+                  openProgram(p.id)
+                }}
+              >
                 <Pic pic={PICS[p.pic]} sizes="(min-width: 64rem) 22vw, 46vw" />
                 <span className="yw-pcard__group">{p.group}</span>
                 <span className="yw-pcard__name">{p.label}</span>
