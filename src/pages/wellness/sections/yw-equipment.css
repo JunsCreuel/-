@@ -234,6 +234,39 @@
   line-height: 1.6;
 }
 
+/* 온열돔 제조사 줄과 정보 표(제조·방식·설계·이용·이런 분께) */
+.yw-eq__maker {
+  margin: 0 0 0.35rem;
+  color: var(--w-accent-deep);
+  font: 500 0.75rem/1.4 var(--w-font-label);
+  letter-spacing: 0.14em;
+}
+
+.yw-eq__facts {
+  margin: 1rem 0 0.25rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.yw-eq__facts > div {
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-block: 0.55rem;
+  border-bottom: 1px solid var(--w-line);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.yw-eq__facts dt {
+  color: var(--w-muted);
+}
+
+.yw-eq__facts dd {
+  margin: 0;
+  color: var(--w-ink);
+  word-break: keep-all;
+}
+
 /* ── 카드 1: 전신 온열돔(누끼) ──────────────────────────────
    디바이스 카드 사진 면과 같은 흰 바탕 위에 가로로 긴 누끼(약 1.84:1)를 프레임 폭의 82%로 앉히고, 옅은 바닥 그림자로 세운다.
    4:3 프레임의 남는 위아래는 패딩(폭 기준 %)으로 나누되, 아래를 조금 더 두어 그림자가 들어갈 자리를 남긴다. */
