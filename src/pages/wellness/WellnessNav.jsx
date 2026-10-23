@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { OPEN_BRANCHES, telHref } from './data'
 import { onScrollFrame } from './motion'
-import { goToMenu, lockPageScroll, scrollToId, scrollToTop } from './scroll'
+import { lockPageScroll, scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
 // 상단 바: 왼쪽 로고, 가운데 주요 메뉴(넓은 화면), 오른쪽 상담 예약 버튼.
 // 좁은 화면에서는 햄버거로 전체 메뉴 패널을 연다. bar: true인 항목만 상단 메뉴 줄에 나온다.
 // 바로 아래에 있는 섹션의 data-theme('dark' | 'light')을 따라 header[data-theme]가 바뀐다(어두운 장 위에서는 크림 글자).
-export default function WellnessNav({ branch, items, pathname }) {
+export default function WellnessNav({ branch, items }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const burgerRef = useRef(null)
@@ -84,14 +84,6 @@ export default function WellnessNav({ branch, items, pathname }) {
     scrollToId(id)
   }
 
-  function goToItem(item) {
-    setMenuOpen(false)
-    goToMenu(item)
-  }
-
-  // 지금 보고 있는 하위 페이지의 메뉴(섹션으로 내려가는 항목은 빼고)
-  const current = (item) => (item.page && !item.section && item.page === pathname ? 'page' : undefined)
-
   // 오픈한 지점이 하나뿐이면 지점 선택은 보이지 않는다.
   const hasChoice = OPEN_BRANCHES.length > 1
   const barItems = items.some((i) => i.bar) ? items.filter((i) => i.bar) : items
@@ -114,7 +106,7 @@ export default function WellnessNav({ branch, items, pathname }) {
 
           <nav className="w-nav__menu" aria-label="주요 메뉴">
             {barItems.map((item) => (
-              <button key={item.id} type="button" aria-current={current(item)} onClick={() => goToItem(item)}>
+              <button key={item.id} type="button" onClick={() => goTo(item.id)}>
                 {item.label}
               </button>
             ))}
@@ -159,7 +151,7 @@ export default function WellnessNav({ branch, items, pathname }) {
               )}
               <div className="w-nav__panel-items">
                 {items.map((item, i) => (
-                  <button key={item.id} type="button" aria-current={current(item)} onClick={() => goToItem(item)}>
+                  <button key={item.id} type="button" onClick={() => goTo(item.id)}>
                     <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                     {item.label}
                   </button>
