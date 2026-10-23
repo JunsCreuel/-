@@ -11,6 +11,16 @@ import './yw-equipment.css'
 // '성분 보기'를 누르면 그 기기에 쓰는 젤의 성분 시트가 열린다.
 // 화장품·기기 광고 기준에 맞춰 사용 장면과 성분 출처만 적고 효능은 쓰지 않는다.
 
+// 온열돔 정보: 명신메디칼(1998년 설립, 광주 원적외선 온열기 제조사) 국산 돔형 온열기. 출처는 제조사 인터뷰 기사.
+// 효능 표현(통증·비만·면역 등)은 쓰지 않고 방식·제조·이용 정보만 적는다.
+const DOME_FACTS = [
+  ['제조', '(주)명신메디칼 · 국내 제조'],
+  ['방식', '탄소 면상발열체로 몸 전체를 감싸는 원적외선 온열'],
+  ['설계', '특허 면상발열체 기술 · 전원부 발열을 줄인 안전 설계'],
+  ['이용', '편하게 누운 채 40분'],
+  ['이런 분께', '몸이 쉽게 차가워지거나, 따뜻하게 쉬어 가고 싶은 분'],
+]
+
 // 온열돔 이용 방식. 버튼을 누르면 상담 폼 1단계가 '온열 웜업'으로 미리 선택된 채 예약 장으로 내려간다.
 const DOME_USES = [
   { id: 'solo', label: '단독 이용', text: '온열돔만 편안하게 이용합니다.', cta: '온열돔 단독 이용 상담' },
@@ -166,8 +176,17 @@ function DomeCard() {
             <span className="yw-eq__dot"> · </span>
             <span className="yw-eq__en">WARM UP</span>
           </p>
+          <p className="yw-eq__maker">MYUNGSHIN MEDICAL · MADE IN KOREA</p>
           <h3 className="yw-eq__name">전신 온열돔</h3>
-          <p className="yw-eq__sub">누워서 쉬어 가는 전신 온열</p>
+          <p className="yw-eq__sub">국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
+          <dl className="yw-eq__facts">
+            {DOME_FACTS.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
           <div className="yw-eq__uses" role="radiogroup" aria-label="온열돔 이용 방식" onKeyDown={onRadioKey}>
             {DOME_USES.map((u, i) => (
               <button
