@@ -56,6 +56,12 @@ export default function WellnessFooter({ items }) {
               <p>
                 영업시간 : {SHOW_MARINE && `${zai.label} `}
                 {zai.hours}
+                {SHOW_MARINE && marine.hours && (
+                  <>
+                    <span className="w-footer__sep" aria-hidden="true">|</span>
+                    {marine.label} {marine.hours}
+                  </>
+                )}
               </p>
             </div>
 
