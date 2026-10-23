@@ -29,7 +29,8 @@ function hideForDay(id) {
 
 function activePopups() {
   const now = Date.now()
-  const today = new Date().toISOString().slice(0, 10)
+  const d = new Date() // 방문자 기기 시간 기준 날짜(한국은 KST)
+  const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
   return EVENT_POPUPS.filter((p) => (!p.until || today <= p.until) && hiddenUntil(p.id) < now)
 }
 
