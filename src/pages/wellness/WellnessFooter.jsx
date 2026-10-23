@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, reserveAction, SHOW_MARINE_INFO, telHref } from './data'
-import { goToMenu } from './scroll'
+import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
 // 약관·방침 문서. 눌리지 않는 글자는 링크처럼 오해되므로 href가 있는 항목만 보여 준다.
@@ -81,7 +81,7 @@ export default function WellnessFooter({ items }) {
               <ul className="w-footer__col">
                 {items.map((item) => (
                   <li key={item.id}>
-                    <button type="button" onClick={() => goToMenu(item)}>
+                    <button type="button" onClick={() => scrollToId(item.id)}>
                       {item.label}
                     </button>
                   </li>

@@ -14,16 +14,7 @@ import About from './pages/About'
 import WellnessLayout from './pages/wellness/WellnessLayout'
 import WellnessHome from './pages/wellness/WellnessHome'
 import WellnessMarine from './pages/wellness/WellnessMarine'
-import {
-  BrandPage,
-  EquipmentPage,
-  EventPage,
-  LocationPage,
-  ProgramPage,
-  ReviewPage,
-  StartupPage,
-} from './pages/wellness/WellnessPages'
-import { MARINE_OPEN, SHOW_OFFER } from './pages/wellness/data'
+import { MARINE_OPEN } from './pages/wellness/data'
 
 export default function App() {
   return (
@@ -68,13 +59,6 @@ export default function App() {
           {/* 예뻐졌다 웰니스스튜디오 랜딩 — 기존 앱의 Layout(nav/footer) 밖에서 자체 레이아웃 사용 */}
           <Route path="wellness" element={<WellnessLayout />}>
             <Route index element={<WellnessHome />} />
-            <Route path="brand" element={<BrandPage />} />
-            <Route path="program" element={<ProgramPage />} />
-            <Route path="equipment" element={<EquipmentPage />} />
-            <Route path="event" element={SHOW_OFFER ? <EventPage /> : <Navigate to="/wellness" replace />} />
-            <Route path="review" element={<ReviewPage />} />
-            <Route path="location" element={<LocationPage />} />
-            <Route path="startup" element={<StartupPage />} />
             <Route path="marine" element={MARINE_OPEN ? <WellnessMarine /> : <Navigate to="/wellness" replace />} />
             {/* 잘못된 하위 주소(#/wellness/xxx)는 빈 화면 대신 랜딩으로 돌려보낸다 */}
             <Route path="*" element={<Navigate to="/wellness" replace />} />
