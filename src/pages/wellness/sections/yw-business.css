@@ -227,7 +227,7 @@
   font-weight: 600;
 }
 
-/* ── 창업 비용: 확정 금액만 한 줄씩(지금은 로열티) ─────────────── */
+/* ── 창업 비용: 확정 금액만 한 줄씩(STARTUP_COSTS가 비어 있으면 카드 없음) ─────────────── */
 
 .yw-biz__cost {
   padding: clamp(1.15rem, 3vw, 1.5rem) clamp(1.15rem, 3vw, 1.6rem);

@@ -8,7 +8,7 @@ import './yw-business.css'
 // Appendix — For Partners. 고객 동선이 끝난 뒤 B2B 구역을 에스프레소 커튼 한 장으로 분리한다.
 // 배경(정물 사진·고스트 단어·궤도 원)은 모두 장식이다. 진행 단계 선은 스크롤에 따라 그어진다(--p).
 // 40+는 본 브랜드 예뻐졌다의 매장 수다. 웰니스 스튜디오는 그 자매 브랜드라 창업은 신규 창업으로 진행된다는 것을 바로 옆에 밝힌다.
-// 비용은 확정된 금액(STARTUP_COSTS)만 보여 주고, 예상 매출·수익 계산은 두지 않는다.
+// 비용은 확정된 금액(STARTUP_COSTS)만 보여 주고(비어 있으면 카드를 그리지 않는다), 예상 매출·수익 계산은 두지 않는다.
 
 // 일반적인 창업 진행 단계 예시. 실제 절차와 다를 수 있어 확정된 사실처럼 쓰지 않는다.
 const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '운영 조건 협의', '준비 과정 및 교육', '오픈 준비']
@@ -49,20 +49,22 @@ export default function Startup() {
           </p>
         </div>
 
-        <div className="yw-biz__cost">
-          <p className="yw-biz__cost-label">창업 비용 안내</p>
-          <ul>
-            {STARTUP_COSTS.map((c) => (
-              <li key={c.id}>
-                <span className="yw-biz__cost-name">{c.label}</span>
-                <span className="yw-biz__cost-amount">
-                  <b>{c.amount}</b>
-                  {c.note && <em>{c.note}</em>}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {STARTUP_COSTS.length > 0 && (
+          <div className="yw-biz__cost">
+            <p className="yw-biz__cost-label">창업 비용 안내</p>
+            <ul>
+              {STARTUP_COSTS.map((c) => (
+                <li key={c.id}>
+                  <span className="yw-biz__cost-name">{c.label}</span>
+                  <span className="yw-biz__cost-amount">
+                    <b>{c.amount}</b>
+                    {c.note && <em>{c.note}</em>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="yw-biz__timeline" ref={tlRef}>
           <p className="yw-biz__tl-label">상담 후 진행 단계</p>
