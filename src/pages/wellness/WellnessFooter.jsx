@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
-import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, reserveAction, telHref } from './data'
+import { BRANCHES, BRAND, displayAddress, mapHref, MARINE_OPEN, OPEN_BRANCHES, reserveAction, SHOW_MARINE_INFO, telHref } from './data'
 import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
@@ -11,6 +11,8 @@ const POLICIES = [
   { label: '개인정보처리방침', href: null },
 ]
 const SHOWN_POLICIES = POLICIES.filter((p) => p.href)
+// 마린시티점 주소·전화(별도 페이지가 없어도 지점 안내로 보여 준다)
+const SHOW_MARINE = MARINE_OPEN || SHOW_MARINE_INFO
 
 export default function WellnessFooter({ items }) {
   const { zai, marine } = BRANCHES
@@ -33,17 +35,17 @@ export default function WellnessFooter({ items }) {
               </p>
               <p>
                 <span>
-                  {MARINE_OPEN ? zai.name : '주소'} : {displayAddress(zai.address)}
+                  {SHOW_MARINE ? zai.label : '주소'} : {displayAddress(zai.address)}
                 </span>
                 <span className="w-footer__sep" aria-hidden="true">|</span>
                 <span>
                   TEL : <a href={telHref(zai.phone)}>{zai.phone}</a>
                 </span>
               </p>
-              {MARINE_OPEN && (
+              {SHOW_MARINE && (
                 <p>
                   <span>
-                    {marine.name} : {displayAddress(marine.address)}
+                    {marine.label} : {displayAddress(marine.address)}
                   </span>
                   <span className="w-footer__sep" aria-hidden="true">|</span>
                   <span>
@@ -52,7 +54,7 @@ export default function WellnessFooter({ items }) {
                 </p>
               )}
               <p>
-                영업시간 : {MARINE_OPEN && `${zai.name} `}
+                영업시간 : {SHOW_MARINE && `${zai.label} `}
                 {zai.hours}
               </p>
             </div>
