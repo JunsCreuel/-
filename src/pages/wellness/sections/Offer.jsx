@@ -124,10 +124,10 @@ function OfferTicket() {
           className={`yw-ticket${inView || reduced ? ' is-in' : ''}${settled ? ' is-settled' : ''}`}
         >
           <div className="yw-ticket__main">
-            <Folio no="07" en="First Visit" />
+            <Folio ko="이벤트" />
             <h2 id="offer-title" className="yw-ticket__big" aria-label={`${OFFER_TERM}, ${SALE_COUNT}개 관리 50%`}>
               <span className="yw-ticket__label" aria-hidden="true">
-                FIRST VISIT
+                첫 방문 혜택
               </span>
               <span className="yw-ticket__row" aria-hidden="true">
                 <strong className="yw-ticket__pct">
@@ -178,9 +178,6 @@ function OfferTicket() {
             <ParenLink href={BRANCHES.zai.booking} external>
               네이버 예약
             </ParenLink>
-            <span className="yw-ticket__vert" aria-hidden="true">
-              YEPPEO · FIRST VISIT
-            </span>
           </div>
         </article>
       </div>

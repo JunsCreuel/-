@@ -109,8 +109,8 @@ export default function Faq() {
     <section id="faq" className="yw-section yw-curtain--light yw-faq" data-theme="light">
       <div className="yw-wrap yw-faq__grid">
         <div className="yw-faq__side">
-          <Folio no="08" en="Q&A" />
-          <h2 className="yw-display yw-faq__title">FAQ</h2>
+          <Folio ko="자주 묻는 질문" />
+          <h2 className="yw-h2 yw-faq__title">궁금한 점을 모았습니다</h2>
 
           <div className="yw-faq__tabs" role="tablist" aria-label="질문 구분" onKeyDown={onTabKey}>
             {TABS.map((t, i) => (

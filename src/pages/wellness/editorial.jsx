@@ -5,14 +5,8 @@ import { useInView } from './motion'
 // 새 섹션이 함께 쓰는 잡지식 부품. 스타일은 wellness-x.css의 yw- 클래스다.
 
 // 섹션 머리의 'No. 0X — English' 폴리오. tone='light'는 어두운 장 위의 샴페인 색이다(.yw-dark 안이면 자동).
-export function Folio({ no, en, tone = 'ink', className = '' }) {
-  return (
-    <p className={`yw-folio${tone === 'light' ? ' yw-folio--light' : ''}${className ? ` ${className}` : ''}`}>
-      {no && <span>No. {no}</span>}
-      {no && ' — '}
-      {en}
-    </p>
-  )
+export function Folio({ ko, tone = 'ink', className = '' }) {
+  return <p className={`yw-folio${tone === 'light' ? ' yw-folio--light' : ''}${className ? ` ${className}` : ''}`}>{ko}</p>
 }
 
 // 줄 단위로 마스크를 뚫고 올라오는 제목. lines에는 문자열이나 노드를 줄마다 넣는다.

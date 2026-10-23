@@ -30,8 +30,7 @@
   mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 78%);
 }
 
-/* 고스트 단어 'PARTNERS': 스크롤보다 느리게 움직인다(--py, useScrollParallax) */
-.yw-biz__ghost {
+/* 고스트 단어 'PARTNERS': 스크롤보다 느리게 움직인다(--py {
   position: absolute;
   bottom: -0.06em;
   left: 50%;
@@ -42,46 +41,6 @@
   pointer-events: none;
   user-select: none;
   translate: -50% var(--py, 0px);
-}
-
-@media (min-width: 48rem) {
-  .yw-biz__ghost {
-    font-size: 22vw;
-  }
-}
-
-/* 얇은 원 궤도(64rem 이상): 장에 들어서면 한 바퀴 그려진다 */
-.yw-biz__orbit {
-  position: absolute;
-  top: clamp(2rem, 6vw, 5rem);
-  left: -22vw;
-  display: none;
-  width: 70vw;
-  height: 70vw;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.yw-biz__orbit circle {
-  fill: none;
-  stroke: rgb(216 193 157 / 0.25);
-  stroke-width: 0.12;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transform: rotate(-90deg);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: stroke-dashoffset 1s var(--yw-ease);
-}
-
-.yw-biz__orbit.is-in circle {
-  stroke-dashoffset: 0;
-}
-
-@media (min-width: 64rem) {
-  .yw-biz__orbit {
-    display: block;
-  }
 }
 
 /* ── 배치 ─────────────────────────────────────────────────────
@@ -559,12 +518,4 @@
     opacity: 1;
   }
 
-  .yw-biz__orbit circle {
-    stroke-dashoffset: 0;
-    transition: none;
-  }
-
-  .yw-biz__ghost {
-    translate: -50% 0;
-  }
 }
