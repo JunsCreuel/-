@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { BRANCHES, PICS } from '../data'
-import { ParenLink, Pic, SplitLines } from '../editorial'
+import { ParenLink, Pic } from '../editorial'
 import { easeInOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-closing.css'
@@ -59,17 +59,14 @@ export default function CtaBand() {
 
         <div className="yw-close__dot" aria-hidden="true">
           <span />
-          <span>SEE YOU AT WELLNESS STUDIO</span>
+          <span />
         </div>
 
         <div className="yw-close__text">
-          <SplitLines
-            as="h2"
-            id="closing-title"
-            className="yw-close__title"
-            open={open}
-            lines={['오늘을 돌보는,', <em key="e">웰니스 스튜디오.</em>]}
-          />
+          {/* 이 장에는 보이는 문구를 두지 않고 사진과 버튼만 둔다. 제목은 보조기기용 */}
+          <h2 id="closing-title" className="sr-only">
+            예뻐졌다 웰니스 스튜디오 예약
+          </h2>
           <div className="yw-close__actions">
             <button
               type="button"
