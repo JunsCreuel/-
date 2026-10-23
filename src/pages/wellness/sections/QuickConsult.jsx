@@ -173,9 +173,6 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
   return (
     <form className={cls} onSubmit={onSubmit} noValidate aria-labelledby={`${uid}-title`}>
       <div className="yw-quick__head">
-        <p className="yw-quick__eyebrow" aria-hidden="true">
-          Quick Consult
-        </p>
         <h2 id={`${uid}-title`} className="yw-quick__title">
           간편 상담 신청
         </h2>
