@@ -246,6 +246,9 @@ export const BRANCHES = {
 // 오픈하면 true로 바꾸면 한 번에 다시 노출된다.
 export const MARINE_OPEN = false
 
+// 마린시티점은 별도 페이지 없이 '지점 안내'(예약 장 오시는 길 아래 한 줄, 푸터 주소·전화)로만 알린다.
+export const SHOW_MARINE_INFO = true
+
 // 화면에 노출하는 지점 목록
 export const OPEN_BRANCHES = Object.values(BRANCHES).filter((b) => b.id !== 'marine' || MARINE_OPEN)
 
