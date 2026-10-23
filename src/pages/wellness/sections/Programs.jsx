@@ -19,11 +19,11 @@ import './yw-menu.css'
 const ALT = {
   'scalp-detox': '두 손으로 뒷머리를 받친 두피 케어 장면',
   'scalp-face': '클렌징 거품을 바른 옆얼굴',
-  'back-lymph': '어깨와 등을 감싸는 손길',
-  abdomen: '수건을 덮은 허리와 옆구리를 관리하는 손',
+  'back-lymph': '목 뒤에 손을 얹은 물기 어린 어깨',
+  abdomen: '옆구리에 손을 얹은 허리 라인',
   lower: '수건 위에서 발과 발목을 관리하는 손',
-  'full-back': '수건을 덮고 엎드린 등에 얹은 두 손',
-  'lymph-node': '목선과 쇄골에 닿은 손끝',
+  'full-back': '등이 드러난 뒷모습',
+  'lymph-node': '햇살이 비치는 쇄골과 어깨 라인',
   warmup: '간접 조명이 비치는 원목 선반 위 수건',
 }
 

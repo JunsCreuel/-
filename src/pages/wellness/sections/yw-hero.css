@@ -110,9 +110,10 @@
 .wellness .yw-hero .yw-hero__title {
   margin: 0;
   color: #f4ede2;
-  font: 400 clamp(2.6rem, 5.6vw, 5.4rem) / 1.12 var(--w-font-serif);
+  font: 400 clamp(2.4rem, 4.2vw, 4rem) / 1.18 var(--w-font-serif);
   letter-spacing: -0.02em;
   word-break: keep-all;
+  text-wrap: balance;
   text-shadow: 0 2px 24px rgb(29 26 23 / 0.25);
 }
 
@@ -304,7 +305,7 @@
 
 
   .wellness .yw-hero .yw-hero__title {
-    font-size: clamp(2.1rem, 9.5vw, 2.8rem);
+    font-size: clamp(1.55rem, 6.9vw, 2.2rem);
   }
 
   .yw-hero .yw-hero__kicker {
