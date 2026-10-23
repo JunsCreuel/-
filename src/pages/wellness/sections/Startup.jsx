@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, STARTUP_PHONES, telHref } from '../data'
-import { Folio, Footnote, Pic, SplitLines } from '../editorial'
+import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_PHONES, telHref } from '../data'
+import { Folio, Pic, SplitLines } from '../editorial'
 import { useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
 import './yw-business.css'
@@ -62,11 +62,10 @@ export default function Startup() {
               </li>
             ))}
           </ul>
-          <Footnote>{STARTUP_COSTS_NOTE}</Footnote>
         </div>
 
         <div className="yw-biz__timeline" ref={tlRef}>
-          <p className="yw-biz__tl-label">상담 후 진행 단계(예시)</p>
+          <p className="yw-biz__tl-label">상담 후 진행 단계</p>
           <ol style={{ '--n': STEPS.length }}>
             {STEPS.map((step, i) => (
               <li key={step} style={{ '--i': i }}>
@@ -75,7 +74,6 @@ export default function Startup() {
               </li>
             ))}
           </ol>
-          <Footnote>일반적인 진행 예시이며, 실제 절차와 일정은 상담에서 안내해 드립니다.</Footnote>
         </div>
 
         <div className="yw-biz__actions">
