@@ -30,8 +30,6 @@ const ALT = {
 const TOTAL = String(PROGRAMS.length).padStart(2, '0')
 const numberOf = (i) => String(i + 1).padStart(2, '0')
 
-// 이름 옆 작은 표시는 영문 대문자로 쓰고(인기 → BEST), 보조기기에는 원래 말로 읽힌다.
-const BADGE_EN = { 인기: 'BEST' }
 
 // 필터 탭: 전체 + PROGRAMS.group 순서대로. 탭 글자는 가운뎃점 앞뒤 공백을 뺀다(두피 · 얼굴 → 두피·얼굴).
 // 개수는 화면에 쓰지 않고 보조기기에만 알린다.
@@ -96,7 +94,6 @@ function MenuFrame({ frame, imgRefs, onWiped }) {
 
   return (
     <aside className="yw-menu__aside" aria-hidden="true">
-      <span className="yw-menu__ghost">Menu</span>
       <figure ref={figRef} className="yw-menu__figure">
         <div
           className={`yw-menu__frame${inView ? ' is-in' : ''}`}
@@ -211,7 +208,7 @@ export default function Programs() {
         <div className="yw-menu__main">
           <div className="yw-menu__head">
             <div>
-              <Folio no="04" en="Menu" />
+              <Folio ko="관리 프로그램" />
               <SplitLines as="h2" className="yw-h2" lines={['첫 방문 관리 메뉴']} />
             </div>
             <div className="yw-menu__filter" role="group" aria-label="관리 종류">
@@ -283,14 +280,7 @@ export default function Programs() {
                       </span>
                       <span className="yw-menu__name">
                         <DisplayName label={p.label} />
-                        {p.badge && (
-                          <>
-                            <span className="yw-menu__badge" aria-hidden="true">
-                              {BADGE_EN[p.badge] ?? p.badge}
-                            </span>
-                            <span className="sr-only"> {p.badge}</span>
-                          </>
-                        )}
+                        {p.badge && <span className="yw-menu__badge">{p.badge}</span>}
                       </span>
                       {SHOW_PRICES && (
                         <span className="yw-menu__regular" aria-hidden="true">

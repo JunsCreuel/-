@@ -177,9 +177,9 @@ export default function Proof() {
     <section id="reviews" className="yw-section yw-voices" data-theme="light" aria-labelledby="reviews-title">
       <div className="yw-wrap yw-voices__head">
         <div>
-          <Folio no="06" en="Voices" />
-          <h2 id="reviews-title" className="yw-display yw-voices__title">
-            Review
+          <Folio ko="후기" />
+          <h2 id="reviews-title" className="yw-h2 yw-voices__title">
+            다녀가신 분들의 이야기
           </h2>
         </div>
         <Stats branch={branch} />
