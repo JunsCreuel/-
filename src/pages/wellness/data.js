@@ -40,6 +40,9 @@ export const PICS = {
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
+  // 이벤트 팝업 사진(Unsplash 무료: photo-1540555700478 튤립·수건, photo-1706795033849 수건·초)
+  popupEvent: pic('popup-event', [480, 960], 3 / 2),
+  popupDome: pic('popup-dome', [480, 960], 2 / 3),
   // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
   domeCut: pic('dome-cut', [700, 1376], 1376 / 747),
 }
@@ -98,23 +101,23 @@ export const SHOW_POPUPS = true
 export const EVENT_POPUPS = [
   {
     id: 'first-visit',
-    pic: 'bizStill',
+    pic: 'popupEvent',
     eyebrow: '첫 방문 이벤트',
     title: '6개 관리 50%',
     text: OFFER_TERM_FULL,
     cta: '이벤트 보기',
     to: 'offer',
-    until: null,
+    until: '2026-10-31',
   },
   {
     id: 'dome-solo',
-    pic: 'menuWarmup',
+    pic: 'popupDome',
     eyebrow: '국산 명신메디칼 온열돔',
     title: '온열돔 단독 이용',
     text: '편하게 누운 채 40분, 온열돔만 따로 이용하실 수 있어요.',
     cta: '온열돔 보기',
     to: 'equipment',
-    until: null,
+    until: '2026-10-31',
   },
 ]
 export const OFFER_TERM_NOTE = '티켓팅 시 첫 방문가가 적용되고, 1회 관리 시에는 별도 재료 비용이 발생합니다.'
