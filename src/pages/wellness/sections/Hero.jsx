@@ -307,7 +307,7 @@ export default function Hero() {
 
       <p className="yw-hero__mast">
         <span>WELLNESS STUDIO</span>
-        <span className="yw-hero__mast-r">BUSAN · YONGHO ZAI</span>
+        <span className="yw-hero__mast-r">부산 · 용호 자이</span>
       </p>
 
       <div className="yw-wrap yw-hero__text">
