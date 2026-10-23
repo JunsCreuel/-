@@ -121,6 +121,11 @@
   outline-offset: -2px;
 }
 
+.yw-pop .yw-pop__box:focus,
+.yw-pop .yw-pop__box:focus-visible {
+  outline: none;
+}
+
 /* 휴대폰 아래 점 · 다음 */
 .yw-pop__nav {
   display: flex;
