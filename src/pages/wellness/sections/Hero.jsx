@@ -18,7 +18,7 @@ const SLIDES = [
     pic: PICS.heroWarm,
     picM: PICS.heroWarmM,
     eyebrow: '예뻐졌다가 쉼을 더해 만든 자매 브랜드',
-    lines: ['오늘을 돌보는,', '웰니스 스튜디오.'],
+    lines: ['근본적인 아름다움을 깨우다', '예뻐졌다 웰니스 스튜디오'],
   },
   {
     id: 'dome',
