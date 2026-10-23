@@ -377,9 +377,30 @@
   }
 }
 
+/* 창업 상담 진행 안내 + 전화 두 번호 */
+.yw-biz__where {
+  flex-basis: 100%;
+  margin: 0;
+  color: color-mix(in srgb, var(--yw-cream) 82%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.yw-biz__tels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  margin: 0;
+}
+
 @media (min-width: 48rem) {
   .yw-biz__actions {
     justify-content: flex-start;
+  }
+
+  .yw-biz__where {
+    text-align: left;
   }
 
   .yw-biz__actions .yw-btn {
