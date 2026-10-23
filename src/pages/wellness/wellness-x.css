@@ -770,10 +770,7 @@
 /* ── 누르는 영역 44px 이상(겉모양은 그대로) ─────────────────── */
 .wellness .w-nav__menu > button,
 .wellness .w-footer__col button,
-.wellness .w-footer__col a,
-.yw-eq .yw-eq__gelbtn,
-.yw-eq .yw-eq__ingbtn,
-.yw-eq .yw-eq__chip {
+.wellness .w-footer__col a {
   min-height: 2.75rem;
 }
 

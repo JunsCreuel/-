@@ -1,977 +1,199 @@
-/* No. 05 Equipment & Gel — 끌어서 넘기는 기기·전용 젤 트랙(웜 아이보리 장).
-   이 파일은 공통 CSS(wellness.css, wellness-x.css)보다 먼저 번들되므로, 공통 규칙을 덮어야 하는 곳은 .yw-eq로 한 단계 높인다.
-   호버 효과는 (hover: hover) and (pointer: fine) 안에서만 켜고, 모션 줄이기면 기울기 없이 젤 면이 바로 바뀐다. */
+/* 장비 소개 (sections/Equipment.jsx) — 알약 탭 + 사진 무대 · 정의 목록. 크림 #f4f0ea · 딥그린 #1e2a23 · 포인트 #a07850 */
 
-.yw-eq {
-  /* 흰 시트 위 제품 패널 바탕: 가운데가 가장 밝고 가장자리로 갈수록 옅은 웜 그레이.
-     트랙 카드의 사진 면은 아이보리 장 위에서 테두리가 또렷하도록 흰색 그대로 둔다. */
-  --yw-eq-studio: radial-gradient(ellipse 85% 80% at 50% 40%, #fff 0%, #fbfaf8 48%, #eeeae4 100%);
-
-  overflow-x: clip;
-  background: var(--yw-warm);
+.yw-section.yw-eq {
+  --eq-ink: #1e2a23;
+  --eq-sub: #4f5a52;
+  --eq-line: rgb(30 42 35 / 0.16);
+  --eq-accent: #a07850;
+  --eq-accent-text: #8a6440; /* 크림 위 작은 글씨용(대비 4.5:1 이상) */
+  background: #f4f0ea;
+  color: var(--eq-ink);
 }
 
-/* 앞의 어두운 온열돔 장을 둥근 윗모서리로 덮으며 올라온다(커튼의 흰 바탕 대신 이 장의 아이보리) */
-.yw-eq.yw-curtain--light {
-  background: var(--yw-warm);
+.wellness .yw-eq__title {
+  margin: 0;
+  color: var(--eq-ink);
+  font: 600 clamp(2rem, 4.4vw, 3.75rem) / 1.2 var(--w-font-serif);
+  letter-spacing: -0.03em;
+  word-break: keep-all;
 }
 
-/* ── 머리: 폴리오·제목·한 줄 | 카운터·화살표 ─────────────────── */
-
-.yw-eq__head {
-  position: relative;
-  display: grid;
-  gap: 1.5rem 2rem;
+.yw-eq__lead {
+  max-width: 28em;
+  margin: 1rem 0 0;
+  color: var(--eq-sub);
+  font-size: clamp(0.94rem, 0.6vw + 0.75rem, 1.125rem);
+  line-height: 1.7;
+  word-break: keep-all;
 }
 
-.yw-eq__intro {
-  min-width: 0;
-}
-
-.yw-eq__nav {
+/* 알약 탭: 높이 48px · 좌우 22px · 1px 테두리. 좁은 화면은 가로로 밀린다(스크롤바 숨김) */
+.yw-eq__tabs {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.yw-eq__count {
-  color: var(--w-ink);
-  font: 300 1.6rem/1 var(--w-font-en);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-.yw-eq__count b {
-  font-weight: 500;
-}
-
-.yw-eq__arrow {
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  padding: 0;
-  border: 2px solid var(--w-espresso);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--w-espresso);
-  font: 300 1.9rem/1 var(--w-font-en);
-  cursor: pointer;
-  transition:
-    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
-    background-color 0.25s ease,
-    color 0.25s ease,
-    opacity 0.25s ease;
-}
-
-.yw-eq__arrow > span {
-  margin-top: -0.12em;
-}
-
-.yw-eq__arrow:active:not(:disabled) {
-  scale: 0.95;
-}
-
-.yw-eq__arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-eq__arrow:not(:disabled):hover {
-    background: var(--w-espresso);
-    color: #fff;
-  }
-}
-
-@media (min-width: 64rem) {
-  .yw-eq__head {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-  }
-
-  .yw-eq__nav {
-    padding-bottom: 0.25rem;
-  }
-}
-
-/* 모바일·태블릿: 1열, 카운터는 제목 오른쪽 위에 작게, 화살표는 숨긴다(스와이프) */
-@media (max-width: 63.99rem) {
-  .yw-eq .yw-h2 {
-    padding-right: 3.75rem;
-  }
-
-  .yw-eq__nav {
-    position: absolute;
-    top: calc(0.72rem + 1.1rem + 0.55em);
-    right: 0;
-  }
-
-  .yw-eq__count {
-    font-size: 1.15rem;
-  }
-
-  .yw-eq__arrow {
-    display: none;
-  }
-}
-
-/* ── 트랙: 오른쪽 화면 끝까지 흘러넘친다 ─────────────────────
-   섹션 좌우 여백을 음수 마진으로 지우고, 안쪽 여백으로 .yw-wrap 왼쪽 선에 첫 카드를 맞춘다.
-   padding %는 섹션 내용 폭 기준이라 세로 스크롤바가 있어도 .yw-wrap과 정확히 맞는다.
-   scroll-padding은 JS(useDragScroll·화살표)가 getComputedStyle로 px를 읽어야 해서 %(계산값에 남는다) 대신 vw로 쓴다. */
-
-.yw-eq__track {
-  position: relative; /* 카드 offsetLeft의 기준 */
-  display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
-  margin: clamp(2rem, 5vw, 3rem) calc(-1 * var(--w-gutter)) 0;
-  padding-block: 1rem 1.5rem;
-  padding-inline: max(var(--w-gutter), calc((100% - var(--yw-max)) / 2 + var(--w-gutter)));
+  gap: 0.5rem;
+  margin: 2.5rem 0 0;
+  padding: 2px;
   overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(var(--w-gutter), calc((100vw - var(--yw-max)) / 2));
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
 }
 
-.yw-eq__track::-webkit-scrollbar {
+.yw-eq__tabs::-webkit-scrollbar {
   display: none;
 }
 
-.yw-eq__track.is-dragging {
-  scroll-snap-type: none;
-  cursor: grabbing;
-  user-select: none;
+.yw-eq__tab {
+  flex: none;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid rgb(30 42 35 / 0.2);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--eq-sub);
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+    color 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.yw-eq__track img {
-  -webkit-user-drag: none;
+.yw-eq__tab[aria-selected='true'] {
+  border-color: var(--eq-ink);
+  background: var(--eq-ink);
+  color: #fff;
 }
 
-.yw-eq .yw-eq__track:focus-visible {
-  outline: 2px solid var(--w-bronze);
-  outline-offset: -2px;
-  border-radius: 0;
+.yw-eq__tab:focus-visible {
+  outline: 2px solid var(--eq-accent);
+  outline-offset: 2px;
 }
 
-/* ── 카드 공통 ───────────────────────────────────────────── */
-
-.yw-eq__card {
-  flex: 0 0 clamp(17rem, 24vw, 22rem);
-  min-width: 0;
-  scroll-snap-align: start;
-}
-
-/* 속도 기울기는 카드 안쪽 판에만 건다. 스냅 대상(카드)에 걸면 기울어진 상자로 스냅 위치가 바뀌어
-   스크롤 → 기울기 → 다시 스냅이 1px씩 끝없이 되풀이된다. */
-.yw-eq__tilt {
-  transform: skewX(var(--skew, 0deg));
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.yw-eq__card--dome {
-  flex-basis: clamp(22rem, 38vw, 34rem);
-}
-
-@media (max-width: 63.99rem) {
-  /* 폰은 82%(옆 카드가 살짝 보임). 태블릿에서는 기기 사진 해상도에 맞춰 22rem(온열돔 34rem)을 넘기지 않는다 */
-  .yw-eq__card {
-    flex: 0 0 min(82%, 22rem);
-  }
-
-  .yw-eq__card--dome {
-    flex-basis: min(82%, 34rem);
+@media (hover: hover) and (pointer: fine) {
+  .yw-eq__tab[aria-selected='false']:hover {
+    border-color: var(--eq-ink);
+    color: var(--eq-ink);
   }
 }
 
+/* 사진 무대 + 글: 모바일 위아래, 56rem(약 900px) 이상 6:5 */
 .yw-eq__body {
-  padding: 1.1rem 0.15rem 0;
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 2rem;
 }
 
-.yw-eq__no {
-  display: flex;
-  align-items: baseline;
-  gap: 0.15rem;
-  color: var(--w-accent-deep);
-  line-height: 1;
+.yw-eq__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-height: 640px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: radial-gradient(closest-side, #fbf8f3 0%, #fbf8f3 62%, rgb(251 248 243 / 0) 100%);
 }
 
-.yw-eq__num {
-  color: var(--w-ink);
-  font: 300 1.5rem/1 var(--w-font-en);
-  font-variant-numeric: lining-nums;
+.wellness .yw-eq__stage img {
+  width: auto;
+  height: auto;
+  max-width: 72%;
+  max-height: 84%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 32px rgb(30 42 35 / 0.16));
+  animation: yw-eq-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-.yw-eq__dot {
-  font-size: 0.8rem;
-  white-space: pre;
+.yw-eq__text {
+  min-width: 0;
+  animation: yw-eq-swap 0.4s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-.yw-eq__en {
-  font: 400 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.16em;
+.yw-eq__brand {
+  margin: 0;
+  color: var(--eq-accent-text);
+  font: 500 0.8rem/1.4 var(--w-font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.yw-eq .yw-eq__name {
-  margin: 0.6rem 0 0;
-  color: var(--w-ink);
-  font: 400 1.35rem/1.35 var(--w-font-serif);
-  letter-spacing: -0.02em;
+.wellness .yw-eq__name {
+  margin: 0.5rem 0 0;
+  color: var(--eq-ink);
+  font: 600 clamp(2.25rem, 4vw, 3.5rem) / 1.15 var(--w-font-serif);
+  letter-spacing: -0.03em;
+  word-break: keep-all;
 }
 
-.yw-eq .yw-eq__card--dome .yw-eq__name {
-  font-size: 1.6rem;
-}
-
-.yw-eq__sub {
-  margin-top: 0.25rem;
-  color: var(--w-muted);
-  font-size: 0.85rem;
+.yw-eq__one {
+  max-width: 24em;
+  margin: 1rem 0 0;
+  font-size: clamp(1.06rem, 0.8vw + 0.8rem, 1.375rem);
   line-height: 1.6;
-}
-
-/* 온열돔 제조사 줄과 정보 표(제조·방식·설계·이용·이런 분께) */
-.yw-eq__maker {
-  margin: 0 0 0.35rem;
-  color: var(--w-accent-deep);
-  font: 500 0.75rem/1.4 var(--w-font-label);
-  letter-spacing: 0.14em;
+  word-break: keep-all;
 }
 
 .yw-eq__facts {
-  margin: 1rem 0 0.25rem;
-  border-top: 1px solid var(--w-line);
+  margin: 2rem 0 0;
+  border-top: 1px solid var(--eq-line);
 }
 
 .yw-eq__facts > div {
   display: grid;
-  grid-template-columns: 4.75rem minmax(0, 1fr);
-  gap: 0.75rem;
-  padding-block: 0.55rem;
-  border-bottom: 1px solid var(--w-line);
-  font-size: 0.85rem;
-  line-height: 1.55;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--eq-line);
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
 
 .yw-eq__facts dt {
-  color: var(--w-muted);
+  color: var(--eq-accent-text);
+  font-weight: 600;
 }
 
 .yw-eq__facts dd {
   margin: 0;
-  color: var(--w-ink);
+  color: var(--eq-sub);
   word-break: keep-all;
 }
 
-/* ── 카드 1: 전신 온열돔(누끼) ──────────────────────────────
-   디바이스 카드 사진 면과 같은 흰 바탕 위에 가로로 긴 누끼(약 1.84:1)를 프레임 폭의 82%로 앉히고, 옅은 바닥 그림자로 세운다.
-   4:3 프레임의 남는 위아래는 패딩(폭 기준 %)으로 나누되, 아래를 조금 더 두어 그림자가 들어갈 자리를 남긴다. */
-
-.yw-eq__photo {
-  display: grid;
-  aspect-ratio: 4 / 3;
-  padding: 10% 9% 13%;
-  overflow: clip;
-  border-radius: 1.25rem;
-  background: #fff;
+.yw-eq .yw-note {
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
-.yw-eq .yw-eq__photo img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 22px rgb(29 26 23 / 0.14));
-}
-
-.yw-eq__uses {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1.1rem;
-}
-
-.yw-eq__chip {
-  min-height: 2.6rem;
-  padding: 0.45rem 1rem;
-  border: 1px solid var(--w-line-strong);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--w-ink);
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 500;
-  line-height: 1.3;
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease;
-}
-
-.yw-eq__chip:active {
-  scale: 0.97;
-}
-
-.yw-eq__chip[aria-checked='true'] {
-  border-color: var(--w-espresso);
-  background: var(--w-espresso);
-  color: #fff;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-eq__chip[aria-checked='false']:hover {
-    border-color: var(--w-espresso);
+@media (min-width: 56rem) {
+  .yw-eq__body {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: 5rem;
   }
 }
 
-.yw-eq__usebox {
-  min-height: 1.6em;
-  margin-top: 0.9rem;
-}
-
-.yw-eq__use {
-  color: var(--w-ink);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  animation: yw-eq-rise 0.25s var(--yw-ease) both;
-}
-
-@keyframes yw-eq-rise {
+@keyframes yw-eq-in {
   from {
     opacity: 0;
-    translate: 0 12px;
+    transform: translateY(16px) scale(0.97);
   }
 }
 
-.yw-eq .yw-eq__cta {
-  max-width: 100%;
-  margin-top: 1.1rem;
-  padding-inline: 1.5rem;
-  white-space: normal;
-}
-
-/* ── 카드 2~4: 디바이스 + 전용 젤 면 ──────────────────────── */
-
-.yw-eq__media {
-  position: relative;
-  max-width: 22rem; /* 기기·제품 사진이 저해상도라 더 키우지 않는다 */
-  aspect-ratio: 4 / 5;
-  overflow: clip;
-  border-radius: 1.25rem;
-  background: #fff;
-}
-
-.yw-eq .yw-eq__device {
-  width: 100%;
-  height: 100%;
-  padding: 8%;
-  object-fit: contain;
-}
-
-/* 젤 면: 왼쪽에서 오른쪽으로 걷히며 덮는다 */
-.yw-eq__gel {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  background: #fff;
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 0.35s var(--yw-ease);
-}
-
-/* 젤 사진은 모두 누끼라 잘리지 않게 담고, 아래 이름표(두 줄, 높이 고정)를 비켜 조금 위에 둔다.
-   좁은 카드에서도 이름표와 붙지 않게 아래 여백은 4.5rem보다 줄지 않는다. */
-.yw-eq .yw-eq__gelimg {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  padding: 10% 8% max(26%, 4.5rem);
-  object-fit: contain;
-}
-
-/* 두 제품(웰스파): 두 사진을 같은 바닥선에 나란히 세우고 바로 아래 칸마다 이름표를 둔 한 묶음을 면 가운데에 놓는다 */
-.yw-eq__gel--two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: auto auto;
-  align-content: center;
-  column-gap: 0.75rem;
-  padding-inline: 0.75rem;
-}
-
-.yw-eq .yw-eq__gel--two .yw-eq__gelimg {
-  align-self: end;
-  height: auto;
-  padding: 0;
-}
-
-/* 이름표: 젤 면이 모두 흰 바탕 누끼라 어두운 띠 없이, 아래쪽 가운데에 제품명(잉크)과 용량(Jost)을 둔다.
-   두 제품(웰스파)이면 사진 바로 아래 칸마다 하나씩 선다(위 선을 맞춘다). 젤 면이 덮인 뒤 살짝 떠오른다. */
-.yw-eq__gelcap {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: grid;
-  grid-auto-columns: minmax(0, 1fr);
-  grid-auto-flow: column;
-  align-items: end;
-  padding-bottom: 1.1rem;
-  color: var(--w-ink);
-  font-size: 0.78rem;
-  font-weight: 500;
-  line-height: 1.4;
-  text-align: center;
-  opacity: 0;
-  translate: 0 0.5rem;
-  transition:
-    opacity 0.2s ease,
-    translate 0.3s var(--yw-ease);
-}
-
-.yw-eq__gelcap > span {
-  display: grid;
-  justify-items: center;
-  gap: 0.2rem;
-  padding-inline: 0.75rem;
-  text-wrap: balance;
-}
-
-.yw-eq__gel--two .yw-eq__gelcap {
-  position: static;
-  grid-column: 1 / -1;
-  column-gap: 0.75rem;
-  align-items: start;
-  padding: 0.9rem 0 0;
-}
-
-.yw-eq__gel--two .yw-eq__gelcap > span {
-  padding-inline: 0.15rem;
-}
-
-.yw-eq__gelvol {
-  color: var(--w-accent-deep);
-  font: 400 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.08em;
-}
-
-.yw-eq__card.is-gel .yw-eq__gel {
-  clip-path: inset(0);
-}
-
-.yw-eq__card.is-gel .yw-eq__gelcap {
-  opacity: 1;
-  translate: 0 0;
-  transition-delay: 0.2s;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-eq__track:not(.is-dragging) .yw-eq__card:hover .yw-eq__gel {
-    clip-path: inset(0);
-  }
-
-  .yw-eq__track:not(.is-dragging) .yw-eq__card:hover .yw-eq__gelcap {
-    opacity: 1;
-    translate: 0 0;
-    transition-delay: 0.2s;
-  }
-}
-
-/* '젤 보기'(토글)·'성분 보기'(시트 열기) 알약 한 줄 */
-.yw-eq__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.85rem;
-}
-
-.yw-eq__gelbtn,
-.yw-eq__ingbtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 2.4rem;
-  padding: 0.35rem 1rem;
-  border: 1px solid var(--w-line-strong);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--w-ink);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 500;
-  line-height: 1.3;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease;
-}
-
-.yw-eq__gelbtn::before {
-  width: 0.45rem;
-  height: 0.45rem;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  content: '';
-}
-
-.yw-eq__gelbtn[aria-pressed='true'] {
-  border-color: var(--w-espresso);
-  background: var(--w-espresso);
-  color: #fff;
-}
-
-.yw-eq__gelbtn[aria-pressed='true']::before {
-  background: currentColor;
-}
-
-/* 성분 보기: 뒤에 작은 + (시트가 열린다) */
-.yw-eq__ingbtn::after {
-  margin-right: -0.15rem;
-  color: var(--w-accent-deep);
-  font: 300 1.05rem/1 var(--w-font-label);
-  content: '+';
-  content: '+' / '';
-}
-
-.yw-eq__gelbtn:active,
-.yw-eq__ingbtn:active {
-  scale: 0.97;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-eq__gelbtn[aria-pressed='false']:hover,
-  .yw-eq__ingbtn:hover {
-    border-color: var(--w-espresso);
-  }
-}
-
-/* 공통 :focus-visible(둥근 6px)이 알약·원 모양을 덮지 않게 */
-.yw-eq .yw-eq__chip:focus-visible,
-.yw-eq .yw-eq__gelbtn:focus-visible,
-.yw-eq .yw-eq__ingbtn:focus-visible,
-.yw-eq .yw-eq__arrow:focus-visible {
-  border-radius: 999px;
-}
-
-/* ── 진행 막대: 1px 선 위에 지금 보이는 구간만 진하게 ─────── */
-
-.yw-eq__bar {
-  position: relative;
-  max-width: var(--yw-max);
-  height: 1px;
-  margin: 1rem auto 0;
-  background: var(--w-line);
-}
-
-.yw-eq__bar::after {
-  position: absolute;
-  top: -0.5px;
-  left: calc(var(--p, 0) * (100% - var(--vis, 0.3) * 100%));
-  width: calc(var(--vis, 0.3) * 100%);
-  height: 2px;
-  background: var(--w-espresso);
-  content: '';
-}
-
-@media (max-width: 47.99rem) {
-  .yw-eq .yw-note {
-    font-size: 0.75rem;
-  }
-}
-
-/* ── '성분 보기' 시트(<dialog>, showModal) ──────────────────
-   모바일(48rem 미만)은 아래에서 올라오는 바텀 시트(위 모서리만 둥글게, 최대 86svh), 그 위는 가운데 패널(최대 36rem).
-   <dialog> 자체가 스크롤 상자이고 머리(손잡이·라벨·닫기)는 sticky로 위에 붙는다. 닫힌 dialog는 브라우저가 숨기므로 display는 건드리지 않는다.
-   ::backdrop은 오래된 브라우저에서 변수를 물려받지 못하므로 색을 직접 쓴다. */
-
-.yw-eqs {
-  position: fixed;
-  inset: auto 0 0;
-  width: 100%;
-  max-width: 100%;
-  height: fit-content;
-  max-height: 86vh;
-  max-height: 86svh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden auto;
-  overscroll-behavior: contain;
-  border: 0;
-  border-radius: 1.5rem 1.5rem 0 0;
-  background: #fff;
-  color: var(--w-ink);
-  box-shadow: 0 -0.75rem 2.5rem rgb(29 26 23 / 0.12);
-  scrollbar-width: thin;
-}
-
-.yw-eqs::backdrop {
-  background: rgb(29 26 23 / 0.45);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-.yw-eqs[open] {
-  animation: yw-eqs-up 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-.yw-eqs[open]::backdrop {
-  animation: yw-eqs-fade 0.35s ease both;
-}
-
-@keyframes yw-eqs-up {
-  from {
-    translate: 0 100%;
-  }
-}
-
-@keyframes yw-eqs-pop {
+@keyframes yw-eq-swap {
   from {
     opacity: 0;
-    translate: 0 1rem;
+    transform: translateY(10px);
   }
 }
-
-@keyframes yw-eqs-fade {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (min-width: 48rem) {
-  .yw-eqs {
-    inset: 0;
-    width: min(36rem, 100% - 3rem);
-    max-height: min(86vh, 50rem);
-    max-height: min(86svh, 50rem);
-    margin: auto;
-    border-radius: 1.5rem;
-    box-shadow: 0 1.5rem 4rem rgb(29 26 23 / 0.2);
-  }
-
-  .yw-eqs[open] {
-    animation-name: yw-eqs-pop;
-  }
-}
-
-/* 머리: 손잡이(모바일, 끌어내려 닫기) · 'GEL · 페이스 갈바닉 전용' 라벨 · 닫기 */
-.yw-eqs__head {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.4rem 1rem 0.85rem 1.5rem;
-  background: #fff;
-  transition: box-shadow 0.2s ease;
-}
-
-/* 본문이 머리 밑으로 지나가기 시작하면 아래에 가는 선 */
-.yw-eqs[data-scrolled] .yw-eqs__head {
-  box-shadow: 0 1px 0 var(--w-line);
-}
-
-/* 아래에 더 읽을 내용이 남아 있으면(data-more) 시트 아래 가장자리를 흰색으로 옅게 흐린다. 끝까지 내리면 걷힌다.
-   본문 뒤에 붙는 sticky 막이라 스크롤 길이는 늘지 않는다(높이만큼 음수 마진). */
-.yw-eqs::after {
-  position: sticky;
-  bottom: 0;
-  display: block;
-  height: 3.5rem;
-  margin-top: -3.5rem;
-  background: linear-gradient(rgb(255 255 255 / 0), #fff 85%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  content: '';
-}
-
-.yw-eqs[data-more]::after {
-  opacity: 1;
-}
-
-.yw-eqs__grip {
-  position: absolute;
-  top: 0.6rem;
-  left: 50%;
-  width: 2.5rem;
-  height: 0.25rem;
-  border-radius: 999px;
-  background: var(--w-line);
-  translate: -50% 0;
-}
-
-/* 바텀 시트: 머리를 손가락으로 끌어내려 닫는다(Equipment.jsx). 머리에서 시작한 쓸기는 브라우저 스크롤로 넘기지 않는다 */
-@media (max-width: 47.99rem) {
-  .yw-eqs__head {
-    touch-action: none;
-  }
-}
-
-.yw-eqs__folio {
-  min-width: 0;
-  color: var(--w-accent-deep);
-  font-size: 0.8rem;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0.02em;
-}
-
-.yw-eqs__folio-en {
-  font: 400 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.2em;
-}
-
-.yw-eqs__folio-dot {
-  white-space: pre;
-}
-
-.yw-eqs__close {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  border: 1px solid var(--w-line);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--w-ink);
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease;
-}
-
-.yw-eqs__close svg {
-  width: 1.1rem;
-  height: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-width: 1.5;
-}
-
-.yw-eqs__close:active {
-  scale: 0.95;
-}
-
-.yw-eq .yw-eqs__close:focus-visible {
-  border-radius: 50%;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-eqs__close:hover {
-    border-color: var(--w-espresso);
-    background: var(--w-espresso);
-    color: #fff;
-  }
-}
-
-/* 본문: 제품마다 사진 → 이름·용량 → 사용 설명 → 주요 성분 */
-.yw-eqs__body {
-  padding: 0.15rem 1.5rem max(1.75rem, env(safe-area-inset-bottom));
-}
-
-@media (min-width: 48rem) {
-  .yw-eqs__grip {
-    display: none;
-  }
-
-  .yw-eqs__head {
-    padding: 1.25rem 1.25rem 0.85rem 2rem;
-  }
-
-  .yw-eqs__body {
-    padding: 0.15rem 2rem 2rem;
-  }
-}
-
-.yw-eqs__product + .yw-eqs__product {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--w-line);
-}
-
-/* 제품 누끼: 스튜디오 바탕 패널에 담는다(높이 11rem, 48rem부터 12rem) */
-.yw-eqs__fig {
-  --fig-h: 11rem;
-
-  display: grid;
-  height: var(--fig-h);
-  padding: 1rem;
-  overflow: clip;
-  border-radius: 1.25rem;
-  background: var(--yw-eq-studio);
-}
-
-.yw-eq .yw-eqs__fig img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: contain;
-  filter: drop-shadow(0 14px 18px rgb(29 26 23 / 0.16));
-}
-
-@media (min-width: 48rem) {
-  .yw-eqs__fig {
-    --fig-h: 12rem;
-  }
-}
-
-/* 가로로 든 폰처럼 낮은 화면: 사진이 시트 높이를 다 차지하지 않게 줄인다 */
-@media (max-height: 32rem) {
-  .yw-eqs__fig {
-    --fig-h: 8.5rem;
-  }
-}
-
-/* 손바닥 컷: 손이 사진 가장자리에서 잘려 있어, 사진 비율 그대로의 프레임에 꽉 채워 잘린 선이 프레임 테두리와 겹치게 한다 */
-.yw-eqs__fig--hand {
-  width: min(100%, var(--fig-h) * var(--ar, 1));
-  margin-inline: auto;
-  padding: 0;
-}
-
-.yw-eq .yw-eqs__fig--hand img {
-  object-fit: cover;
-  filter: none;
-}
-
-/* 제품 순번(웰스파 두 제품): 트랙 머리 카운터와 같은 Cormorant 숫자 */
-.yw-eqs__idx {
-  margin-top: 1.15rem;
-  color: var(--w-muted);
-  font: 300 0.95rem/1 var(--w-font-en);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-.yw-eqs__idx b {
-  color: var(--w-ink);
-  font-weight: 500;
-}
-
-.yw-eq .yw-eqs__name {
-  margin-top: 1.15rem;
-  color: var(--w-ink);
-  font: 400 1.3rem/1.4 var(--w-font-serif);
-  letter-spacing: -0.02em;
-}
-
-.yw-eq .yw-eqs__idx + .yw-eqs__name {
-  margin-top: 0.3rem;
-}
-
-.yw-eqs__vol {
-  margin-left: 0.3rem;
-  color: var(--w-accent-deep);
-  font: 400 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-}
-
-.yw-eqs__usage {
-  margin-top: 0.5rem;
-  color: var(--w-muted);
-  font-size: 0.88rem;
-  line-height: 1.7;
-}
-
-.yw-eq .yw-eqs__subhead {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  color: var(--w-ink);
-  font: 600 0.78rem/1.4 var(--w-font);
-  letter-spacing: 0.02em;
-}
-
-.yw-eqs__subhead::after {
-  flex: 1;
-  height: 1px;
-  background: var(--w-line);
-  content: '';
-}
-
-.yw-eqs__ings li {
-  display: grid;
-  gap: 0.9rem;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--w-hair);
-}
-
-.yw-eqs__ings li:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.yw-eqs__ings li.has-icon {
-  grid-template-columns: 2.75rem minmax(0, 1fr);
-  align-items: start;
-}
-
-.yw-eq .yw-eqs__ings li > img {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.yw-eqs__ingname {
-  color: var(--w-ink);
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-.yw-eqs__ingen {
-  margin-top: 0.1rem;
-  color: var(--w-accent-deep);
-  font: 400 0.75rem/1.4 var(--w-font-label);
-  letter-spacing: 0.05em;
-}
-
-.yw-eqs__ingdesc {
-  margin-top: 0.25rem;
-  color: var(--w-muted);
-  font-size: 0.84rem;
-  line-height: 1.6;
-}
-
-.yw-eq .yw-eqs__note {
-  margin-top: 1.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--w-line);
-  font-size: 0.75rem;
-}
-
-/* ── 모션 줄이기: 기울기·와이프·등장 없이 최종 상태 ───────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .yw-eq__track {
-    scroll-behavior: auto;
-  }
-
-  .yw-eq__tilt {
-    transform: none;
-  }
-
-  .yw-eq__use {
+  .wellness .yw-eq__stage img,
+  .yw-eq__text {
     animation: none;
   }
 
-  .yw-eqs[open],
-  .yw-eqs[open]::backdrop {
-    animation: none;
+  .yw-eq__tab {
+    transition: none;
   }
 }
