@@ -16,9 +16,9 @@ function pic(name, widths, ratio) {
 }
 
 export const PICS = {
-  // 히어로: 연두빛 실크 천(제공 사진)
-  heroWarm: pic('hero-silk', [960, 1600], 3 / 2),
-  heroWarmM: pic('hero-silk-m', [480, 624], 2 / 3),
+  // 히어로: 목 뒤에 손을 얹은 어깨(제공 사진). 데스크톱은 사진을 오른쪽에 두고 왼쪽을 벽 색으로 이어 글 자리를 만들었다.
+  heroWarm: pic('hero-shoulder', [960, 1600], 3 / 2),
+  heroWarmM: pic('hero-shoulder-m', [480, 734], 2 / 3),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
