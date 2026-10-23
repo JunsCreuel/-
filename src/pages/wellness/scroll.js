@@ -1,4 +1,4 @@
-import { SECTION_PAGE } from './pages'
+import { PAGES, SECTION_PAGE } from './pages'
 
 function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -71,6 +71,16 @@ export function goToMenu(item) {
   if (item.section) scrollToId(item.section)
   else if (item.page) goToPage(item.page)
   else scrollToId(item.id)
+}
+
+// 관리 프로그램 한 줄을 펼친 채로 보여 준다(메인 사진 카드 → 관리 프로그램 페이지). Programs가 'w:open-program'을 받아 펼친다.
+export function openProgram(id) {
+  const run = (move) => {
+    window.dispatchEvent(new CustomEvent('w:open-program', { detail: { id } }))
+    move(`program-${id}`)
+  }
+  if (document.getElementById(`program-${id}`)) run(scrollToId)
+  else goToPage(PAGES.program, () => run(jumpToId))
 }
 
 // HashRouter에서는 #id 링크가 라우트를 깨뜨리므로 스크롤은 직접 처리한다.
