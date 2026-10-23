@@ -45,6 +45,22 @@ const EQUIPMENT = [
     ],
   },
   {
+    id: 'body-galvanic',
+    tab: '바디 갈바닉',
+    img: PHOTOS.bodyGalvanic,
+    w: 644,
+    h: 1122,
+    alt: '바디 갈바닉 기기 앞면',
+    brand: 'NU SKIN ageLOC · USA',
+    name: '바디 갈바닉',
+    one: '넓은 면적 컨덕터와 전용 젤로 바디 피부를 관리하는 갈바닉 디바이스입니다.',
+    facts: [
+      ['방식', '갈바닉 미세 전류 + 기기 전용 젤'],
+      ['관리 부위', '바디 · 넓은 면적 컨덕터'],
+      ['이런 분께', '바디 피부를 꼼꼼하게 관리받고 싶은 분'],
+    ],
+  },
+  {
     id: 'wellspa',
     tab: '웰스파',
     img: PHOTOS.wellspa,
@@ -103,7 +119,7 @@ export default function Equipment() {
           <Folio ko="장비" />
           <h2 id="eq-title" className="yw-eq__title">
             국산 온열돔과
-            <br />두 가지 디바이스
+            <br />세 가지 디바이스
           </h2>
           <p className="yw-eq__lead">오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.</p>
         </header>
