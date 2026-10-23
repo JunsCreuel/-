@@ -21,8 +21,8 @@
   max-width: 34em;
   margin: 1.25rem 0 0;
   color: color-mix(in srgb, var(--w-ink) 78%, #fff);
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: clamp(1rem, 0.4vw + 0.9rem, 1.15rem);
+  line-height: 1.85;
   word-break: keep-all;
 }
 

@@ -91,7 +91,7 @@
   justify-content: space-between;
   gap: 1rem;
   min-height: 3.5rem;
-  padding-block: 1.35rem;
+  padding-block: clamp(1.5rem, 2.6vw, 2rem);
   list-style: none;
   cursor: pointer;
 }
@@ -110,7 +110,7 @@
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   color: var(--w-ink);
   font-family: var(--w-font-serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
   line-height: 1.55;
   letter-spacing: -0.01em;
   transition: background-size 0.2s var(--yw-ease);
@@ -196,7 +196,7 @@
   }
 
   .yw-faq__item > summary {
-    padding-block: clamp(1.35rem, 1.9vw, 1.75rem);
+    padding-block: clamp(1.75rem, 2.4vw, 2.25rem);
   }
 
   .yw-faq__item:first-child {
