@@ -1,0 +1,472 @@
+/* 온열돔 스포트라이트 — 에스프레소 장 위 샴페인 오각형 + 가운데 온열돔 누끼.
+   휴대폰: 머리 → 그래프 → 설명·버튼을 가운데 정렬로 쌓는다. 데스크톱(64rem 이상): 왼쪽 머리·설명, 오른쪽 그래프.
+   꼭짓점 이름은 그래프 위 HTML 버튼(탭)이라 좌표는 --x/--y(%)로 받고, 위쪽 세 개는 점 위에, 아래 두 개는 점 아래에 선다. */
+
+.yw-dome {
+  overflow: clip;
+}
+
+.yw-dome__grid {
+  display: grid;
+  grid-template-areas:
+    'copy'
+    'chart'
+    'detail';
+  justify-items: center;
+  gap: clamp(1.75rem, 5vw, 2.5rem);
+  text-align: center;
+}
+
+.yw-dome__copy {
+  grid-area: copy;
+}
+
+.yw-dome__chart {
+  grid-area: chart;
+}
+
+.yw-dome__detail {
+  grid-area: detail;
+}
+
+/* ── 머리 ─────────────────────────────────────────────────── */
+
+.yw-dome__kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 0 0 1.4rem;
+  color: var(--w-champagne);
+  font: 400 0.75rem/1.4 var(--w-font-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.yw-dome__kicker span {
+  white-space: nowrap;
+}
+
+.yw-dome__kicker span:last-child {
+  font-family: var(--w-font);
+  letter-spacing: 0.08em;
+}
+
+/* 좁은 폰: 가운데 선을 빼고 두 덩어리가 각각 한 줄로 서게 한다 */
+@media (max-width: 24rem) {
+  .yw-dome__kicker {
+    flex-wrap: wrap;
+    gap: 0.35rem 0.85rem;
+  }
+
+  .yw-dome__kicker i {
+    display: none;
+  }
+}
+
+.yw-dome__kicker i {
+  width: clamp(2rem, 8vw, 4.5rem);
+  height: 1px;
+  background: color-mix(in srgb, var(--w-champagne) 60%, transparent);
+}
+
+.wellness .yw-h2.yw-dome__title {
+  margin: 0;
+  color: var(--yw-cream);
+  /* 320 폭에서도 '따뜻하게 쉬어 가세요.'가 한 줄에 들어가게 휴대폰에서는 화면 폭을 따른다 */
+  font-size: clamp(1.7rem, 8.4vw, 3.2rem);
+}
+
+.yw-dome__title em {
+  color: var(--w-champagne);
+  font-style: normal;
+}
+
+.yw-dome__sub {
+  max-width: 28ch;
+  margin: 1rem auto 0;
+  color: color-mix(in srgb, var(--yw-cream) 72%, transparent);
+  font-size: clamp(0.95rem, 2.6vw, 1.05rem);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+/* ── 그래프 ───────────────────────────────────────────────── */
+
+.yw-dome__chart {
+  width: min(100%, 30rem);
+}
+
+.yw-dome__plot {
+  position: relative;
+  aspect-ratio: 1;
+  /* 꼭짓점 이름 버튼이 들어갈 자리: 위·아래로 살짝 넓힌다 */
+  margin-block: 1.5rem 0.5rem;
+}
+
+.yw-dome__plot svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 가운데 온기: 샴페인이 옅게 번지는 원. 천천히 숨 쉬듯 커졌다 작아진다. */
+.yw-dome__plot::before {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--w-champagne) 26%, transparent) 0%, transparent 68%);
+  content: '';
+  animation: none;
+}
+
+@keyframes yw-dome-breathe {
+  50% {
+    opacity: 0.55;
+    scale: 1.08;
+  }
+}
+
+.yw-dome__ring {
+  fill: none;
+  stroke: color-mix(in srgb, var(--w-champagne) 26%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.6s var(--yw-ease);
+}
+
+.yw-dome__ring.is-outer {
+  stroke: color-mix(in srgb, var(--w-champagne) 45%, transparent);
+}
+
+.yw-dome__axis {
+  stroke: color-mix(in srgb, var(--w-champagne) 18%, transparent);
+  stroke-width: 1;
+  transition: stroke 0.4s ease;
+}
+
+.yw-dome__axis.is-on {
+  stroke: var(--w-champagne);
+}
+
+.yw-dome__shape {
+  fill: color-mix(in srgb, var(--w-champagne) 14%, transparent);
+  stroke: var(--w-champagne);
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.6s var(--yw-ease) 0.15s;
+}
+
+.yw-dome__dot {
+  fill: var(--w-espresso);
+  stroke: var(--w-champagne);
+  stroke-width: 2;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease calc(0.4s + var(--i) * 0.05s),
+    fill 0.3s ease;
+}
+
+.yw-dome__dot.is-on {
+  fill: var(--w-champagne);
+}
+
+.yw-dome__chart.is-in .yw-dome__ring {
+  stroke-dashoffset: 0;
+}
+
+.yw-dome__chart.is-in .yw-dome__shape {
+  transform: none;
+}
+
+.yw-dome__chart.is-in .yw-dome__dot {
+  opacity: 1;
+}
+
+/* 고른 꼭짓점의 퍼지는 고리 */
+.yw-dome__pulse {
+  position: absolute;
+  top: var(--ay);
+  left: var(--ax);
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: -0.8rem 0 0 -0.8rem;
+  border: 1px solid var(--w-champagne);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    top 0.5s var(--yw-ease),
+    left 0.5s var(--yw-ease);
+}
+
+.yw-dome__chart.is-in .yw-dome__pulse {
+  animation: none;
+}
+
+@keyframes yw-dome-pulse {
+  from {
+    opacity: 0.9;
+    scale: 0.5;
+  }
+
+  to {
+    opacity: 0;
+    scale: 1.8;
+  }
+}
+
+/* 가운데 온열돔 누끼 */
+.yw-dome__pic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 56%;
+  translate: -50% -46%;
+  opacity: 0;
+  scale: 0.92;
+  transition:
+    opacity 0.5s ease 0.2s,
+    scale 0.6s var(--yw-ease) 0.2s;
+}
+
+.yw-dome__pic img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 24px rgb(0 0 0 / 0.45));
+}
+
+.yw-dome__chart.is-in .yw-dome__pic {
+  opacity: 1;
+  scale: 1;
+}
+
+/* 꼭짓점 이름(탭) */
+.yw-dome__tab {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 0.9rem;
+  background: none;
+  color: color-mix(in srgb, var(--yw-cream) 78%, transparent);
+  font: inherit;
+  font-size: clamp(0.78rem, 2.6vw, 0.95rem);
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  translate: -50% -100%;
+  transition:
+    opacity 0.3s ease calc(0.5s + var(--i) * 0.05s),
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.yw-dome__tab--below {
+  translate: -50% 0;
+}
+
+.yw-dome__tab small {
+  color: var(--w-champagne);
+  font: 400 0.75rem/1 var(--w-font-label);
+  letter-spacing: 0.12em;
+}
+
+.yw-dome__chart.is-in .yw-dome__tab {
+  opacity: 1;
+}
+
+.yw-dome__tab[aria-selected='true'] {
+  border-color: var(--w-champagne);
+  background: var(--w-champagne);
+  color: var(--w-espresso);
+}
+
+.yw-dome__tab[aria-selected='true'] small {
+  color: var(--w-accent-deep);
+}
+
+.yw-dome__tab:focus-visible {
+  outline: 2px solid var(--yw-cream);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-dome__tab:hover {
+    border-color: color-mix(in srgb, var(--w-champagne) 70%, transparent);
+    color: var(--yw-cream);
+  }
+
+  .yw-dome__tab[aria-selected='true']:hover {
+    color: var(--w-espresso);
+  }
+}
+
+/* ── 설명 · 메뉴 · 버튼 ─────────────────────────────────────── */
+
+.yw-dome__detail {
+  display: grid;
+  justify-items: center;
+  gap: 1.4rem;
+  width: min(100%, 30rem);
+}
+
+.yw-dome__panel {
+  width: 100%;
+  min-height: 7.5rem;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--w-champagne) 28%, transparent);
+  border-radius: 1.1rem;
+  background: color-mix(in srgb, var(--yw-cream) 5%, transparent);
+}
+
+.yw-dome__point {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  color: color-mix(in srgb, var(--yw-cream) 78%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  word-break: keep-all;
+  animation: yw-dome-text 0.25s var(--yw-ease) both;
+}
+
+@keyframes yw-dome-text {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+}
+
+.yw-dome__no {
+  color: var(--w-champagne);
+  font: 400 0.75rem/1 var(--w-font-label);
+  letter-spacing: 0.14em;
+}
+
+.yw-dome__no i {
+  color: color-mix(in srgb, var(--w-champagne) 55%, transparent);
+  font-style: normal;
+}
+
+.yw-dome__point strong {
+  color: var(--yw-cream);
+  font: 400 1.25rem/1.35 var(--w-font-serif);
+}
+
+.yw-dome__menu {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  color: color-mix(in srgb, var(--yw-cream) 88%, transparent);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.yw-dome__menu span {
+  color: var(--w-champagne);
+  font-family: var(--w-font-num);
+  font-size: 0.88rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.yw-dome__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
+}
+
+/* ── 데스크톱: 왼쪽 글, 오른쪽 그래프 ─────────────────────────── */
+
+@media (min-width: 64rem) {
+  .yw-dome__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'copy chart'
+      'detail chart';
+    align-items: start;
+    justify-items: start;
+    column-gap: clamp(3rem, 6vw, 6rem);
+    row-gap: 2.5rem;
+    text-align: left;
+  }
+
+  .yw-dome__kicker {
+    justify-content: flex-start;
+  }
+
+  .yw-dome__sub {
+    margin-inline: 0;
+  }
+
+  .yw-dome__chart {
+    align-self: center;
+    justify-self: center;
+    width: min(100%, 34rem);
+  }
+
+  .yw-dome__detail {
+    justify-items: start;
+  }
+
+  .yw-dome__cta {
+    justify-content: flex-start;
+  }
+}
+
+/* ── 모션 줄이기: 모두 그려진 상태로 멈춘다 ──────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-dome__plot::before,
+  .yw-dome__chart.is-in .yw-dome__pulse,
+  .yw-dome__point {
+    animation: none;
+  }
+
+  .yw-dome__ring,
+  .yw-dome__shape,
+  .yw-dome__dot,
+  .yw-dome__pic,
+  .yw-dome__tab,
+  .yw-dome__pulse {
+    transition: none;
+  }
+
+  .yw-dome__ring {
+    stroke-dashoffset: 0;
+  }
+
+  .yw-dome__shape {
+    transform: none;
+  }
+
+  .yw-dome__dot,
+  .yw-dome__tab {
+    opacity: 1;
+  }
+
+  .yw-dome__pic {
+    opacity: 1;
+    scale: 1;
+  }
+}
