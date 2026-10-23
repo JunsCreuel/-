@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { BRANCHES, telHref } from './data'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { STARTUP_PHONES, telHref } from './data'
 import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
 import { fireConfetti } from './motion'
 import { scrollToId } from './scroll'
@@ -56,7 +56,6 @@ export default function StartupForm() {
   const formRef = useRef(null)
   const stepRef = useRef(null)
   const prevStep = useRef(step) // 단계가 실제로 바뀌었을 때만 포커스를 옮기기 위해
-  const phone = BRANCHES.zai.phone
 
   // 단계가 바뀌면 새 단계의 첫 입력으로 포커스를 옮긴다(처음 그려질 때는 건드리지 않는다).
   // 단계마다 길이가 달라(4단계가 가장 길다) 아래쪽 '이전'·'다음'을 누르면 새 단계의 머리와 첫 칸이 고정 헤더 뒤나 화면 밖에 남을 수 있다.
@@ -251,7 +250,12 @@ export default function StartupForm() {
       {pending && (
         <p className="w-form__notice" role="status">
           문의 접수를 준비 중입니다. 입력하신 내용은 아직 전송되지 않았으니, 전화로 문의해 주시기 바랍니다.{' '}
-          <a href={telHref(phone)}>{phone}</a>
+          {STARTUP_PHONES.map((p, i) => (
+            <Fragment key={p}>
+              {i > 0 && ' · '}
+              <a href={telHref(p)}>{p}</a>
+            </Fragment>
+          ))}
         </p>
       )}
     </form>

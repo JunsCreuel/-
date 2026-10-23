@@ -237,7 +237,7 @@ export const BRANCHES = {
     address: '부산 해운대구 마린시티3로 23 오렌지상가 3층 329호',
     mapQuery: '부산 해운대구 마린시티3로 23 오렌지상가',
     hours: null,
-    phone: '010-2360-1470',
+    phone: '010-3885-1989',
     booking: null,
   },
 }
@@ -248,6 +248,9 @@ export const MARINE_OPEN = false
 
 // 마린시티점은 별도 페이지 없이 '지점 안내'(예약 장 오시는 길 아래 한 줄, 푸터 주소·전화)로만 알린다.
 export const SHOW_MARINE_INFO = true
+
+// 창업 상담은 용호 자이점에서 진행하고, 전화는 아래 두 번호로만 받는다.
+export const STARTUP_PHONES = [BRANCHES.zai.phone, BRANCHES.marine.phone]
 
 // 화면에 노출하는 지점 목록
 export const OPEN_BRANCHES = Object.values(BRANCHES).filter((b) => b.id !== 'marine' || MARINE_OPEN)

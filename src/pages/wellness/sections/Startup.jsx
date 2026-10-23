@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, telHref } from '../data'
+import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, STARTUP_PHONES, telHref } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
 import { useInView, useScrollParallax, useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
@@ -92,9 +92,14 @@ export default function Startup() {
           <a className="yw-btn yw-btn--cream" data-magnet="" href={telHref(phone)}>
             <span>창업·운영 전화 상담</span>
           </a>
-          <a className="yw-biz__tel" href={telHref(phone)}>
-            {phone}
-          </a>
+          <p className="yw-biz__where">창업 상담은 용호 자이점에서 진행합니다.</p>
+          <p className="yw-biz__tels">
+            {STARTUP_PHONES.map((p) => (
+              <a key={p} className="yw-biz__tel" href={telHref(p)}>
+                {p}
+              </a>
+            ))}
+          </p>
         </div>
 
         <div className="yw-biz__form">
