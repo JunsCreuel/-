@@ -12,8 +12,8 @@
 
 .wellness .yw-story__title {
   margin: 0.5rem 0 0;
-  font: 500 clamp(2.25rem, 4.4vw, 3.75rem) / 1.25 var(--w-font-serif);
-  letter-spacing: -0.03em;
+  font: 400 clamp(1.7rem, 6.4vw, 3rem) / 1.3 var(--w-font-serif);
+  letter-spacing: -0.02em;
   word-break: keep-all;
 }
 
@@ -21,8 +21,8 @@
   max-width: 34em;
   margin: 1.25rem 0 0;
   color: color-mix(in srgb, var(--w-ink) 78%, #fff);
-  font-size: clamp(1rem, 0.4vw + 0.9rem, 1.15rem);
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.8;
   word-break: keep-all;
 }
 

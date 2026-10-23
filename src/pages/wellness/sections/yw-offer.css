@@ -9,7 +9,7 @@
 /* ── 티켓 ─────────────────────────────────────────────────── */
 
 .yw-offer .yw-ticket {
-  --tp: clamp(2rem, 4.5vw, 3.75rem); /* 티켓 안쪽 여백 */
+  --tp: clamp(1.5rem, 3vw, 2.75rem); /* 티켓 안쪽 여백 */
   --stub: 13rem; /* 넓은 화면 오른쪽 스텁 폭 */
   --notch: 1rem; /* 반원 홈 반지름 */
   --mask-a: radial-gradient(circle var(--notch) at 0 var(--cut, calc(100% - 9rem)), #0000 98%, #000);
@@ -99,7 +99,11 @@
 .yw-offer .yw-ticket__pct {
   margin-top: -0.06em;
   padding: 0.06em 0.04em 0 0;
-  color: var(--w-espresso);
+  background: linear-gradient(100deg, var(--w-espresso), var(--w-bronze) 45%, var(--w-champagne) 60%, var(--w-espresso)) 0 0 /
+    220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font: 500 clamp(5rem, 26vw, 7rem) / 0.85 var(--w-font-en);
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: -0.02em;
@@ -108,6 +112,20 @@
 .yw-offer .yw-ticket__pct small {
   margin-left: 0.04em;
   font-size: 0.4em;
+}
+
+.yw-offer .yw-ticket.is-in .yw-ticket__pct {
+  animation: yw-ticket-grad 1s ease-out both;
+}
+
+@keyframes yw-ticket-grad {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
 }
 
 .yw-ticket__scope {
