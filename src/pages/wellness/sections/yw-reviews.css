@@ -5,7 +5,7 @@
 .yw-voices {
   /* 베이지 바탕: 샴페인을 아이보리에 옅게 섞는다(새 색을 만들지 않는다) */
   --yw-vc-bg: color-mix(in srgb, var(--w-champagne) 30%, var(--yw-ivory));
-  --yw-vc-gap: clamp(1.25rem, 2.6vw, 2rem);
+  --yw-vc-gap: clamp(0.9rem, 2vw, 1.5rem);
   overflow: clip;
   background: var(--yw-vc-bg);
 }
@@ -14,8 +14,8 @@
 
 .yw-voices__head {
   display: grid;
-  gap: clamp(2rem, 4vw, 3rem);
-  margin-bottom: clamp(3rem, 7vw, 6rem);
+  gap: clamp(1.75rem, 4vw, 2.5rem);
+  margin-bottom: clamp(2.25rem, 5vw, 4rem);
 }
 
 .yw-voices .yw-display.yw-voices__title {
@@ -233,7 +233,7 @@
 .wellness .yw-vc__quote {
   margin: 0.85rem 0 0;
   color: var(--w-ink);
-  font: 700 clamp(1.15rem, 3.6vw, 1.35rem) / 1.5 var(--w-font);
+  font: 700 clamp(1.08rem, 3.6vw, 1.22rem) / 1.5 var(--w-font);
   letter-spacing: -0.02em;
   text-align: center;
   text-wrap: balance;
@@ -254,7 +254,7 @@
 .yw-vc__text {
   margin: 0;
   color: color-mix(in srgb, var(--w-ink) 72%, #fff);
-  font-size: 1rem;
+  font-size: 0.92rem;
   line-height: 1.8;
   white-space: pre-line;
   overflow-wrap: anywhere;
