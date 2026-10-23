@@ -185,6 +185,20 @@ export default function Programs() {
     return () => io.disconnect()
   }, [wide, activate])
 
+  // 메인 사진 카드에서 고른 관리(scroll.js openProgram): 전체 목록으로 돌리고 그 줄을 펼친다.
+  useEffect(() => {
+    const onOpen = (e) => {
+      const i = PROGRAMS.findIndex((p) => p.id === e.detail?.id)
+      if (i < 0) return
+      setFilter('all')
+      setOpenId(PROGRAMS[i].id)
+      setSeen((s) => (s.has(PROGRAMS[i].id) ? s : new Set(s).add(PROGRAMS[i].id)))
+      activate(i)
+    }
+    window.addEventListener('w:open-program', onOpen)
+    return () => window.removeEventListener('w:open-program', onOpen)
+  }, [activate])
+
   function choose(id) {
     if (id === filter) return
     setFilter(id)
@@ -256,6 +270,7 @@ export default function Programs() {
               return (
                 <li
                   key={p.id}
+                  id={`program-${p.id}`}
                   ref={(el) => {
                     rowRefs.current[i] = el
                   }}

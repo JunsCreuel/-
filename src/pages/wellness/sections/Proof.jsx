@@ -2,12 +2,14 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
 import { Folio, Footnote, ParenLink } from '../editorial'
 import { useInView, useMediaQuery } from '../motion'
+import { PAGES, pageHref } from '../pages'
 import './yw-reviews.css'
 
 // No. 06 Voices — 네이버 방문자 리뷰를 베이지 바탕 위 흰 카드로 모아 보여 준다.
 // 카드: 별점 → 관리 꼬리표 → 크게 인용한 한 구절(원문에서 그대로 자른 것) → 원문 전체(인용 구절은 형광펜) → 닉네임·방문일.
 // 휴대폰은 1열, 태블릿 2열, 데스크톱 3열. 열마다 카드를 차례로 나눠 담아(1→2→3→1…) 긴 글을 펼쳐도 다른 열은 움직이지 않는다.
 // 처음에는 몇 장만 보이고 '후기 더 보기'로 나머지를 연다. 후기 원문(text)은 고치거나 줄이지 않는다.
+// summary(메인)면 한 줄(열 수만큼)만 보이고, '더 보기' 대신 후기 페이지로 가는 링크를 둔다.
 
 const LIST = SHOW_CLAIM_REVIEWS ? REVIEWS : REVIEWS.filter((r) => !r.claim)
 const LONG = 110 // 이보다 긴 글은 다섯 줄까지만 보이고, 실제로 잘렸으면 '더 읽기'로 펼친다
@@ -122,12 +124,12 @@ function Stats({ branch }) {
   )
 }
 
-export default function Proof() {
+export default function Proof({ summary = false }) {
   const branch = BRANCHES.zai
   const mid = useMediaQuery('(min-width: 48rem)')
   const wide = useMediaQuery('(min-width: 64rem)')
   const cols = wide ? 3 : mid ? 2 : 1
-  const first = wide ? 6 : 4
+  const first = summary ? cols : wide ? 6 : 4
   const [all, setAll] = useState(false)
   const wallRef = useRef(null)
   // IntersectionObserver가 없는 브라우저에서는 처음부터 모두 보인다.
@@ -206,7 +208,11 @@ export default function Proof() {
       </div>
 
       <div className="yw-wrap yw-voices__foot">
-        {rest > 0 && (
+        {summary ? (
+          <ParenLink href={pageHref(PAGES.review)}>
+            후기 모두 보기
+          </ParenLink>
+        ) : rest > 0 && (
           <button type="button" className="yw-btn yw-voices__show" data-magnet data-cursor="" onClick={showAll}>
             <span>
               후기 {rest}개 더 보기 <i aria-hidden="true">+</i>

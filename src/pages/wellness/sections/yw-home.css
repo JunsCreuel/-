@@ -1,0 +1,147 @@
+/* 메인 전용 짧은 블록 (sections/HomeBlocks.jsx) */
+
+/* 짧은 브랜드 문구 */
+.yw-section.yw-hintro {
+  background: #fff;
+}
+
+.wellness .yw-hintro__lead {
+  max-width: 30em;
+  margin: 0;
+  color: var(--w-ink);
+  font: 400 clamp(1.3rem, 1.4vw + 0.95rem, 2rem) / 1.7 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-hintro__more {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* 관리 프로그램 사진 카드 */
+.yw-section.yw-hprog {
+  background: var(--yw-ivory);
+}
+
+.yw-hprog__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.yw-hprog__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 64rem) {
+  .yw-hprog__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.yw-pcard {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  padding: clamp(0.9rem, 2vw, 1.5rem);
+  overflow: clip;
+  border-radius: 1.25rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.wellness .yw-pcard img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: scale 0.6s var(--yw-ease);
+}
+
+.yw-pcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(42 35 32 / 0) 35%, rgb(42 35 32 / 0.82));
+}
+
+.yw-pcard__group {
+  color: var(--w-champagne);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.wellness .yw-pcard__name {
+  margin-top: 0.35rem;
+  font: 500 clamp(1rem, 0.7vw + 0.8rem, 1.35rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-pcard__time {
+  margin-top: 0.35rem;
+  color: color-mix(in srgb, #fff 80%, transparent);
+  font-size: 0.82rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-pcard:hover img {
+    scale: 1.04;
+  }
+}
+
+/* 낮은 상담 유도 띠 */
+.yw-hcta {
+  padding: clamp(4.5rem, 8vw, 7rem) var(--w-gutter);
+  background: color-mix(in srgb, var(--w-champagne) 22%, #fff);
+}
+
+.yw-hcta__in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem 3rem;
+}
+
+.wellness .yw-hcta__title {
+  margin: 0;
+  font: 500 clamp(1.75rem, 2.8vw, 2.6rem) / 1.3 var(--w-font-serif);
+  letter-spacing: -0.03em;
+  word-break: keep-all;
+}
+
+.yw-hcta__title em {
+  color: var(--w-accent-deep);
+  font-style: normal;
+}
+
+.yw-hcta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wellness .yw-pcard img {
+    transition: none;
+  }
+}

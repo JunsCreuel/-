@@ -68,6 +68,10 @@ export const PHOTOS = {
   moodFace: `${BASE}wellness/mood/face.webp`,
 }
 
+// 브랜드 소개 한 단락. 브랜드 페이지(About)와 메인의 짧은 소개(HomeIntro)가 함께 쓴다.
+export const BRAND_STORY =
+  '예뻐졌다 WELLNESS STUDIO는 예뻐졌다가 쉼을 더해 만든 자매 브랜드입니다. 국산 원적외선 온열돔으로 몸을 따뜻하게 데운 뒤, 두피·얼굴·바디를 1:1로 관리합니다.'
+
 // 창업 안내. 예뻐졌다(본 브랜드)는 매장이 40개 이상이고, 예뻐졌다 웰니스 스튜디오는 그 자매 브랜드다(화면 표기는 '자매 브랜드'로 확정).
 // 그래서 웰니스 스튜디오 창업은 처음 창업하는 것과 똑같은 신규 창업이다. 40+를 웰니스 스튜디오 매장 수처럼 쓰지 않는다.
 export const PARENT_STORE_COUNT = 40
