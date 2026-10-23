@@ -12,17 +12,15 @@ import './wellness.css'
 // nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다. bar: true인 항목만 상단 바 메뉴 줄에 나오고, 전체 목록은 햄버거 패널과 푸터에 쓴다.
 const NAV_ITEMS = {
   zai: [
-    { id: 'about', label: '소개', bar: true },
-    { id: 'concern', label: '고민 부위' },
-    { id: 'programs', label: '프로그램', bar: true },
+    { id: 'about', label: '브랜드', bar: true },
+    { id: 'programs', label: '관리 프로그램', bar: true },
     { id: 'equipment', label: '장비', bar: true },
-    { id: 'warm-ritual', label: '온열돔 단독 이용' },
+    { id: 'offer', label: '이벤트', bar: true },
     { id: 'reviews', label: '후기', bar: true },
-    { id: 'offer', label: '이벤트' },
-    { id: 'faq', label: 'FAQ' },
+    { id: 'branches', label: '지점 안내', bar: true },
+    { id: 'startup', label: '창업', bar: true },
+    { id: 'faq', label: '자주 묻는 질문' },
     { id: 'booking', label: '상담 예약' },
-    { id: 'visit', label: '오시는 길', bar: true },
-    { id: 'startup', label: '창업·운영 상담' },
   ],
   marine: [
     { id: 'intro', label: '소개' },
