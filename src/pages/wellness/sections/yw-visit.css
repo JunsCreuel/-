@@ -287,11 +287,11 @@
 
 @keyframes yw-pick {
   from {
-    box-shadow: 0 0 0 0 rgb(163 131 95 / 0.6);
+    box-shadow: 0 0 0 0 rgb(160 164 104 / 0.6);
   }
 
   to {
-    box-shadow: 0 0 0 0.8rem rgb(163 131 95 / 0);
+    box-shadow: 0 0 0 0.8rem rgb(160 164 104 / 0);
   }
 }
 

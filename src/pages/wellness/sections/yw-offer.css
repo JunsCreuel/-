@@ -208,14 +208,14 @@
   align-items: baseline;
   gap: 0.15rem 0.75rem;
   padding-block: 0.8rem;
-  border-top: 1px dashed rgb(42 35 32 / 0.25);
+  border-top: 1px dashed rgb(46 50 38 / 0.25);
   opacity: 0;
   transition: opacity 0.3s ease;
   transition-delay: calc(var(--i, 0) * 50ms);
 }
 
 .yw-ticket__list li:last-child {
-  border-bottom: 1px dashed rgb(42 35 32 / 0.25);
+  border-bottom: 1px dashed rgb(46 50 38 / 0.25);
 }
 
 .yw-ticket__list .is-run > li {
@@ -296,7 +296,7 @@
   gap: 1rem;
   margin: 0 calc(-1 * var(--tp)) calc(-1 * var(--tp));
   padding: calc(var(--tp) * 0.9) var(--tp) var(--tp);
-  border-top: 2px dashed rgb(42 35 32 / 0.3);
+  border-top: 2px dashed rgb(46 50 38 / 0.3);
 }
 
 .yw-ticket__stub .yw-paren {
@@ -376,7 +376,7 @@
     margin: calc(-1 * var(--tp)) 0;
     padding: var(--tp) 1.75rem;
     border-top: 0;
-    border-left: 2px dashed rgb(42 35 32 / 0.3);
+    border-left: 2px dashed rgb(46 50 38 / 0.3);
   }
 
   .yw-offer .yw-ticket__round {
