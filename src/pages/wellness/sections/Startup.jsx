@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_COSTS_NOTE, STARTUP_PHONES, telHref } from '../data'
 import { Folio, Footnote, Pic, SplitLines } from '../editorial'
-import { useInView, useScrollParallax, useScrollProgress } from '../motion'
+import { useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
 import './yw-business.css'
 
@@ -15,12 +15,8 @@ const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '�
 
 export default function Startup() {
   const phone = BRANCHES.zai.phone
-  const ghostRef = useRef(null)
-  const orbitRef = useRef(null)
   const tlRef = useRef(null)
-  const orbitIn = useInView(orbitRef, { threshold: 0.1 })
 
-  useScrollParallax(ghostRef, 60)
   useScrollProgress(tlRef, { mode: 'through' })
 
   return (
@@ -28,17 +24,11 @@ export default function Startup() {
       <div className="yw-biz__bg" aria-hidden="true">
         <Pic pic={PICS.bizStill} sizes="100vw" />
       </div>
-      <span ref={ghostRef} className="yw-biz__ghost" aria-hidden="true">
-        PARTNERS
-      </span>
-      <svg ref={orbitRef} className={`yw-biz__orbit${orbitIn ? ' is-in' : ''}`} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-        <circle cx="50" cy="50" r="49.5" pathLength="1" />
-      </svg>
 
       {/* 모바일은 DOM 순서(머리 → 창업 비용 → 진행 단계 → 전화 → 폼), 64rem 이상은 grid 영역으로 위 2열 + 아래 전폭 */}
       <div className="yw-wrap yw-biz__grid">
         <div className="yw-biz__head">
-          <Folio en="Appendix — For Partners" />
+          <Folio ko="창업 상담" />
           <SplitLines as="h2" className="yw-biz__title" lines={['웰니스 공간을', '시작하고 싶으신가요?']} />
           <p className="yw-biz__stat">
             <span className="yw-biz__num">{PARENT_STORE_COUNT}+</span>

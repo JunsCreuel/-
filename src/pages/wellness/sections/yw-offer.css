@@ -82,9 +82,9 @@
 
 .yw-ticket__label {
   display: block;
-  color: var(--w-accent-deep);
-  font: 500 0.78rem/1 var(--w-font-label);
-  letter-spacing: 0.2em;
+  color: var(--w-ink);
+  font: 500 1.05rem/1.4 var(--w-font-serif);
+  letter-spacing: -0.01em;
 }
 
 /* 50%와 'N개 관리'는 같은 줄의 한 덩어리 */
@@ -197,8 +197,9 @@
 .yw-ticket__listlabel {
   margin-bottom: 0.7rem;
   color: var(--w-accent-deep);
-  font: 500 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .yw-ticket__list li {
@@ -326,10 +327,6 @@
   scale: 0.97;
 }
 
-.yw-ticket__vert {
-  display: none;
-}
-
 /* 태블릿: 알약 버튼과 괄호 링크를 한 줄에 */
 @media (min-width: 40rem) and (max-width: 63.99rem) {
   .yw-ticket__stub {
@@ -403,18 +400,6 @@
     color: #fff;
   }
 
-  .yw-ticket__vert {
-    position: absolute;
-    top: 50%;
-    right: 0.75rem;
-    display: block;
-    font: 400 0.75rem/1 var(--w-font-label);
-    letter-spacing: 0.3em;
-    white-space: nowrap;
-    writing-mode: vertical-rl;
-    opacity: 0.55;
-    translate: 0 -50%;
-  }
 }
 
 /* ── 마우스 기기: 채워지는 원, 커서를 따라오는 빛 ─────────── */

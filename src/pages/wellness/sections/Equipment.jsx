@@ -98,7 +98,7 @@ const ACTIVATING_GEL = {
 const DEVICES = [
   {
     no: '02',
-    en: 'FACE',
+    en: '얼굴',
     name: '페이스 갈바닉',
     sub: '얼굴 · 교체형 헤드',
     photo: PHOTOS.faceGalvanic,
@@ -109,7 +109,7 @@ const DEVICES = [
   },
   {
     no: '03',
-    en: 'BODY',
+    en: '바디',
     name: '바디 갈바닉',
     sub: '바디 · 넓은 면적 컨덕터',
     photo: PHOTOS.bodyGalvanic,
@@ -120,7 +120,7 @@ const DEVICES = [
   },
   {
     no: '04',
-    en: 'BODY',
+    en: '바디',
     name: '웰스파',
     sub: '하체 · 팔뚝 · 복부',
     photo: PHOTOS.wellspa,
@@ -174,9 +174,9 @@ function DomeCard() {
           <p className="yw-eq__no">
             <span className="yw-eq__num">01</span>
             <span className="yw-eq__dot"> · </span>
-            <span className="yw-eq__en">WARM UP</span>
+            <span className="yw-eq__en">온열</span>
           </p>
-          <p className="yw-eq__maker">MYUNGSHIN MEDICAL · MADE IN KOREA</p>
+          <p className="yw-eq__maker">국산 · 명신메디칼</p>
           <h3 className="yw-eq__name">전신 온열돔</h3>
           <p className="yw-eq__sub">국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
           <dl className="yw-eq__facts">
@@ -605,7 +605,7 @@ export default function Equipment() {
     <section id="equipment" className="yw-section yw-curtain--light yw-eq" data-theme="light">
       <div className="yw-wrap yw-eq__head">
         <div className="yw-eq__intro">
-          <Folio no="05" en="Equipment & Gel" />
+          <Folio ko="장비" />
           <h2 className="yw-h2">온열돔과 세 가지 디바이스</h2>
           <p className="yw-lead">
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
