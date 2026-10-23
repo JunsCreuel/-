@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
-import { Folio, Footnote, Pic } from '../editorial'
+import { Folio, Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
 import './yw-equipment.css'
@@ -471,7 +471,6 @@ function GelSheet({ device, onClose }) {
             </ul>
           </div>
         ))}
-        <Footnote className="yw-eqs__note">성분 설명은 원료의 출처를 소개한 것이며, 체감은 개인에 따라 다를 수 있습니다.</Footnote>
       </div>
     </dialog>
   )
@@ -640,13 +639,6 @@ export default function Equipment() {
       </div>
 
       <div className="yw-eq__bar" ref={barRef} aria-hidden="true" />
-
-      <div className="yw-wrap">
-        <Footnote>
-          뉴스킨 디바이스와 기기별 전용 제품을 사용하며, 구성은 프로그램에 따라 다르고 체감은 개인에 따라 다를 수 있습니다. 100% 예약제 ·
-          이용시간과 비용, 정기 이용 구성은 상담 시 안내합니다.
-        </Footnote>
-      </div>
 
       {/* 트랙 밖에 둔다(시트 안의 누르기가 트랙 끌기로 번지지 않게). 열렸을 때만 마운트한다. */}
       {sheet && <GelSheet key={sheet.no} device={sheet} onClose={closeSheet} />}

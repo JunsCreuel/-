@@ -10,7 +10,7 @@ import {
   SHOW_PRICES,
   won,
 } from '../data'
-import { Folio, Footnote, ParenLink, Pic, SplitLines } from '../editorial'
+import { Folio, ParenLink, Pic, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
 import { pickForBooking } from '../scroll'
 import './yw-menu.css'
@@ -356,18 +356,6 @@ export default function Programs() {
           </ul>
 
           <div className="yw-menu__foot">
-            <Footnote>
-              {SHOW_PRICES && '정가는 네이버 예약 기준입니다. '}
-              {/* '첫 방문가(50%)는'은 한 덩어리로 묶어, 괄호 뒤에서 줄이 바뀌어 '는'이 줄 머리에 오지 않게 한다 */}
-              {SHOW_TERMS && (
-                <>
-                  <span className="yw-menu__nb">첫 방문가(50%)는</span>
-                  {` 할인 대상 ${SALE_COUNT}개 관리에만 적용됩니다(${OFFER_TERM_FULL}). `}
-                </>
-              )}
-              관리 구성과 소요시간은 컨디션에 따라 달라질 수 있고, 사진은 분위기 연출용 이미지로 실제 관리 장면과 다를 수
-              있습니다.
-            </Footnote>
             <ParenLink href={BRANCHES.zai.booking} external>
               네이버에서 예약하기
             </ParenLink>

@@ -88,13 +88,6 @@ export function ParenLink({ href, external = false, onClick, tone, className = '
   )
 }
 
-// 섹션 끝 ※ 각주 한 줄(법적 고지·안내를 모은다). tone='light'는 어두운 면 위.
-export function Footnote({ tone, className = '', children }) {
-  return (
-    <p className={`yw-note${tone === 'light' ? ' yw-note--light' : ''}${className ? ` ${className}` : ''}`}>※ {children}</p>
-  )
-}
-
 // data.js PICS 항목({ src, srcSet, width, height })을 그리는 img. 분위기 사진은 alt=''가 기본이다.
 // priority면 바로 받고(fetchpriority high), 아니면 지연 로딩한다. imgRef로 img.decode()를 미리 부를 수 있다.
 export function Pic({ pic, sizes = '100vw', alt = '', className, loading = 'lazy', priority = false, style, imgRef, ...rest }) {

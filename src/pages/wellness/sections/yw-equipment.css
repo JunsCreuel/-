@@ -578,12 +578,6 @@
   content: '';
 }
 
-@media (max-width: 47.99rem) {
-  .yw-eq .yw-note {
-    font-size: 0.75rem;
-  }
-}
-
 /* ── '성분 보기' 시트(<dialog>, showModal) ──────────────────
    모바일(48rem 미만)은 아래에서 올라오는 바텀 시트(위 모서리만 둥글게, 최대 86svh), 그 위는 가운데 패널(최대 36rem).
    <dialog> 자체가 스크롤 상자이고 머리(손잡이·라벨·닫기)는 sticky로 위에 붙는다. 닫힌 dialog는 브라우저가 숨기므로 display는 건드리지 않는다.
@@ -946,13 +940,6 @@
   color: var(--w-muted);
   font-size: 0.84rem;
   line-height: 1.6;
-}
-
-.yw-eq .yw-eqs__note {
-  margin-top: 1.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--w-line);
-  font-size: 0.75rem;
 }
 
 /* ── 모션 줄이기: 기울기·와이프·등장 없이 최종 상태 ───────── */

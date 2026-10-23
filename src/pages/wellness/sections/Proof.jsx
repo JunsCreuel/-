@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
-import { Folio, Footnote, ParenLink } from '../editorial'
+import { Folio, ParenLink } from '../editorial'
 import { useInView, useMediaQuery } from '../motion'
 import './yw-reviews.css'
 
@@ -213,9 +213,6 @@ export default function Proof() {
             </span>
           </button>
         )}
-        <Footnote>
-          {`네이버 플레이스 방문자 리뷰(${REVIEW_STATS.asOf} 기준) 가운데 글이 있는 후기를 고객이 쓴 그대로 옮기고, 닉네임은 일부를 가렸습니다. 별점·키워드 수도 같은 날 기준입니다. 체감은 개인에 따라 다를 수 있습니다.`}
-        </Footnote>
       </div>
     </section>
   )
