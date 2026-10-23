@@ -1,8 +1,10 @@
 import { BRANCHES } from './data'
 import About from './sections/About'
 import Branches from './sections/Branches'
+import Condition from './sections/Condition'
 import CtaBand from './sections/CtaBand'
 import CustomerCenter from './sections/CustomerCenter'
+import DomeSpot from './sections/DomeSpot'
 import Equipment from './sections/Equipment'
 import Startup from './sections/Startup'
 import Faq from './sections/Faq'
@@ -19,13 +21,15 @@ import './wellness-motion.css'
 import './wellness-x.css'
 
 // 예뻐졌다 WELLNESS STUDIO 자이점(용호) 랜딩
-// 흐름: 메인 슬라이드 → 브랜드 소개 → 관리 프로그램 → 장비 → 이벤트 → 후기 → 지점 안내 → 자주 묻는 질문 → 예약 → 창업 → 마지막 장면
+// 흐름: 메인 슬라이드 → 브랜드 소개 → 부위별 추천 → 관리 프로그램 → 온열돔 오각형 → 장비 → 이벤트 → 후기 → 지점 안내 → 자주 묻는 질문 → 예약 → 창업 → 마지막 장면
 export default function WellnessHome() {
   return (
     <>
       <Hero />
       <About />
+      <Condition />
       <Programs />
+      <DomeSpot />
       <Equipment />
       <Offer />
       <Proof />

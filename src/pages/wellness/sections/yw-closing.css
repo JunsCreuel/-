@@ -129,7 +129,7 @@
 
 /* 히어로 제목과 같은 샴페인 밑줄 형광펜 */
 .yw-close .yw-close__title em {
-  background: linear-gradient(rgb(216 193 157 / 0.45), rgb(216 193 157 / 0.45)) 0 88% / 100% 0.2em no-repeat;
+  background: linear-gradient(rgb(214 221 166 / 0.45), rgb(214 221 166 / 0.45)) 0 88% / 100% 0.2em no-repeat;
   font-style: normal;
 }
 
@@ -194,7 +194,7 @@
   border: 0;
   background:
     linear-gradient(var(--yw-cream) 0 0) 0 100% / 0% 1px no-repeat,
-    linear-gradient(rgb(244 237 226 / 0.35) 0 0) 0 100% / 100% 1px no-repeat;
+    linear-gradient(rgb(241 243 228 / 0.35) 0 0) 0 100% / 100% 1px no-repeat;
   background-origin: content-box;
   color: var(--yw-cream);
   font: inherit;
