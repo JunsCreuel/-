@@ -326,7 +326,7 @@
   }
 }
 
-/* ── 아래: 더 보기 + 각주 ───────────────────────────────────── */
+/* ── 아래: 더 보기 ───────────────────────────────────── */
 
 .yw-voices__foot {
   display: grid;
@@ -338,12 +338,6 @@
 .yw-voices__show i {
   font-style: normal;
   font-weight: 400;
-}
-
-.yw-voices__foot .yw-note {
-  justify-self: stretch;
-  max-width: 62ch;
-  margin: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

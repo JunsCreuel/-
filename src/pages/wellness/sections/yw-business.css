@@ -294,10 +294,6 @@
   line-height: 1.5;
 }
 
-.yw-biz .yw-biz__cost .yw-note {
-  margin-top: 0.6rem;
-}
-
 /* ── 전화 상담 ────────────────────────────────────────────── */
 
 .yw-biz__actions {
@@ -468,10 +464,6 @@
   background: var(--w-champagne);
   content: '';
   opacity: clamp(0.3, calc(((var(--p, 1) - 0.2) * 2.2 * 4 - var(--i)) * 4 + 1), 1);
-}
-
-.yw-biz .yw-note {
-  margin-top: 1.5rem;
 }
 
 /* 64rem 미만: 세로 진행 단계(왼쪽 세로선이 위에서 아래로 그어진다) */
