@@ -1,5 +1,5 @@
 import { BRANCHES, PICS } from './data'
-import { About, Branches, CustomerCenter, Equipment, Faq, Offer, PageHero, Programs, Proof, Startup } from './sections'
+import { About, Branches, CustomerCenter, Equipment, Faq, Offer, PageHero, Programs, Proof, Ritual, Startup } from './sections'
 
 // 자이점 하위 페이지. 주소는 pages.js PAGES, 라우트는 App.jsx에 있다. 페이지마다 작은 머리(PageHero) 아래 섹션을 싣는다.
 
@@ -8,6 +8,7 @@ export function BrandPage() {
     <>
       <PageHero title="브랜드" en="Brand Story" pic={PICS.closing} />
       <About />
+      <Ritual />
     </>
   )
 }
