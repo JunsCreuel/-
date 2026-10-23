@@ -11,7 +11,7 @@
 
 .yw-visit__grid {
   display: grid;
-  gap: clamp(3rem, 7vw, 5rem);
+  gap: clamp(2.5rem, 6vw, 4.5rem);
 }
 
 .yw-visit__info,
@@ -22,7 +22,7 @@
 @media (min-width: 64rem) {
   .yw-visit__grid {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(3rem, 7vw, 7rem);
+    gap: clamp(2rem, 5vw, 4.5rem);
     align-items: start;
   }
 }
