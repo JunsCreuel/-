@@ -1,6 +1,6 @@
-/* 01 Hero — 온기 렌즈 · 02 Ribbon — 사진 칩 리본 마키 (yw-hero__ / yw-ribbon__)
+/* 메인 비주얼 — 사진·문구 슬라이드 3장 (sections/Hero.jsx)
    기존 .wellness h1·img 규칙과 뒤에 불러오는 wellness-x.css(.yw-section)를 이기도록 클래스를 두 번 겹쳐 쓴다.
-   호버는 (hover: hover) and (pointer: fine) 안에서만, 모션 줄이기에서는 렌즈·마키·Scroll 표시가 멈춘 최종 상태다. */
+   모션 줄이기에서는 사진이 바로 바뀌고 자동 진행 막대가 차 있는 상태로 멈춘다. */
 
 /* ── 01 Hero ─────────────────────────────────────────────── */
 
@@ -24,7 +24,7 @@
   outline-color: var(--yw-cream);
 }
 
-/* 사진 층: 세피아 바탕 → 데워지는 전체(--warm) → 렌즈 창 */
+/* 사진 층: 슬라이드마다 한 장씩 겹쳐 두고 활성만 보인다 */
 .yw-hero .yw-hero__media,
 .yw-hero .yw-hero__layer {
   position: absolute;
@@ -51,40 +51,13 @@
   -webkit-user-drag: none;
 }
 
-.yw-hero .yw-hero__base img {
-  filter: grayscale(0.55) sepia(0.12) brightness(0.9);
-}
-
 .yw-hero .yw-hero__full {
-  opacity: var(--warm, 0);
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
 
-.yw-hero--plain .yw-hero__full {
+.yw-hero .yw-hero__full[data-active] {
   opacity: 1;
-}
-
-.yw-hero .yw-hero__lens {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--r, 0px) * 2);
-  height: calc(var(--r, 0px) * 2);
-  overflow: clip;
-  border-radius: 50%;
-  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent);
-  mask-image: radial-gradient(closest-side, #000 55%, transparent);
-  opacity: calc(1 - var(--warm, 0));
-  pointer-events: none;
-  will-change: transform;
-}
-
-.yw-hero .yw-hero__lens-in {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--hw, 100vw);
-  height: var(--hh, 100vh);
-  will-change: transform;
 }
 
 /* 그늘: 왼쪽 글 쪽과 아래 정보 띠 쪽만 어둡게 */
@@ -95,7 +68,8 @@
   background:
     linear-gradient(to bottom, rgb(42 35 32 / 0.42), transparent 20%),
     linear-gradient(to top, rgb(42 35 32 / 0.5), transparent 32%),
-    linear-gradient(90deg, rgb(42 35 32 / 0.6) 0 32%, transparent 66%);
+    linear-gradient(90deg, rgb(42 35 32 / 0.6) 0 32%, transparent 66%),
+    rgb(42 35 32 / 0.18);
   pointer-events: none;
 }
 
@@ -125,27 +99,13 @@
   bottom: clamp(6rem, 14vh, 9rem);
   z-index: 2;
   padding-inline: var(--w-gutter);
-  opacity: calc(1 - var(--warm, 0) * 0.6);
-  transform: translateY(calc(var(--warm, 0) * -6vh));
 }
 
-.yw-hero .yw-hero__chip,
 .yw-hero .yw-hero__kicker,
 .yw-hero .yw-hero__actions {
   max-width: 36rem;
 }
 
-.yw-hero .yw-hero__chip {
-  display: inline-flex;
-  align-items: center;
-  margin: 0 0 1.4rem;
-  padding: 0.4rem 0.95rem;
-  border: 1px solid rgb(244 237 226 / 0.6);
-  border-radius: 999px;
-  font: 400 0.75rem/1.3 var(--w-font-label);
-  letter-spacing: 0.12em;
-  animation: yw-hero-rise 0.4s var(--yw-ease) 0.1s backwards;
-}
 
 .wellness .yw-hero .yw-hero__title {
   margin: 0;
@@ -162,10 +122,84 @@
 }
 
 .yw-hero .yw-hero__kicker {
-  margin: 1.2rem 0 0;
-  color: rgb(244 237 226 / 0.9);
-  font: 400 1.15rem/1.6 var(--w-font-serif);
-  animation: yw-hero-rise 0.4s var(--yw-ease) 0.15s backwards;
+  margin: 0 0 1rem;
+  color: var(--yw-cream);
+  text-shadow: 0 1px 12px rgb(29 26 23 / 0.55);
+  font: 500 1rem/1.5 var(--w-font);
+  letter-spacing: 0.01em;
+}
+
+/* 슬라이드 글: 바뀔 때마다 살짝 떠오른다 */
+.yw-hero .yw-hero__slide {
+  animation: yw-hero-rise 0.4s var(--yw-ease) both;
+}
+
+/* 슬라이드 점(누르면 그 화면으로) + 멈춤. 활성 점은 막대로 늘어나 --slide-ms 동안 차오른다 */
+.yw-hero .yw-hero__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+}
+
+.yw-hero .yw-hero__dot {
+  display: grid;
+  place-items: center;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.yw-hero .yw-hero__dot i {
+  position: relative;
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(244 237 226 / 0.45);
+  transition: width 0.3s var(--yw-ease);
+}
+
+.yw-hero .yw-hero__dot[aria-current] i {
+  width: 2.25rem;
+}
+
+.yw-hero .yw-hero__dot[aria-current] i::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--yw-cream);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: yw-hero-fill var(--slide-ms, 5s) linear both;
+}
+
+.yw-hero.is-paused .yw-hero__dot[aria-current] i::after {
+  animation-play-state: paused;
+}
+
+@keyframes yw-hero-fill {
+  to {
+    transform: none;
+  }
+}
+
+.yw-hero .yw-hero__pause {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(244 237 226 / 0.85);
+  font-size: 0.7rem;
+  cursor: pointer;
 }
 
 .yw-hero .yw-hero__kicker b {
@@ -241,30 +275,7 @@
 }
 
 /* 세로쓰기 Scroll + 오르내리는 선 */
-.yw-hero .yw-hero__scroll {
-  position: absolute;
-  right: var(--yw-hero-edge);
-  bottom: 5rem;
-  z-index: 2;
-  padding-bottom: 4.75rem;
-  color: rgb(244 237 226 / 0.8);
-  font: 400 0.75rem/1 var(--w-font-label);
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-}
 
-.yw-hero .yw-hero__scroll::after {
-  position: absolute;
-  bottom: 0;
-  left: calc(50% - 0.5px);
-  width: 1px;
-  height: 4rem;
-  background: currentColor;
-  content: '';
-  transform-origin: 50% 0;
-  animation: none;
-}
 
 /* 모바일: 세로 crop · 아래쪽 정렬 · 독 위에 뜨는 정보 알약 */
 @media (max-width: 47.99rem) {
@@ -291,9 +302,6 @@
     padding-bottom: calc(9.5rem + env(safe-area-inset-bottom));
   }
 
-  .yw-hero .yw-hero__chip {
-    margin-bottom: 1rem;
-  }
 
   .wellness .yw-hero .yw-hero__title {
     font-size: clamp(2.1rem, 9.5vw, 2.8rem);
@@ -338,24 +346,14 @@
     content: '';
   }
 
-  .yw-hero .yw-hero__scroll {
-    display: none;
-  }
 }
 
 /* 64rem 이상: 오른쪽에 간편 상담 카드가 떠 있으므로 세로 Scroll 표시는 뺀다 */
 @media (min-width: 64rem) {
 
-  .yw-hero .yw-hero__scroll {
-    display: none;
-  }
 }
 
 @media (max-width: 22.5rem) {
-  .yw-hero .yw-hero__chip {
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-  }
 }
 
 @keyframes yw-hero-rise {
@@ -376,171 +374,31 @@
   }
 }
 
-@keyframes yw-hero-pulse {
-  0%,
-  100% {
-    scale: 0.8;
-    opacity: 0.6;
-  }
 
-  50% {
-    scale: 1.15;
-    opacity: 1;
-  }
-}
-
-@keyframes yw-hero-scroll {
-  0% {
-    scale: 1 0;
-    transform-origin: 50% 0;
-  }
-
-  45% {
-    scale: 1 1;
-    transform-origin: 50% 0;
-  }
-
-  55% {
-    scale: 1 1;
-    transform-origin: 50% 100%;
-  }
-
-  100% {
-    scale: 1 0;
-    transform-origin: 50% 100%;
-  }
-}
-
-/* ── 02 Ribbon ───────────────────────────────────────────── */
-
-.yw-ribbon {
-  position: relative;
-  z-index: 1;
-  padding-block: clamp(1.25rem, 3vw, 2.25rem);
-  overflow-x: clip;
-  border-block: 2px solid var(--w-espresso);
-  background: #fff;
-  touch-action: pan-y pinch-zoom;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.yw-ribbon .yw-ribbon__wrap {
-  overflow-x: clip;
-}
-
-.yw-ribbon .yw-ribbon__track {
-  display: flex;
-  width: max-content;
-  color: var(--w-espresso);
-  font: italic 400 clamp(2.8rem, 7.5vw, 7rem) / 1 var(--w-font-en);
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.yw-ribbon .yw-ribbon__copy,
-.yw-ribbon .yw-ribbon__item {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-}
-
-.yw-ribbon .yw-ribbon__word {
-  padding-inline: 0.15em;
-}
-
-.yw-ribbon .yw-ribbon__word.is-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--w-bronze);
-}
-
-@supports not (-webkit-text-stroke: 1px black) {
-  .yw-ribbon .yw-ribbon__word.is-outline {
-    color: var(--w-bronze);
-  }
-}
-
-.yw-ribbon .yw-ribbon__dot {
-  padding-inline: 0.35em;
-  color: var(--w-bronze);
-  font-style: normal;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-ribbon .yw-ribbon__wrap {
-    cursor: grab;
-  }
-
-  .yw-ribbon .yw-ribbon__wrap.is-dragging {
-    cursor: grabbing;
-  }
-}
-
-@media (max-width: 47.99rem) {
-  .yw-ribbon .yw-ribbon__track {
-    font-size: clamp(2.4rem, 12vw, 3.2rem);
-  }
-}
-
-/* 모션 줄이기: 한 벌만 가운데 정렬로 줄바꿈해 정적으로 */
-.yw-ribbon--static .yw-ribbon__wrap {
-  cursor: auto;
-}
-
-.yw-ribbon--static .yw-ribbon__track {
-  width: auto;
-  justify-content: center;
-  padding-inline: var(--w-gutter);
-  font-size: clamp(2rem, 3.6vw, 3.4rem);
-  white-space: normal;
-  transform: none;
-  will-change: auto;
-}
-
-.yw-ribbon--static .yw-ribbon__copy {
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem 0.35em;
-}
-
-/* 줄 끝에 점이 남지 않도록 정적 목록에서는 점 대신 간격으로 나눈다 */
-.yw-ribbon--static .yw-ribbon__dot {
-  display: none;
-}
-
-@media (max-width: 47.99rem) {
-  .yw-ribbon--static .yw-ribbon__track {
-    font-size: clamp(1.7rem, 8.4vw, 2.4rem);
-  }
-}
-
-/* ── 모션 줄이기 ─────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .yw-hero .yw-hero__mast,
-  .yw-hero .yw-hero__chip,
-  .yw-hero .yw-hero__kicker,
+  .yw-hero .yw-hero__slide,
   .yw-hero .yw-hero__actions,
-  .yw-hero .yw-hero__info,
-  .yw-hero .yw-hero__scroll::after {
+  .yw-hero .yw-hero__info {
     animation: none;
   }
 
-  .yw-hero .yw-hero__text {
-    opacity: 1;
+  .yw-hero .yw-hero__full {
+    transition: none;
+  }
+
+  .yw-hero .yw-hero__dot[aria-current] i::after {
+    animation: none;
     transform: none;
   }
+}
 
-  .yw-hero .yw-hero__base img {
-    filter: none;
-  }
-
-  .yw-hero .yw-hero__full {
-    opacity: 1;
-  }
-
-  .yw-hero .yw-hero__lens {
-    display: none;
+/* 휴대폰: 글이 사진 위쪽에 있어 위쪽 그늘을 더 짙게 둔다(밝은 사진에서도 글이 읽히게) */
+@media (max-width: 47.99rem) {
+  .yw-hero .yw-hero__shade {
+    background:
+      linear-gradient(to bottom, rgb(42 35 32 / 0.62), rgb(42 35 32 / 0.35) 45%, rgb(42 35 32 / 0.5)),
+      rgb(42 35 32 / 0.1);
   }
 }

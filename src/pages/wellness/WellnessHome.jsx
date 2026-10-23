@@ -1,14 +1,12 @@
 import { BRANCHES } from './data'
 import About from './sections/About'
-import Condition from './sections/Condition'
+import Branches from './sections/Branches'
 import CtaBand from './sections/CtaBand'
 import CustomerCenter from './sections/CustomerCenter'
-import DomeSpot from './sections/DomeSpot'
 import Equipment from './sections/Equipment'
 import Startup from './sections/Startup'
 import Faq from './sections/Faq'
 import Hero from './sections/Hero'
-import MarqueeStrip from './sections/MarqueeStrip'
 import Offer from './sections/Offer'
 import Programs from './sections/Programs'
 import Proof from './sections/Proof'
@@ -21,19 +19,17 @@ import './wellness-motion.css'
 import './wellness-x.css'
 
 // 예뻐졌다 WELLNESS STUDIO 자이점(용호) 랜딩
-// 흐름: 표지 → 리본 → 이야기·관리 순서 → 고민 부위 → 메뉴 → 온열돔 스포트라이트 → 장비·젤 → 후기 → 첫 방문 → Q&A → 예약·오시는 길 → 창업 → 마지막 장면
+// 흐름: 메인 슬라이드 → 브랜드 소개 → 관리 프로그램 → 장비 → 이벤트 → 후기 → 지점 안내 → 자주 묻는 질문 → 예약 → 창업 → 마지막 장면
 export default function WellnessHome() {
   return (
     <>
       <Hero />
-      <MarqueeStrip />
       <About />
-      <Condition />
       <Programs />
-      <DomeSpot />
       <Equipment />
-      <Proof />
       <Offer />
+      <Proof />
+      <Branches />
       <Faq />
       <CustomerCenter branch={BRANCHES.zai} />
       <Startup />

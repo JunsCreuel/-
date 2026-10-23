@@ -1,4 +1,4 @@
-import { BRANCHES, MARINE_OPEN, PHOTOS, SHOW_MARINE_INFO, displayAddress, mapHref, reserveAction, telHref } from '../data'
+import { BRANCHES, PHOTOS, displayAddress, mapHref, reserveAction, telHref } from '../data'
 import { Folio } from '../editorial'
 import QuickConsult from './QuickConsult'
 import './yw-visit.css'
@@ -37,14 +37,12 @@ const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' }
 
 export default function CustomerCenter({ branch = BRANCHES.zai }) {
   const naver = reserveAction(branch)
-  // 지점 안내: 지금 보는 지점이 아닌 다른 지점(마린시티점은 별도 페이지 없이 여기서만 알린다)
-  const other = branch.id === 'zai' ? (MARINE_OPEN || SHOW_MARINE_INFO ? BRANCHES.marine : null) : BRANCHES.zai
 
   return (
     <section id="booking" className="yw-section yw-visit" data-theme="light">
       <div className="yw-wrap yw-visit__grid">
         <div id="visit" className="yw-visit__info">
-          <Folio no="09" en="Reservation" />
+          <Folio ko="예약" />
           <h2 className="yw-h2">편하신 방법으로 예약해 주세요.</h2>
 
           <ul className="yw-visit__round">
@@ -92,21 +90,6 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
               <dt>오시는 길</dt>
               <dd>{displayAddress(branch.address)}</dd>
             </div>
-            {other && (
-              <div>
-                <dt>다른 지점</dt>
-                <dd>
-                  <b className="yw-visit__branch">{other.label}</b>
-                  {displayAddress(other.address)}
-                  <span className="yw-visit__branch-links">
-                    <a href={telHref(other.phone)}>{other.phone}</a>
-                    <a href={mapHref(other)} {...NEW_TAB}>
-                      네이버 지도 ↗<span className="sr-only">(새 창)</span>
-                    </a>
-                  </span>
-                </dd>
-              </div>
-            )}
           </dl>
 
           {naver.external && (

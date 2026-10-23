@@ -335,25 +335,3 @@
 .yw-visit .yw-h2 {
   text-wrap: balance;
 }
-
-/* 다른 지점(마린시티점) 안내: 지점명 한 줄, 주소, 전화 · 지도 */
-.yw-visit .yw-visit__branch {
-  display: block;
-  font-weight: 600;
-}
-
-.yw-visit__branch-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.25rem;
-}
-
-.yw-visit__branch-links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  color: var(--w-ink);
-  font-size: 0.9rem;
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}

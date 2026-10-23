@@ -27,20 +27,6 @@
   align-self: start;
 }
 
-/* 프레임 뒤에서 위·왼쪽으로 비어져 나오는 장식 단어 */
-.yw-menu__ghost {
-  position: absolute;
-  top: -4rem;
-  left: -2rem;
-  z-index: -1;
-  color: var(--w-highlight);
-  font: italic 400 clamp(8rem, 18vw, 16rem) / 0.8 var(--w-font-en);
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-}
-
 /* 화면이 낮은 노트북에서도 프레임과 캡션이 한 화면에 들어오도록 폭을 높이에 맞춰 줄인다 */
 .yw-menu__figure {
   width: min(100%, calc((100vh - var(--w-nav-h) - 7rem) * 0.8));
