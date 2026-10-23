@@ -1,18 +1,39 @@
-import { Branches, Equipment, Hero, HomeCta, HomeIntro, HomePrograms, Proof } from './sections'
+import { BRANCHES } from './data'
+import About from './sections/About'
+import Branches from './sections/Branches'
+import CtaBand from './sections/CtaBand'
+import CustomerCenter from './sections/CustomerCenter'
+import Equipment from './sections/Equipment'
+import Startup from './sections/Startup'
+import Faq from './sections/Faq'
+import Hero from './sections/Hero'
+import Offer from './sections/Offer'
+import Programs from './sections/Programs'
+import Proof from './sections/Proof'
+import './wellness-sections.css'
+import './wellness-compose.css'
+import './wellness-merge.css'
+import './wellness-palette.css'
+import './wellness-motion.css'
+// 새 랜딩 공통 스타일(yw-)은 기존 CSS를 덮을 수 있도록 가장 마지막에 불러온다.
+import './wellness-x.css'
 
-// 예뻐졌다 WELLNESS STUDIO 자이점(용호) 메인
-// 메인은 짧게 두고 자세한 내용은 하위 페이지(WellnessPages.jsx)로 나눈다.
-// 흐름: 메인 슬라이드 → 짧은 브랜드 문구 → 관리 프로그램 사진 카드 → 장비 → 후기 요약 → 지점 안내 → 상담 유도 띠
+// 예뻐졌다 WELLNESS STUDIO 자이점(용호) 랜딩
+// 흐름: 메인 슬라이드 → 브랜드 소개 → 관리 프로그램 → 장비 → 이벤트 → 후기 → 지점 안내 → 자주 묻는 질문 → 예약 → 창업 → 마지막 장면
 export default function WellnessHome() {
   return (
     <>
       <Hero />
-      <HomeIntro />
-      <HomePrograms />
+      <About />
+      <Programs />
       <Equipment />
-      <Proof summary />
+      <Offer />
+      <Proof />
       <Branches />
-      <HomeCta />
+      <Faq />
+      <CustomerCenter branch={BRANCHES.zai} />
+      <Startup />
+      <CtaBand />
     </>
   )
 }
