@@ -16,9 +16,9 @@ function pic(name, widths, ratio) {
 }
 
 export const PICS = {
-  // 히어로: 햇살 든 아마 천과 나무 결(밝은 사진, v20)
-  heroWarm: pic('hero-light', [960, 1600, 2400], 3 / 2),
-  heroWarmM: pic('hero-light-m', [720, 1080], 2 / 3),
+  // 히어로: 연두빛 실크 천(제공 사진)
+  heroWarm: pic('hero-silk', [960, 1600], 3 / 2),
+  heroWarmM: pic('hero-silk-m', [480, 624], 2 / 3),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
@@ -32,11 +32,11 @@ export const PICS = {
   condRest: pic('cond-rest', [960, 1600], 3 / 2),
   menuScalpDetox: pic('menu-scalp-detox', [240, 600, 1200], 4 / 5),
   menuScalpFace: pic('menu-scalp-face', [240, 600, 1200], 4 / 5),
-  menuBackLymph: pic('menu-back-lymph', [240, 600, 1200], 4 / 5),
-  menuAbdomen: pic('menu-belly', [240, 600, 1200], 4 / 5),
+  menuBackLymph: pic('menu-shoulder-v2', [240, 600, 736], 4 / 5),
+  menuAbdomen: pic('menu-belly-v2', [240, 600, 675], 4 / 5),
   menuLower: pic('menu-legcare', [240, 600, 1200], 4 / 5),
-  menuFullBack: pic('menu-full-back', [240, 600, 1200], 4 / 5),
-  menuLymphNode: pic('menu-lymph-node', [240, 600, 1200], 4 / 5),
+  menuFullBack: pic('menu-back-v2', [240, 600, 736], 4 / 5),
+  menuLymphNode: pic('menu-neck-v2', [240, 600, 736], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
