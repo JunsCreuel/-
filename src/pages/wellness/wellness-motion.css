@@ -560,12 +560,12 @@
 
 @keyframes w-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgb(163 131 95 / 0.55);
+    box-shadow: 0 0 0 0 rgb(160 164 104 / 0.55);
   }
 
   70%,
   100% {
-    box-shadow: 0 0 0 14px rgb(163 131 95 / 0);
+    box-shadow: 0 0 0 14px rgb(160 164 104 / 0);
   }
 }
 

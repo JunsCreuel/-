@@ -289,7 +289,7 @@
 /* 고르기 전: 카드가 들어올 자리만 점선으로 비워 두고, 크림 원이 숨 쉬듯 커졌다 작아진다 */
 .yw-cond .yw-cond__card.is-empty {
   padding: 1rem 1.25rem;
-  border: 1px dashed rgb(244 237 226 / 0.38);
+  border: 1px dashed rgb(241 243 228 / 0.38);
   background: transparent;
   color: var(--yw-cream);
 }

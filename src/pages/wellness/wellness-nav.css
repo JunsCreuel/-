@@ -26,8 +26,8 @@
   --w-logo-mark: #fff;
   --w-logo-text: #fff;
   border-color: rgb(255 255 255 / 0.12);
-  background: rgb(42 35 32 / 0.72);
-  color: var(--yw-cream, #f4ede2);
+  background: rgb(46 50 38 / 0.72);
+  color: var(--yw-cream, #f1f3e4);
 }
 
 .w-nav[data-theme='dark']:not(.is-scrolled) {
@@ -40,7 +40,7 @@
 
 /* 메뉴 패널이 열리면 바 아래 흰 패널과 이어지도록 */
 .w-nav[data-theme='dark'].is-menu-open {
-  background: rgb(42 35 32 / 0.92);
+  background: rgb(46 50 38 / 0.92);
 }
 
 .w-nav .w-logo__mark,
@@ -52,8 +52,8 @@
 }
 
 .w-nav[data-theme='dark'] .w-nav__right .w-btn--primary {
-  border-color: var(--yw-cream, #f4ede2);
-  background: var(--yw-cream, #f4ede2);
+  border-color: var(--yw-cream, #f1f3e4);
+  background: var(--yw-cream, #f1f3e4);
   color: var(--w-espresso);
 }
 
@@ -64,7 +64,7 @@
 }
 
 .w-nav[data-theme='dark'] :focus-visible {
-  outline-color: var(--yw-cream, #f4ede2);
+  outline-color: var(--yw-cream, #f1f3e4);
 }
 
 .w-nav[data-theme='dark'] .w-nav__panel {
