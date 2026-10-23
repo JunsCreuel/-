@@ -236,7 +236,7 @@ export const BRANCHES = {
     label: '마린시티점',
     address: '부산 해운대구 마린시티3로 23 오렌지상가 3층 329호',
     mapQuery: '부산 해운대구 마린시티3로 23 오렌지상가',
-    hours: null,
+    hours: '월~일 10:00 – 22:00',
     phone: '010-3885-1989',
     booking: null,
   },
