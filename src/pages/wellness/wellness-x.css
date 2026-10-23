@@ -4,9 +4,9 @@
 
 :root {
   /* 색 */
-  --yw-ivory: #f7f1e8;
-  --yw-warm: #f6f1e8;
-  --yw-cream: #f4ede2; /* 어두운 면 위 글자 */
+  --yw-ivory: #f5f6ec;
+  --yw-warm: #f5f6ec;
+  --yw-cream: #f1f3e4; /* 어두운 면 위 글자 */
 
   /* 크기 */
   --yw-r: clamp(1.25rem, 3vw, 2.5rem); /* 커튼 둥근 모서리 */
