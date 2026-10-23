@@ -75,14 +75,12 @@ export default function EventPopups() {
                 }}
               >
                 <span className="yw-pop__photo">
-                  <Pic pic={PICS[p.pic]} sizes="(min-width: 48rem) 22rem, 88vw" loading="eager" />
+                  <Pic pic={PICS[p.pic]} sizes="(min-width: 48rem) 20rem, 88vw" loading="eager" />
                 </span>
-                <span className="yw-pop__text">
-                  <span className="yw-pop__eyebrow">{p.eyebrow}</span>
-                  <strong className="yw-pop__title">{p.title}</strong>
-                  <span className="yw-pop__desc">{p.text}</span>
-                  <span className="yw-pop__cta">{p.cta} →</span>
+                <span className="sr-only">
+                  {p.eyebrow}, {p.title}. {p.text}. {p.cta}
                 </span>
+                {p.note && <span className="yw-pop__note">{p.note}</span>}
               </button>
               <div className="yw-pop__foot">
                 <button

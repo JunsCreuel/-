@@ -41,8 +41,9 @@ export const PICS = {
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   closing: pic('closing', [960, 1600, 2400], 3 / 2),
   // 이벤트 팝업 사진(Unsplash 무료: photo-1540555700478 튤립·수건, photo-1706795033849 수건·초)
-  popupEvent: pic('popup-event', [480, 960], 3 / 2),
-  popupDome: pic('popup-dome', [480, 960], 2 / 3),
+  // 이벤트 팝업 이미지(제공 이미지, 문구가 이미지 안에 들어 있다)
+  popupEvent: pic('popup-offer-art', [480, 960], 1),
+  popupDome: pic('popup-dome-art', [480, 960], 1),
   // 매장 온열돔 누끼(배경 투명 webp, 사장님 제공). 흰·회색 바탕 위에 contain으로 올린다.
   domeCut: pic('dome-cut', [700, 1376], 1376 / 747),
 }
@@ -95,7 +96,8 @@ export const OFFER_TERM = '첫 방문 1인 1회 한정'
 export const OFFER_TERM_FULL = '첫 방문 고객 1인 1회 한정 · 티켓팅 시 첫 방문가 적용 · 1회 관리 시 별도 재료 비용 발생'
 
 // 첫 화면 이벤트 팝업(EventPopups.jsx). 끄려면 SHOW_POPUPS를 false로, 기간이 있으면 until('YYYY-MM-DD', 그날까지 표시)을 넣는다.
-// to는 '자세히 보기'로 내려갈 섹션 id다.
+// to는 누르면 내려갈 섹션 id다. 이미지 안에 문구가 들어 있어 화면에는 이미지만 보이고, eyebrow·title·text는 보조기기에 읽힌다.
+// note가 있으면 이미지 아래 작은 글로 보인다(할인 조건처럼 이미지에 없는 내용).
 export const SHOW_POPUPS = true
 export const EVENT_POPUPS = [
   {
@@ -104,6 +106,7 @@ export const EVENT_POPUPS = [
     eyebrow: '첫 방문 이벤트',
     title: '6개 관리 50%',
     text: OFFER_TERM_FULL,
+    note: OFFER_TERM_FULL,
     cta: '이벤트 보기',
     to: 'offer',
     until: '2026-10-31',
