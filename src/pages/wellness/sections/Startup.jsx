@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { BRANCHES, PARENT_STORE_COUNT, PICS, STARTUP_COSTS, STARTUP_PHONES, telHref } from '../data'
+import { PARENT_STORE_COUNT, PICS, STARTUP_CONTACTS, STARTUP_COSTS, telHref } from '../data'
 import { Folio, Pic, SplitLines } from '../editorial'
 import { useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
@@ -14,7 +14,7 @@ import './yw-business.css'
 const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '운영 조건 협의', '준비 과정 및 교육', '오픈 준비']
 
 export default function Startup() {
-  const phone = BRANCHES.zai.phone
+  const phone = STARTUP_CONTACTS[0].phone
   const tlRef = useRef(null)
 
   useScrollProgress(tlRef, { mode: 'through' })
@@ -84,9 +84,10 @@ export default function Startup() {
           </a>
           <p className="yw-biz__where">창업 상담은 용호 자이점에서 진행합니다.</p>
           <p className="yw-biz__tels">
-            {STARTUP_PHONES.map((p) => (
-              <a key={p} className="yw-biz__tel" href={telHref(p)}>
-                {p}
+            {STARTUP_CONTACTS.map((c) => (
+              <a key={c.id} className="yw-biz__tel" href={telHref(c.phone)}>
+                <span className="yw-biz__tel-label">{c.label}</span>
+                {c.phone}
               </a>
             ))}
           </p>
