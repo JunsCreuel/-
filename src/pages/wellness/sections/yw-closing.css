@@ -30,12 +30,16 @@
   overflow: clip;
 }
 
+.yw-close__photo picture {
+  display: contents;
+}
+
 .wellness .yw-close__photo img {
   width: 100%;
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: 55% 50%;
+  object-position: 50% 50%;
 }
 
 .yw-close__shade {

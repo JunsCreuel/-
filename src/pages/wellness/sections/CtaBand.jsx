@@ -53,7 +53,10 @@ export default function CtaBand() {
     <section id="closing" ref={ref} className={cls} data-theme="dark" aria-labelledby="closing-title" onFocus={onFocus}>
       <div className="yw-close__stage">
         <figure className="yw-close__photo">
-          <Pic pic={PICS.closing} sizes="(max-aspect-ratio: 3/2) 150vh, 100vw" />
+          <picture>
+            <source media="(max-aspect-ratio: 4/5)" srcSet={PICS.closingM.srcSet} sizes="100vw" />
+            <Pic pic={PICS.closing} sizes="(max-aspect-ratio: 3/2) 150vh, 100vw" />
+          </picture>
           <div className="yw-close__shade" />
         </figure>
 
