@@ -5,7 +5,7 @@ import { prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-hero.css'
 
-// 메인 비주얼 — 사진·문구 슬라이드 3장(브랜드 / 국산 온열돔 / 첫 방문 이벤트)이 SLIDE_MS마다 자동으로 넘어간다.
+// 메인 비주얼 — 사진·문구 슬라이드 3장(브랜드 / 국내산 온열돔 / 첫 방문 이벤트)이 SLIDE_MS마다 자동으로 넘어간다.
 // 아래 점 버튼으로 바로 고를 수 있고, 마우스를 올리거나 키보드 포커스가 들어오면, 또는 '멈춤'을 누르면 멈춘다.
 // 모션 줄이기에서는 자동으로 넘어가지 않는다. 첫 화면에는 간편 상담 카드를 두지 않고, 간편 상담은 예약 장(#booking-form)에서 받는다.
 
@@ -22,7 +22,7 @@ const SLIDES = [
   {
     id: 'dome',
     pic: PICS.menuWarmup,
-    eyebrow: '국산 명신메디칼 온열돔',
+    eyebrow: '국내산 명신메디칼 온열돔',
     lines: ['누워서 40분,', '따뜻하게 쉬어 가세요.'],
     to: 'equipment',
   },

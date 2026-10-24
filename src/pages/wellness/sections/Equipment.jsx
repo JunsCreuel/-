@@ -11,7 +11,7 @@ import './yw-equipment.css'
 // '성분 보기'를 누르면 그 기기에 쓰는 젤의 성분 시트가 열린다.
 // 화장품·기기 광고 기준에 맞춰 사용 장면과 성분 출처만 적고 효능은 쓰지 않는다.
 
-// 온열돔 정보: 명신메디칼(1998년 설립, 광주 원적외선 온열기 제조사) 국산 돔형 온열기. 출처는 제조사 인터뷰 기사.
+// 온열돔 정보: 명신메디칼(1998년 설립, 광주 원적외선 온열기 제조사) 국내산 돔형 온열기. 출처는 제조사 인터뷰 기사.
 // 효능 표현(통증·비만·면역 등)은 쓰지 않고 방식·제조·이용 정보만 적는다.
 const DOME_FACTS = [
   ['제조', '(주)명신메디칼 · 국내 제조'],
@@ -176,7 +176,7 @@ function DomeCard() {
             <span className="yw-eq__dot"> · </span>
             <span className="yw-eq__en">온열</span>
           </p>
-          <p className="yw-eq__maker">국산 · 명신메디칼</p>
+          <p className="yw-eq__maker">국내산 · 명신메디칼</p>
           <h3 className="yw-eq__name">전신 온열돔</h3>
           <p className="yw-eq__sub">국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
           <dl className="yw-eq__facts">
