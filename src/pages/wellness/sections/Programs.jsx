@@ -17,14 +17,14 @@ import './yw-menu.css'
 
 // 펼친 줄 사진(모바일·태블릿)의 대체 텍스트. 분위기 사진이라 장면만 적고 '마사지' 같은 말은 쓰지 않는다.
 const ALT = {
-  'scalp-detox': '두 손으로 뒷머리를 받친 두피 케어 장면',
-  'scalp-face': '클렌징 거품을 바른 옆얼굴',
-  'back-lymph': '목 뒤에 손을 얹은 물기 어린 어깨',
+  'scalp-detox': '세면대에 누운 채 두피를 감싸는 두 손',
+  'scalp-face': '볼에 세럼을 떨어뜨리는 장면',
+  'back-lymph': '간접 조명이 비치는 원목 선반 위 수건',
   abdomen: '옆구리에 손을 얹은 허리 라인',
-  lower: '수건 위에서 발과 발목을 관리하는 손',
-  'full-back': '등이 드러난 뒷모습',
+  lower: '햇살이 비치는 다리 라인',
+  'full-back': '수건을 걸친 채 드러난 등',
   'lymph-node': '햇살이 비치는 쇄골과 어깨 라인',
-  warmup: '간접 조명이 비치는 원목 선반 위 수건',
+  warmup: '목 뒤에 손을 얹은 물기 어린 어깨',
 }
 
 const TOTAL = String(PROGRAMS.length).padStart(2, '0')
