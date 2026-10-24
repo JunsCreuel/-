@@ -135,6 +135,9 @@
    scroll-padding은 JS(useDragScroll·화살표)가 getComputedStyle로 px를 읽어야 해서 %(계산값에 남는다) 대신 vw로 쓴다. */
 
 .yw-eq__track {
+  /* 디바이스 카드 폭. 온열돔 사진 칸 높이도 이 값으로 맞춰 01~04 번호가 같은 줄에 온다 */
+  --eq-card-w: clamp(17rem, 24vw, 22rem);
+  container-type: inline-size;
   position: relative; /* 카드 offsetLeft의 기준 */
   display: flex;
   align-items: flex-start;
@@ -173,7 +176,7 @@
 /* ── 카드 공통 ───────────────────────────────────────────── */
 
 .yw-eq__card {
-  flex: 0 0 clamp(17rem, 24vw, 22rem);
+  flex: 0 0 var(--eq-card-w);
   min-width: 0;
   scroll-snap-align: start;
 }
@@ -190,9 +193,10 @@
 }
 
 @media (max-width: 63.99rem) {
-  /* 폰은 82%(옆 카드가 살짝 보임). 태블릿에서는 기기 사진 해상도에 맞춰 22rem(온열돔 34rem)을 넘기지 않는다 */
-  .yw-eq__card {
-    flex: 0 0 min(82%, 22rem);
+  /* 폰은 82%(옆 카드가 살짝 보임). 태블릿에서는 기기 사진 해상도에 맞춰 22rem(온열돔 34rem)을 넘기지 않는다.
+     82cqi는 트랙(컨테이너) 안쪽 폭의 82%로, flex-basis 82%와 같은 값이다 */
+  .yw-eq__track {
+    --eq-card-w: min(82cqi, 22rem);
   }
 
   .yw-eq__card--dome {
@@ -281,11 +285,11 @@
 
 /* ── 카드 1: 전신 온열돔(누끼) ──────────────────────────────
    디바이스 카드 사진 면과 같은 흰 바탕 위에 가로로 긴 누끼(약 1.84:1)를 프레임 폭의 82%로 앉히고, 옅은 바닥 그림자로 세운다.
-   4:3 프레임의 남는 위아래는 패딩(폭 기준 %)으로 나누되, 아래를 조금 더 두어 그림자가 들어갈 자리를 남긴다. */
+   프레임 높이는 디바이스 사진 칸과 같고, 남는 위아래는 패딩(폭 기준 %)으로 나누되 아래를 조금 더 두어 그림자가 들어갈 자리를 남긴다. */
 
 .yw-eq__photo {
   display: grid;
-  aspect-ratio: 4 / 3;
+  height: calc(var(--eq-card-w) * 1.25); /* 디바이스 사진 칸(폭 × 4:5)과 같은 높이 */
   padding: 10% 9% 13%;
   overflow: clip;
   border-radius: 1.25rem;
