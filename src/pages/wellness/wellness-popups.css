@@ -71,6 +71,51 @@
   object-fit: cover;
 }
 
+/* 누끼 사진(배경 투명): 연한 바탕 위에 여백을 두고 통째로 보인다 */
+.yw-pop__photo--cut {
+  aspect-ratio: 4 / 3;
+  padding: 1.5rem 1.25rem;
+  background: var(--yw-ivory);
+}
+
+.wellness .yw-pop__photo--cut img {
+  object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgb(29 26 23 / 0.18));
+}
+
+/* 사진 아래 문구(이미지 안에 문구가 없는 팝업) */
+.yw-pop__text {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem 1.25rem;
+}
+
+.yw-pop__eyebrow {
+  color: var(--w-accent-deep);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.yw-pop__title {
+  font: 500 1.6rem/1.25 var(--w-font-serif);
+  letter-spacing: -0.02em;
+}
+
+.yw-pop__desc {
+  color: var(--w-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.yw-pop__cta {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
 .yw-pop__foot {
   display: flex;
   border-top: 1px solid var(--w-line);
