@@ -36,13 +36,14 @@
   --w-gutter: clamp(1.25rem, 5vw, 3rem);
   --w-max: 1120px;
   --w-radius: 14px;
-  --w-font: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Pretendard', system-ui, sans-serif;
-  /* 제목용 명조체. 웹폰트(Noto Serif KR)를 불러오기 전에는 기기에 있는 명조 계열로 보인다 */
-  --w-font-serif: 'Noto Serif KR', 'Noto Serif CJK KR', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
+  /* 본문: 프리텐다드. 웹폰트를 불러오기 전에는 기기 기본 고딕으로 보인다 */
+  --w-font: 'Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  /* 제목용 명조체: 마루 부리. 웹폰트를 불러오기 전에는 기기에 있는 명조 계열로 보인다 */
+  --w-font-serif: 'MaruBuri', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
   /* 영문 큰 제목용 세리프. 웹폰트를 불러오기 전에는 Georgia로 보인다 */
   --w-font-en: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   /* 작은 영문 라벨(대문자·넓은 자간) */
-  --w-font-label: 'Jost', 'Noto Sans KR', sans-serif;
+  --w-font-label: 'Jost', 'Pretendard Variable', 'Pretendard', sans-serif;
 }
 
 /* 데스크톱에서는 상단 바를 조금 더 높게 */
