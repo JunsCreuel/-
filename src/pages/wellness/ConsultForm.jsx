@@ -131,8 +131,8 @@ export default function ConsultForm({ defaultBranch = 'zai' }) {
       <ConsentBox
         idPrefix="c"
         purpose="상담 예약"
-        items="성함, 연락처, 연락 가능 시간대, 방문 지점, 관심 관리(선택)"
-        refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 상담 신청이 제한되며, 전화로 직접 예약하실 수 있습니다."
+        items="[필수] 성함, 휴대전화번호, 연락 가능 시간대, 방문 지점 · [선택] 관심 관리"
+        refusal="개인정보 수집·이용에 대한 동의를 거부하실 수 있습니다. 다만 동의하지 않으시면 온라인 상담 신청이 제한되며, 전화로 예약하실 수 있습니다."
         checked={form.agree}
         onChange={(v) => set('agree', v)}
         error={errors.agree}
