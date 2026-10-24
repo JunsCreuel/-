@@ -99,7 +99,7 @@ export default function WellnessLayout() {
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
       <MobileBar branch={branch} />
       <FloatingInquiry />
-      {branch.id === 'zai' && <EventPopups />}
+      {branch.id === 'zai' && pathname === BRANCHES.zai.path && <EventPopups />}
       <CursorLayer />
     </div>
   )
