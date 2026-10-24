@@ -332,7 +332,16 @@
   }
 }
 
-/* 창업 상담 진행 안내 + 전화 두 번호 */
+/* 전화 번호 앞 지점 이름(한글이라 본문 글꼴) */
+.yw-biz__tel-label {
+  margin-right: 0.55em;
+  color: color-mix(in srgb, var(--yw-cream) 72%, transparent);
+  font-family: var(--w-font);
+  font-size: 0.88rem;
+  letter-spacing: 0;
+}
+
+/* 창업 상담 진행 안내 + 지점별 창업 상담 번호 */
 .yw-biz__where {
   flex-basis: 100%;
   margin: 0;

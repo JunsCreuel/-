@@ -42,7 +42,10 @@ export const PICS = {
   menuLymphNode: pic('menu-neck-v2', [240, 600, 736], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
-  closing: pic('closing', [960, 1600, 2400], 3 / 2),
+  // 마지막 장면: 매장 사진(제공 사진, 로고만 남기고 글자를 지운 뒤 2배로 키움).
+  // 세로 원본이라 데스크톱(가로)은 양옆을, 휴대폰(세로)은 위아래를 벽·바닥 색으로 이어 로고와 세면대가 잘리지 않게 했다.
+  closing: pic('closing-studio', [960, 1600, 2400], 3 / 2),
+  closingM: pic('closing-studio-m', [720, 1080, 1436], 1436 / 3122),
   // 이벤트 팝업 사진(Unsplash 무료: photo-1540555700478 튤립·수건, photo-1706795033849 수건·초)
   // 이벤트 팝업 이미지(제공 이미지, 문구가 이미지 안에 들어 있다). 온열돔 팝업은 아래 domeCut(매장 온열돔 누끼)을 쓴다.
   popupEvent: pic('popup-offer-art', [480, 960], 1),
@@ -299,8 +302,11 @@ export const MARINE_OPEN = false
 // 마린시티점은 별도 페이지 없이 '지점 안내'(예약 장 오시는 길 아래 한 줄, 푸터 주소·전화)로만 알린다.
 export const SHOW_MARINE_INFO = true
 
-// 창업 상담은 용호 자이점에서 진행하고, 전화는 아래 두 번호로만 받는다.
-export const STARTUP_PHONES = [BRANCHES.zai.phone, BRANCHES.marine.phone]
+// 창업 상담 연락처(지점 이름과 함께 보인다). 창업 상담은 용호 자이점에서 진행하고, 문자는 첫 번째 번호로 받는다.
+export const STARTUP_CONTACTS = [
+  { id: 'zai', label: '용호 자이점', phone: BRANCHES.zai.phone },
+  { id: 'marine', label: '마린시티점', phone: BRANCHES.marine.phone },
+]
 
 // 화면에 노출하는 지점 목록
 export const OPEN_BRANCHES = Object.values(BRANCHES).filter((b) => b.id !== 'marine' || MARINE_OPEN)
