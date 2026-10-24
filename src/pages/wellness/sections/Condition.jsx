@@ -18,7 +18,7 @@ const CONDITIONS = [
   { id: 'back', label: '등', sub: '오래 앉아 있던 날', pic: PICS.condBack, area: '등 · 어깨', picks: ['back-lymph', 'full-back'] },
   { id: 'abdomen', label: '복부', sub: '복부 라인이 신경 쓰이는 날', pic: PICS.condAbdomen, area: '복부', picks: ['abdomen', 'warmup'] },
   { id: 'leg', label: '다리', sub: '다리가 무겁게 느껴지는 날', pic: PICS.condLeg, area: '하체 · 림프', picks: ['lower', 'full-back'] },
-  { id: 'rest', label: '휴식', sub: '그냥 따뜻하게 쉬고 싶은 날', pic: PICS.condRest, area: '온열 웜업', wide: true, picks: ['warmup', 'scalp-detox'] },
+  { id: 'rest', label: '온열돔 관리', sub: '그냥 따뜻하게 쉬고 싶은 날', pic: PICS.condRest, area: '온열 웜업', wide: true, picks: ['warmup', 'scalp-detox'] },
 ]
 
 // 부위에 어울리는 관리(picks 순서대로 추천 → 함께 보면 좋은 관리).
