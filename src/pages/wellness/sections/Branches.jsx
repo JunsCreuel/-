@@ -10,12 +10,9 @@ export default function Branches() {
   const list = [BRANCHES.zai, ...(MARINE_OPEN || SHOW_MARINE_INFO ? [BRANCHES.marine] : [])]
 
   return (
-    <section id="branches" className="yw-section yw-branches" data-theme="light" aria-labelledby="branches-title">
+    <section id="branches" className="yw-section yw-branches" data-theme="light" aria-label="지점 안내">
       <div className="yw-wrap">
         <Folio ko="지점 안내" />
-        <h2 id="branches-title" className="yw-h2">
-          가까운 지점을 찾아 주세요.
-        </h2>
 
         <ul className="yw-branches__list">
           {list.map((b) => (
