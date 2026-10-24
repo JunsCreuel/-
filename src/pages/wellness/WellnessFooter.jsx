@@ -5,10 +5,10 @@ import { scrollToId } from './scroll'
 import './wellness-footer.css'
 
 // 약관·방침 문서. 눌리지 않는 글자는 링크처럼 오해되므로 href가 있는 항목만 보여 준다.
-// 개인정보처리방침 등 문서가 준비되면 href에 주소를 넣는다(CCTV 방침은 CCTV를 운영할 때만).
+// 문서가 준비되면 href에 주소를 넣는다(CCTV 방침은 CCTV를 운영할 때만). 개인정보처리방침은 WellnessPrivacy(#/wellness/privacy).
 const POLICIES = [
   { label: '이용약관', href: null },
-  { label: '개인정보처리방침', href: null },
+  { label: '개인정보처리방침', href: '#/wellness/privacy', strong: true },
 ]
 const SHOWN_POLICIES = POLICIES.filter((p) => p.href)
 // 마린시티점 주소·전화(별도 페이지가 없어도 지점 안내로 보여 준다)
@@ -107,7 +107,9 @@ export default function WellnessFooter({ items }) {
             <ul className="w-footer__policies" aria-label="약관 및 방침">
               {SHOWN_POLICIES.map((p) => (
                 <li key={p.label}>
-                  <a href={p.href}>{p.label}</a>
+                  <a href={p.href} className={p.strong ? 'is-strong' : undefined}>
+                    {p.label}
+                  </a>
                 </li>
               ))}
             </ul>

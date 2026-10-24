@@ -1,0 +1,71 @@
+/* 개인정보처리방침 (WellnessPrivacy.jsx): 읽기 좋은 한 단 문서 */
+
+.yw-section.yw-privacy {
+  padding-top: clamp(3.5rem, 8vw, 6rem);
+  background: #fff;
+}
+
+.yw-privacy__wrap {
+  max-width: 48rem;
+  color: var(--w-ink);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.wellness .yw-privacy__title {
+  margin: 0;
+  font: 500 clamp(2rem, 4vw, 2.75rem) / 1.25 var(--w-font-serif);
+  letter-spacing: -0.03em;
+}
+
+.yw-privacy__lead {
+  margin: 1.25rem 0 0;
+  color: color-mix(in srgb, var(--w-ink) 80%, #fff);
+}
+
+.wellness .yw-privacy h2 {
+  margin: 2.5rem 0 0.6rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--w-line);
+  font: 600 1.05rem / 1.5 var(--w-font);
+}
+
+.yw-privacy p {
+  margin: 0;
+}
+
+.yw-privacy ol,
+.yw-privacy ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.yw-privacy__dl {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0;
+}
+
+.yw-privacy__dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+.yw-privacy__dl dt {
+  min-width: 9rem;
+  color: var(--w-muted);
+}
+
+.yw-privacy__dl dd {
+  margin: 0;
+}
+
+.yw-privacy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
