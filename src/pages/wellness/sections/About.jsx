@@ -25,7 +25,7 @@ export default function About() {
           </ul>
         </div>
         <figure className="yw-story__photo">
-          <Pic pic={PICS.aboutGlow} sizes="(min-width: 64rem) 40vw, 92vw" />
+          <Pic pic={PICS.aboutNeck} sizes="(min-width: 64rem) 40vw, 92vw" />
         </figure>
       </div>
     </section>
