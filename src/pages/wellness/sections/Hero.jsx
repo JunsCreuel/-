@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { BRANCHES, OFFER_TERM, PICS, SALE_COUNT, SHOW_OFFER } from '../data'
+import { BRANCHES, PICS } from '../data'
 import { ParenLink } from '../editorial'
 import { prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-hero.css'
 
-// 메인 비주얼 — 사진·문구 슬라이드 3장(브랜드 / 국내산 온열돔 / 첫 방문 이벤트)이 SLIDE_MS마다 자동으로 넘어간다.
+// 메인 비주얼 — 사진·문구 슬라이드 2장(브랜드 / 국내산 온열돔)이 SLIDE_MS마다 자동으로 넘어간다.
 // 아래 점 버튼으로 바로 고를 수 있고, 마우스를 올리거나 키보드 포커스가 들어오면, 또는 '멈춤'을 누르면 멈춘다.
 // 모션 줄이기에서는 자동으로 넘어가지 않는다. 첫 화면에는 간편 상담 카드를 두지 않고, 간편 상담은 예약 장(#booking-form)에서 받는다.
 
@@ -26,17 +26,6 @@ const SLIDES = [
     lines: ['누워서 40분,', '따뜻하게 쉬어 가세요.'],
     to: 'equipment',
   },
-  ...(SHOW_OFFER
-    ? [
-        {
-          id: 'offer',
-          pic: PICS.bizStill,
-          eyebrow: OFFER_TERM,
-          lines: ['첫 방문 고객', `${SALE_COUNT}개 관리 50%`],
-          to: 'offer',
-        },
-      ]
-    : []),
 ]
 
 function SlidePicture({ slide, priority }) {
@@ -145,7 +134,7 @@ export default function Hero() {
 
         <div className="yw-hero__actions">
           <ParenLink onClick={() => scrollToId(slide.to || 'programs')} tone="light">
-            {slide.id === 'offer' ? '첫 방문 혜택 보기' : slide.id === 'dome' ? '온열돔 자세히 보기' : '관리 프로그램 보기'}
+            {slide.id === 'dome' ? '온열돔 자세히 보기' : '관리 프로그램 보기'}
           </ParenLink>
           <ParenLink href={BRANCHES.zai.booking} external tone="light">
             네이버 예약
