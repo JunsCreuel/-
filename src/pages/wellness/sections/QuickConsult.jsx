@@ -254,10 +254,31 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
           {termsOpen ? '접기' : '보기'}
         </button>
       </div>
-      <p id={`${uid}-terms`} className="yw-quick__terms" hidden={!termsOpen}>
-        상담 연락을 위해 이름·연락처·상담 종류를 받으며, 상담을 마친 뒤 지체 없이 파기합니다. 동의하지 않으셔도 전화({phone})로
-        상담하실 수 있습니다. 개인정보 보호책임자: 대표 {BRAND.representative}
-      </p>
+      <div id={`${uid}-terms`} className="yw-quick__terms" hidden={!termsOpen}>
+        <p>
+          {BRAND.company}(이하 &lsquo;스튜디오&rsquo;)는 「개인정보 보호법」 제15조에 따라 상담 신청에 필요한 최소한의 개인정보를
+          아래와 같이 수집·이용합니다.
+        </p>
+        <ol>
+          <li>
+            <b>수집·이용 목적</b> 상담 신청 접수, 상담 내용 확인 및 회신 연락
+          </li>
+          <li>
+            <b>수집 항목</b> [필수] 성함, 휴대전화번호, 상담 종류 · [선택] 관심 관리
+          </li>
+          <li>
+            <b>보유·이용 기간</b> 상담 목적 달성 시 지체 없이 파기합니다. 다만 관계 법령에 따라 보존할 필요가 있는 경우 해당 기간
+            동안 보관합니다.
+          </li>
+          <li>
+            <b>동의 거부 권리 및 불이익</b> 개인정보 수집·이용에 대한 동의를 거부하실 수 있습니다. 다만 동의하지 않으시면 온라인 상담
+            신청이 제한되며, 전화({phone})로 상담하실 수 있습니다.
+          </li>
+          <li>
+            <b>개인정보 보호책임자</b> 대표 {BRAND.representative} · {phone}
+          </li>
+        </ol>
+      </div>
 
       <p id={errId} className="yw-quick__error" aria-live="polite">
         {firstError || ''}
