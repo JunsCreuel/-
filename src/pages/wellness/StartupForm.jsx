@@ -1,13 +1,16 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { STARTUP_PHONES, telHref } from './data'
+import { BRAND, STARTUP_PHONES, telHref } from './data'
 import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
-import { fireConfetti } from './motion'
 import { scrollToId } from './scroll'
 import './wellness-consult.css'
 
-// 접수 연결(Firebase 등) 전까지는 false로 둔다. false면 입력한 내용은 어디로도 전송되지 않고,
-// 제출하면 전화로 문의하라는 안내만 보여 준다(성공 화면과 폭죽도 나오지 않는다). 연결할 때 save() 안에서 저장하고 true로 바꾼다.
-const SUBMIT_ENABLED = false
+// 창업·운영 상담은 문자·전화로 받는다(서버에 저장하지 않는다).
+// - 휴대폰: 문자 앱을 열어 SMS_PHONE으로 보낼 상담 내용을 채워 준다(전송은 손님이 누른다).
+// - PC: 전화번호와 상담 내용 복사를 안내한다.
+// 창업 상담은 용호 자이점에서 진행하므로 문자는 첫 번째 번호(용호 자이점)로 보낸다. 전화는 STARTUP_PHONES를 모두 보여 준다.
+const SMS_PHONE = STARTUP_PHONES[0]
+const onlyDigits = (s) => s.replace(/\D/g, '')
+const smsHref = (text) => `sms:${onlyDigits(SMS_PHONE)}?&body=${encodeURIComponent(text)}`
 
 // 웰니스 스튜디오 창업은 모두 신규 창업이다. 두 번째는 창업이 아니라, 이미 운영 중인 샵이 장비·프로그램만 들이는 문의다.
 const KINDS = ['신규 창업 상담', '기존 샵 장비·프로그램 도입 상담']
@@ -40,9 +43,17 @@ function validate(step, f) {
 const validateAll = (f) => STEPS.reduce((acc, _, i) => ({ ...acc, ...validate(i, f) }), {})
 const firstInvalidStep = (f) => STEPS.findIndex((_, i) => Object.keys(validate(i, f)).length > 0)
 
-// 접수 연결 자리. SUBMIT_ENABLED를 true로 바꿀 때 여기서 문의 내용을 저장한다.
-async function save() {
-  // TODO(Firebase): 문의 내용을 저장한다.
+// 문자로 보낼 상담 내용
+function buildMessage(f) {
+  return [
+    `[${BRAND.company} 홈페이지 창업·운영 상담]`,
+    `상담 유형: ${f.kind}`,
+    `관심 지역: ${f.region.trim()}`,
+    `희망 시기: ${f.timing}`,
+    `성함: ${f.name.trim()}`,
+    `연락처: ${f.p1}-${f.p2}-${f.p3}`,
+    ...(f.message.trim() ? [`문의 내용: ${f.message.trim()}`] : []),
+  ].join('\n')
 }
 
 // 창업·운영 상담 문의: 한 번에 한 질문씩 넘어가는 4단계 폼
@@ -51,8 +62,8 @@ export default function StartupForm() {
   const [dir, setDir] = useState('fwd')
   const [form, setForm] = useState({ kind: '', region: '', timing: '', name: '', p1: '010', p2: '', p3: '', message: '', agree: false })
   const [errors, setErrors] = useState({})
-  const [pending, setPending] = useState(false)
-  const [done, setDone] = useState(false)
+  const [done, setDone] = useState(null) // null | 'sms' | 'pc'
+  const [copied, setCopied] = useState(false)
   const formRef = useRef(null)
   const stepRef = useRef(null)
   const prevStep = useRef(step) // 단계가 실제로 바뀌었을 때만 포커스를 옮기기 위해
@@ -73,7 +84,6 @@ export default function StartupForm() {
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
-    setPending(false)
   }
 
   function focusInvalid() {
@@ -97,7 +107,7 @@ export default function StartupForm() {
     setStep((s) => Math.max(0, s - 1))
   }
 
-  async function onSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault()
     if (step < LAST) {
       goNext()
@@ -114,14 +124,27 @@ export default function StartupForm() {
       return
     }
     setErrors({})
-    if (!SUBMIT_ENABLED) {
-      setPending(true)
-      return
+    const touch = window.matchMedia?.('(pointer: coarse)').matches
+    if (touch) {
+      setDone('sms')
+      window.location.href = smsHref(buildMessage(form))
+    } else {
+      setDone('pc')
     }
-    const rect = e.currentTarget.querySelector('button[type="submit"]')?.getBoundingClientRect()
-    await save()
-    setDone(true)
-    fireConfetti(rect && { x: rect.left + rect.width / 2, y: rect.top })
+  }
+
+  async function copyMessage() {
+    try {
+      await navigator.clipboard.writeText(buildMessage(form))
+      setCopied(true)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  function restart() {
+    setDone(null)
+    setCopied(false)
   }
 
   const ready = Object.keys(validate(step, form)).length === 0
@@ -139,13 +162,36 @@ export default function StartupForm() {
 
   if (done) {
     return (
-      <div className="w-wiz__done" role="status">
-        <svg viewBox="0 0 52 52" aria-hidden="true">
-          <circle cx="26" cy="26" r="24" />
-          <path d="M15 27l8 8 14-16" />
-        </svg>
-        <h4>문의가 접수되었습니다</h4>
-        <p>남겨 주신 번호로 확인 후 연락드리겠습니다.</p>
+      <div className="w-wiz__done w-wiz__done--contact" role="status">
+        {done === 'sms' ? (
+          <>
+            <h4>문자 앱에 상담 내용을 채워 두었어요</h4>
+            <p>문자 앱에서 전송을 누르시면 바로 접수됩니다. 앱이 열리지 않았다면 아래 버튼을 눌러 주세요.</p>
+            <a className="w-submit w-wiz__done-go" href={smsHref(buildMessage(form))}>
+              문자로 보내기
+            </a>
+          </>
+        ) : (
+          <>
+            <h4>전화 또는 문자로 접수해 주세요</h4>
+            <p>아래 번호로 전화 주시거나, 상담 내용을 복사해 문자로 보내 주시면 바로 연락드리겠습니다.</p>
+            <button type="button" className="w-submit w-wiz__done-go" onClick={copyMessage}>
+              {copied ? '복사했어요' : '상담 내용 복사'}
+            </button>
+          </>
+        )}
+        <p className="w-wiz__done-tels">
+          전화{' '}
+          {STARTUP_PHONES.map((p, i) => (
+            <Fragment key={p}>
+              {i > 0 && ' · '}
+              <a href={telHref(p)}>{p}</a>
+            </Fragment>
+          ))}
+        </p>
+        <button type="button" className="w-link w-wiz__again" onClick={restart}>
+          다시 작성하기
+        </button>
       </div>
     )
   }
@@ -202,10 +248,7 @@ export default function StartupForm() {
             <PhoneField
               idPrefix="s"
               value={{ p1: form.p1, p2: form.p2, p3: form.p3 }}
-              onChange={(next) => {
-                setForm((prev) => ({ ...prev, ...next }))
-                setPending(false)
-              }}
+              onChange={(next) => setForm((prev) => ({ ...prev, ...next }))}
               error={shown.phone}
             />
           </>
@@ -243,21 +286,10 @@ export default function StartupForm() {
           </button>
         )}
         <button type="submit" className={`w-submit w-wiz__next${ready ? ' is-ready' : ''}`}>
-          {step < LAST ? '다음' : '창업·운영 상담 신청하기'}
+          {step < LAST ? '다음' : '상담 신청하기'}
         </button>
       </div>
 
-      {pending && (
-        <p className="w-form__notice" role="status">
-          문의 접수를 준비 중입니다. 입력하신 내용은 아직 전송되지 않았으니, 전화로 문의해 주시기 바랍니다.{' '}
-          {STARTUP_PHONES.map((p, i) => (
-            <Fragment key={p}>
-              {i > 0 && ' · '}
-              <a href={telHref(p)}>{p}</a>
-            </Fragment>
-          ))}
-        </p>
-      )}
     </form>
   )
 }
