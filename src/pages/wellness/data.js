@@ -35,12 +35,13 @@ export const PICS = {
   // 관리 프로그램 사진. 두피 두 관리는 부위별 추천 두피·얼굴 타일과 같은 사진을 쓴다
   menuScalpDetox: pic('cond-scalp-v2', [480, 736], 4 / 5),
   menuScalpFace: pic('cond-face-v2', [480, 736], 4 / 5),
-  menuBackLymph: pic('menu-shoulder-v2', [240, 600, 736], 4 / 5),
+  menuBackLymph: pic('cond-back-v2', [480, 736], 4 / 5), // 부위별 추천 '등' 타일과 같은 사진
   menuAbdomen: pic('menu-belly-v2', [240, 600, 675], 4 / 5),
   menuLower: pic('menu-legs-v2', [240, 600, 736], 4 / 5),
   menuFullBack: pic('menu-spine-v2', [240, 600, 736], 4 / 5),
   menuLymphNode: pic('menu-neck-v2', [240, 600, 736], 4 / 5),
-  menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5),
+  menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5), // 첫 화면 온열돔 장
+  menuWarmupCare: pic('menu-shoulder-v2', [240, 600, 736], 4 / 5), // 풀 바디 웜업케어 메뉴 사진
   bizStill: pic('biz-still', [960, 1600], 2 / 3),
   // 마지막 장면: 매장 사진(제공 사진, 로고만 남기고 글자를 지운 뒤 2배로 키움).
   // 세로 원본이라 데스크톱(가로)은 양옆을, 휴대폰(세로)은 위아래를 벽·바닥 색으로 이어 로고와 세면대가 잘리지 않게 했다.
@@ -143,7 +144,7 @@ export const PROGRAMS = [
   { id: 'lower', group: '바디', title: '하체 관리', time: '1시간 10분', price: 130000, sale: 65000, photo: 'leg', pos: 'center 40%', desc: '풀 바디 웜업으로 몸을 데운 뒤, 발과 종아리부터 허벅지까지 하체 라인을 상태에 맞춰 케어합니다. 다리가 무겁게 느껴지는 분께 추천합니다.', label: '하체 관리', area: '하체 · 림프', min: 70, pic: 'menuLower', note: '풀 바디 웜업 후 발끝에서 허벅지까지 하체 라인을 관리합니다.' },
   { id: 'full-back', group: '바디', title: '전신 후면 관리', time: '1시간 30분', price: 110000, photo: 'back', pos: 'center 75%', desc: '풀 바디 웜업으로 몸을 따뜻하게 데운 뒤, 등과 하체를 집중적으로 케어합니다.', label: '전신 후면 관리', area: '등 · 어깨', min: 90, pic: 'menuFullBack', note: '풀 바디 웜업 후 등과 하체에 집중하는 1시간 30분입니다.' },
   { id: 'lymph-node', group: '바디', title: '림프절 관리', time: '1시간', price: 140000, sale: 70000, photo: 'neck', pos: 'center 40%', desc: '목과 겨드랑이, 다리 안쪽 라인을 따라 부드러운 손길로 편안하게 관리합니다.', label: '림프절 관리', area: '하체 · 림프', min: 60, pic: 'menuLymphNode', note: '목과 겨드랑이, 다리 안쪽 라인을 부드러운 손길로 관리합니다.' },
-  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '40분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.', label: '풀 바디 웜업케어 + 아로마테라피', area: '온열 웜업', min: 40, pic: 'menuWarmup', note: '아로마를 바르고 온열돔에서 쉬어 가는 40분입니다.' },
+  { id: 'warmup', group: '온열 웜업', title: '풀 바디 웜업케어 + 아로마테라피', time: '40분', price: 50000, photo: 'heatDome', fit: 'contain', desc: '컨디션에 맞는 아로마를 바른 뒤 온열돔에서 전신을 편안하게 데우며 쉬어 가는 관리입니다. 단독으로 가볍게 이용하기 좋습니다.', label: '풀 바디 웜업케어 + 아로마테라피', area: '온열 웜업', min: 40, pic: 'menuWarmupCare', note: '아로마를 바르고 온열돔에서 쉬어 가는 40분입니다.' },
 ]
 
 // 할인(50%) 대상 관리 수. 50%는 항상 이 범위('6개 관리')와 함께 쓴다.

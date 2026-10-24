@@ -19,12 +19,12 @@ import './yw-menu.css'
 const ALT = {
   'scalp-detox': '세면대에 누운 채 두피를 감싸는 두 손',
   'scalp-face': '볼에 세럼을 떨어뜨리는 장면',
-  'back-lymph': '목 뒤에 손을 얹은 물기 어린 어깨',
+  'back-lymph': '등이 드러난 드레스 뒷모습',
   abdomen: '옆구리에 손을 얹은 허리 라인',
   lower: '햇살이 비치는 다리 라인',
   'full-back': '수건을 걸친 채 드러난 등',
   'lymph-node': '햇살이 비치는 쇄골과 어깨 라인',
-  warmup: '간접 조명이 비치는 원목 선반 위 수건',
+  warmup: '목 뒤에 손을 얹은 물기 어린 어깨',
 }
 
 const TOTAL = String(PROGRAMS.length).padStart(2, '0')
