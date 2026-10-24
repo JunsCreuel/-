@@ -268,8 +268,8 @@ export default function StartupForm() {
             <ConsentBox
               idPrefix="s"
               purpose="창업·운영 상담"
-              items="상담 유형, 성함, 연락처, 관심 지역, 창업 희망 시기, 문의 내용(선택)"
-              refusal="동의를 거부하실 수 있습니다. 다만 거부 시 온라인 문의 신청이 제한되며, 전화로 직접 문의하실 수 있습니다."
+              items="[필수] 상담 유형, 성함, 휴대전화번호, 관심 지역, 창업 희망 시기 · [선택] 문의 내용"
+              refusal="개인정보 수집·이용에 대한 동의를 거부하실 수 있습니다. 다만 동의하지 않으시면 온라인 상담 신청이 제한되며, 전화로 문의하실 수 있습니다."
               checked={form.agree}
               onChange={(v) => set('agree', v)}
               error={shown.agree}

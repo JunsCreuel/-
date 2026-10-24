@@ -411,3 +411,20 @@
     animation: none;
   }
 }
+
+/* 개인정보 수집·이용 동의 전문(번호 목록) */
+.yw-quick__terms p {
+  margin: 0;
+}
+
+.yw-quick__terms ol {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.yw-quick__terms b {
+  margin-right: 0.35em;
+  font-weight: 600;
+}
