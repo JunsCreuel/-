@@ -87,22 +87,23 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
       </p>
       <div className="w-terms" tabIndex={0} role="region" aria-labelledby={labelId}>
         <p>
-          {BRAND.company}(이하 &lsquo;스튜디오&rsquo;)는 {purpose}을 위해 아래와 같이 개인정보를 수집·이용합니다.
+          {BRAND.company}(이하 &lsquo;스튜디오&rsquo;)는 「개인정보 보호법」 제15조에 따라 {purpose} 신청에 필요한 최소한의
+          개인정보를 아래와 같이 수집·이용합니다.
         </p>
         <p>
-          <strong>1. 수집 항목</strong>
+          <strong>1. 수집·이용 목적</strong>
+          <br />
+          {purpose} 신청 접수, 상담 내용 확인 및 회신 연락
+        </p>
+        <p>
+          <strong>2. 수집 항목</strong>
           <br />
           {items}
         </p>
         <p>
-          <strong>2. 수집·이용 목적</strong>
-          <br />
-          {purpose} 확인 및 안내 연락
-        </p>
-        <p>
           <strong>3. 보유 및 이용 기간</strong>
           <br />
-          상담 목적을 달성한 후 지체 없이 파기합니다. 다만 관계 법령에 따라 보존할 필요가 있으면 그 기간 동안 보관합니다.
+          상담 목적 달성 시 지체 없이 파기합니다. 다만 관계 법령에 따라 보존할 필요가 있는 경우 해당 기간 동안 보관합니다.
         </p>
         <p>
           <strong>4. 동의를 거부할 권리 및 불이익</strong>
@@ -123,7 +124,7 @@ export function ConsentBox({ idPrefix, purpose, items, refusal, checked, onChang
           aria-required="true"
           {...(error ? { 'aria-invalid': true, 'aria-describedby': errId } : {})}
         />
-        <span>개인정보 수집 및 이용에 동의합니다.</span>
+        <span>위 개인정보 수집 및 이용에 동의합니다.</span>
       </label>
       {error && (
         <p className="w-form__error" id={errId}>
