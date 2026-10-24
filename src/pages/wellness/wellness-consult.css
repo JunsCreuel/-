@@ -281,3 +281,35 @@
     transition: none;
   }
 }
+
+/* 창업·운영 상담: 제출 후 문자·전화 안내(StartupForm done 'sms' | 'pc') */
+.w-wiz__done--contact {
+  gap: 0.75rem;
+}
+
+.w-wiz__done--contact p {
+  max-width: 28rem;
+  margin: 0;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.w-wiz__done-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 12rem;
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
+.w-wiz__done-tels a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.w-wiz__again {
+  margin-top: 0.25rem;
+}
