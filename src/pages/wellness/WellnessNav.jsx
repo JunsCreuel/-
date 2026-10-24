@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { OPEN_BRANCHES, telHref } from './data'
 import { onScrollFrame } from './motion'
@@ -41,6 +41,13 @@ export default function WellnessNav({ branch, items }) {
       syncTheme()
     })
   }, [syncTheme])
+
+  // 페이지를 옮기면(메인 ↔ 개인정보처리방침) 스크롤이 없어도 새 페이지 맨 위 섹션의 테마로 다시 맞춘다.
+  const { pathname } = useLocation()
+  useEffect(() => {
+    const raf = requestAnimationFrame(syncTheme)
+    return () => cancelAnimationFrame(raf)
+  }, [pathname, syncTheme])
 
   useEffect(() => {
     menuOpenRef.current = menuOpen
