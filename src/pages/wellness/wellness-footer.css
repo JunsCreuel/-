@@ -135,3 +135,9 @@
     padding-bottom: 1.1rem;
   }
 }
+
+/* 개인정보처리방침은 다른 항목과 구분되게 굵게(개인정보 보호법 시행령 제31조) */
+.w-footer__policies a.is-strong {
+  color: var(--w-ink);
+  font-weight: 700;
+}

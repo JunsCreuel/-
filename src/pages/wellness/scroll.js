@@ -14,10 +14,32 @@ function offsetFromTarget(el) {
   return el.getBoundingClientRect().top - ty - (parseFloat(cs.scrollMarginTop) || 0)
 }
 
+// 메인(#/wellness)이 아닌 페이지(개인정보처리방침 등)에서 메뉴·예약 버튼을 누르면 메인으로 돌아간 뒤 그 섹션으로 간다.
+// 메인이 그려질 때까지(최대 약 2초) 프레임마다 섹션을 찾는다.
+const HOME_HASH = '#/wellness'
+
+function goHomeThen(id) {
+  window.location.hash = HOME_HASH
+  let tries = 0
+  const find = () => {
+    const el = document.getElementById(id)
+    if (el) {
+      // 메인이 그려지며 맨 위로 올리는 동작(WellnessLayout) 뒤에 한 번 더 맞춘다
+      setTimeout(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }), 80)
+      return
+    }
+    if (++tries < 120) requestAnimationFrame(find)
+  }
+  requestAnimationFrame(find)
+}
+
 // HashRouter에서는 #id 링크가 라우트를 깨뜨리므로 스크롤은 직접 처리한다.
 export function scrollToId(id) {
   const el = document.getElementById(id)
-  if (!el) return
+  if (!el) {
+    if (window.location.hash !== HOME_HASH) goHomeThen(id)
+    return
+  }
   const smooth = !prefersReducedMotion()
   el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' })
   if (!smooth) return
