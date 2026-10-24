@@ -37,21 +37,27 @@ export default function WellnessLayout() {
   const { pathname } = useLocation()
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
-  // 제목용 명조(Noto Serif KR), 본문 Noto Sans KR, 숫자·라벨용 Jost, 영문 큰 제목·숫자용 Cormorant Garamond(300·이탤릭 포함)를 이 페이지에 있는 동안만 불러온다.
-  // 내려받는 양을 줄이려고 화면에서 실제로 쓰는 굵기만 불러온다(한글 글꼴은 굵기마다 따로 내려받는다).
+  // 제목용 마루 부리(네이버 한글한글 아름답게, OFL), 본문 프리텐다드(OFL, 쓰는 글자만 받는 dynamic subset),
+  // 숫자·라벨용 Jost, 영문 큰 제목·숫자용 Cormorant Garamond(300·이탤릭 포함)를 이 페이지에 있는 동안만 불러온다.
   useEffect(() => {
     const pre = document.createElement('link')
     pre.rel = 'preconnect'
     pre.href = 'https://fonts.gstatic.com'
     pre.crossOrigin = ''
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href =
-      'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Noto+Sans+KR:wght@400;500;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap'
-    document.head.append(pre, link)
+    const sheets = [
+      'https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css',
+      'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css',
+      'https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap',
+    ].map((href) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = href
+      return link
+    })
+    document.head.append(pre, ...sheets)
     return () => {
       pre.remove()
-      link.remove()
+      sheets.forEach((link) => link.remove())
     }
   }, [])
 
