@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { PHOTOS, PICS } from '../data'
-import { Folio, Pic } from '../editorial'
+import { Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
 import './yw-equipment.css'
@@ -604,8 +604,7 @@ export default function Equipment() {
     <section id="equipment" className="yw-section yw-curtain--light yw-eq" data-theme="light">
       <div className="yw-wrap yw-eq__head">
         <div className="yw-eq__intro">
-          <Folio ko="장비" />
-          <h2 className="yw-h2">온열돔과 세 가지 디바이스</h2>
+          <h2 className="yw-eq__title">장비 소개</h2>
           <p className="yw-lead">
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>
