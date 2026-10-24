@@ -74,12 +74,21 @@ export default function EventPopups() {
                   scrollToId(p.to)
                 }}
               >
-                <span className="yw-pop__photo">
+                <span className={`yw-pop__photo${p.cut ? ' yw-pop__photo--cut' : ''}`}>
                   <Pic pic={PICS[p.pic]} sizes="(min-width: 48rem) 20rem, 88vw" loading="eager" />
                 </span>
-                <span className="sr-only">
-                  {p.eyebrow}, {p.title}. {p.text}. {p.cta}
-                </span>
+                {p.art ? (
+                  <span className="sr-only">
+                    {p.eyebrow}, {p.title}. {p.text}. {p.cta}
+                  </span>
+                ) : (
+                  <span className="yw-pop__text">
+                    <span className="yw-pop__eyebrow">{p.eyebrow}</span>
+                    <strong className="yw-pop__title">{p.title}</strong>
+                    <span className="yw-pop__desc">{p.text}</span>
+                    <span className="yw-pop__cta">{p.cta} →</span>
+                  </span>
+                )}
                 {p.note && <span className="yw-pop__note">{p.note}</span>}
               </button>
               <div className="yw-pop__foot">
