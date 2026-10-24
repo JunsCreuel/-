@@ -15,11 +15,11 @@ export default function About() {
             손끝으로 완성합니다.
           </h2>
           <p className="yw-story__lead">
-            예뻐졌다 WELLNESS STUDIO는 예뻐졌다가 쉼을 더해 만든 자매 브랜드입니다. 국산 원적외선 온열돔으로 몸을
+            예뻐졌다 WELLNESS STUDIO는 예뻐졌다가 쉼을 더해 만든 자매 브랜드입니다. 국내산 원적외선 온열돔으로 몸을
             따뜻하게 데운 뒤, 두피·얼굴·바디를 1:1로 관리합니다.
           </p>
           <ul className="yw-story__points">
-            <li>국산 명신메디칼 온열돔</li>
+            <li>국내산 명신메디칼 온열돔</li>
             <li>100% 예약제 1:1 관리</li>
             <li>두피 · 얼굴 · 바디 관리</li>
           </ul>
