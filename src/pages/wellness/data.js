@@ -21,6 +21,8 @@ export const PICS = {
   heroWarmM: pic('hero-shoulder-m', [480, 734], 2 / 3),
   ritual1: pic('ritual-1', [600, 1200], 4 / 5),
   ritual2: pic('ritual-2', [600, 1200], 4 / 5),
+  // 브랜드 소개 사진(제공 사진, 원본이 작아 2배까지만)
+  aboutGlow: pic('about-glow', [236, 472], 4 / 5),
   ritual3: pic('ritual-3', [600, 1200], 4 / 5),
   ritual4: pic('ritual-4', [600, 1200], 4 / 5),
   condScalp: pic('cond-scalp', [480, 960], 4 / 5),
