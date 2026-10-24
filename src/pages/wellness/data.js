@@ -115,7 +115,7 @@ export const EVENT_POPUPS = [
     id: 'dome-solo',
     pic: 'domeCut',
     cut: true,
-    eyebrow: '국산 명신메디칼 온열돔',
+    eyebrow: '국내산 명신메디칼 온열돔',
     title: '온열돔 단독 이용',
     text: '편하게 누운 채 40분, 온열돔만 따로 이용하실 수 있어요.',
     cta: '온열돔 보기',
