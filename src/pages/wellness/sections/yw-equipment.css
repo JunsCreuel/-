@@ -28,6 +28,18 @@
   min-width: 0;
 }
 
+/* 장 제목 '장비 소개': 다른 장 제목(yw-h2)보다 크게 */
+.wellness .yw-eq__title {
+  margin: 0;
+  font: 500 clamp(2.75rem, 7vw, 5.75rem) / 1.1 var(--w-font-serif);
+  letter-spacing: -0.035em;
+  word-break: keep-all;
+}
+
+.yw-eq__title + .yw-lead {
+  margin-top: clamp(0.9rem, 1.6vw, 1.4rem);
+}
+
 .yw-eq__nav {
   display: flex;
   align-items: center;
