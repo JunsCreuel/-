@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { BRAND, STARTUP_PHONES, telHref } from './data'
+import { BRAND, STARTUP_CONTACTS, telHref } from './data'
 import { ChoiceChips, ConsentBox, PhoneField } from './FormParts'
 import { scrollToId } from './scroll'
 import './wellness-consult.css'
@@ -7,8 +7,8 @@ import './wellness-consult.css'
 // 창업·운영 상담은 문자·전화로 받는다(서버에 저장하지 않는다).
 // - 휴대폰: 문자 앱을 열어 SMS_PHONE으로 보낼 상담 내용을 채워 준다(전송은 손님이 누른다).
 // - PC: 전화번호와 상담 내용 복사를 안내한다.
-// 창업 상담은 용호 자이점에서 진행하므로 문자는 첫 번째 번호(용호 자이점)로 보낸다. 전화는 STARTUP_PHONES를 모두 보여 준다.
-const SMS_PHONE = STARTUP_PHONES[0]
+// 창업 상담은 용호 자이점에서 진행하므로 문자는 첫 번째 번호(용호 자이점)로 보낸다. 전화는 STARTUP_CONTACTS를 지점 이름과 함께 모두 보여 준다.
+const SMS_PHONE = STARTUP_CONTACTS[0].phone
 const onlyDigits = (s) => s.replace(/\D/g, '')
 const smsHref = (text) => `sms:${onlyDigits(SMS_PHONE)}?&body=${encodeURIComponent(text)}`
 
@@ -181,11 +181,10 @@ export default function StartupForm() {
           </>
         )}
         <p className="w-wiz__done-tels">
-          전화{' '}
-          {STARTUP_PHONES.map((p, i) => (
-            <Fragment key={p}>
+          {STARTUP_CONTACTS.map((c, i) => (
+            <Fragment key={c.id}>
               {i > 0 && ' · '}
-              <a href={telHref(p)}>{p}</a>
+              {c.label} <a href={telHref(c.phone)}>{c.phone}</a>
             </Fragment>
           ))}
         </p>
