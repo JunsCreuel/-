@@ -55,7 +55,7 @@ export function InlineChip({ pic, className = '' }) {
   )
 }
 
-// '( 네이버 예약 ↗ )' 괄호 링크. href가 있으면 a, 없으면 button이다. 외부 링크는 새 창으로 열고 보조기기에 '(새 창)'을 알린다.
+// '네이버 예약 ↗' 밑줄 링크. href가 있으면 a, 없으면 button이다. 외부 링크는 새 창으로 열고 보조기기에 '(새 창)'을 알린다.
 // tone='light'는 어두운 면 위의 크림색이다.
 export function ParenLink({ href, external = false, onClick, tone, className = '', children, ...rest }) {
   const cls = `yw-paren${tone === 'light' ? ' yw-paren--light' : ''}${className ? ` ${className}` : ''}`
@@ -63,7 +63,7 @@ export function ParenLink({ href, external = false, onClick, tone, className = '
     <>
       <span>{children}</span>
       <i className="yw-paren__dot" aria-hidden="true">
-        {external ? '↗' : '●'}
+        {external ? '↗' : '→'}
       </i>
       {external && <span className="sr-only">(새 창)</span>}
     </>
