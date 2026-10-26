@@ -1,84 +1,51 @@
-import { useRef, useState } from 'react'
-import { BRANCHES } from '../data'
-import { ParenLink } from '../editorial'
+import { useEffect, useState } from 'react'
+import BrandLogo from '../BrandLogo'
 import { prefersReducedMotion } from '../motion'
-import { scrollToId } from '../scroll'
+import WaterCanvas from './WaterCanvas'
 import './yw-hero.css'
 
-// 메인 비주얼 — 콘크리트 벽 앞에서 잎이 흔들리는 영상(Coverr, 상업적 무료 사용) 위에 큰 문구 하나.
-// 소리 없이 반복 재생하고, '멈춤'으로 세울 수 있다. 모션 줄이기에서는 재생하지 않고 첫 장면(포스터)만 보여 준다.
-const BASE = import.meta.env.BASE_URL
-const VIDEO = `${BASE}wellness/video/hero-leaves.mp4`
-const POSTER = `${BASE}wellness/video/hero-leaves-poster.webp`
+// 메인 비주얼 — 얕은 물 아래 모래 사진 한 장을 물결처럼 일렁이게 그린 화면(WaterCanvas) 위에 로고 하나만.
+// 들어오면 흰 포말이 이는 파도 한 줄기가 왼쪽 위에서 오른쪽 아래로 쓸고 지나가고(WaterCanvas),
+// 파도가 지나간 자리에서 로고가 같은 방향으로 드러난 뒤 빛이 한 번 스친다(yw-hero.css, .is-go일 때).
+// 물결을 그리지 못하는 기기에서는 잠깐 뒤 로고만 같은 방식으로 드러난다.
+// '멈춤'으로 물결을 세울 수 있고, 모션 줄이기·WebGL이 없는 기기에서는 사진과 로고가 멈춘 채 바로 보인다.
+const WATER = `${import.meta.env.BASE_URL}wellness/photos/hero-water.webp`
 
 export default function Hero() {
-  const videoRef = useRef(null)
   const [reduced] = useState(prefersReducedMotion)
   const [stopped, setStopped] = useState(reduced)
+  const [go, setGo] = useState(reduced)
 
-  function toggle() {
-    const v = videoRef.current
-    if (!v) return
-    if (stopped) v.play().catch(() => {})
-    else v.pause()
-    setStopped(!stopped)
-  }
+  // 물결이 시작되지 않으면(WebGL 없음·사진 늦음) 1.5초 뒤 로고만 드러낸다
+  useEffect(() => {
+    if (go) return undefined
+    const t = setTimeout(() => setGo(true), 1500)
+    return () => clearTimeout(t)
+  }, [go])
 
   return (
-    <section id="top" className="yw-section yw-hero yw-hero--video" data-theme="dark" data-cursor-off>
+    <section id="top" className={`yw-section yw-hero yw-hero--water yw-hero--logo${go ? ' is-go' : ''}`} data-theme="dark" data-cursor-off>
       <div className="yw-hero__media" aria-hidden="true">
-        <video
-          ref={videoRef}
-          src={VIDEO}
-          poster={POSTER}
-          muted
-          loop
-          playsInline
-          autoPlay={!reduced}
-          preload={reduced ? 'none' : 'auto'}
-        />
+        <img src={WATER} alt="" fetchPriority="high" />
+        <WaterCanvas src={WATER} paused={stopped} onStart={() => setGo(true)} className="yw-hero__water" />
       </div>
       <div className="yw-hero__shade" aria-hidden="true" />
 
-      <div className="yw-wrap yw-hero__text">
-        <div className="yw-hero__slide">
-          <p className="yw-hero__kicker">예뻐졌다가 쉼을 더해 만든 자매 브랜드</p>
-          <h1 className="yw-hero__title">
-            근본적인 아름다움을 깨우다
-            <br />
-            <em>예뻐졌다 웰니스 스튜디오</em>
-          </h1>
-        </div>
+      <h1 className="yw-hero__brand">
+        <BrandLogo variant="stack" />
+      </h1>
 
-        <div className="yw-hero__actions">
-          <ParenLink onClick={() => scrollToId('programs')} tone="light">
-            관리 프로그램 보기
-          </ParenLink>
-          <ParenLink href={BRANCHES.zai.booking} external tone="light">
-            네이버 예약
-          </ParenLink>
-          {!reduced && (
-            <button type="button" className="yw-hero__pause" aria-pressed={stopped} aria-label={stopped ? '영상 재생' : '영상 멈춤'} onClick={toggle}>
-              <span aria-hidden="true">{stopped ? '▶' : 'Ⅱ'}</span>
-            </button>
-          )}
-        </div>
-      </div>
-
-      <dl className="yw-hero__info">
-        <div>
-          <dt className="sr-only">위치</dt>
-          <dd>부산 용호 · GS하이츠자이 상가</dd>
-        </div>
-        <div>
-          <dt className="sr-only">영업시간</dt>
-          <dd>{BRANCHES.zai.hours}</dd>
-        </div>
-        <div>
-          <dt className="sr-only">예약</dt>
-          <dd>100% 예약제 · 1:1</dd>
-        </div>
-      </dl>
+      {!reduced && (
+        <button
+          type="button"
+          className="yw-hero__pause yw-hero__pause--corner"
+          aria-pressed={stopped}
+          aria-label={stopped ? '물결 움직임 재생' : '물결 움직임 멈춤'}
+          onClick={() => setStopped((v) => !v)}
+        >
+          <span aria-hidden="true">{stopped ? '▶' : 'Ⅱ'}</span>
+        </button>
+      )}
     </section>
   )
 }

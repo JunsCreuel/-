@@ -404,16 +404,136 @@
   }
 }
 
-/* 영상 히어로: 잎이 오른쪽에 있어 데스크톱은 그대로, 휴대폰은 잎 쪽(오른쪽)을 보여 준다 */
-.yw-hero--video .yw-hero__media video {
+/* 물결 히어로: 사진(img) 위에 같은 사진을 일렁이게 그린 캔버스를 겹친다. 캔버스가 그려지기 전·못 그리면 사진만 보인다 */
+.yw-hero--water .yw-hero__media img,
+.yw-hero--water .yw-hero__water {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
 }
 
-@media (max-width: 47.99rem), (max-aspect-ratio: 4/5) {
-  .yw-hero--video .yw-hero__media video {
-    object-position: 78% 50%;
+.yw-hero--water .yw-hero__water {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.yw-hero--water .yw-hero__water[data-on] {
+  opacity: 1;
+}
+
+/* ── 로고만 있는 첫 화면 ───────────────────────────────── */
+
+/* 물빛은 밝게 두고, 가운데 로고 뒤만 아주 옅게 가라앉힌다 */
+.yw-hero--logo .yw-hero__shade {
+  background:
+    linear-gradient(to bottom, rgb(30 38 30 / 0.3), transparent 20%),
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgb(28 36 28 / 0.32), transparent 75%);
+}
+
+.yw-hero--logo .yw-hero__brand {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  pointer-events: none;
+}
+
+.yw-hero__brand .w-logo--stack {
+  --u: clamp(0.46px, 0.07vw + 0.2px, 1px);
+  --w-logo-mark: #fbfaf3;
+  --w-logo-text: #fbfaf3;
+  filter: drop-shadow(0 2px 18px rgb(20 28 20 / 0.35));
+}
+
+/* 등장: 파도가 지나간 방향(왼쪽 위 → 오른쪽 아래)으로 로고가 드러난다. .is-go 전에는 숨겨 둔다 */
+.yw-hero--logo .yw-hero__brand .w-logo {
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(125deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(125deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 320% 320%;
+  mask-size: 320% 320%;
+  -webkit-mask-position: 100% 100%;
+  mask-position: 100% 100%;
+}
+
+.yw-hero--logo.is-go .yw-hero__brand .w-logo {
+  opacity: 1;
+  animation: yw-logo-wash 2s cubic-bezier(0.33, 0.7, 0.3, 1) 0.55s both;
+}
+
+.yw-hero--logo.is-go .yw-hero__brand .w-logo__text {
+  animation: yw-logo-settle 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+/* 'WELLNESS STUDIO'에 빛줄기가 한 번 스친다 */
+.yw-hero__brand .w-logo__en {
+  background-image: linear-gradient(110deg, transparent 38%, rgb(255 255 255 / 0.95) 50%, transparent 62%);
+  background-repeat: no-repeat;
+  background-size: 260% 100%;
+  background-position: 160% 0;
+}
+
+.yw-hero--logo.is-go .yw-hero__brand .w-logo__en {
+  animation: yw-logo-gleam 1.5s ease-in-out 2.35s both;
+}
+
+@keyframes yw-logo-wash {
+  from {
+    -webkit-mask-position: 100% 100%;
+    mask-position: 100% 100%;
+    filter: blur(6px) drop-shadow(0 2px 18px rgb(20 28 20 / 0));
+  }
+  to {
+    -webkit-mask-position: 0% 0%;
+    mask-position: 0% 0%;
+    filter: blur(0) drop-shadow(0 2px 18px rgb(20 28 20 / 0.35));
+  }
+}
+
+@keyframes yw-logo-settle {
+  from {
+    translate: -1.2% -0.6%;
+    letter-spacing: 0.02em;
+  }
+}
+
+@keyframes yw-logo-gleam {
+  from {
+    background-position: 160% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+
+.yw-hero__pause--corner {
+  position: absolute;
+  right: var(--w-gutter);
+  bottom: clamp(1.25rem, 4vh, 2.5rem);
+  z-index: 3;
+}
+
+@media (max-width: 47.99rem) {
+  .yw-hero__pause--corner {
+    bottom: 6.5rem; /* 휴대폰 아래 고정 바 위 */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-hero--logo .yw-hero__brand .w-logo {
+    opacity: 1;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .yw-hero--logo .yw-hero__brand .w-logo,
+  .yw-hero--logo .yw-hero__brand .w-logo__text,
+  .yw-hero--logo .yw-hero__brand .w-logo__en {
+    animation: none;
   }
 }
