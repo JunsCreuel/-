@@ -3,17 +3,16 @@ import BrandLogo from '../BrandLogo'
 import { prefersReducedMotion, useMediaQuery } from '../motion'
 import './yw-hero.css'
 
-// 메인 비주얼 — 바닷물이 일렁이는 영상 위에 로고와 그 아래 한 줄 문구.
-// 영상은 물이 빠지기 시작하는 자리(START초)부터 재생한다. 영상이 재생되면 어둠 속에서 서서히 밝아지며
-// 로고('예뻐졌다 WELLNESS STUDIO')가 자막처럼 부드럽게 나타나고, 1초쯤 뒤 그 아래 문구가 이어진다(yw-hero.css, .is-go일 때).
-// 가로 화면은 물가를 가로로 자른 영상, 세로 화면(휴대폰)은 세로 원본 영상을 쓴다. 영상이 늦거나 재생되지 않으면 첫 장면 사진 위로 로고만 드러난다.
+// 메인 비주얼 — 위에서 내려다본 모래사장과 청록 바다(파도가 밀려왔다 빠지는 영상) 위에 로고와 그 아래 한 줄 문구.
+// 영상이 재생되면 어둠 속에서 서서히 밝아지며 로고('예뻐졌다 WELLNESS STUDIO')가 자막처럼 부드럽게 나타나고,
+// 1초쯤 뒤 그 아래 문구가 이어진다(yw-hero.css, .is-go일 때). 영상은 밀려오는 장면 뒤에 거꾸로 빠지는 장면을 이어 끊김 없이 반복된다.
+// 가로 화면은 가로 영상, 세로 화면(휴대폰)은 가운데를 세로로 자른 영상을 쓴다. 영상이 늦거나 재생되지 않으면 첫 장면 사진 위로 로고만 드러난다.
 // '멈춤'으로 영상을 세울 수 있고, 화면 밖으로 지나가면 멈춰 두었다가 다시 들어오면 처음부터 다시 연출한다. 모션 줄이기에서는 첫 장면 사진과 로고가 바로 보인다.
 const VIDEO = `${import.meta.env.BASE_URL}wellness/video/`
-const START = 3.5 // 물이 빠지기 시작하는 자리(초)
-// poster는 START 지점 장면이라 영상이 늦게 시작해도 화면이 튀지 않는다
+// poster는 영상 첫 장면이라 영상이 늦게 시작해도 화면이 튀지 않는다
 const SEA = {
-  wide: { src: `${VIDEO}hero-sea-pc-hq.mp4#t=${START}`, poster: `${VIDEO}hero-sea-pc-start.webp` },
-  tall: { src: `${VIDEO}hero-sea-m-hq.mp4#t=${START}`, poster: `${VIDEO}hero-sea-m-start.webp` },
+  wide: { src: `${VIDEO}hero-shore-pc.mp4`, poster: `${VIDEO}hero-shore-pc-start.webp` },
+  tall: { src: `${VIDEO}hero-shore-m.mp4`, poster: `${VIDEO}hero-shore-m-start.webp` },
 }
 
 export default function Hero() {
@@ -47,13 +46,13 @@ export default function Hero() {
     return () => clearTimeout(t)
   }, [go, live, playing, stopped])
 
-  // 화면 밖이면 영상을 세우고 물이 빠지기 시작하는 자리로 되감아 둔다. 화면 안에서는 멈춤 버튼을 따른다
+  // 화면 밖이면 영상을 세우고 처음으로 되감아 둔다. 화면 안에서는 멈춤 버튼을 따른다
   useEffect(() => {
     const video = videoRef.current
     if (!video || reduced) return
     if (!live) {
       video.pause()
-      video.currentTime = START
+      video.currentTime = 0
     } else if (stopped) video.pause()
     else video.play().catch(() => {})
   }, [live, stopped, reduced, sea.src])
