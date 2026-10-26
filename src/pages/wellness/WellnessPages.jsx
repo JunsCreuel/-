@@ -6,7 +6,7 @@ import { About, Branches, Condition, CustomerCenter, DomeSpot, Equipment, Faq, O
 export function BrandPage() {
   return (
     <>
-      <PageHead title="브랜드" en="Brand Story" />
+      <PageHead title="브랜드" />
       <About />
     </>
   )
@@ -16,7 +16,7 @@ export function BrandPage() {
 export function ProgramPage() {
   return (
     <>
-      <PageHead title="관리 프로그램" en="Care Program" />
+      <PageHead title="관리 프로그램" />
       <Condition />
       <Programs />
       <Offer />
@@ -27,7 +27,7 @@ export function ProgramPage() {
 export function EquipmentPage() {
   return (
     <>
-      <PageHead title="장비 소개" en="Equipment" />
+      <PageHead title="장비 소개" />
       <Equipment />
     </>
   )
@@ -36,7 +36,7 @@ export function EquipmentPage() {
 export function DomePage() {
   return (
     <>
-      <PageHead title="온열돔" en="Signature Warm-up" />
+      <PageHead title="온열돔" />
       <DomeSpot />
     </>
   )
@@ -45,7 +45,7 @@ export function DomePage() {
 export function ReviewPage() {
   return (
     <>
-      <PageHead title="후기" en="Reviews" />
+      <PageHead title="후기" />
       <Proof />
     </>
   )
@@ -55,7 +55,7 @@ export function ReviewPage() {
 export function LocationPage() {
   return (
     <>
-      <PageHead title="지점 안내 · 예약" en="Location & Booking" />
+      <PageHead title="지점 안내 · 예약" />
       <Branches />
       <CustomerCenter branch={BRANCHES.zai} />
       <Faq />
@@ -66,7 +66,7 @@ export function LocationPage() {
 export function StartupPage() {
   return (
     <>
-      <PageHead title="창업" en="Franchise" />
+      <PageHead title="창업" />
       <Startup />
     </>
   )

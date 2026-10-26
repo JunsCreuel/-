@@ -26,13 +26,6 @@
   text-decoration: none;
 }
 
-.yw-phead__en {
-  margin: 0 0 0.4rem;
-  color: var(--w-accent-deep);
-  font: italic 400 clamp(1.05rem, 0.6vw + 0.9rem, 1.35rem) / 1.3 var(--w-font-en);
-  letter-spacing: 0.04em;
-}
-
 .wellness .yw-phead__title {
   margin: 0;
   font: 500 clamp(2.25rem, 4.6vw, 3.75rem) / 1.2 var(--w-font-serif);
