@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { OPEN_BRANCHES, telHref } from './data'
 import { onScrollFrame } from './motion'
-import { lockPageScroll, scrollToId, scrollToTop } from './scroll'
+import { goToMenu, lockPageScroll, scrollToId, scrollToTop } from './scroll'
 import './wellness-nav.css'
 
 // 상단 바: 왼쪽 로고, 가운데 주요 메뉴(넓은 화면), 오른쪽 상담 예약 버튼.
@@ -43,7 +43,7 @@ export default function WellnessNav({ branch, items }) {
   }, [syncTheme])
 
   // 페이지를 옮기면(메인 ↔ 개인정보처리방침) 스크롤이 없어도 새 페이지 맨 위 섹션의 테마로 다시 맞춘다.
-  const { pathname } = useLocation()
+  const { pathname } = useLocation() // 페이지 이동 감지(테마 다시 판정, 지금 페이지 메뉴 표시)
   useEffect(() => {
     const raf = requestAnimationFrame(syncTheme)
     return () => cancelAnimationFrame(raf)
@@ -91,6 +91,16 @@ export default function WellnessNav({ branch, items }) {
     scrollToId(id)
   }
 
+  function goToItem(item) {
+    setMenuOpen(false)
+    // 하위 메뉴를 고르면 데스크톱 드롭다운이 바로 닫히게 포커스를 뺀다
+    document.activeElement?.blur?.()
+    goToMenu(item)
+  }
+
+  // 지금 보고 있는 하위 페이지의 메뉴
+  const current = (item) => (item.page && item.page === pathname ? 'page' : undefined)
+
   // 오픈한 지점이 하나뿐이면 지점 선택은 보이지 않는다.
   const hasChoice = OPEN_BRANCHES.length > 1
   const barItems = items.some((i) => i.bar) ? items.filter((i) => i.bar) : items
@@ -113,9 +123,22 @@ export default function WellnessNav({ branch, items }) {
 
           <nav className="w-nav__menu" aria-label="주요 메뉴">
             {barItems.map((item) => (
-              <button key={item.id} type="button" onClick={() => goTo(item.id)}>
-                {item.label}
-              </button>
+              <div key={item.id} className={`w-nav__item${item.children ? ' has-sub' : ''}`}>
+                <button type="button" aria-current={current(item)} onClick={() => goToItem(item)}>
+                  {item.label}
+                </button>
+                {item.children && (
+                  <ul className="w-nav__sub">
+                    {item.children.map((c) => (
+                      <li key={c.id}>
+                        <button type="button" onClick={() => goToItem(c)}>
+                          {c.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -158,10 +181,21 @@ export default function WellnessNav({ branch, items }) {
               )}
               <div className="w-nav__panel-items">
                 {items.map((item, i) => (
-                  <button key={item.id} type="button" onClick={() => goTo(item.id)}>
-                    <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                    {item.label}
-                  </button>
+                  <div key={item.id} className="w-nav__panel-group">
+                    <button type="button" aria-current={current(item)} onClick={() => goToItem(item)}>
+                      <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                      {item.label}
+                    </button>
+                    {item.children && (
+                      <div className="w-nav__panel-sub">
+                        {item.children.map((c) => (
+                          <button key={c.id} type="button" onClick={() => goToItem(c)}>
+                            {c.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
               <p className="w-nav__panel-info">

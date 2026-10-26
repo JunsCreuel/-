@@ -331,3 +331,101 @@
     transition: none;
   }
 }
+
+/* ── 하위 메뉴(데스크톱 드롭다운 · 휴대폰 패널의 들여 쓴 줄) ────────────── */
+.w-nav__item {
+  position: relative;
+}
+
+.wellness .w-nav__item > button {
+  position: relative;
+  min-height: 2.75rem;
+}
+
+.w-nav__item > button[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 0.45em;
+  text-decoration-thickness: 1px;
+}
+
+.w-nav__sub {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 5;
+  display: grid;
+  min-width: 10.5rem;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--w-ink) 35%, transparent);
+  color: var(--w-ink);
+  opacity: 0;
+  visibility: hidden;
+  translate: -50% 0.4rem;
+  transition:
+    opacity 0.18s ease,
+    translate 0.18s ease,
+    visibility 0.18s;
+}
+
+.w-nav__item.has-sub:hover .w-nav__sub,
+.w-nav__item.has-sub:focus-within .w-nav__sub {
+  opacity: 1;
+  visibility: visible;
+  translate: -50% 0;
+}
+
+.wellness .w-nav__sub button {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.6rem;
+  color: var(--w-ink);
+  font-size: 0.88rem;
+  text-align: left;
+  text-decoration: none;
+}
+
+.wellness .w-nav__sub button:hover,
+.wellness .w-nav[data-theme='dark'] .w-nav__sub button:hover {
+  background: var(--yw-ivory);
+  color: var(--w-ink);
+  text-decoration: none;
+}
+
+@media (min-width: 900px) and (max-width: 1099px) {
+  .w-nav__menu {
+    gap: 1.15rem;
+  }
+}
+
+/* 휴대폰 패널: 하위 메뉴는 큰 줄 아래 작은 글씨로 */
+.w-nav__panel-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  padding: 0.2rem 0 0.9rem 3.1rem;
+  border-bottom: 1px solid var(--w-line);
+}
+
+.w-nav__panel-group:has(.w-nav__panel-sub) > button {
+  border-bottom: 0;
+}
+
+.wellness .w-nav__panel-sub button {
+  display: inline-flex;
+  width: auto;
+  min-height: 2.5rem;
+  padding: 0;
+  border: 0;
+  color: var(--w-muted);
+  font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w-nav__sub {
+    transition: none;
+  }
+}
