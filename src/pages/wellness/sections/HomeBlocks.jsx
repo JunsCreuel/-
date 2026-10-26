@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { BRAND, PARENT_STORE_COUNT, PICS, PROGRAMS } from '../data'
+import { PICS, PROGRAMS } from '../data'
 import { InlineChip, ParenLink, Pic } from '../editorial'
-import { useInView, useScrollParallax, useScrollProgress } from '../motion'
+import { useInView, useScrollParallax } from '../motion'
 import { PAGES, pageHref } from '../pages'
 import { openProgram, scrollToId } from '../scroll'
 import './yw-home.css'
@@ -43,7 +43,7 @@ function SpinBadge() {
 
 // 메인 전용 짧은 블록. 자세한 내용은 위쪽 메뉴의 페이지(pages.js)에 있고, 메인에서는 한눈에 보고 넘어가게만 한다.
 
-// 브랜드 한 단락 + 숫자 세 개 + 매장 사진
+// 브랜드 한 단락 + 매장 사진(숫자 나열 없이 글과 사진만)
 export function HomeIntro() {
   return (
     <section className="yw-section yw-hintro" data-theme="light" aria-labelledby="hintro-title">
@@ -58,22 +58,6 @@ export function HomeIntro() {
             예뻐졌다 WELLNESS STUDIO는 예뻐졌다가 쉼을 더해 만든 자매 브랜드입니다. 국내산 원적외선 온열돔으로 몸을 따뜻하게
             데운 뒤, 두피·얼굴·바디를 1:1로 관리합니다.
           </p>
-          <dl className="yw-hintro__nums">
-            <div>
-              <dt>{PARENT_STORE_COUNT}+</dt>
-              <dd>본 브랜드 예뻐졌다 매장</dd>
-            </div>
-            <div>
-              <dt>1:1</dt>
-              <dd>100% 예약제 관리</dd>
-            </div>
-            <div>
-              <dt>
-                40<small>분</small>
-              </dt>
-              <dd>온열돔 전신 웜업</dd>
-            </div>
-          </dl>
           <ParenLink href={pageHref(PAGES.brand)}>브랜드 소개 보기</ParenLink>
         </div>
         <div className="yw-hintro__visual">
@@ -131,29 +115,6 @@ export function HomePrograms() {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
-  )
-}
-
-// 큰 영문 두 줄. 스크롤하면 윗줄(테두리 글자)은 오른쪽으로, 아랫줄(채운 글자)은 왼쪽으로 흐른다(루아 에스테틱식).
-// 모션 줄이기에서는 가운데에 멈춰 있다. 장식이라 보조기기에는 두 문구를 한 번씩만 읽힌다.
-const LINE_A = 'Beauty Begins with Wellness'
-const LINE_B = BRAND.tagline.replace(/\b(\w)(\w*)/g, (_, a, b) => a + b.toLowerCase())
-export function HomeMarquee() {
-  const ref = useRef(null)
-  useScrollProgress(ref, { fallback: 0.5 })
-  return (
-    <section ref={ref} className="yw-hmarq" data-theme="light" aria-label={`${LINE_A}. ${LINE_B}`}>
-      <div className="yw-hmarq__row yw-hmarq__row--a" aria-hidden="true">
-        {[0, 1, 2].map((i) => (
-          <span key={i}>{LINE_A}</span>
-        ))}
-      </div>
-      <div className="yw-hmarq__row yw-hmarq__row--b" aria-hidden="true">
-        {[0, 1, 2].map((i) => (
-          <span key={i}>{LINE_B}</span>
-        ))}
       </div>
     </section>
   )
