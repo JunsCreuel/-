@@ -61,8 +61,6 @@
   color: var(--w-ink);
 }
 
-.yw-offer .yw-ticket .yw-paren::before,
-.yw-offer .yw-ticket .yw-paren::after,
 .yw-offer .yw-ticket .yw-paren__dot {
   color: var(--w-accent-deep);
 }
@@ -327,7 +325,7 @@
   scale: 0.97;
 }
 
-/* 태블릿: 알약 버튼과 괄호 링크를 한 줄에 */
+/* 태블릿: 알약 버튼과 밑줄 링크를 한 줄에 */
 @media (min-width: 40rem) and (max-width: 63.99rem) {
   .yw-ticket__stub {
     flex-direction: row;
