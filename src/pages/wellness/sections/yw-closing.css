@@ -21,11 +21,11 @@
   overflow: clip;
   border-radius: 1.25rem;
   background: #3a3530;
-  clip-path: inset(16% 16% round 1.25rem);
-  opacity: 0.35;
+  clip-path: inset(18% 18% round 1.25rem);
+  opacity: 0;
   transition:
-    clip-path 1.5s var(--yw-ease),
-    opacity 1s ease;
+    clip-path 1.6s var(--yw-ease),
+    opacity 1.4s ease;
 }
 
 .wellness .yw-close__photo img {
@@ -34,8 +34,8 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-  scale: 1.12;
-  transition: scale 1.8s var(--yw-ease);
+  scale: 1.15;
+  transition: scale 2s var(--yw-ease);
 }
 
 .yw-close.is-open .yw-close__photo {
