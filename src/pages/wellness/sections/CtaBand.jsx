@@ -10,13 +10,13 @@ import './yw-closing.css'
 // 사진이 화면 밖으로 완전히 나가면 닫혀 두었다가 다시 들어오면 또 열린다. 모션 줄이기에서는 열린 사진과 버튼을 바로 보여 준다.
 export default function CtaBand() {
   const ref = useRef(null)
-  const photoRef = useRef(null)
+  const stageRef = useRef(null) // 사진 틀. 사진(figure)은 clip-path로 닫혀 있어 관찰 면적이 줄어드므로 바깥 틀을 지켜본다
   const reduced = prefersReducedMotion()
   const [inView, setInView] = useState(typeof IntersectionObserver === 'undefined')
   const open = reduced || inView
 
   useEffect(() => {
-    const el = photoRef.current
+    const el = stageRef.current
     if (!el || reduced || typeof IntersectionObserver === 'undefined') return undefined
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -40,8 +40,8 @@ export default function CtaBand() {
       <h2 id="closing-title" className="sr-only">
         예뻐졌다 웰니스 스튜디오 예약
       </h2>
-      <div className="yw-close__stage">
-        <figure ref={photoRef} className="yw-close__photo">
+      <div ref={stageRef} className="yw-close__stage">
+        <figure className="yw-close__photo">
           <Pic pic={PICS.closing} sizes="(min-width: 48rem) 36rem, 88vw" alt="예뻐졌다 WELLNESS STUDIO 관리실" />
         </figure>
         <button type="button" className="yw-close__round" data-magnet data-cursor="" onClick={() => scrollToId('booking')}>
