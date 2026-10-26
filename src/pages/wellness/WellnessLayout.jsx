@@ -3,7 +3,6 @@ import { Outlet, useLocation } from 'react-router-dom'
 import CursorLayer from './CursorLayer'
 import EventPopups from './EventPopups'
 import { BRANCHES } from './data'
-import FloatingInquiry from './FloatingInquiry'
 import { ScrollProgress } from './MotionParts'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
@@ -98,7 +97,6 @@ export default function WellnessLayout() {
       </main>
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
       <MobileBar branch={branch} />
-      <FloatingInquiry />
       {branch.id === 'zai' && pathname === BRANCHES.zai.path && <EventPopups />}
       <CursorLayer />
     </div>
