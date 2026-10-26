@@ -29,14 +29,6 @@ export function EquipmentPage() {
     <>
       <PageHead title="장비 소개" />
       <Equipment />
-    </>
-  )
-}
-
-export function DomePage() {
-  return (
-    <>
-      <PageHead title="온열돔" />
       <DomeSpot />
     </>
   )
@@ -66,7 +58,7 @@ export function LocationPage() {
 export function StartupPage() {
   return (
     <>
-      <PageHead title="창업" />
+      <PageHead title="창업 문의" />
       <Startup />
     </>
   )

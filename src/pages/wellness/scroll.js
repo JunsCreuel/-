@@ -158,13 +158,3 @@ export function pickForBooking({ area, programId, label } = {}) {
   if (document.getElementById('booking')) pick(scrollToId)
   else goToPage(SECTION_PAGE.booking, () => pick(jumpToId))
 }
-
-// 관리 프로그램 한 줄을 펼친 채로 보여 준다(메인 사진 카드 → 관리 프로그램 페이지). Programs가 'w:open-program'을 받아 펼친다.
-export function openProgram(id) {
-  const run = (move) => {
-    window.dispatchEvent(new CustomEvent('w:open-program', { detail: { id } }))
-    move(`program-${id}`)
-  }
-  if (document.getElementById(`program-${id}`)) run(scrollToId)
-  else goToPage(SECTION_PAGE.programs, () => run(jumpToId))
-}
