@@ -1,6 +1,6 @@
 /* 메인 전용 짧은 블록 (sections/HomeBlocks.jsx) */
 
-/* 브랜드 한 단락 + 숫자 + 매장 사진 */
+/* 브랜드 한 단락 + 매장 사진 */
 .yw-section.yw-hintro {
   background: #fff;
 }
@@ -26,31 +26,9 @@
   word-break: keep-all;
 }
 
-.yw-hintro__nums {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin: clamp(1.75rem, 3vw, 2.5rem) 0 clamp(1.5rem, 3vw, 2rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--w-line);
-}
-
-.yw-hintro__nums dt {
-  color: var(--w-ink);
-  font: 300 clamp(2rem, 3.4vw, 2.9rem) / 1 var(--w-font-en);
-}
-
-.yw-hintro__nums dd {
-  margin: 0.5rem 0 0;
-  color: var(--w-muted);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  word-break: keep-all;
-}
-
-.yw-hintro__nums dt small {
-  margin-left: 0.1em;
-  font: 400 0.42em var(--w-font);
+/* 소개 글 아래 링크: 숫자 줄을 뺀 자리만큼 띄운다 */
+.yw-hintro__text > .yw-paren {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 /* 관리 프로그램 사진 카드 */
@@ -139,45 +117,6 @@
   .yw-pcard:hover img {
     scale: 1.04;
   }
-}
-
-/* 큰 영문 두 줄: 스크롤(--p, 0~1)에 따라 서로 반대로 흐른다 */
-.yw-hmarq {
-  --p: 0.5;
-  overflow: clip;
-  padding: clamp(3rem, 7vw, 5.5rem) 0;
-  background: #fff;
-}
-
-.yw-hmarq__row {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.yw-hmarq__row span {
-  padding-right: 0.5em;
-  font: 300 clamp(3.25rem, 9vw, 8.5rem) / 1.08 var(--w-font-en);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.yw-hmarq__row--a {
-  transform: translateX(calc(-38% + var(--p) * 30%));
-}
-
-.yw-hmarq__row--a span {
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--w-bronze) 80%, transparent);
-}
-
-.yw-hmarq__row--b {
-  transform: translateX(calc(-8% - var(--p) * 30%));
-}
-
-.yw-hmarq__row--b span {
-  color: var(--w-accent-deep);
-  font-style: italic;
 }
 
 /* 사진 틀이 화면에 들어오면 안쪽에서 바깥으로 열린다 */
