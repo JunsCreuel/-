@@ -9,7 +9,7 @@ import './yw-hero.css'
 // '멈춤'으로 영상을 세울 수 있고, 화면 밖으로 지나가면 멈춰 둔다. 모션 줄이기에서는 첫 장면 사진과 로고가 바로 보인다.
 const VIDEO = `${import.meta.env.BASE_URL}wellness/video/`
 const SEA = {
-  wide: { src: `${VIDEO}hero-sea.mp4`, poster: `${VIDEO}hero-sea-poster.webp` },
+  wide: { src: `${VIDEO}hero-sea-pc.mp4`, poster: `${VIDEO}hero-sea-pc-poster.webp` },
   tall: { src: `${VIDEO}hero-sea-m.mp4`, poster: `${VIDEO}hero-sea-m-poster.webp` },
 }
 
