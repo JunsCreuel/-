@@ -21,6 +21,8 @@ export const SECTION_PAGE = {
   'warm-dome': PAGES.dome,
   reviews: PAGES.review,
   branches: PAGES.location,
+  'branch-zai': PAGES.location,
+  'branch-marine': PAGES.location,
   booking: PAGES.location,
   'booking-form': PAGES.location,
   visit: PAGES.location,

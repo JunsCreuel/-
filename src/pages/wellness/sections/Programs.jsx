@@ -209,6 +209,19 @@ export default function Programs() {
     }
   }
 
+  // 위쪽 메뉴에서 고른 분류(scroll.js goToMenu → 'w:program-filter'): 그 분류 탭을 켠다.
+  const chooseRef = useRef(choose)
+  useEffect(() => {
+    chooseRef.current = choose
+  })
+  useEffect(() => {
+    const onFilter = (e) => {
+      if (FILTERS.some((f) => f.id === e.detail?.id)) chooseRef.current(e.detail.id)
+    }
+    window.addEventListener('w:program-filter', onFilter)
+    return () => window.removeEventListener('w:program-filter', onFilter)
+  }, [])
+
   function toggle(id) {
     setOpenId((cur) => (cur === id ? null : id))
     setSeen((s) => (s.has(id) ? s : new Set(s).add(id)))
