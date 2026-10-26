@@ -537,3 +537,47 @@
     animation: none;
   }
 }
+
+/* 첫 화면 로고: 마크(ri)는 빼고 글자 두 줄만, 밝은 물빛 위에서도 또렷하게 */
+.yw-hero--logo .yw-hero__brand .w-logo__mark {
+  display: none;
+}
+
+.yw-hero--logo .yw-hero__brand .w-logo--stack {
+  --u: clamp(0.5px, 0.08vw + 0.2px, 1.15px);
+}
+
+.yw-hero--logo .yw-hero__brand .w-logo--stack .w-logo__text {
+  margin-top: 0;
+}
+
+/* 글자 뒤만 둥글게 가라앉히고, 화면 전체도 아주 살짝 눌러 물빛과 글자 대비를 키운다 */
+.yw-hero--logo .yw-hero__shade {
+  background:
+    linear-gradient(to bottom, rgb(24 32 26 / 0.32), transparent 22%),
+    radial-gradient(ellipse 46% 30% at 50% 50%, rgb(22 30 24 / 0.55), rgb(22 30 24 / 0.22) 60%, transparent 100%),
+    rgb(22 30 24 / 0.12);
+}
+
+.yw-hero--logo.is-go .yw-hero__brand .w-logo {
+  animation-name: yw-logo-wash-strong;
+}
+
+@keyframes yw-logo-wash-strong {
+  from {
+    -webkit-mask-position: 100% 100%;
+    mask-position: 100% 100%;
+    filter: blur(6px) drop-shadow(0 0 0 rgb(14 20 16 / 0));
+  }
+  to {
+    -webkit-mask-position: 0% 0%;
+    mask-position: 0% 0%;
+    filter: blur(0) drop-shadow(0 1px 2px rgb(14 20 16 / 0.45)) drop-shadow(0 4px 24px rgb(14 20 16 / 0.5));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-hero--logo .yw-hero__brand .w-logo {
+    filter: drop-shadow(0 1px 2px rgb(14 20 16 / 0.45)) drop-shadow(0 4px 24px rgb(14 20 16 / 0.5));
+  }
+}
