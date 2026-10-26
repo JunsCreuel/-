@@ -28,23 +28,3 @@
   opacity: 1;
   translate: none;
 }
-
-/* 부위별 추천: 밝은 장 */
-.yw-section.yw-cond--light {
-  background: var(--yw-ivory);
-  color: var(--w-ink);
-}
-
-.yw-cond--light .yw-cond__card:not(.is-empty) {
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--w-ink) 6%, transparent), 0 12px 32px -18px color-mix(in srgb, var(--w-ink) 30%, transparent);
-}
-
-/* 이벤트: 밝은 장, 티켓은 테두리로 구분 */
-.yw-section.yw-offer--light {
-  background: #fff;
-  color: var(--w-ink);
-}
-
-.yw-offer--light .yw-ticket {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--w-ink) 10%, transparent), 0 18px 40px -24px color-mix(in srgb, var(--w-ink) 35%, transparent);
-}
