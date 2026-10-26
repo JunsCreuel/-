@@ -1,92 +1,45 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { BRANCHES, PICS } from '../data'
 import { ParenLink, Pic } from '../editorial'
-import { easeInOutCubic, prefersReducedMotion, useInView, useScrollProgress } from '../motion'
+import { prefersReducedMotion, useInView } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-closing.css'
 
-// No. 12 Closing — 점이 원으로 커지며 촛불과 수건 사진이 열리고, 히어로의 첫 문장이 다시 올라온다(수미상관).
-// 64rem 이상(모션 줄이기 아님): 150svh 섹션 안의 100svh sticky 무대에서 스크롤 진행률로 원형 마스크를 연다(--e).
-// 그보다 좁으면 고정 없이, 화면에 40% 들어올 때 아치 모양에서 전면으로 1.4초 동안 열린다.
-// 모션 줄이기: 마스크 없이 열린 사진에 제목과 버튼을 바로 보여 준다. sticky 무대의 조상에는 transform을 쓰지 않는다.
-const OPEN_AT = 0.55 // 이 진행률을 넘으면 제목과 버튼이 올라온다
-const FULL_AT = 0.75 // 이 진행률에서 원이 화면을 다 채운다
-
+// 마지막 장면 — 매장 사진 한 장(원본 4:5 그대로, 액자처럼)과 예약 버튼.
+// 화면에 들어오면 사진이 가운데에서 바깥으로 쫙 열리고, 화면 밖으로 나갔다가 다시 들어오면 또 열린다.
+// 모션 줄이기에서는 열린 사진과 버튼을 바로 보여 준다.
 export default function CtaBand() {
   const ref = useRef(null)
   const reduced = prefersReducedMotion()
-  const pinned = false // 화면을 붙잡아 두지 않고, 화면에 들어오면 열린다
-  const inView = useInView(ref, { threshold: 0.4 })
-  const [pinOpen, setPinOpen] = useState(false)
-  const pinOpenRef = useRef(false)
-
-  useScrollProgress(ref, {
-    mode: 'pin',
-    enabled: pinned,
-    onProgress: (p) => {
-      const el = ref.current
-      if (!el) return
-      el.style.setProperty('--e', easeInOutCubic(Math.min(1, p / FULL_AT)).toFixed(4))
-      const next = p > OPEN_AT
-      if (next !== pinOpenRef.current) {
-        pinOpenRef.current = next
-        setPinOpen(next)
-      }
-    },
-  })
-
-  const open = reduced || (pinned ? pinOpen : inView)
-
-  // 고정 무대에서 원이 열리기 전에 키보드로 버튼에 들어오면, 다 열린 지점으로 옮겨 버튼이 보이게 한다.
-  const onFocus = () => {
-    const el = ref.current
-    if (!pinned || pinOpenRef.current || !el) return
-    const r = el.getBoundingClientRect()
-    const run = Math.max(0, r.height - window.innerHeight)
-    window.scrollTo({ top: window.scrollY + r.top + run * 0.85, behavior: 'auto' })
-  }
-
-  const cls = `yw-close${pinned ? ' is-pinned' : ''}${open ? ' is-open' : ''}${reduced ? ' is-still' : ''}`
+  const inView = useInView(ref, { once: false, threshold: 0.3 })
+  const open = reduced || inView
 
   return (
-    <section id="closing" ref={ref} className={cls} data-theme="dark" aria-labelledby="closing-title" onFocus={onFocus}>
+    <section
+      id="closing"
+      ref={ref}
+      className={`yw-close${open ? ' is-open' : ''}${reduced ? ' is-still' : ''}`}
+      data-theme="dark"
+      aria-labelledby="closing-title"
+    >
+      <h2 id="closing-title" className="sr-only">
+        예뻐졌다 웰니스 스튜디오 예약
+      </h2>
       <div className="yw-close__stage">
         <figure className="yw-close__photo">
-          <picture>
-            <source media="(max-aspect-ratio: 4/5)" srcSet={PICS.closingM.srcSet} sizes="100vw" />
-            <Pic pic={PICS.closing} sizes="(max-aspect-ratio: 3/2) 150vh, 100vw" />
-          </picture>
-          <div className="yw-close__shade" />
+          <Pic pic={PICS.closing} sizes="(min-width: 48rem) 36rem, 88vw" alt="예뻐졌다 WELLNESS STUDIO 관리실" />
         </figure>
-
-        <div className="yw-close__dot" aria-hidden="true">
-          <span />
-          <span />
-        </div>
-
-        <div className="yw-close__text">
-          {/* 이 장에는 보이는 문구를 두지 않고 사진과 버튼만 둔다. 제목은 보조기기용 */}
-          <h2 id="closing-title" className="sr-only">
-            예뻐졌다 웰니스 스튜디오 예약
-          </h2>
-          <div className="yw-close__actions">
-            <button
-              type="button"
-              className="yw-close__round"
-              data-magnet
-              data-cursor=""
-              onClick={() => scrollToId('booking')}
-            >
-              <span>예약하기</span>
-            </button>
-            <ParenLink href={BRANCHES.zai.booking} external tone="light">
-              네이버 예약
-            </ParenLink>
-            <button type="button" className="yw-close__small" onClick={() => scrollToId('startup')}>
-              창업·운영 상담 →
-            </button>
-          </div>
-        </div>
+        <button type="button" className="yw-close__round" data-magnet data-cursor="" onClick={() => scrollToId('booking')}>
+          <span>예약하기</span>
+        </button>
+      </div>
+      <div className="yw-close__actions">
+        <ParenLink href={BRANCHES.zai.booking} external tone="light">
+          네이버 예약
+        </ParenLink>
+        <button type="button" className="yw-close__small" onClick={() => scrollToId('startup')}>
+          창업·운영 상담 →
+        </button>
       </div>
     </section>
   )
