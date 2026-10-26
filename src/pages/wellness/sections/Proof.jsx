@@ -1,8 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
-import { Folio, ParenLink } from '../editorial'
-import { useInView, useMediaQuery } from '../motion'
-import { PAGES, pageHref } from '../pages'
+import { Folio } from '../editorial'
+import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
 import './yw-reviews.css'
 
 // No. 06 Voices — 네이버 방문자 리뷰를 베이지 바탕 위 흰 카드로 모아 보여 준다.
@@ -12,7 +11,6 @@ import './yw-reviews.css'
 
 const LIST = SHOW_CLAIM_REVIEWS ? REVIEWS : REVIEWS.filter((r) => !r.claim)
 const LONG = 110 // 이보다 긴 글은 다섯 줄까지만 보이고, 실제로 잘렸으면 '더 읽기'로 펼친다
-const reviewsHref = (branch) => `https://m.place.naver.com/place/${branch.place}/review/visitor`
 
 // 원문 안의 인용 구절을 형광펜으로 표시한다(카드 머리의 큰 문장이 원문 그대로라는 것을 보여 준다).
 function Marked({ text, quote }) {
@@ -86,7 +84,7 @@ function ReviewCard({ review, index, col, seen, branchLabel }) {
 }
 
 // 머리 오른쪽(휴대폰은 제목 아래) 네이버 리뷰 요약: 별점·리뷰 수와 '이런 점이 좋았어요' 막대.
-function Stats({ branch }) {
+function Stats() {
   const ref = useRef(null)
   const inView = useInView(ref, { threshold: 0.4 })
   const { rating, total, voters, keywords } = REVIEW_STATS
@@ -116,20 +114,19 @@ function Stats({ branch }) {
           </li>
         ))}
       </ul>
-      <ParenLink href={reviewsHref(branch)} external className="yw-voices__all">
-        네이버에서 리뷰 모두 보기
-      </ParenLink>
     </div>
   )
 }
 
-// summary(메인)면 한 줄(열 수만큼)만 보이고, '더 보기' 대신 후기 페이지로 가는 링크를 둔다.
+// summary(메인)면 모든 후기를 옆으로 이어진 한 줄 카드로 두고, 화살표 버튼으로 한 장씩 넘긴다(휴대폰은 손가락으로도 넘어간다).
+// 후기 페이지는 카드 벽에 몇 장만 보이고 '후기 더 보기'로 나머지를 연다.
 export default function Proof({ summary = false }) {
   const branch = BRANCHES.zai
   const mid = useMediaQuery('(min-width: 48rem)')
   const wide = useMediaQuery('(min-width: 64rem)')
   const cols = wide ? 3 : mid ? 2 : 1
-  const first = summary ? cols : wide ? 6 : 4
+  const first = wide ? 6 : 4
+  const railRef = useRef(null)
   const [all, setAll] = useState(false)
   const wallRef = useRef(null)
   // IntersectionObserver가 없는 브라우저에서는 처음부터 모두 보인다.
@@ -170,6 +167,15 @@ export default function Proof({ summary = false }) {
     focusAt.current = null
   }, [all])
 
+  // 후기 줄을 카드 한 장(간격 포함)만큼 옆으로 넘긴다
+  function slide(dir) {
+    const rail = railRef.current
+    const card = rail?.querySelector('.yw-vc')
+    if (!rail || !card) return
+    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0
+    rail.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+  }
+
   function showAll() {
     focusAt.current = shown.length
     setAll(true)
@@ -184,40 +190,58 @@ export default function Proof({ summary = false }) {
             다녀가신 분들의 이야기
           </h2>
         </div>
-        <Stats branch={branch} />
+        <Stats />
       </div>
 
-      <div ref={wallRef} className="yw-wrap yw-voices__wall" style={{ '--cols': cols }}>
-        {columns.map((col, c) => (
-          <div key={c} className="yw-voices__col">
-            {col.map((r) => {
-              const i = LIST.indexOf(r)
-              return (
-                <ReviewCard
-                  key={`${r.nick}-${r.date}-${i}`}
-                  review={r}
-                  index={i}
-                  col={c}
-                  seen={seen.has(i)}
-                  branchLabel={branch.label}
-                />
-              )
-            })}
+      {summary ? (
+        <>
+          <div ref={railRef} className="yw-voices__rail" tabIndex={0} role="region" aria-label="방문자 후기">
+            {LIST.map((r, i) => (
+              <ReviewCard key={`${r.nick}-${r.date}-${i}`} review={r} index={i} col={0} seen branchLabel={branch.label} />
+            ))}
           </div>
-        ))}
-      </div>
+          <div className="yw-wrap yw-voices__arrows">
+            <button type="button" className="yw-voices__arrow" aria-label="이전 후기" onClick={() => slide(-1)}>
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button type="button" className="yw-voices__arrow" aria-label="다음 후기" onClick={() => slide(1)}>
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div ref={wallRef} className="yw-wrap yw-voices__wall" style={{ '--cols': cols }}>
+            {columns.map((col, c) => (
+              <div key={c} className="yw-voices__col">
+                {col.map((r) => {
+                  const i = LIST.indexOf(r)
+                  return (
+                    <ReviewCard
+                      key={`${r.nick}-${r.date}-${i}`}
+                      review={r}
+                      index={i}
+                      col={c}
+                      seen={seen.has(i)}
+                      branchLabel={branch.label}
+                    />
+                  )
+                })}
+              </div>
+            ))}
+          </div>
 
-      <div className="yw-wrap yw-voices__foot">
-        {summary ? (
-          <ParenLink href={pageHref(PAGES.review)}>후기 모두 보기</ParenLink>
-        ) : rest > 0 && (
-          <button type="button" className="yw-btn yw-voices__show" data-magnet data-cursor="" onClick={showAll}>
-            <span>
-              후기 {rest}개 더 보기 <i aria-hidden="true">+</i>
-            </span>
-          </button>
-        )}
-      </div>
+          <div className="yw-wrap yw-voices__foot">
+            {rest > 0 && (
+              <button type="button" className="yw-btn yw-voices__show" data-magnet data-cursor="" onClick={showAll}>
+                <span>
+                  후기 {rest}개 더 보기 <i aria-hidden="true">+</i>
+                </span>
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </section>
   )
 }

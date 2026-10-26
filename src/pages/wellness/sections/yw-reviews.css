@@ -143,11 +143,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.yw-voices__all {
-  margin-top: 0.6rem;
-  font-size: 0.88rem;
-}
-
 @media (min-width: 48rem) {
   .yw-voices__head {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
@@ -348,5 +343,71 @@
   .yw-voices__kw li::before {
     transform: none;
     transition: none;
+  }
+}
+
+/* ── 메인: 모든 후기를 옆으로 이어진 한 줄로 ───────────────── */
+/* 섹션 여백 밖까지 화면 끝에서 끝으로 펼치고, 첫 카드는 제목과 같은 선에서 시작한다 */
+.yw-voices__rail {
+  --yw-rail-edge: max(var(--w-gutter), calc((100vw - var(--yw-max)) / 2));
+  display: grid;
+  margin-inline: calc(-1 * var(--w-gutter));
+  grid-auto-columns: min(84%, 23rem);
+  grid-auto-flow: column;
+  align-items: start;
+  gap: var(--yw-vc-gap);
+  padding: 0.25rem var(--yw-rail-edge) 1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: var(--yw-rail-edge);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.yw-voices__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.yw-voices__rail .yw-vc {
+  scroll-snap-align: start;
+}
+
+.yw-voices__rail:focus-visible {
+  outline: 2px solid var(--w-accent-deep);
+  outline-offset: -2px;
+}
+
+.yw-voices__arrows {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.yw-voices__arrow {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1.5px solid var(--w-ink);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--w-ink);
+  font: 300 1.7rem/1 var(--w-font-en);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.yw-voices__arrow > span {
+  margin-top: -0.12em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-voices__arrow:hover {
+    background: var(--w-ink);
+    color: #fff;
   }
 }
