@@ -442,7 +442,7 @@
   line-height: 0;
 }
 
-/* 로고 아래 한 줄 문구: 로고가 다 떠오른 뒤 천천히 나타난다 */
+/* 로고 아래 한 줄 문구: 로고가 나타나기 시작하고 1초쯤 뒤에 천천히 나타난다 */
 .wellness .yw-hero__tagline {
   margin: 0;
   color: #fbfaf3;
@@ -454,7 +454,7 @@
 
 .yw-hero--logo.is-go .yw-hero__tagline {
   opacity: 1;
-  animation: yw-tagline-in 1.8s cubic-bezier(0.25, 0.6, 0.3, 1) 1.1s backwards;
+  animation: yw-tagline-in 1.8s cubic-bezier(0.25, 0.6, 0.3, 1) 1.9s backwards;
 }
 
 @keyframes yw-tagline-in {
@@ -487,7 +487,7 @@
 
 .yw-hero--logo.is-go .yw-hero__brand .w-logo {
   opacity: 1;
-  animation: yw-logo-rise 2.2s cubic-bezier(0.25, 0.6, 0.3, 1) backwards;
+  animation: yw-logo-rise 2.4s cubic-bezier(0.22, 0.8, 0.3, 1) 0.9s backwards;
 }
 
 /* 'WELLNESS STUDIO'에 빛줄기가 한 번 스친다 */
@@ -499,7 +499,7 @@
 }
 
 .yw-hero--logo.is-go .yw-hero__brand .w-logo__en {
-  animation: yw-logo-gleam 1.6s ease-in-out 2.2s both;
+  animation: yw-logo-gleam 1.6s ease-in-out 3.1s both;
 }
 
 @keyframes yw-hero-dawn {
