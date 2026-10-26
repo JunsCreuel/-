@@ -1,36 +1,5 @@
 /* 메인 전용 짧은 블록 (sections/HomeBlocks.jsx) */
 
-/* 브랜드 한 단락 + 매장 사진 */
-.yw-section.yw-hintro {
-  background: #fff;
-}
-
-.yw-hintro__grid {
-  display: grid;
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: center;
-}
-
-@media (min-width: 64rem) {
-  .yw-hintro__grid {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  }
-}
-
-.yw-hintro__lead {
-  max-width: 32em;
-  margin: 1.25rem 0 0;
-  color: color-mix(in srgb, var(--w-ink) 78%, #fff);
-  font-size: clamp(1rem, 0.35vw + 0.9rem, 1.1rem);
-  line-height: 1.85;
-  word-break: keep-all;
-}
-
-/* 소개 글 아래 링크: 숫자 줄을 뺀 자리만큼 띄운다 */
-.yw-hintro__text > .yw-paren {
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
-}
-
 /* 관리 프로그램 사진 카드 */
 .yw-section.yw-hprog {
   background: var(--yw-ivory);
@@ -134,112 +103,11 @@
   opacity: 1;
 }
 
-/* 패럴랙스: 틀보다 조금 큰 사진이 스크롤에 따라 위아래로(--py) */
-.yw-parallax {
-  height: 100%;
-  overflow: clip;
-}
-
-.wellness .yw-parallax img {
-  width: 100%;
-  height: 112%;
-  max-width: none;
-  margin-top: -6%;
-  object-fit: cover;
-  transform: translate3d(0, var(--py, 0px), 0);
-}
-
-/* 소개 사진 + 도는 배지 */
-.yw-hintro__visual {
-  position: relative;
-}
-
-.yw-hintro__photo.yw-reveal {
-  aspect-ratio: 4 / 5;
-  max-height: 44rem;
-  height: auto;
-}
-
-.yw-badge {
-  position: absolute;
-  bottom: -2.5rem;
-  left: -2.5rem;
-  display: grid;
-  place-items: center;
-  width: clamp(7.5rem, 11vw, 9.5rem);
-  aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--yw-ivory);
-  color: var(--w-ink);
-  box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--w-ink) 40%, transparent);
-  cursor: pointer;
-}
-
-.yw-badge svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  animation: yw-spin 22s linear infinite;
-}
-
-.yw-badge text {
-  fill: var(--w-accent-deep);
-  font: 500 11px var(--w-font-label);
-  letter-spacing: 0.12em;
-}
-
-.yw-badge__mid {
-  position: relative;
-  font: 500 0.95rem / 1.3 var(--w-font-serif);
-  text-align: center;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yw-badge:hover {
-    background: var(--w-espresso);
-    color: #fff;
-  }
-
-  .yw-badge:hover text {
-    fill: var(--w-champagne);
-  }
-}
-
-@keyframes yw-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-
-@media (max-width: 63.99rem) {
-  .yw-badge {
-    bottom: -1.75rem;
-    left: auto;
-    right: 1rem;
-  }
-}
-
-/* 제목 속 작은 사진 칩은 글자 높이에 맞춘다 */
-.yw-hintro__title .yw-ichip {
-  height: 0.78em;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .yw-reveal {
     clip-path: none;
     opacity: 1;
     transition: none;
-  }
-
-  .yw-badge svg {
-    animation: none;
-  }
-
-  .wellness .yw-parallax img {
-    transform: none;
   }
 
   .wellness .yw-pcard img {

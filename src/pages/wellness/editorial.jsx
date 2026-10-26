@@ -35,26 +35,6 @@ export function SplitLines({ as: Tag = 'h2', lines, className = '', trigger = 'v
   )
 }
 
-// 문장 사이에 박히는 작은 사진 칩(장식). 화면에 들어오면 가운데서부터 열리고, 마우스 기기에서는 올리면 커진다.
-export function InlineChip({ pic, className = '' }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { threshold: 0.6 })
-  return (
-    <span ref={ref} className={`yw-ichip${inView ? ' is-in' : ''}${className ? ` ${className}` : ''}`} aria-hidden="true">
-      <img
-        src={pic.src}
-        srcSet={pic.srcSet}
-        sizes="12rem"
-        alt=""
-        width={pic.width}
-        height={pic.height}
-        loading="lazy"
-        decoding="async"
-      />
-    </span>
-  )
-}
-
 // '네이버 예약 ↗' 밑줄 링크. href가 있으면 a, 없으면 button이다. 외부 링크는 새 창으로 열고 보조기기에 '(새 창)'을 알린다.
 // tone='light'는 어두운 면 위의 크림색이다.
 export function ParenLink({ href, external = false, onClick, tone, className = '', children, ...rest }) {
