@@ -10,6 +10,25 @@
   display: block;
 }
 
+/* 제목은 처음부터 보인다(마스크에서 올라오는 효과 없음) */
+.wellness .yw-line > span {
+  transform: none;
+  transition: none;
+}
+
+/* 장비 카드: 스크롤 속도에 따른 기울기 없음 */
+.wellness .yw-eq__tilt {
+  transform: none;
+  transition: none;
+}
+
+/* 후기 카드: 떠오르는 등장 없이 처음부터 */
+.wellness .yw-voices__wall .yw-vc {
+  animation: none;
+  opacity: 1;
+  translate: none;
+}
+
 /* 부위별 추천: 밝은 장 */
 .yw-section.yw-cond--light {
   background: var(--yw-ivory);

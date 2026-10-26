@@ -1,9 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import CursorLayer from './CursorLayer'
 import EventPopups from './EventPopups'
 import { BRANCHES } from './data'
-import { ScrollProgress } from './MotionParts'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
@@ -90,7 +88,6 @@ export default function WellnessLayout() {
 
   return (
     <div className="wellness">
-      <ScrollProgress />
       <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} />
       <main>
         <Outlet />
@@ -98,7 +95,6 @@ export default function WellnessLayout() {
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
       <MobileBar branch={branch} />
       {branch.id === 'zai' && pathname === BRANCHES.zai.path && <EventPopups />}
-      <CursorLayer />
     </div>
   )
 }
