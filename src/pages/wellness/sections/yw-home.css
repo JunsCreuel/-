@@ -1,0 +1,196 @@
+/* 메인 전용 짧은 블록 (sections/HomeBlocks.jsx) */
+
+/* 브랜드 한 단락 + 숫자 + 매장 사진 */
+.yw-section.yw-hintro {
+  background: #fff;
+}
+
+.yw-hintro__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 64rem) {
+  .yw-hintro__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+
+.yw-hintro__lead {
+  max-width: 32em;
+  margin: 1.25rem 0 0;
+  color: color-mix(in srgb, var(--w-ink) 78%, #fff);
+  font-size: clamp(1rem, 0.35vw + 0.9rem, 1.1rem);
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.yw-hintro__nums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: clamp(1.75rem, 3vw, 2.5rem) 0 clamp(1.5rem, 3vw, 2rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.yw-hintro__nums dt {
+  color: var(--w-ink);
+  font: 300 clamp(2rem, 3.4vw, 2.9rem) / 1 var(--w-font-en);
+}
+
+.yw-hintro__nums dd {
+  margin: 0.5rem 0 0;
+  color: var(--w-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.yw-hintro__photo {
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  max-height: 46rem;
+  overflow: clip;
+  border-radius: 1.25rem;
+}
+
+.wellness .yw-hintro__photo img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+.yw-hintro__nums dt small {
+  margin-left: 0.1em;
+  font: 400 0.42em var(--w-font);
+}
+
+/* 관리 프로그램 사진 카드 */
+.yw-section.yw-hprog {
+  background: var(--yw-ivory);
+}
+
+.yw-hprog__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.yw-hprog__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 64rem) {
+  .yw-hprog__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.yw-pcard {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  padding: clamp(0.9rem, 2vw, 1.4rem);
+  overflow: clip;
+  border-radius: 1.25rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.wellness .yw-pcard img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: scale 0.6s var(--yw-ease);
+}
+
+.yw-pcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(46 50 38 / 0) 40%, rgb(46 50 38 / 0.82));
+}
+
+.yw-pcard__group {
+  color: var(--w-champagne);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.wellness .yw-pcard__name {
+  margin-top: 0.3rem;
+  font: 500 clamp(1rem, 0.6vw + 0.8rem, 1.3rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-pcard__time {
+  margin-top: 0.3rem;
+  color: rgb(255 255 255 / 0.8);
+  font-size: 0.8rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-pcard:hover img {
+    scale: 1.04;
+  }
+}
+
+/* 큰 영문 띠 */
+.yw-hmarq {
+  overflow: clip;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+  background: #fff;
+}
+
+.yw-hmarq__track {
+  display: flex;
+  width: max-content;
+  animation: yw-hmarq 60s linear infinite;
+}
+
+.yw-hmarq__track span {
+  padding-right: 0.6em;
+  color: transparent;
+  font: 300 clamp(3.5rem, 9vw, 8rem) / 1.1 var(--w-font-en);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--w-bronze) 70%, transparent);
+}
+
+@keyframes yw-hmarq {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-hmarq__track {
+    animation: none;
+  }
+
+  .wellness .yw-pcard img {
+    transition: none;
+  }
+}

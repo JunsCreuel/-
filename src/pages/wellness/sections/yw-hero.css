@@ -403,3 +403,17 @@
       rgb(46 50 38 / 0.1);
   }
 }
+
+/* 영상 히어로: 잎이 오른쪽에 있어 데스크톱은 그대로, 휴대폰은 잎 쪽(오른쪽)을 보여 준다 */
+.yw-hero--video .yw-hero__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+@media (max-width: 47.99rem), (max-aspect-ratio: 4/5) {
+  .yw-hero--video .yw-hero__media video {
+    object-position: 78% 50%;
+  }
+}

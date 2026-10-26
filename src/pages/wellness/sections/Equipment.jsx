@@ -604,7 +604,11 @@ export default function Equipment() {
     <section id="equipment" className="yw-section yw-curtain--light yw-eq" data-theme="light">
       <div className="yw-wrap yw-eq__head">
         <div className="yw-eq__intro">
-          <h2 className="yw-eq__title">장비 소개</h2>
+          <h2 className="yw-h2">
+            따뜻하게 데우고,
+            <br />
+            섬세하게 다듬습니다.
+          </h2>
           <p className="yw-lead">
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>

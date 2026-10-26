@@ -1,144 +1,67 @@
-import { useEffect, useRef, useState } from 'react'
-import { BRANCHES, PICS } from '../data'
+import { useRef, useState } from 'react'
+import { BRANCHES } from '../data'
 import { ParenLink } from '../editorial'
 import { prefersReducedMotion } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-hero.css'
 
-// 메인 비주얼 — 사진·문구 슬라이드 2장(브랜드 / 국내산 온열돔)이 SLIDE_MS마다 자동으로 넘어간다.
-// 아래 점 버튼으로 바로 고를 수 있고, 마우스를 올리거나 키보드 포커스가 들어오면, 또는 '멈춤'을 누르면 멈춘다.
-// 모션 줄이기에서는 자동으로 넘어가지 않는다. 첫 화면에는 간편 상담 카드를 두지 않고, 간편 상담은 예약 장(#booking-form)에서 받는다.
-
-const SLIDE_MS = 5000
-
-const SLIDES = [
-  {
-    id: 'brand',
-    pic: PICS.heroWarm,
-    picM: PICS.heroWarmM,
-    eyebrow: '예뻐졌다가 쉼을 더해 만든 자매 브랜드',
-    lines: ['근본적인 아름다움을 깨우다', '예뻐졌다 웰니스 스튜디오'],
-  },
-  {
-    id: 'dome',
-    pic: PICS.menuWarmup,
-    eyebrow: '국내산 명신메디칼 온열돔',
-    lines: ['누워서 40분,', '따뜻하게 쉬어 가세요.'],
-    to: 'equipment',
-  },
-]
-
-function SlidePicture({ slide, priority }) {
-  const { pic, picM } = slide
-  return (
-    <picture>
-      {picM && <source media="(max-width: 47.99rem), (max-aspect-ratio: 4/5)" srcSet={picM.srcSet} sizes="100vw" />}
-      <img
-        src={pic.src}
-        srcSet={pic.srcSet}
-        sizes="100vw"
-        width={pic.width}
-        height={pic.height}
-        alt=""
-        decoding="async"
-        {...(priority ? { loading: 'eager', fetchPriority: 'high' } : { loading: 'lazy' })}
-      />
-    </picture>
-  )
-}
+// 메인 비주얼 — 콘크리트 벽 앞에서 잎이 흔들리는 영상(Coverr, 상업적 무료 사용) 위에 큰 문구 하나.
+// 소리 없이 반복 재생하고, '멈춤'으로 세울 수 있다. 모션 줄이기에서는 재생하지 않고 첫 장면(포스터)만 보여 준다.
+const BASE = import.meta.env.BASE_URL
+const VIDEO = `${BASE}wellness/video/hero-leaves.mp4`
+const POSTER = `${BASE}wellness/video/hero-leaves-poster.webp`
 
 export default function Hero() {
-  const heroRef = useRef(null)
-  const [index, setIndex] = useState(0)
-  const [stopped, setStopped] = useState(false)
-  const [held, setHeld] = useState(false)
+  const videoRef = useRef(null)
   const [reduced] = useState(prefersReducedMotion)
-  const running = !reduced && !stopped && !held && SLIDES.length > 1
-  const slide = SLIDES[index]
+  const [stopped, setStopped] = useState(reduced)
 
-  useEffect(() => {
-    if (!running) return undefined
-    const t = setTimeout(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS)
-    return () => clearTimeout(t)
-  }, [running, index])
-
-  const holdOff = (e) => {
-    if (e.type === 'blur' && heroRef.current?.contains(e.relatedTarget)) return
-    setHeld(false)
+  function toggle() {
+    const v = videoRef.current
+    if (!v) return
+    if (stopped) v.play().catch(() => {})
+    else v.pause()
+    setStopped(!stopped)
   }
 
   return (
-    <section
-      id="top"
-      ref={heroRef}
-      className={`yw-section yw-hero${running ? '' : ' is-paused'}`}
-      data-theme="dark"
-      data-cursor-off
-      style={{ '--slide-ms': `${SLIDE_MS}ms` }}
-      onPointerEnter={(e) => e.pointerType === 'mouse' && setHeld(true)}
-      onPointerLeave={(e) => e.pointerType === 'mouse' && holdOff(e)}
-      onFocus={(e) => e.target.matches?.(':focus-visible') && setHeld(true)}
-      onBlur={holdOff}
-    >
+    <section id="top" className="yw-section yw-hero yw-hero--video" data-theme="dark" data-cursor-off>
       <div className="yw-hero__media" aria-hidden="true">
-        {SLIDES.map((s, i) => (
-          <div key={s.id} className="yw-hero__layer yw-hero__full" data-active={i === index ? '' : undefined}>
-            <SlidePicture slide={s} priority={i === 0} />
-          </div>
-        ))}
+        <video
+          ref={videoRef}
+          src={VIDEO}
+          poster={POSTER}
+          muted
+          loop
+          playsInline
+          autoPlay={!reduced}
+          preload={reduced ? 'none' : 'auto'}
+        />
       </div>
       <div className="yw-hero__shade" aria-hidden="true" />
 
-      <p className="yw-hero__mast">
-        <span>WELLNESS STUDIO</span>
-        <span className="yw-hero__mast-r">부산 · 용호 자이</span>
-      </p>
-
       <div className="yw-wrap yw-hero__text">
-        <div key={slide.id} className="yw-hero__slide" aria-live={running ? 'off' : 'polite'}>
-          <p className="yw-hero__kicker">{slide.eyebrow}</p>
+        <div className="yw-hero__slide">
+          <p className="yw-hero__kicker">예뻐졌다가 쉼을 더해 만든 자매 브랜드</p>
           <h1 className="yw-hero__title">
-            {slide.lines[0]}
+            근본적인 아름다움을 깨우다
             <br />
-            <em>{slide.lines[1]}</em>
+            <em>예뻐졌다 웰니스 스튜디오</em>
           </h1>
         </div>
 
-        {SLIDES.length > 1 && (
-          <div className="yw-hero__dots">
-            {SLIDES.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                className="yw-hero__dot"
-                aria-label={`${i + 1}번째 화면: ${s.eyebrow}`}
-                aria-current={i === index ? 'true' : undefined}
-                onClick={() => setIndex(i)}
-              >
-                <i key={i === index ? `on-${index}` : 'off'} aria-hidden="true" />
-              </button>
-            ))}
-            {!reduced && (
-              <button
-                type="button"
-                className="yw-hero__pause"
-                aria-pressed={stopped}
-                aria-label={stopped ? '슬라이드 재생' : '슬라이드 멈춤'}
-                onClick={() => setStopped((v) => !v)}
-              >
-                <span aria-hidden="true">{stopped ? '▶' : 'Ⅱ'}</span>
-              </button>
-            )}
-          </div>
-        )}
-
         <div className="yw-hero__actions">
-          <ParenLink onClick={() => scrollToId(slide.to || 'programs')} tone="light">
-            {slide.id === 'dome' ? '온열돔 자세히 보기' : '관리 프로그램 보기'}
+          <ParenLink onClick={() => scrollToId('programs')} tone="light">
+            관리 프로그램 보기
           </ParenLink>
           <ParenLink href={BRANCHES.zai.booking} external tone="light">
             네이버 예약
           </ParenLink>
+          {!reduced && (
+            <button type="button" className="yw-hero__pause" aria-pressed={stopped} aria-label={stopped ? '영상 재생' : '영상 멈춤'} onClick={toggle}>
+              <span aria-hidden="true">{stopped ? '▶' : 'Ⅱ'}</span>
+            </button>
+          )}
         </div>
       </div>
 
