@@ -74,13 +74,6 @@ const NAV_ITEMS = {
       })),
     },
     {
-      id: 'warm-dome',
-      label: '온열돔',
-      bar: true,
-      page: PAGES.dome,
-      children: [{ id: 'dome-care', label: '풀 바디 웜업케어', en: 'FULL-BODY WARM-UP', section: 'warm-dome' }],
-    },
-    {
       id: 'reviews',
       label: '후기',
       bar: true,
@@ -100,7 +93,7 @@ const NAV_ITEMS = {
     },
     {
       id: 'startup',
-      label: '창업',
+      label: '창업 문의',
       bar: true,
       page: PAGES.startup,
       children: [

@@ -17,7 +17,6 @@ import WellnessMarine from './pages/wellness/WellnessMarine'
 import WellnessPrivacy from './pages/wellness/WellnessPrivacy'
 import {
   BrandPage,
-  DomePage,
   EquipmentPage,
   LocationPage,
   ProgramPage,
@@ -74,7 +73,7 @@ export default function App() {
             <Route path="brand" element={<BrandPage />} />
             <Route path="program" element={<ProgramPage />} />
             <Route path="equipment" element={<EquipmentPage />} />
-            <Route path="dome" element={<DomePage />} />
+            <Route path="dome" element={<Navigate to="/wellness/equipment" replace />} />
             <Route path="review" element={<ReviewPage />} />
             <Route path="location" element={<LocationPage />} />
             <Route path="startup" element={<StartupPage />} />
