@@ -40,7 +40,7 @@ function Check() {
 }
 
 export default function Condition() {
-  const [condId, setCondId] = useState(null)
+  const [condId, setCondId] = useState('scalp')
   const [showAlt, setShowAlt] = useState(false)
   const tileRefs = useRef([])
   const tilesRef = useRef(null)
@@ -90,9 +90,9 @@ export default function Condition() {
   }
 
   return (
-    <section id="concern" className="yw-section yw-dark yw-curtain yw-cond" data-theme="dark">
+    <section id="concern" className="yw-section yw-curtain yw-cond yw-cond--light" data-theme="light">
       <div className="yw-wrap">
-        <Folio ko="부위별 추천" tone="light" />
+        <Folio ko="부위별 추천" />
         <SplitLines
           as="h2"
           id="cond-title"

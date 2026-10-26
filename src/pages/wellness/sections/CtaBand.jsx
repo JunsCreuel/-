@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { BRANCHES, PICS } from '../data'
 import { ParenLink, Pic } from '../editorial'
-import { easeInOutCubic, prefersReducedMotion, useInView, useMediaQuery, useScrollProgress } from '../motion'
+import { easeInOutCubic, prefersReducedMotion, useInView, useScrollProgress } from '../motion'
 import { scrollToId } from '../scroll'
 import './yw-closing.css'
 
@@ -15,8 +15,7 @@ const FULL_AT = 0.75 // 이 진행률에서 원이 화면을 다 채운다
 export default function CtaBand() {
   const ref = useRef(null)
   const reduced = prefersReducedMotion()
-  const wide = useMediaQuery('(min-width: 64rem)')
-  const pinned = wide && !reduced
+  const pinned = false // 화면을 붙잡아 두지 않고, 화면에 들어오면 열린다
   const inView = useInView(ref, { threshold: 0.4 })
   const [pinOpen, setPinOpen] = useState(false)
   const pinOpenRef = useRef(false)
