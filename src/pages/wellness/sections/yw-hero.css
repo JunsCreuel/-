@@ -404,24 +404,15 @@
   }
 }
 
-/* 물결 히어로: 사진(img) 위에 같은 사진을 일렁이게 그린 캔버스를 겹친다. 캔버스가 그려지기 전·못 그리면 사진만 보인다 */
+/* 바다 영상 히어로: 영상(못 쓰면 첫 장면 사진)을 화면에 꽉 채운다 */
 .yw-hero--water .yw-hero__media img,
-.yw-hero--water .yw-hero__water {
+.yw-hero--water .yw-hero__media video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-}
-
-.yw-hero--water .yw-hero__water {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.yw-hero--water .yw-hero__water[data-on] {
-  opacity: 1;
 }
 
 /* ── 로고만 있는 첫 화면 ───────────────────────────────── */
@@ -447,27 +438,25 @@
   --u: clamp(0.46px, 0.07vw + 0.2px, 1px);
   --w-logo-mark: #fbfaf3;
   --w-logo-text: #fbfaf3;
-  filter: drop-shadow(0 2px 18px rgb(20 28 20 / 0.35));
 }
 
-/* 등장: 파도가 지나간 방향(왼쪽 위 → 오른쪽 아래)으로 로고가 드러난다. .is-go 전에는 숨겨 둔다 */
+/* 등장: 들어오면 물빛이 어둠 속에서 서서히 밝아지고(yw-hero-dawn), 이어서 로고가 천천히 떠오른다.
+   흐림은 떠오르는 동안에만 쓰고 끝나면 걷어 낸다(animation-fill-mode: backwards). 끝난 로고에는 필터가 남지 않아 또렷하다. */
+.yw-hero--water .yw-hero__media {
+  animation: yw-hero-dawn 2.6s cubic-bezier(0.33, 0.7, 0.3, 1) both;
+}
+
+.yw-hero--logo .yw-hero__brand {
+  filter: drop-shadow(0 1px 2px rgb(14 20 16 / 0.4)) drop-shadow(0 6px 28px rgb(14 20 16 / 0.45));
+}
+
 .yw-hero--logo .yw-hero__brand .w-logo {
   opacity: 0;
-  -webkit-mask-image: linear-gradient(125deg, #000 40%, transparent 60%);
-  mask-image: linear-gradient(125deg, #000 40%, transparent 60%);
-  -webkit-mask-size: 320% 320%;
-  mask-size: 320% 320%;
-  -webkit-mask-position: 100% 100%;
-  mask-position: 100% 100%;
 }
 
 .yw-hero--logo.is-go .yw-hero__brand .w-logo {
   opacity: 1;
-  animation: yw-logo-wash 2s cubic-bezier(0.33, 0.7, 0.3, 1) 0.55s both;
-}
-
-.yw-hero--logo.is-go .yw-hero__brand .w-logo__text {
-  animation: yw-logo-settle 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+  animation: yw-logo-rise 2.4s cubic-bezier(0.22, 0.8, 0.3, 1) 0.9s backwards;
 }
 
 /* 'WELLNESS STUDIO'에 빛줄기가 한 번 스친다 */
@@ -479,26 +468,29 @@
 }
 
 .yw-hero--logo.is-go .yw-hero__brand .w-logo__en {
-  animation: yw-logo-gleam 1.5s ease-in-out 2.35s both;
+  animation: yw-logo-gleam 1.6s ease-in-out 3.1s both;
 }
 
-@keyframes yw-logo-wash {
+@keyframes yw-hero-dawn {
   from {
-    -webkit-mask-position: 100% 100%;
-    mask-position: 100% 100%;
-    filter: blur(6px) drop-shadow(0 2px 18px rgb(20 28 20 / 0));
+    opacity: 0;
+    scale: 1.05;
+  }
+}
+
+@keyframes yw-logo-rise {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    translate: 0 0.6rem;
+  }
+  60% {
+    filter: blur(0);
   }
   to {
-    -webkit-mask-position: 0% 0%;
-    mask-position: 0% 0%;
-    filter: blur(0) drop-shadow(0 2px 18px rgb(20 28 20 / 0.35));
-  }
-}
-
-@keyframes yw-logo-settle {
-  from {
-    translate: -1.2% -0.6%;
-    letter-spacing: 0.02em;
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
   }
 }
 
@@ -525,16 +517,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yw-hero--logo .yw-hero__brand .w-logo {
-    opacity: 1;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
+  .yw-hero--water .yw-hero__media,
   .yw-hero--logo .yw-hero__brand .w-logo,
-  .yw-hero--logo .yw-hero__brand .w-logo__text,
   .yw-hero--logo .yw-hero__brand .w-logo__en {
     animation: none;
+  }
+
+  .yw-hero--logo .yw-hero__brand .w-logo {
+    opacity: 1;
   }
 }
 
@@ -557,27 +547,4 @@
     linear-gradient(to bottom, rgb(24 32 26 / 0.32), transparent 22%),
     radial-gradient(ellipse 46% 30% at 50% 50%, rgb(22 30 24 / 0.55), rgb(22 30 24 / 0.22) 60%, transparent 100%),
     rgb(22 30 24 / 0.12);
-}
-
-.yw-hero--logo.is-go .yw-hero__brand .w-logo {
-  animation-name: yw-logo-wash-strong;
-}
-
-@keyframes yw-logo-wash-strong {
-  from {
-    -webkit-mask-position: 100% 100%;
-    mask-position: 100% 100%;
-    filter: blur(6px) drop-shadow(0 0 0 rgb(14 20 16 / 0));
-  }
-  to {
-    -webkit-mask-position: 0% 0%;
-    mask-position: 0% 0%;
-    filter: blur(0) drop-shadow(0 1px 2px rgb(14 20 16 / 0.45)) drop-shadow(0 4px 24px rgb(14 20 16 / 0.5));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .yw-hero--logo .yw-hero__brand .w-logo {
-    filter: drop-shadow(0 1px 2px rgb(14 20 16 / 0.45)) drop-shadow(0 4px 24px rgb(14 20 16 / 0.5));
-  }
 }

@@ -133,6 +133,7 @@ export default function WellnessNav({ branch, items }) {
                       <li key={c.id}>
                         <button type="button" onClick={() => goToItem(c)}>
                           {c.label}
+                          {c.en && <small lang="en">{c.en}</small>}
                         </button>
                       </li>
                     ))}
@@ -191,6 +192,7 @@ export default function WellnessNav({ branch, items }) {
                         {item.children.map((c) => (
                           <button key={c.id} type="button" onClick={() => goToItem(c)}>
                             {c.label}
+                            {c.en && <small lang="en">{c.en}</small>}
                           </button>
                         ))}
                       </div>

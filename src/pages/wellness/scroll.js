@@ -67,8 +67,10 @@ function jumpToId(id) {
 }
 
 // 메뉴 항목: section이 있으면 그 섹션으로(다른 페이지면 옮겨 가서), 없으면 page 맨 위로.
+// event가 있으면 섹션에 닿기 전에 window 이벤트를 보내 그 섹션이 탭·카드를 고르게 한다.
 export function goToMenu(item) {
-  if (item.section) scrollToId(item.section)
+  if (item.event) showInSection(item.section, item.event, item.detail)
+  else if (item.section) scrollToId(item.section)
   else if (item.page) goToPage(item.page)
   else scrollToId(item.id)
 }
@@ -96,6 +98,15 @@ export function scrollToId(id) {
   }
   window.addEventListener('scrollend', settle)
   setTimeout(settle, 1800) // scrollend를 모르는 브라우저용
+}
+
+function showInSection(id, name, detail) {
+  const run = (move) => {
+    window.dispatchEvent(new CustomEvent(name, { detail }))
+    move(id)
+  }
+  if (document.getElementById(id)) run(scrollToId)
+  else if (SECTION_PAGE[id]) goToPage(SECTION_PAGE[id], () => run(jumpToId))
 }
 
 export function scrollToTop() {

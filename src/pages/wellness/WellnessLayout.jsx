@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import EventPopups from './EventPopups'
-import { BRANCHES } from './data'
+import { BRANCHES, LISTED_BRANCHES } from './data'
 import MobileBar from './MobileBar'
 import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
@@ -13,35 +13,101 @@ import './wellness.css'
 // 위쪽 메뉴. page는 옮겨 갈 하위 페이지(맨 위에서 시작), section은 옮겨 간 뒤 내려갈 섹션 id(pages.js)다.
 // children은 데스크톱에서 메뉴에 마우스를 올리면 펼쳐지는 하위 메뉴(휴대폰 패널에서는 들여 쓴 줄)다.
 // page·section이 없는 항목(마린시티점)은 같은 페이지 안의 섹션 id로 내려간다. bar: true인 항목만 상단 바에 나온다.
+// 하위 메뉴의 en은 한글 이름 아래 작은 영문이다. event가 있으면 그 섹션에 도착한 뒤 window 이벤트(detail)로 탭·카드를 고른다.
+
+// 관리 메뉴의 분류 탭. id는 data.js PROGRAMS의 group과 같아야 그 탭이 켜진다(Programs.jsx 'w:program-filter').
+const PROGRAM_GROUPS = [
+  { id: '두피 · 얼굴', key: 'scalp-face', label: '두피 · 얼굴', en: 'SCALP & FACE' },
+  { id: '바디', key: 'body', label: '바디', en: 'BODY' },
+  { id: '온열 웜업', key: 'warmup', label: '온열 웜업', en: 'WARM-UP' },
+]
+
+// 장비 카드 순서(Equipment.jsx: 온열돔 카드, DEVICES)와 같다. 고르면 그 카드까지 옆으로 넘긴다('w:equipment-card').
+const EQUIPMENT_MENU = [
+  { label: '전신 온열돔', en: 'HEAT DOME' },
+  { label: '페이스 갈바닉', en: 'FACE GALVANIC' },
+  { label: '바디 갈바닉', en: 'BODY GALVANIC' },
+  { label: '웰스파', en: 'WELLSPA' },
+]
+
+const BRANCH_EN = { zai: 'YONGHO ZAI', marine: 'MARINE CITY' }
+
 const NAV_ITEMS = {
   zai: [
-    { id: 'about', label: '브랜드', bar: true, page: PAGES.brand },
+    {
+      id: 'about',
+      label: '브랜드',
+      bar: true,
+      page: PAGES.brand,
+      children: [{ id: 'about-story', label: '브랜드 소개', en: 'ABOUT', section: 'about' }],
+    },
     {
       id: 'programs',
       label: '관리 프로그램',
       bar: true,
       page: PAGES.program,
       children: [
-        { id: 'concern', label: '부위별 추천', page: PAGES.program, section: 'concern' },
-        { id: 'programs-menu', label: '관리 메뉴 · 가격', page: PAGES.program, section: 'programs' },
-        { id: 'offer', label: '첫 방문 이벤트', page: PAGES.program, section: 'offer' },
+        { id: 'concern', label: '부위별 추천', en: 'BY CONCERN', section: 'concern' },
+        ...PROGRAM_GROUPS.map((g) => ({
+          id: `programs-${g.key}`,
+          label: g.label,
+          en: g.en,
+          section: 'programs',
+          event: 'w:program-filter',
+          detail: { id: g.id },
+        })),
+        { id: 'offer', label: '첫 방문 이벤트', en: 'FIRST VISIT', section: 'offer' },
       ],
     },
-    { id: 'equipment', label: '장비 소개', bar: true, page: PAGES.equipment },
-    { id: 'warm-dome', label: '온열돔', bar: true, page: PAGES.dome },
-    { id: 'reviews', label: '후기', bar: true, page: PAGES.review },
+    {
+      id: 'equipment',
+      label: '장비 소개',
+      bar: true,
+      page: PAGES.equipment,
+      children: EQUIPMENT_MENU.map((e, i) => ({
+        id: `equipment-${i}`,
+        label: e.label,
+        en: e.en,
+        section: 'equipment',
+        event: 'w:equipment-card',
+        detail: { index: i },
+      })),
+    },
+    {
+      id: 'warm-dome',
+      label: '온열돔',
+      bar: true,
+      page: PAGES.dome,
+      children: [{ id: 'dome-care', label: '풀 바디 웜업케어', en: 'FULL-BODY WARM-UP', section: 'warm-dome' }],
+    },
+    {
+      id: 'reviews',
+      label: '후기',
+      bar: true,
+      page: PAGES.review,
+      children: [{ id: 'reviews-visitor', label: '방문자 리뷰', en: 'REVIEWS', section: 'reviews' }],
+    },
     {
       id: 'branches',
       label: '지점 안내',
       bar: true,
       page: PAGES.location,
       children: [
-        { id: 'branches-list', label: '지점', page: PAGES.location, section: 'branches' },
-        { id: 'booking', label: '상담 예약', page: PAGES.location, section: 'booking' },
-        { id: 'faq', label: '자주 묻는 질문', page: PAGES.location, section: 'faq' },
+        ...LISTED_BRANCHES.map((b) => ({ id: `branch-${b.id}`, label: b.label, en: BRANCH_EN[b.id], section: `branch-${b.id}` })),
+        { id: 'booking', label: '상담 예약', en: 'BOOKING', section: 'booking' },
+        { id: 'faq', label: '자주 묻는 질문', en: 'FAQ', section: 'faq' },
       ],
     },
-    { id: 'startup', label: '창업', bar: true, page: PAGES.startup },
+    {
+      id: 'startup',
+      label: '창업',
+      bar: true,
+      page: PAGES.startup,
+      children: [
+        { id: 'startup-info', label: '창업 안내', en: 'FRANCHISE', section: 'startup' },
+        { id: 'startup-form', label: '창업 상담 신청', en: 'INQUIRY', section: 'startup-form-title' },
+      ],
+    },
   ],
   marine: [
     { id: 'intro', label: '소개' },
