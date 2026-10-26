@@ -495,13 +495,11 @@
   margin-top: 1.25rem;
 }
 
-/* 아이보리 카드 위의 괄호 링크는 잉크색(.yw-dark의 크림을 덮는다) */
+/* 아이보리 카드 위의 밑줄 링크는 잉크색(.yw-dark의 크림을 덮는다) */
 .yw-cond .yw-cond__card .yw-paren {
   color: var(--w-ink);
 }
 
-.yw-cond .yw-cond__card .yw-paren::before,
-.yw-cond .yw-cond__card .yw-paren::after,
 .yw-cond .yw-cond__card .yw-paren__dot {
   color: var(--w-accent-deep);
 }

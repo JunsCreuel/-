@@ -3,7 +3,7 @@ import './wellness-logo.css'
 const BASE = import.meta.env.BASE_URL
 
 // 브랜드 로고: 마크(벡터) + "예뻐졌다"(작게) + "WELLNESS STUDIO"(크게).
-// 글자 두 줄은 원본 로고 모양 그대로 알파 이미지로 잘라 두고, 색은 원본에서 읽은 값(--w-logo-*)을 입힌다.
+// 글자 두 줄은 원본 로고 모양 그대로 벡터(SVG) 마스크로 따 두어 어떤 크기에서도 또렷하고, 색은 원본에서 읽은 값(--w-logo-*)을 입힌다.
 // variant="nav": 가로형(마크 옆에 두 줄), variant="stack": 원본처럼 세로로 쌓은 형태.
 // decorative: 이미 라벨이 있는 링크 안에서 쓸 때 스크린리더에서 숨긴다.
 export default function BrandLogo({ variant = 'nav', decorative = false }) {
@@ -20,8 +20,8 @@ export default function BrandLogo({ variant = 'nav', decorative = false }) {
         <rect x="83" y="10" width="25" height="93" fill="currentColor" />
       </svg>
       <span className="w-logo__text" aria-hidden="true">
-        <span className="w-logo__ko" style={mask('logo-ko.png')} />
-        <span className="w-logo__en" style={mask('logo-wordmark.png')} />
+        <span className="w-logo__ko" style={mask('logo-ko.svg')} />
+        <span className="w-logo__en" style={mask('logo-wordmark.svg')} />
       </span>
     </span>
   )

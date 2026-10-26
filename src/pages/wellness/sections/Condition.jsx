@@ -90,9 +90,9 @@ export default function Condition() {
   }
 
   return (
-    <section id="concern" className="yw-section yw-curtain yw-cond yw-cond--light" data-theme="light">
+    <section id="concern" className="yw-section yw-dark yw-curtain yw-cond" data-theme="dark">
       <div className="yw-wrap">
-        <Folio ko="부위별 추천" />
+        <Folio ko="부위별 추천" tone="light" />
         <SplitLines
           as="h2"
           id="cond-title"
