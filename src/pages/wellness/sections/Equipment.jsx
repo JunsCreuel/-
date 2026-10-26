@@ -592,6 +592,18 @@ export default function Equipment() {
     track.scrollTo({ left: target, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
   }
 
+  // 위쪽 메뉴에서 고른 장비(scroll.js goToMenu → 'w:equipment-card'): 그 카드까지 옆으로 넘긴다.
+  useEffect(() => {
+    const onCard = (e) => {
+      const track = trackRef.current
+      const x = track && snapPoints(track)[e.detail?.index]
+      if (x == null) return
+      requestAnimationFrame(() => track.scrollTo({ left: x, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }))
+    }
+    window.addEventListener('w:equipment-card', onCard)
+    return () => window.removeEventListener('w:equipment-card', onCard)
+  }, [])
+
   const onTrackKey = (e) => {
     if (e.target !== e.currentTarget) return
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {

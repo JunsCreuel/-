@@ -1,4 +1,4 @@
-import { BRANCHES, MARINE_OPEN, SHOW_MARINE_INFO, displayAddress, mapHref, telHref } from '../data'
+import { LISTED_BRANCHES, displayAddress, mapHref, telHref } from '../data'
 import { Folio } from '../editorial'
 import './yw-branches.css'
 
@@ -7,7 +7,7 @@ import './yw-branches.css'
 const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' }
 
 export default function Branches() {
-  const list = [BRANCHES.zai, ...(MARINE_OPEN || SHOW_MARINE_INFO ? [BRANCHES.marine] : [])]
+  const list = LISTED_BRANCHES
 
   return (
     <section id="branches" className="yw-section yw-branches" data-theme="light" aria-label="지점 안내">
@@ -16,7 +16,7 @@ export default function Branches() {
 
         <ul className="yw-branches__list">
           {list.map((b) => (
-            <li key={b.id} className="yw-branches__card">
+            <li key={b.id} id={`branch-${b.id}`} className="yw-branches__card">
               <h3 className="yw-branches__name">{b.label}</h3>
               <dl className="yw-branches__rows">
                 <div>

@@ -303,6 +303,9 @@ export const MARINE_OPEN = false
 // 마린시티점은 별도 페이지 없이 '지점 안내'(예약 장 오시는 길 아래 한 줄, 푸터 주소·전화)로만 알린다.
 export const SHOW_MARINE_INFO = true
 
+// 지점 안내에 카드로 싣는 지점(위쪽 메뉴의 지점 하위 메뉴도 같은 목록을 쓴다)
+export const LISTED_BRANCHES = [BRANCHES.zai, ...(MARINE_OPEN || SHOW_MARINE_INFO ? [BRANCHES.marine] : [])]
+
 // 창업 상담 연락처(지점 이름과 함께 보인다). 창업 상담은 용호 자이점에서 진행하고, 문자는 첫 번째 번호로 받는다.
 export const STARTUP_CONTACTS = [
   { id: 'zai', label: '용호 자이점', phone: BRANCHES.zai.phone },
