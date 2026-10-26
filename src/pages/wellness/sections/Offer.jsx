@@ -117,7 +117,7 @@ function OfferTicket() {
   const run = reduced || listInView
 
   return (
-    <section id="offer" className="yw-section yw-dark yw-curtain yw-offer" data-theme="dark" aria-labelledby="offer-title">
+    <section id="offer" className="yw-section yw-curtain yw-offer yw-offer--light" data-theme="light" aria-labelledby="offer-title">
       <div className="yw-wrap">
         <article
           ref={ticketRef}
