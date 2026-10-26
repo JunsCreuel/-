@@ -27,7 +27,7 @@ function Marked({ text, quote }) {
   )
 }
 
-function ReviewCard({ review, index, col, seen, branchLabel }) {
+function ReviewCard({ review, index, col, seen, branchLabel, plain }) {
   const [open, setOpen] = useState(false)
   const textId = useId()
   const textRef = useRef(null)
@@ -46,11 +46,13 @@ function ReviewCard({ review, index, col, seen, branchLabel }) {
 
   return (
     <article className={`yw-vc${seen ? ' is-in' : ''}`} data-i={index} tabIndex={-1} style={{ '--d': col }}>
-      <p className="yw-vc__stars">
-        <span aria-hidden="true">{'★'.repeat(rating)}</span>
-        <span className="sr-only">별점 {rating}점</span>
-      </p>
-      {review.topic && <p className="yw-vc__topic">{review.topic}</p>}
+      {!plain && (
+        <p className="yw-vc__stars">
+          <span aria-hidden="true">{'★'.repeat(rating)}</span>
+          <span className="sr-only">별점 {rating}점</span>
+        </p>
+      )}
+      {!plain && review.topic && <p className="yw-vc__topic">{review.topic}</p>}
       <h3 className="yw-vc__quote">
         <span aria-hidden="true">“</span>
         {review.quote}
@@ -58,7 +60,7 @@ function ReviewCard({ review, index, col, seen, branchLabel }) {
       </h3>
       <blockquote className="yw-vc__body">
         <p ref={textRef} id={textId} className={`yw-vc__text${long && !open ? ' is-clamped' : ''}`}>
-          <Marked text={review.text} quote={review.quote} />
+          {plain ? review.text : <Marked text={review.text} quote={review.quote} />}
         </p>
       </blockquote>
       {long && (open || clipped) && (
@@ -124,6 +126,7 @@ function Stats({ branch }) {
 }
 
 // summary(메인)면 한 줄(열 수만큼)만 보이고, '더 보기' 대신 후기 페이지로 가는 링크를 둔다.
+// 메인에서는 별점 요약·막대와 카드의 별점·꼬리표·형광펜을 빼고 후기 문장만 보여 준다(plain).
 export default function Proof({ summary = false }) {
   const branch = BRANCHES.zai
   const mid = useMediaQuery('(min-width: 48rem)')
@@ -177,14 +180,14 @@ export default function Proof({ summary = false }) {
 
   return (
     <section id="reviews" className="yw-section yw-voices" data-theme="light" aria-labelledby="reviews-title">
-      <div className="yw-wrap yw-voices__head">
+      <div className={`yw-wrap yw-voices__head${summary ? ' is-plain' : ''}`}>
         <div>
           <Folio ko="후기" />
           <h2 id="reviews-title" className="yw-h2 yw-voices__title">
             다녀가신 분들의 이야기
           </h2>
         </div>
-        <Stats branch={branch} />
+        {!summary && <Stats branch={branch} />}
       </div>
 
       <div ref={wallRef} className="yw-wrap yw-voices__wall" style={{ '--cols': cols }}>
@@ -200,6 +203,7 @@ export default function Proof({ summary = false }) {
                   col={c}
                   seen={seen.has(i)}
                   branchLabel={branch.label}
+                  plain={summary}
                 />
               )
             })}
@@ -209,7 +213,12 @@ export default function Proof({ summary = false }) {
 
       <div className="yw-wrap yw-voices__foot">
         {summary ? (
-          <ParenLink href={pageHref(PAGES.review)}>후기 모두 보기</ParenLink>
+          <div className="yw-voices__links">
+            <ParenLink href={pageHref(PAGES.review)}>후기 모두 보기</ParenLink>
+            <ParenLink href={reviewsHref(branch)} external>
+              네이버 방문자 리뷰
+            </ParenLink>
+          </div>
         ) : rest > 0 && (
           <button type="button" className="yw-btn yw-voices__show" data-magnet data-cursor="" onClick={showAll}>
             <span>

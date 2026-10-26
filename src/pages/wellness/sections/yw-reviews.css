@@ -350,3 +350,17 @@
     transition: none;
   }
 }
+
+/* 메인 요약: 별점 요약 없이 제목만 */
+@media (min-width: 48rem) {
+  .yw-voices__head.is-plain {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.yw-voices__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 2rem;
+}
