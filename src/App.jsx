@@ -15,6 +15,15 @@ import WellnessLayout from './pages/wellness/WellnessLayout'
 import WellnessHome from './pages/wellness/WellnessHome'
 import WellnessMarine from './pages/wellness/WellnessMarine'
 import WellnessPrivacy from './pages/wellness/WellnessPrivacy'
+import {
+  BrandPage,
+  DomePage,
+  EquipmentPage,
+  LocationPage,
+  ProgramPage,
+  ReviewPage,
+  StartupPage,
+} from './pages/wellness/WellnessPages'
 import { MARINE_OPEN } from './pages/wellness/data'
 
 export default function App() {
@@ -62,6 +71,13 @@ export default function App() {
             <Route index element={<WellnessHome />} />
             <Route path="marine" element={MARINE_OPEN ? <WellnessMarine /> : <Navigate to="/wellness" replace />} />
             <Route path="privacy" element={<WellnessPrivacy />} />
+            <Route path="brand" element={<BrandPage />} />
+            <Route path="program" element={<ProgramPage />} />
+            <Route path="equipment" element={<EquipmentPage />} />
+            <Route path="dome" element={<DomePage />} />
+            <Route path="review" element={<ReviewPage />} />
+            <Route path="location" element={<LocationPage />} />
+            <Route path="startup" element={<StartupPage />} />
             {/* 잘못된 하위 주소(#/wellness/xxx)는 빈 화면 대신 랜딩으로 돌려보낸다 */}
             <Route path="*" element={<Navigate to="/wellness" replace />} />
           </Route>
