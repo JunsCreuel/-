@@ -478,7 +478,7 @@
 }
 
 .yw-hero--logo .yw-hero__brand {
-  filter: drop-shadow(0 1px 2px rgb(14 20 16 / 0.4)) drop-shadow(0 6px 28px rgb(14 20 16 / 0.45));
+  filter: drop-shadow(0 1px 2px rgb(4 34 38 / 0.5)) drop-shadow(0 4px 22px rgb(4 34 38 / 0.45));
 }
 
 .yw-hero--logo .yw-hero__brand .w-logo {
@@ -578,10 +578,14 @@
   margin-top: 0;
 }
 
-/* 글자 뒤만 둥글게 가라앉히고, 화면 전체도 아주 살짝 눌러 물빛과 글자 대비를 키운다 */
+/* 바다 영상: 화면 전체를 누르지 않아 모래와 바다가 밝고 맑게 보인다. 맨 위(상단 바 자리)만 살짝, 글자 뒤만 청록으로 옅게 가라앉힌다 */
 .yw-hero--logo .yw-hero__shade {
   background:
-    linear-gradient(to bottom, rgb(24 32 26 / 0.32), transparent 22%),
-    radial-gradient(ellipse 46% 30% at 50% 50%, rgb(22 30 24 / 0.55), rgb(22 30 24 / 0.22) 60%, transparent 100%),
-    rgb(22 30 24 / 0.12);
+    linear-gradient(to bottom, rgb(14 28 30 / 0.22), transparent 16%),
+    radial-gradient(ellipse 46% 26% at 50% 64%, rgb(6 46 52 / 0.42), rgb(6 46 52 / 0.12) 65%, transparent 100%);
+}
+
+/* 로고 묶음은 가운데보다 조금 아래(화면 높이의 64% 언저리)에 둬서, 파도가 가장 높이 밀려와도 흰 포말이 아닌 청록 바다 위에 놓인다 */
+.yw-hero--logo .yw-hero__brand {
+  padding-top: clamp(8rem, 26svh, 17rem);
 }
