@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
 import { Folio, ParenLink } from '../editorial'
 import { useInView, useMediaQuery } from '../motion'
+import { PAGES, pageHref } from '../pages'
 import './yw-reviews.css'
 
 // No. 06 Voices — 네이버 방문자 리뷰를 베이지 바탕 위 흰 카드로 모아 보여 준다.
@@ -122,12 +123,13 @@ function Stats({ branch }) {
   )
 }
 
-export default function Proof() {
+// summary(메인)면 한 줄(열 수만큼)만 보이고, '더 보기' 대신 후기 페이지로 가는 링크를 둔다.
+export default function Proof({ summary = false }) {
   const branch = BRANCHES.zai
   const mid = useMediaQuery('(min-width: 48rem)')
   const wide = useMediaQuery('(min-width: 64rem)')
   const cols = wide ? 3 : mid ? 2 : 1
-  const first = wide ? 6 : 4
+  const first = summary ? cols : wide ? 6 : 4
   const [all, setAll] = useState(false)
   const wallRef = useRef(null)
   // IntersectionObserver가 없는 브라우저에서는 처음부터 모두 보인다.
@@ -206,7 +208,9 @@ export default function Proof() {
       </div>
 
       <div className="yw-wrap yw-voices__foot">
-        {rest > 0 && (
+        {summary ? (
+          <ParenLink href={pageHref(PAGES.review)}>후기 모두 보기</ParenLink>
+        ) : rest > 0 && (
           <button type="button" className="yw-btn yw-voices__show" data-magnet data-cursor="" onClick={showAll}>
             <span>
               후기 {rest}개 더 보기 <i aria-hidden="true">+</i>

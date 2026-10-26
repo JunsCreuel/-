@@ -1,0 +1,309 @@
+/* 메인 전용 짧은 블록 (sections/HomeBlocks.jsx) */
+
+/* 브랜드 한 단락 + 숫자 + 매장 사진 */
+.yw-section.yw-hintro {
+  background: #fff;
+}
+
+.yw-hintro__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 64rem) {
+  .yw-hintro__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+
+.yw-hintro__lead {
+  max-width: 32em;
+  margin: 1.25rem 0 0;
+  color: color-mix(in srgb, var(--w-ink) 78%, #fff);
+  font-size: clamp(1rem, 0.35vw + 0.9rem, 1.1rem);
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.yw-hintro__nums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: clamp(1.75rem, 3vw, 2.5rem) 0 clamp(1.5rem, 3vw, 2rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--w-line);
+}
+
+.yw-hintro__nums dt {
+  color: var(--w-ink);
+  font: 300 clamp(2rem, 3.4vw, 2.9rem) / 1 var(--w-font-en);
+}
+
+.yw-hintro__nums dd {
+  margin: 0.5rem 0 0;
+  color: var(--w-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.yw-hintro__nums dt small {
+  margin-left: 0.1em;
+  font: 400 0.42em var(--w-font);
+}
+
+/* 관리 프로그램 사진 카드 */
+.yw-section.yw-hprog {
+  background: var(--yw-ivory);
+}
+
+.yw-hprog__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.yw-hprog__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 64rem) {
+  .yw-hprog__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.yw-pcard {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  padding: clamp(0.9rem, 2vw, 1.4rem);
+  overflow: clip;
+  border-radius: 1.25rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.wellness .yw-pcard img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: scale 0.6s var(--yw-ease);
+}
+
+.yw-pcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(46 50 38 / 0) 40%, rgb(46 50 38 / 0.82));
+}
+
+.yw-pcard__group {
+  color: var(--w-champagne);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.wellness .yw-pcard__name {
+  margin-top: 0.3rem;
+  font: 500 clamp(1rem, 0.6vw + 0.8rem, 1.3rem) / 1.35 var(--w-font-serif);
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.yw-pcard__time {
+  margin-top: 0.3rem;
+  color: rgb(255 255 255 / 0.8);
+  font-size: 0.8rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-pcard:hover img {
+    scale: 1.04;
+  }
+}
+
+/* 큰 영문 두 줄: 스크롤(--p, 0~1)에 따라 서로 반대로 흐른다 */
+.yw-hmarq {
+  --p: 0.5;
+  overflow: clip;
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
+  background: #fff;
+}
+
+.yw-hmarq__row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.yw-hmarq__row span {
+  padding-right: 0.5em;
+  font: 300 clamp(3.25rem, 9vw, 8.5rem) / 1.08 var(--w-font-en);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.yw-hmarq__row--a {
+  transform: translateX(calc(-38% + var(--p) * 30%));
+}
+
+.yw-hmarq__row--a span {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--w-bronze) 80%, transparent);
+}
+
+.yw-hmarq__row--b {
+  transform: translateX(calc(-8% - var(--p) * 30%));
+}
+
+.yw-hmarq__row--b span {
+  color: var(--w-accent-deep);
+  font-style: italic;
+}
+
+/* 사진 틀이 화면에 들어오면 안쪽에서 바깥으로 열린다 */
+.yw-reveal {
+  height: 100%;
+  clip-path: inset(10% 10% 10% 10% round 1.5rem);
+  opacity: 0.4;
+  transition:
+    clip-path 1.1s var(--yw-ease) var(--d, 0ms),
+    opacity 0.6s ease var(--d, 0ms);
+}
+
+.yw-reveal.is-in {
+  clip-path: inset(0 0 0 0 round 1.25rem);
+  opacity: 1;
+}
+
+/* 패럴랙스: 틀보다 조금 큰 사진이 스크롤에 따라 위아래로(--py) */
+.yw-parallax {
+  height: 100%;
+  overflow: clip;
+}
+
+.wellness .yw-parallax img {
+  width: 100%;
+  height: 112%;
+  max-width: none;
+  margin-top: -6%;
+  object-fit: cover;
+  transform: translate3d(0, var(--py, 0px), 0);
+}
+
+/* 소개 사진 + 도는 배지 */
+.yw-hintro__visual {
+  position: relative;
+}
+
+.yw-hintro__photo.yw-reveal {
+  aspect-ratio: 4 / 5;
+  max-height: 44rem;
+  height: auto;
+}
+
+.yw-badge {
+  position: absolute;
+  bottom: -2.5rem;
+  left: -2.5rem;
+  display: grid;
+  place-items: center;
+  width: clamp(7.5rem, 11vw, 9.5rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--yw-ivory);
+  color: var(--w-ink);
+  box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--w-ink) 40%, transparent);
+  cursor: pointer;
+}
+
+.yw-badge svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: yw-spin 22s linear infinite;
+}
+
+.yw-badge text {
+  fill: var(--w-accent-deep);
+  font: 500 11px var(--w-font-label);
+  letter-spacing: 0.12em;
+}
+
+.yw-badge__mid {
+  position: relative;
+  font: 500 0.95rem / 1.3 var(--w-font-serif);
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yw-badge:hover {
+    background: var(--w-espresso);
+    color: #fff;
+  }
+
+  .yw-badge:hover text {
+    fill: var(--w-champagne);
+  }
+}
+
+@keyframes yw-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .yw-badge {
+    bottom: -1.75rem;
+    left: auto;
+    right: 1rem;
+  }
+}
+
+/* 제목 속 작은 사진 칩은 글자 높이에 맞춘다 */
+.yw-hintro__title .yw-ichip {
+  height: 0.78em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yw-reveal {
+    clip-path: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .yw-badge svg {
+    animation: none;
+  }
+
+  .wellness .yw-parallax img {
+    transform: none;
+  }
+
+  .wellness .yw-pcard img {
+    transition: none;
+  }
+}
