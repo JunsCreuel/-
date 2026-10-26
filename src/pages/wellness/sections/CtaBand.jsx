@@ -45,8 +45,9 @@ export default function CtaBand() {
         pan.style.transform = ''
         return
       }
-      const f = Math.min(1, Math.max(0, -r.top / r.height)) // 섹션이 화면을 다 채운 뒤 빠져나가는 정도
-      pan.style.transform = `translate3d(0, ${(-range * (0.14 + f * 0.86)).toFixed(1)}px, 0)`
+      // 섹션이 화면을 다 채운 뒤 빠져나가는 정도. 처음 10%는 그대로 둬서 간판(사진 맨 위)이 상단 바 아래에 보이게 한다
+      const f = Math.min(1, Math.max(0, (-r.top / r.height - 0.1) / 0.9))
+      pan.style.transform = `translate3d(0, ${(-range * f).toFixed(1)}px, 0)`
     })
   }, [reduced])
 
