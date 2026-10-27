@@ -1,5 +1,5 @@
 /* 마지막 장면 (CtaBand.jsx) — 매장 사진을 화면 가득, 아래쪽에 크림 원 '예약하기'와 링크.
-   섹션이 화면에 들어오면(.is-open) 사진이 가운데에서 바깥으로 쫙 열리고, 완전히 나갔다 다시 들어오면 또 열린다.
+   섹션이 화면에 들어오면(.is-open) 아치 모양으로 말려 있던 사진이 화면 가득 넓게 펼쳐지고, 완전히 나갔다 다시 들어오면 또 펼쳐진다.
    높이는 화면 높이와 '너비 × 1.25'(사진 비율 4:5) 가운데 작은 쪽: 가로 화면은 화면을 꽉 채우고(사진 위아래는 잘려 스크롤로 움직인다),
    세로 화면(휴대폰)은 화면 너비에 사진 전체가 그대로 들어간다. 사진 가장자리를 늘려 붙이지 않는다.
    '예약하기' 원의 자석 이동은 공통 transform이 맡으므로 등장은 opacity·scale로만 한다. */
@@ -13,21 +13,18 @@
   color: var(--yw-cream);
 }
 
+/* 닫힌 상태: 위가 둥근 아치 모양으로 말려 있다가, 열리면(.is-open) 화면 가득 넓게 펼쳐진다 */
 .yw-close .yw-close__photo {
   position: absolute;
   inset: 0;
   margin: 0;
   overflow: clip;
-  clip-path: inset(14% 12% round 2rem);
-  opacity: 0.25;
-  transition:
-    clip-path 1.5s var(--yw-ease),
-    opacity 1.1s ease;
+  clip-path: inset(28% 14% 0 round 50vw 50vw 0 0);
+  transition: clip-path 1.4s var(--yw-ease);
 }
 
 .yw-close.is-open .yw-close__photo {
   clip-path: inset(0 round 0);
-  opacity: 1;
 }
 
 /* 사진(너비 100%, 원본 비율). 틀보다 길면 CtaBand.jsx가 스크롤에 맞춰 위로 옮긴다 */
@@ -44,8 +41,8 @@
   width: 100%;
   height: auto;
   max-width: none;
-  scale: 1.1;
-  transition: scale 1.9s var(--yw-ease);
+  scale: 1.08;
+  transition: scale 1.6s var(--yw-ease);
 }
 
 .yw-close.is-open .yw-close__pan img {
