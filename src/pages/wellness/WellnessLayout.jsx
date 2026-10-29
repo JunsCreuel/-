@@ -177,7 +177,8 @@ export default function WellnessLayout() {
   return (
     <div className="wellness">
       <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} pathname={pathname} />
-      <main>
+      {/* 상단 바 높이만큼 내리고, 휴대폰에서는 아래 고정 예약 바 자리만큼 비운다 */}
+      <main className="pt-(--w-nav-h) max-md:pb-[5.5rem]">
         <Outlet />
       </main>
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
