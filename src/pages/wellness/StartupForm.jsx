@@ -76,7 +76,7 @@ export default function StartupForm() {
     prevStep.current = step
     const first = stepRef.current?.querySelector('input, textarea')
     first?.focus({ preventScroll: true })
-    const navBottom = document.querySelector('.w-nav')?.getBoundingClientRect().bottom ?? 0
+    const navBottom = document.querySelector('[data-site-nav]')?.getBoundingClientRect().bottom ?? 0
     const formTop = formRef.current?.getBoundingClientRect().top ?? 0
     const firstBottom = first?.getBoundingClientRect().bottom ?? 0
     if (formTop < navBottom || firstBottom > window.innerHeight) scrollToId('startup-form-title')
