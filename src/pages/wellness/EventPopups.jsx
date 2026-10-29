@@ -144,7 +144,7 @@ export default function EventPopups() {
                 <i className={`size-2 rounded-full ${i === cur ? 'bg-cream' : 'bg-[rgb(241_243_228/0.5)]'}`} aria-hidden="true" />
               </button>
             ))}
-            <button type="button" className="min-h-11 cursor-pointer border-0 bg-transparent px-3 py-0 [font-family:inherit] [font-size:inherit] [font-weight:inherit] [line-height:inherit] text-[0.88rem] text-cream underline underline-offset-[0.25em]" onClick={() => setIndex((cur + 1) % list.length)}>
+            <button type="button" className="min-h-11 cursor-pointer border-0 bg-transparent px-3 py-0 [font-family:inherit] [font-weight:inherit] [line-height:inherit] text-[0.88rem] text-cream underline underline-offset-[0.25em]" onClick={() => setIndex((cur + 1) % list.length)}>
               다음
             </button>
           </div>

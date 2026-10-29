@@ -668,7 +668,6 @@
 }
 
 /* ── 누르는 영역 44px 이상(겉모양은 그대로) ─────────────────── */
-.wellness .w-nav__menu > button,
 .yw-eq .yw-eq__gelbtn,
 .yw-eq .yw-eq__ingbtn,
 .yw-eq .yw-eq__chip {
@@ -676,12 +675,10 @@
 }
 
 /* 글자가 짧아 폭이 44px에 못 미치는 버튼: 보이지 않는 영역을 좌우로 넓힌다(겉모양·간격은 그대로) */
-.wellness .w-nav__menu > button,
 .yw-menu .yw-menu__tab {
   position: relative;
 }
 
-.wellness .w-nav__menu > button::before,
 .yw-menu .yw-menu__tab::before {
   position: absolute;
   inset: 0 -0.6rem;
