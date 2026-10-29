@@ -3,6 +3,7 @@ import { BRANCHES, OFFER_TERM, OFFER_TERM_FULL, PROGRAMS, SALE_COUNT, SHOW_OFFER
 import { Folio, ParenLink } from '../editorial'
 import { clamp, hasFinePointer, prefersReducedMotion, useInView } from '../motion'
 import { scrollToId } from '../scroll'
+import { CURTAIN, SECTION } from '../tw'
 
 // No. 07 First Visit — 절취선 티켓 한 장(에스프레소 커튼 위).
 // 첫 방문 50%는 상시 할인이 아니다. 할인가(sale)가 있는 관리에만(전신 후면 관리, 풀 바디 웜업케어는 제외),
@@ -21,7 +22,7 @@ const REST = { rx: 0, ry: 0, gx: 50, gy: 50 }
 // 티켓: 연두 종이 한 장. 반원 홈은 두 원형 구멍(--mask-a·--mask-b)으로 뚫는다(좁은 화면은 가로 절취선의 좌우, 넓은 화면은 세로 절취선의 위아래).
 // 들어오면 살짝 기운 채 아래에서 올라오고, 등장(1s)이 끝나면 기울기가 전환 없이 바로 따라간다(lerp는 JS).
 const TICKET =
-  'relative mx-auto grid w-[min(72rem,100%)] gap-[clamp(1.25rem,3vw,2.5rem)] rounded-3xl bg-(--w-highlight) p-(--tp) text-ink shadow-[0_0_0_1px_color-mix(in_srgb,var(--w-ink)_10%,transparent),0_18px_40px_-24px_color-mix(in_srgb,var(--w-ink)_35%,transparent)] ticket-mask [--tp:clamp(1.5rem,3vw,2.75rem)] [--stub:13rem] [--notch:1rem] [--mask-a:radial-gradient(circle_var(--notch)_at_0_var(--cut,calc(100%_-_9rem)),#0000_98%,#000)] [--mask-b:radial-gradient(circle_var(--notch)_at_100%_var(--cut,calc(100%_-_9rem)),#0000_98%,#000)] [&_.yw-folio]:text-accent-deep [&_.yw-paren]:text-ink [&_.yw-paren>i]:text-accent-deep [&_:focus-visible]:outline-espresso motion-reduce:opacity-100 motion-reduce:[transform:none] motion-reduce:transition-none lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_var(--stub)] lg:gap-x-[clamp(1.5rem,3vw,2.75rem)] lg:pr-0 lg:[--mask-a:radial-gradient(circle_var(--notch)_at_calc(100%_-_var(--stub)_+_1px)_0,#0000_98%,#000)] lg:[--mask-b:radial-gradient(circle_var(--notch)_at_calc(100%_-_var(--stub)_+_1px)_100%,#0000_98%,#000)]'
+  'relative mx-auto grid w-[min(72rem,100%)] gap-[clamp(1.25rem,3vw,2.5rem)] rounded-3xl bg-(--w-highlight) p-(--tp) text-ink shadow-[0_0_0_1px_color-mix(in_srgb,var(--w-ink)_10%,transparent),0_18px_40px_-24px_color-mix(in_srgb,var(--w-ink)_35%,transparent)] ticket-mask [--tp:clamp(1.5rem,3vw,2.75rem)] [--stub:13rem] [--notch:1rem] [--mask-a:radial-gradient(circle_var(--notch)_at_0_var(--cut,calc(100%_-_9rem)),#0000_98%,#000)] [--mask-b:radial-gradient(circle_var(--notch)_at_100%_var(--cut,calc(100%_-_9rem)),#0000_98%,#000)] [&_:focus-visible]:outline-espresso motion-reduce:opacity-100 motion-reduce:[transform:none] motion-reduce:transition-none lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_var(--stub)] lg:gap-x-[clamp(1.5rem,3vw,2.75rem)] lg:pr-0 lg:[--mask-a:radial-gradient(circle_var(--notch)_at_calc(100%_-_var(--stub)_+_1px)_0,#0000_98%,#000)] lg:[--mask-b:radial-gradient(circle_var(--notch)_at_calc(100%_-_var(--stub)_+_1px)_100%,#0000_98%,#000)]'
 const TICKET_OUT =
   'opacity-0 [transform:perspective(70rem)_rotateX(calc(var(--rx,0)_*_1deg))_rotateY(calc(var(--ry,0)_*_1deg))_translateY(2.5rem)_rotate(-2.5deg)]'
 const TICKET_IN =
@@ -33,7 +34,7 @@ const GLOW_ON = '[@media(hover:hover)_and_(pointer:fine)]:hover:before:opacity-1
 
 // 절취선 너머 스텁: 좁은 화면은 아래(가로 점선), 태블릿은 버튼과 링크를 한 줄에, 넓은 화면은 오른쪽(세로 점선)
 const STUB =
-  'relative -mx-(--tp) mt-0 -mb-(--tp) flex flex-col items-stretch justify-center gap-4 [border-top:2px_dashed_rgb(46_50_38/0.3)] px-(--tp) pt-[calc(var(--tp)_*_0.9)] pb-(--tp) [&_.yw-paren]:self-center sm:max-lg:flex-row sm:max-lg:flex-wrap sm:max-lg:items-center sm:max-lg:gap-x-7 sm:max-lg:gap-y-3 lg:mx-0 lg:-my-(--tp) lg:items-center lg:[border-top:0] lg:[border-left:2px_dashed_rgb(46_50_38/0.3)] lg:px-7 lg:py-(--tp)'
+  'relative -mx-(--tp) mt-0 -mb-(--tp) flex flex-col items-stretch justify-center gap-4 [border-top:2px_dashed_rgb(46_50_38/0.3)] px-(--tp) pt-[calc(var(--tp)_*_0.9)] pb-(--tp) sm:max-lg:flex-row sm:max-lg:flex-wrap sm:max-lg:items-center sm:max-lg:gap-x-7 sm:max-lg:gap-y-3 lg:mx-0 lg:-my-(--tp) lg:items-center lg:[border-top:0] lg:[border-left:2px_dashed_rgb(46_50_38/0.3)] lg:px-7 lg:py-(--tp)'
 // '예약하기': 좁은 화면은 폭 100% 알약, 넓은 화면은 아래에서 차오르는 원. 자석 이동은 공통 transform이 맡아 여기서는 scale만 쓴다
 const ROUND =
   'inline-flex min-h-[3.25rem] w-full cursor-pointer items-center justify-center rounded-full border-2 border-espresso bg-espresso px-6 py-[0.7rem] [font-family:inherit] text-[0.97rem] leading-[1.3] font-semibold tracking-[0.02em] text-white active:scale-97 sm:max-lg:w-auto sm:max-lg:min-w-[16rem] lg:aspect-square lg:min-h-0 lg:rounded-[50%] lg:w-32 lg:bg-transparent lg:bg-[linear-gradient(var(--w-espresso)_0_0)] lg:bg-size-[100%_0%] lg:bg-bottom lg:bg-no-repeat lg:p-0 lg:font-serif lg:text-[1.05rem] lg:font-medium lg:tracking-[0] lg:text-espresso lg:normal-nums lg:[transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-size_0.45s_var(--yw-ease),color_0.3s_ease] motion-reduce:transition-none lg:motion-reduce:transition-none lg:focus-visible:bg-size-[100%_100%] lg:focus-visible:text-white [@media(min-width:64rem)_and_(hover:hover)_and_(pointer:fine)]:hover:bg-size-[100%_100%] [@media(min-width:64rem)_and_(hover:hover)_and_(pointer:fine)]:hover:text-white'
@@ -137,8 +138,8 @@ function OfferTicket() {
   const shown = inView || reduced
 
   return (
-    <section id="offer" className="yw-section yw-curtain overflow-clip bg-white text-ink" data-theme="light" aria-labelledby="offer-title">
-      <div className="yw-wrap">
+    <section id="offer" className={`${SECTION} ${CURTAIN} overflow-clip bg-white text-ink`} data-theme="light" data-curtain aria-labelledby="offer-title">
+      <div className="mx-auto w-full max-w-(--yw-max)">
         <article
           ref={ticketRef}
           className={`${TICKET} ${GLOW} ${shown ? TICKET_IN : TICKET_OUT} ${
@@ -208,7 +209,7 @@ function OfferTicket() {
             >
               <span>예약하기</span>
             </button>
-            <ParenLink href={BRANCHES.zai.booking} external>
+            <ParenLink href={BRANCHES.zai.booking} external tone="ink" className="self-center">
               네이버 예약
             </ParenLink>
           </div>

@@ -1,4 +1,5 @@
 import { BRANCHES, BRAND, telHref } from './data'
+import { SECTION } from './tw'
 
 // 개인정보처리방침(「개인정보 보호법」 제30조). 푸터 '개인정보처리방침'에서 연결한다(#/wellness/privacy).
 // 이 사이트는 서버에 상담 내용을 저장하지 않는다. 상담 양식 내용은 손님이 직접 문자로 보내거나 전화 상담으로 받는다.
@@ -9,8 +10,8 @@ export default function WellnessPrivacy() {
   const phone = BRANCHES.zai.phone
 
   return (
-    <section className="yw-section bg-white pt-[clamp(3.5rem,8vw,6rem)]" data-theme="light" aria-labelledby="privacy-title">
-      <div className="yw-wrap max-w-3xl text-[0.95rem] leading-[1.85] break-keep text-ink [&_a]:text-inherit [&_a]:underline [&_a]:underline-offset-[0.2em] [&_h2]:mx-0 [&_h2]:mt-10 [&_h2]:mb-[0.6rem] [&_h2]:border-t [&_h2]:border-line [&_h2]:pt-6 [&_h2]:font-sans [&_h2]:text-[1.05rem] [&_h2]:leading-[1.5] [&_h2]:font-semibold [&_ol]:mx-0 [&_ol]:mt-[0.4rem] [&_ol]:mb-0 [&_ol]:grid [&_ol]:gap-[0.35rem] [&_ol]:pl-5 [&_p]:m-0 [&_ul]:mx-0 [&_ul]:mt-[0.4rem] [&_ul]:mb-0 [&_ul]:grid [&_ul]:gap-[0.35rem] [&_ul]:pl-5">
+    <section className={`${SECTION} bg-white pt-[clamp(3.5rem,8vw,6rem)]`} data-theme="light" aria-labelledby="privacy-title">
+      <div className="mx-auto w-full max-w-3xl text-[0.95rem] leading-[1.85] break-keep text-ink [&_a]:text-inherit [&_a]:underline [&_a]:underline-offset-[0.2em] [&_h2]:mx-0 [&_h2]:mt-10 [&_h2]:mb-[0.6rem] [&_h2]:border-t [&_h2]:border-line [&_h2]:pt-6 [&_h2]:font-sans [&_h2]:text-[1.05rem] [&_h2]:leading-[1.5] [&_h2]:font-semibold [&_ol]:mx-0 [&_ol]:mt-[0.4rem] [&_ol]:mb-0 [&_ol]:grid [&_ol]:gap-[0.35rem] [&_ol]:pl-5 [&_p]:m-0 [&_ul]:mx-0 [&_ul]:mt-[0.4rem] [&_ul]:mb-0 [&_ul]:grid [&_ul]:gap-[0.35rem] [&_ul]:pl-5">
         <h1 id="privacy-title" className="m-0 font-serif text-[clamp(2rem,4vw,2.75rem)] leading-[1.25] font-medium tracking-[-0.03em]">
           개인정보처리방침
         </h1>

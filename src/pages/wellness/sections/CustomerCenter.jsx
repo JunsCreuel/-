@@ -1,6 +1,7 @@
 import { BRANCHES, PHOTOS, displayAddress, mapHref, reserveAction, telHref } from '../data'
 import { Folio } from '../editorial'
 import QuickConsult from './QuickConsult'
+import { H2, SECTION } from '../tw'
 
 // No. 09 Reservation — 전화·네이버 예약·지도를 큰 원형 버튼 3개로 모으고, 영업시간·주소(데스크톱은 QR까지) 옆에 첫 화면과 같은 간편 상담 카드를 둔다.
 // 위에서 고른 관리는 간편 상담 카드가 'w:pick' 이벤트로 이어받아 '관심 관리'로 붙인다. #visit(오시는 길) 앵커도 이 장 왼쪽 열이다.
@@ -47,15 +48,15 @@ export default function CustomerCenter({ branch = BRANCHES.zai }) {
   const naver = reserveAction(branch)
 
   return (
-    <section id="booking" className="yw-section bg-(--w-band)" data-theme="light">
-      <div className="yw-wrap grid gap-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-[clamp(2rem,5vw,4.5rem)]">
+    <section id="booking" className={`${SECTION} bg-(--w-band)`} data-theme="light">
+      <div className="mx-auto w-full max-w-(--yw-max) grid gap-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-[clamp(2rem,5vw,4.5rem)]">
         {/* 왼쪽 정보 열은 폼보다 짧다. 열 전체가 내비 아래에 다 들어오는 높은 화면에서만 폼을 따라 내려오며 옆에 머문다 */}
         <div
           id="visit"
           className="min-w-0 [@media(min-width:64rem)_and_(min-height:52rem)]:sticky [@media(min-width:64rem)_and_(min-height:52rem)]:top-[calc(var(--w-nav-h)+2rem)]"
         >
           <Folio ko="예약" />
-          <h2 className="yw-h2 text-balance">편하신 방법으로 예약해 주세요.</h2>
+          <h2 className={`${H2} text-balance`}>편하신 방법으로 예약해 주세요.</h2>
 
           <ul className="mt-[clamp(1.75rem,4vw,2.5rem)] flex max-w-[30rem] justify-between gap-[clamp(0.5rem,2vw,1rem)] lg:max-w-none lg:justify-start lg:gap-4 [&>li]:min-w-0">
             <li>

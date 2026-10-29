@@ -3,6 +3,7 @@ import { PARENT_STORE_COUNT, PICS, STARTUP_CONTACTS, STARTUP_COSTS, telHref } fr
 import { Folio, Pic, SplitLines } from '../editorial'
 import { useScrollProgress } from '../motion'
 import StartupForm from '../StartupForm'
+import { BTN_CREAM, CURTAIN, DARK, SECTION } from '../tw'
 
 // Appendix — For Partners. 고객 동선이 끝난 뒤 B2B 구역을 에스프레소 커튼 한 장으로 분리한다.
 // 배경(정물 사진)은 장식이다. 진행 단계 선은 스크롤에 따라 그어진다(--p).
@@ -14,7 +15,7 @@ const STEPS = ['창업·운영 상담 신청', '상담 및 브랜드 안내', '�
 
 // 모바일은 DOM 순서(머리 → 창업 비용 → 진행 단계 → 전화 → 폼), 64rem 이상은 위 2열(왼쪽 머리·창업 비용·전화 / 오른쪽 폼) + 아래 전폭 진행 단계
 const GRID =
-  "yw-wrap relative z-1 grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_auto_1fr_auto] lg:items-start lg:gap-x-[clamp(2rem,5vw,4.5rem)] lg:[grid-template-areas:'head_form'_'cost_form'_'actions_form'_'tl_tl']"
+  "mx-auto w-full max-w-(--yw-max) relative z-1 grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_auto_1fr_auto] lg:items-start lg:gap-x-[clamp(2rem,5vw,4.5rem)] lg:[grid-template-areas:'head_form'_'cost_form'_'actions_form'_'tl_tl']"
 
 // 진행 단계 선: 옅은 1px 선 위로 2px 브론즈 선이 스크롤에 따라(--p) 그어진다. 첫 점 가운데에서 마지막 점 가운데까지(점 i는 선의 i/4 지점).
 // 64rem 미만은 세로 진행 단계(왼쪽 세로선이 위에서 아래로)
@@ -43,7 +44,7 @@ export default function Startup() {
   useScrollProgress(tlRef, { mode: 'through' })
 
   return (
-    <section id="startup" className="yw-section yw-dark yw-curtain overflow-clip" data-theme="dark">
+    <section id="startup" className={`${SECTION} ${DARK} ${CURTAIN} overflow-clip`} data-theme="dark" data-curtain>
       {/* 정물 사진: 짙은 바탕 위에 아주 옅게(luminosity로 바탕색에 물든다) 아래로 갈수록 사라진다.
           부모에 z-index·mask를 주면 블렌딩이 갇히므로 마스크는 img에 직접 준다 */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -123,7 +124,7 @@ export default function Startup() {
         </div>
 
         <div className="mt-[clamp(2rem,6vw,3rem)] flex min-w-0 flex-wrap items-center justify-center gap-x-6 gap-y-[0.9rem] md:justify-start lg:mt-10 lg:[grid-area:actions]">
-          <a className="yw-btn yw-btn--cream w-full md:w-auto" data-magnet="" href={telHref(phone)}>
+          <a className={`${BTN_CREAM} w-full md:w-auto`} data-magnet="" href={telHref(phone)}>
             <span>창업·운영 전화 상담</span>
           </a>
           <p className={`m-0 basis-full text-center text-[0.92rem] leading-[1.6] ${CREAM_82} md:text-left`}>창업 상담은 용호 자이점에서 진행합니다.</p>

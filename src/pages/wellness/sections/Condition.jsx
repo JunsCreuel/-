@@ -3,6 +3,7 @@ import { BRANCHES, PICS, PROGRAMS } from '../data'
 import { Folio, ParenLink, Pic, PriceLine, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
+import { BTN_INK, CURTAIN, DARK, H2, SECTION } from '../tw'
 
 // No. 03 Today's Condition — 부위 사진 타일을 고르면 어울리는 관리가 추천 카드로 바뀌고,
 // 그 관리로 상담 예약(w:pick → 예약 장 1단계 미리 선택)까지 이어진다.
@@ -100,14 +101,14 @@ export default function Condition() {
   }
 
   return (
-    <section id="concern" className="yw-section yw-dark yw-curtain overflow-clip" data-theme="dark">
-      <div className="yw-wrap">
+    <section id="concern" className={`${SECTION} ${DARK} ${CURTAIN} overflow-clip`} data-theme="dark" data-curtain>
+      <div className="mx-auto w-full max-w-(--yw-max)">
         <Folio ko="부위별 추천" tone="light" />
         {/* 좁은 화면에서 제목 줄이 한 글자만 남지 않게 고르게 나눈다 */}
         <SplitLines
           as="h2"
           id="cond-title"
-          className="yw-h2 [&_.yw-line>span]:text-balance"
+          className={`${H2} [&>span>span]:text-balance`}
           lines={['오늘, 가장 신경 쓰이는 곳은 ', '어디인가요?']}
         />
 
@@ -161,7 +162,7 @@ export default function Condition() {
             ref={cardRef}
             className={`relative min-w-0 scroll-mt-[calc(var(--w-nav-h)_+_1rem)] scroll-mb-4 rounded-3xl max-md:scroll-mb-[5.5rem] lg:sticky lg:top-[calc(var(--w-nav-h)_+_2rem)] [&_:focus-visible]:outline-espresso ${
               shown
-                ? 'bg-ivory p-[clamp(1.1rem,4vw,1.5rem)] text-ink sm:max-lg:grid sm:max-lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] sm:max-lg:grid-rows-[auto_auto_auto_1fr] sm:max-lg:items-start sm:max-lg:gap-x-[clamp(1.25rem,3vw,2rem)] sm:max-lg:[&>:not(figure)]:col-start-2 [&_.yw-paren]:text-ink [&_.yw-paren>i]:text-accent-deep'
+                ? 'bg-ivory p-[clamp(1.1rem,4vw,1.5rem)] text-ink sm:max-lg:grid sm:max-lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] sm:max-lg:grid-rows-[auto_auto_auto_1fr] sm:max-lg:items-start sm:max-lg:gap-x-[clamp(1.25rem,3vw,2rem)] sm:max-lg:[&>:not(figure)]:col-start-2'
                 : 'border border-dashed border-[rgb(241_243_228/0.38)] bg-transparent px-5 py-4 text-cream'
             }`}
             aria-label="추천 관리"
@@ -190,18 +191,18 @@ export default function Condition() {
                   </h3>
                   <p className="mt-2 text-[0.92rem] leading-[1.65] text-muted">{shown.note}</p>
                   {/* 아이보리 카드 위라 짙은 장의 샴페인·크림 대신 밝은 면의 색으로 되돌린다 */}
-                  <PriceLine program={shown} className="mt-[0.85rem] flex text-[1.05rem] [&_small]:text-muted [&>span>span]:text-accent-deep" />
+                  <PriceLine program={shown} inline={false} className="mt-[0.85rem] text-[1.05rem]" />
                 </div>
                 <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 max-lg:flex-col max-lg:items-stretch">
                   <button
                     type="button"
-                    className="yw-btn yw-btn--ink max-lg:w-full"
+                    className={`${BTN_INK} max-lg:w-full`}
                     data-magnet
                     onClick={() => pickForBooking({ area: cond.area, programId: shown.id, label: shown.label })}
                   >
                     <span>이 관리로 상담 예약</span>
                   </button>
-                  <ParenLink href={BRANCHES.zai.booking} external className="max-lg:justify-center">
+                  <ParenLink href={BRANCHES.zai.booking} external tone="ink" className="max-lg:justify-center">
                     네이버 예약
                   </ParenLink>
                 </div>
