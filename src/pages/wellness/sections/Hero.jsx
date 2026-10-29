@@ -22,9 +22,9 @@ const BRAND =
   'pointer-events-none absolute inset-0 z-2 m-0 grid place-content-center justify-items-center gap-[clamp(1.25rem,2.6vw,2.25rem)] px-(--w-gutter) pt-[clamp(8rem,26svh,17rem)] [filter:drop-shadow(0_1px_2px_rgb(4_34_38/0.5))_drop-shadow(0_4px_22px_rgb(4_34_38/0.45))]'
 // 로고: 마크(ri)는 빼고 글자 두 줄만. 'WELLNESS STUDIO'에는 빛줄기가 한 번 스친다(시작 위치는 글자 밖)
 const LOGO =
-  'm-0 leading-[0] [&_.w-logo]:[--u:clamp(0.5px,0.08vw_+_0.2px,1.15px)] [&_.w-logo]:[--w-logo-mark:#fbfaf3] [&_.w-logo]:[--w-logo-text:#fbfaf3] [&_[data-logo=mark]]:hidden [&_[data-logo=text]]:mt-0 [&_[data-logo=en]]:bg-[linear-gradient(110deg,transparent_38%,rgb(255_255_255/0.95)_50%,transparent_62%)] [&_[data-logo=en]]:bg-size-[260%_100%] [&_[data-logo=en]]:bg-no-repeat motion-reduce:[&_.w-logo]:animate-none motion-reduce:[&_.w-logo]:opacity-100 motion-reduce:[&_[data-logo=en]]:animate-none motion-reduce:[&_[data-logo=en]]:bg-position-[160%_0]'
-const LOGO_WAIT = '[&_.w-logo]:opacity-0 [&_[data-logo=en]]:bg-position-[160%_0]'
-const LOGO_GO = '[&_.w-logo]:animate-logo-rise [&_[data-logo=en]]:animate-logo-gleam'
+  'm-0 leading-[0] [&_[data-logo=stack]]:[--u:clamp(0.5px,0.08vw_+_0.2px,1.15px)] [&_[data-logo=stack]]:[--w-logo-mark:#fbfaf3] [&_[data-logo=stack]]:[--w-logo-text:#fbfaf3] [&_[data-logo=mark]]:hidden [&_[data-logo=text]]:mt-0 [&_[data-logo=en]]:bg-[linear-gradient(110deg,transparent_38%,rgb(255_255_255/0.95)_50%,transparent_62%)] [&_[data-logo=en]]:bg-size-[260%_100%] [&_[data-logo=en]]:bg-no-repeat motion-reduce:[&_[data-logo=stack]]:animate-none motion-reduce:[&_[data-logo=stack]]:opacity-100 motion-reduce:[&_[data-logo=en]]:animate-none motion-reduce:[&_[data-logo=en]]:bg-position-[160%_0]'
+const LOGO_WAIT = '[&_[data-logo=stack]]:opacity-0 [&_[data-logo=en]]:bg-position-[160%_0]'
+const LOGO_GO = '[&_[data-logo=stack]]:animate-logo-rise [&_[data-logo=en]]:animate-logo-gleam'
 const TAGLINE =
   'm-0 text-center font-en text-[clamp(1.15rem,1.1vw_+_0.8rem,1.9rem)] leading-[1.3] font-normal tracking-[0.04em] text-[#fbfaf3] normal-nums italic motion-reduce:animate-none motion-reduce:opacity-100'
 // poster는 영상 첫 장면이라 영상이 늦게 시작해도 화면이 튀지 않는다

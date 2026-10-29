@@ -7,7 +7,6 @@ import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
 import { PAGES } from './pages'
 import { arrivePage, setNavigator } from './scroll'
-import './wellness.css'
 import './tailwind.css'
 
 // nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다. bar: true인 항목만 상단 바 메뉴 줄에 나오고, 전체 목록은 햄버거 패널과 푸터에 쓴다.
