@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
 import { Folio } from '../editorial'
 import { prefersReducedMotion } from '../motion'
+import { CURTAIN_LIGHT, H2, SECTION } from '../tw'
 
 const CUSTOMER_FAQS = [
   { q: '온열돔만 이용할 수도 있나요?', a: '네, 온열돔 단독 이용도 가능합니다. 정기적으로 방문하고 싶으신 분은 이용권 구성을 상담해 주세요. 원하는 부위의 아웃케어를 함께 선택할 수도 있습니다.' },
@@ -112,11 +113,11 @@ export default function Faq() {
   }
 
   return (
-    <section id="faq" className="yw-section yw-curtain--light" data-theme="light">
-      <div className="yw-wrap grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(16rem,4fr)_8fr] lg:items-start">
+    <section id="faq" className={`${SECTION} ${CURTAIN_LIGHT} bg-white`} data-theme="light" data-curtain>
+      <div className="mx-auto w-full max-w-(--yw-max) grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(16rem,4fr)_8fr] lg:items-start">
         <div className="min-w-0 lg:sticky lg:top-[calc(var(--w-nav-h)+2rem)] lg:self-start">
           <Folio ko="자주 묻는 질문" />
-          <h2 className="yw-h2">궁금한 점을 모았습니다</h2>
+          <h2 className={H2}>궁금한 점을 모았습니다</h2>
 
           <div
             className="mt-[clamp(1.5rem,4vw,2rem)] grid grid-cols-[1fr_1fr] gap-2 lg:flex lg:flex-wrap"

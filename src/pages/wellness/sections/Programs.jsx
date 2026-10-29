@@ -13,6 +13,7 @@ import {
 import { Folio, ParenLink, Pic, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
 import { pickForBooking } from '../scroll'
+import { BTN_INK, CURTAIN_LIGHT, H2, SECTION } from '../tw'
 
 // 펼친 줄 사진(모바일·태블릿)의 대체 텍스트. 분위기 사진이라 장면만 적고 '마사지' 같은 말은 쓰지 않는다.
 const ALT = {
@@ -234,16 +235,16 @@ export default function Programs() {
   }
 
   return (
-    <section id="programs" className="yw-section yw-curtain--light overflow-clip" data-theme="light">
-      <div className="yw-wrap grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    <section id="programs" className={`${SECTION} ${CURTAIN_LIGHT} overflow-clip bg-white`} data-theme="light" data-curtain>
+      <div className="mx-auto w-full max-w-(--yw-max) grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {wide && <MenuFrame frame={frame} imgRefs={imgRefs} onWiped={clearPrev} />}
 
         <div className="relative z-1 min-w-0">
           {/* 64rem 미만: 머리는 세로로, 탭은 한 줄로 두고 좁으면 가로로 민다 */}
-          <div className="mb-[clamp(1rem,2.4vw,1.6rem)] flex flex-wrap items-end justify-between gap-x-8 gap-y-4 max-lg:block [&_.yw-folio]:mb-[0.9rem]">
+          <div className="mb-[clamp(1rem,2.4vw,1.6rem)] flex flex-wrap items-end justify-between gap-x-8 gap-y-4 max-lg:block">
             <div>
               <Folio ko="관리 프로그램" />
-              <SplitLines as="h2" className="yw-h2" lines={['첫 방문 관리 메뉴']} />
+              <SplitLines as="h2" className={H2} lines={['첫 방문 관리 메뉴']} />
             </div>
             <div
               className="flex gap-x-[clamp(1.25rem,3.6vw,2rem)] gap-y-0 max-lg:mx-[calc(-1_*_var(--w-gutter))] max-lg:mt-3 max-lg:mb-0 max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:px-(--w-gutter) max-lg:py-0 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
@@ -419,16 +420,16 @@ export default function Programs() {
                               </p>
                             )}
                           </div>
-                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 max-sm:flex-col max-sm:items-stretch max-sm:gap-[0.35rem] max-sm:[&_.yw-btn]:w-full max-sm:[&_.yw-paren]:justify-center sm:max-lg:self-start sm:max-lg:[grid-area:actions]">
+                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 max-sm:flex-col max-sm:items-stretch max-sm:gap-[0.35rem] max-sm:[&>button]:w-full sm:max-lg:self-start sm:max-lg:[grid-area:actions]">
                             <button
                               type="button"
-                              className="yw-btn yw-btn--ink"
+                              className={BTN_INK}
                               data-magnet
                               onClick={() => pickForBooking({ area: p.area, programId: p.id, label: p.label })}
                             >
                               <span>이 관리로 상담</span>
                             </button>
-                            <ParenLink href={BRANCHES.zai.booking} external>
+                            <ParenLink href={BRANCHES.zai.booking} external className="max-sm:justify-center">
                               네이버 예약
                             </ParenLink>
                           </div>
@@ -441,8 +442,8 @@ export default function Programs() {
             })}
           </ul>
 
-          <div className="mt-7 flex flex-wrap items-start justify-end gap-x-10 gap-y-3 [&_.yw-paren]:flex-none">
-            <ParenLink href={BRANCHES.zai.booking} external>
+          <div className="mt-7 flex flex-wrap items-start justify-end gap-x-10 gap-y-3">
+            <ParenLink href={BRANCHES.zai.booking} external className="flex-none">
               네이버에서 예약하기
             </ParenLink>
           </div>

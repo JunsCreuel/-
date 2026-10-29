@@ -4,10 +4,10 @@ import { PAGES, pageHref } from '../pages'
 export default function PageHead({ title }) {
   return (
     <header
-      className="border-b border-line bg-white px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)] [&+.yw-curtain]:mt-0 [&+.yw-curtain--light]:mt-0"
+      className="border-b border-line bg-white px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)] [&+[data-curtain]]:mt-0"
       data-theme="light"
     >
-      <div className="yw-wrap">
+      <div className="mx-auto w-full max-w-(--yw-max)">
         <nav aria-label="현재 위치">
           <ol className="m-0 mb-6 flex list-none gap-2 p-0 text-[0.82rem] text-muted [&_a]:text-inherit [&_a]:no-underline [&>li+li]:before:mr-2 [&>li+li]:before:opacity-50 [&>li+li]:before:content-['/']">
             <li>

@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
 import { Folio } from '../editorial'
 import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
+import { BTN, H2, SECTION } from '../tw'
 
 // No. 06 Voices — 네이버 방문자 리뷰를 베이지 바탕 위 흰 카드로 모아 보여 준다.
 // 카드: 별점 → 관리 꼬리표 → 크게 인용한 한 구절(원문에서 그대로 자른 것) → 원문 전체(인용 구절은 형광펜) → 닉네임·방문일.
@@ -193,14 +194,14 @@ export default function Proof({ summary = false }) {
   return (
     <section
       id="reviews"
-      className="yw-section overflow-clip bg-[color-mix(in_srgb,var(--w-champagne)_30%,var(--yw-ivory))] [--yw-vc-gap:clamp(0.9rem,2vw,1.5rem)]"
+      className={`${SECTION} overflow-clip bg-[color-mix(in_srgb,var(--w-champagne)_30%,var(--yw-ivory))] [--yw-vc-gap:clamp(0.9rem,2vw,1.5rem)]`}
       data-theme="light"
       aria-labelledby="reviews-title"
     >
-      <div className="yw-wrap mb-[clamp(2.25rem,5vw,4rem)] grid gap-[clamp(1.75rem,4vw,2.5rem)] md:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] md:items-end md:gap-[clamp(2rem,4vw,3rem)]">
+      <div className="mx-auto w-full max-w-(--yw-max) mb-[clamp(2.25rem,5vw,4rem)] grid gap-[clamp(1.75rem,4vw,2.5rem)] md:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] md:items-end md:gap-[clamp(2rem,4vw,3rem)]">
         <div>
           <Folio ko="후기" />
-          <h2 id="reviews-title" className="yw-h2">
+          <h2 id="reviews-title" className={H2}>
             다녀가신 분들의 이야기
           </h2>
         </div>
@@ -221,7 +222,7 @@ export default function Proof({ summary = false }) {
               <ReviewCard key={`${r.nick}-${r.date}-${i}`} review={r} index={i} branchLabel={branch.label} inRail />
             ))}
           </div>
-          <div className="yw-wrap mt-3 flex justify-end gap-[0.6rem]">
+          <div className="mx-auto w-full max-w-(--yw-max) mt-3 flex justify-end gap-[0.6rem]">
             <button type="button" className={ARROW} aria-label="이전 후기" onClick={() => slide(-1)}>
               <span aria-hidden="true">‹</span>
             </button>
@@ -234,7 +235,7 @@ export default function Proof({ summary = false }) {
         <>
           <div
             ref={wallRef}
-            className="yw-wrap grid grid-cols-[repeat(var(--cols,1),minmax(0,1fr))] items-start gap-(--yw-vc-gap)"
+            className="mx-auto w-full max-w-(--yw-max) grid grid-cols-[repeat(var(--cols,1),minmax(0,1fr))] items-start gap-(--yw-vc-gap)"
             style={{ '--cols': cols }}
           >
             {columns.map((col, c) => (
@@ -247,11 +248,11 @@ export default function Proof({ summary = false }) {
             ))}
           </div>
 
-          <div className="yw-wrap mt-[clamp(1.75rem,4vw,2.75rem)] grid justify-items-center gap-6">
+          <div className="mx-auto w-full max-w-(--yw-max) mt-[clamp(1.75rem,4vw,2.75rem)] grid justify-items-center gap-6">
             {rest > 0 && (
               <button
                 type="button"
-                className="yw-btn [&_i]:font-normal [&_i]:not-italic"
+                className={`${BTN} [&_i]:font-normal [&_i]:not-italic`}
                 data-magnet
                 data-cursor=""
                 onClick={showAll}
