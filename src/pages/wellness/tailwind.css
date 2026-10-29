@@ -32,6 +32,83 @@
   /* 이벤트 팝업: 배경은 옅게 나타나고, 카드는 살짝 커지며 떠오른다 */
   --animate-pop-fade: yw-pop-fade 0.2s ease both;
   --animate-pop-rise: yw-pop-rise 0.25s cubic-bezier(0.23, 1, 0.32, 1) both;
+  /* 이벤트 티켓: 50%에 그라데이션이 한 번 흐른다 */
+  --animate-ticket-grad: yw-ticket-grad 1s ease-out both;
+  /* 온열돔: 고른 구성의 설명이 바뀔 때 살짝 떠오른다 */
+  --animate-dome-text: yw-dome-text 0.25s var(--yw-ease) both;
+  /* 첫 화면: 물빛이 어둠 속에서 밝아지고 → 로고가 떠오르고 → 빛줄기가 한 번 스치고 → 문구가 나타난다 */
+  --animate-hero-dawn: yw-hero-dawn 2.6s cubic-bezier(0.33, 0.7, 0.3, 1) both;
+  --animate-logo-rise: yw-logo-rise 2.4s cubic-bezier(0.22, 0.8, 0.3, 1) 0.9s backwards;
+  --animate-logo-gleam: yw-logo-gleam 1.6s ease-in-out 3.1s both;
+  --animate-tagline-in: yw-tagline-in 1.8s cubic-bezier(0.25, 0.6, 0.3, 1) 1.9s backwards;
+}
+
+/* 이벤트 티켓의 반원 홈: 원형 구멍 두 개(--mask-a, --mask-b)를 겹친다. 선언 순서가 중요해 한 덩어리로 둔다 */
+@utility ticket-mask {
+  -webkit-mask: var(--mask-a), var(--mask-b);
+  -webkit-mask-composite: source-in;
+  mask: var(--mask-a), var(--mask-b);
+  mask-composite: intersect;
+}
+
+@keyframes yw-ticket-grad {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes yw-dome-text {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+}
+
+@keyframes yw-hero-dawn {
+  from {
+    opacity: 0;
+    scale: 1.05;
+  }
+}
+
+/* 자막처럼: 흐림 없이 거의 제자리에서 맑게 떠오른다(흐림은 떠오르는 동안에만) */
+@keyframes yw-logo-rise {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    translate: 0 0.35rem;
+  }
+
+  50% {
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+  }
+}
+
+@keyframes yw-logo-gleam {
+  from {
+    background-position: 160% 0;
+  }
+
+  to {
+    background-position: -60% 0;
+  }
+}
+
+@keyframes yw-tagline-in {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
 }
 
 @keyframes yw-pop-fade {

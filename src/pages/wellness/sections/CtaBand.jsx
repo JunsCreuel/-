@@ -11,10 +11,10 @@ import { scrollToId } from '../scroll'
 // 모션 줄이기에서는 열린 사진과 버튼을 바로 보여 주고 사진을 움직이지 않는다.
 // 크림 원 '예약하기'. 자석 이동은 공통 transform이 맡으므로 등장·눌림은 opacity·scale로만 한다.
 const ROUND =
-  'grid aspect-square w-28 cursor-pointer place-items-center rounded-full border-2 border-cream bg-cream p-0 font-serif text-[1.05rem] leading-[1.3] font-medium text-espresso shadow-[0_14px_34px_rgb(29_26_23/0.28)] [transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-color_0.3s_ease,color_0.3s_ease] focus-visible:bg-espresso focus-visible:text-cream active:scale-97 md:w-36 md:text-[1.15rem] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:text-cream'
+  'grid aspect-square w-28 cursor-pointer place-items-center rounded-full border-2 border-cream bg-cream p-0 font-serif text-[1.05rem] leading-[1.3] font-medium text-espresso shadow-[0_14px_34px_rgb(29_26_23/0.28)] [transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-color_0.3s_ease,color_0.3s_ease] motion-reduce:transition-none focus-visible:bg-espresso focus-visible:text-cream active:scale-97 md:w-36 md:text-[1.15rem] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:text-cream'
 // 창업·운영 상담: 옅은 밑줄 위로 진한 밑줄이 그어지는 작은 링크
 const SMALL =
-  'min-h-11 cursor-pointer border-0 bg-transparent bg-[linear-gradient(var(--yw-cream)_0_0),linear-gradient(rgb(241_243_228/0.35)_0_0)] bg-size-[0%_1px,100%_1px] bg-position-[0_100%,0_100%] bg-no-repeat bg-origin-content px-1 py-2 [font-family:inherit] text-[0.9rem] leading-[1.4] [font-weight:inherit] text-cream transition-[background-size] duration-200 ease-yw focus-visible:bg-size-[100%_1px,100%_1px] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-size-[100%_1px,100%_1px]'
+  'min-h-11 cursor-pointer border-0 bg-transparent bg-[linear-gradient(var(--yw-cream)_0_0),linear-gradient(rgb(241_243_228/0.35)_0_0)] bg-size-[0%_1px,100%_1px] bg-position-[0_100%,0_100%] bg-no-repeat bg-origin-content px-1 py-2 [font-family:inherit] text-[0.9rem] leading-[1.4] [font-weight:inherit] text-cream transition-[background-size] duration-200 ease-yw motion-reduce:transition-none focus-visible:bg-size-[100%_1px,100%_1px] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-size-[100%_1px,100%_1px]'
 
 export default function CtaBand() {
   const ref = useRef(null)

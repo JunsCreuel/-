@@ -52,7 +52,7 @@ const EYEBROW = 'm-0 font-label text-[0.75rem] leading-[1.3] font-normal trackin
 const TITLE = 'm-0 font-serif text-[clamp(1.1rem,4vw,1.3rem)] leading-[1.35] font-medium tracking-[-0.01em] break-keep text-espresso'
 const SUB = 'm-0 text-[0.86rem] leading-[1.6] break-keep text-muted'
 const TEXT_BTN = `cursor-pointer border-0 bg-transparent p-0 ${FONT} text-[0.8rem] underline underline-offset-[0.2em]`
-const INPUT = `min-h-[2.9rem] w-full min-w-0 rounded-[0.8rem] border border-line-strong bg-white px-[0.85rem] py-0 ${FONT} text-[1rem] text-ink transition-[border-color,background-color] duration-200 ease-[ease] placeholder:text-muted focus:border-accent-deep focus:bg-white aria-invalid:border-[#b4442a]`
+const INPUT = `min-h-[2.9rem] w-full min-w-0 rounded-[0.8rem] border border-line-strong bg-white px-[0.85rem] py-0 ${FONT} text-[1rem] text-ink transition-[border-color,background-color] duration-200 ease-[ease] motion-reduce:transition-none placeholder:text-muted focus:border-accent-deep focus:bg-white aria-invalid:border-[#b4442a]`
 const LINK = 'font-label tracking-[0.04em] text-ink underline underline-offset-[0.25em]'
 
 // listen이면 위에서 고른 관리('w:pick')를 이어받아 접수 내용에 '관심 관리'로 붙인다.
@@ -212,7 +212,7 @@ export default function QuickConsult({ listen = false }) {
         {KINDS.map((k) => (
           <label
             key={k.id}
-            className={`relative grid min-h-10 cursor-pointer place-items-center rounded-full text-[0.92rem] font-semibold transition-[background-color,color] duration-250 ease-[ease] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-champagne [&_input]:absolute [&_input]:inset-0 [&_input]:m-0 [&_input]:cursor-pointer [&_input]:opacity-0 ${
+            className={`relative grid min-h-10 cursor-pointer place-items-center rounded-full text-[0.92rem] font-semibold transition-[background-color,color] motion-reduce:transition-none duration-250 ease-[ease] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-champagne [&_input]:absolute [&_input]:inset-0 [&_input]:m-0 [&_input]:cursor-pointer [&_input]:opacity-0 ${
               form.kind === k.id ? 'bg-espresso text-white' : 'text-ink [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[rgb(241_243_228/0.12)]'
             }`}
           >
