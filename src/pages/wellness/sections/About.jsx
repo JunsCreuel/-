@@ -1,11 +1,12 @@
 import { PICS } from '../data'
 import { Pic } from '../editorial'
+import { SECTION } from '../tw'
 
 // 브랜드 소개 — 짧은 한 단락과 사진 한 장. 휴대폰은 위아래, 데스크톱은 글(왼쪽)·사진(오른쪽).
 export default function About() {
   return (
-    <section id="about" className="yw-section bg-white" data-theme="light" aria-labelledby="about-title">
-      <div className="yw-wrap grid items-center gap-[clamp(1.75rem,5vw,3rem)] lg:grid-cols-2 lg:gap-[clamp(3rem,6vw,6rem)]">
+    <section id="about" className={`${SECTION} bg-white`} data-theme="light" aria-labelledby="about-title">
+      <div className="mx-auto w-full max-w-(--yw-max) grid items-center gap-[clamp(1.75rem,5vw,3rem)] lg:grid-cols-2 lg:gap-[clamp(3rem,6vw,6rem)]">
         <div>
           <h2
             id="about-title"

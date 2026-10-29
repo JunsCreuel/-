@@ -7,7 +7,6 @@ import WellnessFooter from './WellnessFooter'
 import WellnessNav from './WellnessNav'
 import { PAGES } from './pages'
 import { arrivePage, setNavigator } from './scroll'
-import './wellness.css'
 import './tailwind.css'
 
 // nav에서 이동할 섹션 id는 각 페이지의 section id와 맞춘다. bar: true인 항목만 상단 바 메뉴 줄에 나오고, 전체 목록은 햄버거 패널과 푸터에 쓴다.
@@ -177,7 +176,8 @@ export default function WellnessLayout() {
   return (
     <div className="wellness">
       <WellnessNav branch={branch} items={NAV_ITEMS[branch.id]} pathname={pathname} />
-      <main>
+      {/* 상단 바 높이만큼 내리고, 휴대폰에서는 아래 고정 예약 바 자리만큼 비운다 */}
+      <main className="pt-(--w-nav-h) max-md:pb-[5.5rem]">
         <Outlet />
       </main>
       <WellnessFooter items={NAV_ITEMS[branch.id]} />
