@@ -3,6 +3,7 @@ import { BRANCHES, PICS, PROGRAMS, SHOW_PRICES, won } from '../data'
 import { ParenLink, Pic, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
+import { BTN_CREAM, CURTAIN, DARK, H2_TYPE, SECTION } from '../tw'
 
 // 온열돔 스포트라이트 — 어두운 장 가운데 오각형 그래프와 온열돔 누끼, 꼭짓점마다 풀 바디 웜업의 다섯 가지 구성.
 // 꼭짓점 이름(탭)을 누르거나 ←→로 고르면 아래 설명이 바뀐다. 화면에 보이는 동안 3.6초마다 다음 꼭짓점으로 넘어가고,
@@ -79,9 +80,9 @@ export default function DomeSpot() {
   const point = POINTS[active]
 
   return (
-    <section id="warm-dome" className="yw-section yw-dark yw-curtain overflow-clip" data-theme="dark" aria-labelledby="warm-dome-title">
+    <section id="warm-dome" className={`${SECTION} ${DARK} ${CURTAIN} overflow-clip`} data-theme="dark" data-curtain aria-labelledby="warm-dome-title">
       {/* 휴대폰: 머리 → 그래프 → 설명·버튼을 가운데 정렬로 쌓는다. 데스크톱: 왼쪽 머리·설명, 오른쪽 그래프 */}
-      <div className="yw-wrap grid justify-items-center gap-[clamp(1.75rem,5vw,2.5rem)] text-center [grid-template-areas:'copy'_'chart'_'detail'] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:grid-rows-[auto_1fr] lg:items-start lg:justify-items-start lg:gap-x-[clamp(3rem,6vw,6rem)] lg:gap-y-10 lg:text-left lg:[grid-template-areas:'copy_chart'_'detail_chart']">
+      <div className="mx-auto w-full max-w-(--yw-max) grid justify-items-center gap-[clamp(1.75rem,5vw,2.5rem)] text-center [grid-template-areas:'copy'_'chart'_'detail'] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:grid-rows-[auto_1fr] lg:items-start lg:justify-items-start lg:gap-x-[clamp(3rem,6vw,6rem)] lg:gap-y-10 lg:text-left lg:[grid-template-areas:'copy_chart'_'detail_chart']">
         <div className="[grid-area:copy]">
           {/* 좁은 폰: 가운데 선을 빼고 두 덩어리가 각각 한 줄로 선다 */}
           <p className="mx-0 mt-0 mb-[1.4rem] flex items-center justify-center gap-[0.85rem] font-label text-[0.75rem] leading-[1.4] font-normal tracking-[0.18em] text-champagne uppercase normal-nums lg:justify-start [@media(max-width:24rem)]:flex-wrap [@media(max-width:24rem)]:gap-x-[0.85rem] [@media(max-width:24rem)]:gap-y-[0.35rem]">
@@ -92,7 +93,7 @@ export default function DomeSpot() {
           <SplitLines
             id="warm-dome-title"
             // 320 폭에서도 '따뜻하게 쉬어 가세요.'가 한 줄에 들어가게 휴대폰에서는 화면 폭을 따른다
-            className="yw-h2 m-0 text-[clamp(1.7rem,8.4vw,3.2rem)] text-cream [&_em]:text-champagne [&_em]:not-italic"
+            className={`${H2_TYPE} m-0 text-[clamp(1.7rem,8.4vw,3.2rem)] text-cream [&_em]:text-champagne [&_em]:not-italic`}
             lines={[
               <>
                 <em>40분</em>, 누워서
@@ -239,14 +240,14 @@ export default function DomeSpot() {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 lg:justify-start">
             <button
               type="button"
-              className="yw-btn yw-btn--cream"
+              className={BTN_CREAM}
               data-magnet
               data-cursor=""
               onClick={() => pickForBooking({ area: '온열 웜업', programId: WARMUP?.id, label: WARMUP?.label })}
             >
               <span>지금 예약하기</span>
             </button>
-            <ParenLink href={BRANCHES.zai.booking} external>
+            <ParenLink href={BRANCHES.zai.booking} external tone="light">
               네이버 예약
             </ParenLink>
           </div>

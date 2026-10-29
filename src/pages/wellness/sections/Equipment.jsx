@@ -3,6 +3,7 @@ import { PHOTOS, PICS } from '../data'
 import { Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
+import { BTN_CORE, CURTAIN_LIGHT, H2, LEAD, SECTION, TONE_INK } from '../tw'
 
 // No. 05 Equipment & Gel — 전신 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
 // 데스크톱은 마우스로 끌어 넘기고(관성 후 카드에 맞춤), 트랙패드·화살표·←→ 키로도 넘긴다. 모바일은 네이티브 스와이프와 scroll-snap.
@@ -238,7 +239,7 @@ function DomeCard() {
           </div>
           <button
             type="button"
-            className="yw-btn yw-btn--ink mt-[1.1rem] max-w-full px-6 whitespace-normal"
+            className={`${BTN_CORE} ${TONE_INK} mt-[1.1rem] min-h-[3.25rem] max-w-full px-6 whitespace-normal`}
             data-magnet
             data-cursor=""
             onClick={() => pickForBooking({ area: '온열 웜업', label: current.cta })}
@@ -692,18 +693,19 @@ export default function Equipment() {
     // --yw-eq-studio: 성분 시트의 제품 패널 바탕(가운데가 가장 밝고 가장자리로 갈수록 옅은 웜 그레이)
     <section
       id="equipment"
-      className="yw-section yw-curtain--light overflow-x-clip bg-(--yw-warm) [--yw-eq-studio:radial-gradient(ellipse_85%_80%_at_50%_40%,#fff_0%,#fbfaf8_48%,#eeeae4_100%)]"
+      className={`${SECTION} ${CURTAIN_LIGHT} overflow-x-clip bg-(--yw-warm) [--yw-eq-studio:radial-gradient(ellipse_85%_80%_at_50%_40%,#fff_0%,#fbfaf8_48%,#eeeae4_100%)]`}
       data-theme="light"
+      data-curtain
     >
       {/* 머리: 제목·한 줄 | 카운터·화살표. 모바일·태블릿은 카운터를 제목 오른쪽 위에 작게 두고 화살표는 숨긴다 */}
-      <div className="yw-wrap relative grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+      <div className="mx-auto w-full max-w-(--yw-max) relative grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div className="min-w-0">
-          <h2 className="yw-h2 max-lg:pr-[3.75rem]">
+          <h2 className={`${H2} max-lg:pr-[3.75rem]`}>
             따뜻하게 데우고,
             <br />
             섬세하게 다듬습니다.
           </h2>
-          <p className="yw-lead">
+          <p className={LEAD}>
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>
         </div>
@@ -723,7 +725,7 @@ export default function Equipment() {
         </div>
       </div>
 
-      {/* 트랙: 오른쪽 화면 끝까지 흘러넘친다. 섹션 좌우 여백을 음수 마진으로 지우고, 안쪽 여백으로 .yw-wrap 왼쪽 선에 첫 카드를 맞춘다.
+      {/* 트랙: 오른쪽 화면 끝까지 흘러넘친다. 섹션 좌우 여백을 음수 마진으로 지우고, 안쪽 여백으로 내용 폭의 왼쪽 선에 첫 카드를 맞춘다.
           scroll-padding은 JS(useDragScroll·화살표)가 계산값을 px로 읽어야 해서 %가 아닌 vw로 쓴다.
           --eq-card-w: 디바이스 카드 폭(폰은 트랙 안쪽 폭의 82%, 태블릿은 22rem까지) */}
       <div

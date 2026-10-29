@@ -11,7 +11,7 @@ const VIDEO = `${import.meta.env.BASE_URL}wellness/video/`
 
 // 화면 높이를 채운다. 64rem 미만은 흐름 배치(위는 헤더 자리만큼, 아래는 고정 바 자리만큼 비운다)
 const SECTION =
-  'yw-section relative -mt-(--w-nav-h) h-svh min-h-[40rem] touch-pan-y touch-pinch-zoom overflow-clip bg-espresso p-0 text-cream isolate [&_:focus-visible]:outline-cream max-lg:flex max-lg:h-auto max-lg:min-h-svh max-lg:flex-col max-lg:justify-end max-lg:px-0 max-lg:pt-[calc(var(--w-nav-h)_+_3.75rem)] max-lg:pb-[clamp(6rem,14vh,9rem)] max-md:min-h-[max(34rem,100svh)] max-md:pb-[calc(9.5rem_+_env(safe-area-inset-bottom))]'
+  'relative -mt-(--w-nav-h) scroll-mt-(--w-nav-h) h-svh min-h-[40rem] touch-pan-y touch-pinch-zoom overflow-clip bg-espresso p-0 text-cream isolate [&_:focus-visible]:outline-cream max-lg:flex max-lg:h-auto max-lg:min-h-svh max-lg:flex-col max-lg:justify-end max-lg:px-0 max-lg:pt-[calc(var(--w-nav-h)_+_3.75rem)] max-lg:pb-[clamp(6rem,14vh,9rem)] max-md:min-h-[max(34rem,100svh)] max-md:pb-[calc(9.5rem_+_env(safe-area-inset-bottom))]'
 // 영상(못 쓰면 첫 장면 사진)을 화면에 꽉 채운다
 const FILL = 'absolute inset-0 size-full max-w-none object-cover object-center'
 // 물빛은 밝게 두고 맨 위(상단 바 자리)만 살짝, 로고 뒤만 청록으로 옅게 가라앉힌다

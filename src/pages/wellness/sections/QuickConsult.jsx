@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { BRAND, BRANCHES, telHref } from '../data'
+import { BTN_CORE, TONE_INK } from '../tw'
 
 // 간편 상담 카드(예약 장, 흰 바탕): 상담 종류(예약·가맹) + 이름 + 연락처 + 동의 한 줄.
 // 입력 글자는 16px 이상(iOS가 확대하지 않게). 데스크톱(64rem 이상)은 이름·연락처를 위아래로, 그보다 좁으면 한 줄에 둔다.
@@ -86,7 +87,7 @@ export default function QuickConsult({ listen = false }) {
   const invalid = (key) => (shown[key] ? { 'aria-invalid': true, 'aria-describedby': errId } : {})
 
   const message = [`[${BRAND.company} 홈페이지 간편 상담]`, `상담: ${kind.label}`, ...(pick && form.kind === 'booking' ? [`관심 관리: ${pick}`] : []), `이름: ${form.name.trim()}`, `연락처: ${formatPhone(form.phone)}`].join('\n')
-  const btn = 'yw-btn yw-btn--ink'
+  const btn = `${BTN_CORE} whitespace-nowrap ${TONE_INK}`
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
