@@ -27,7 +27,7 @@ export default function WellnessFooter({ items }) {
   return (
     <footer
       data-site-footer
-      className="border-t border-line bg-(--w-bg) text-[0.85rem] leading-[2] text-ink [&_.w-logo--nav]:[--u:min(0.46px,calc((100vw_-_2_*_var(--w-gutter))/774))]">
+      className="border-t border-line bg-(--w-bg) text-[0.85rem] leading-[2] text-ink [&_[data-logo=nav]]:[--u:min(0.46px,calc((100vw_-_2_*_var(--w-gutter))/774))]">
       <div className="px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)]">
         <div className="mx-auto w-full max-w-(--w-max)">
           <BrandLogo variant="nav" />

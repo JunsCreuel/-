@@ -12,7 +12,7 @@ import { goToMenu, lockPageScroll, scrollToId, scrollToTop } from './scroll'
 
 // 사진·짙은 장 위(data-theme='dark')에서는 크림 글자에 반투명 짙은 올리브 블러, 맨 위(스크롤 전)에서는 배경 없이 사진 위에 바로 놓인다
 const HEADER =
-  'group/nav fixed inset-x-0 top-0 z-50 border-b border-line bg-[color-mix(in_srgb,var(--w-bg)_94%,transparent)] backdrop-blur-[12px] transition-[box-shadow,color,background-color,border-color] duration-[0.3s,0.4s,0.4s,0.4s] ease-[ease] data-[theme=dark]:text-cream data-[theme=dark]:[--w-logo-mark:#fff] data-[theme=dark]:[--w-logo-text:#fff] data-[theme=dark]:[&>div_:focus-visible]:outline-cream motion-reduce:transition-none [&_.w-logo_svg]:transition-[color,background-color] [&_.w-logo_svg]:duration-400 [&_.w-logo_svg]:ease-[ease] motion-reduce:[&_.w-logo_svg]:transition-none [&_.w-logo_span]:transition-[color,background-color] [&_.w-logo_span]:duration-400 [&_.w-logo_span]:ease-[ease] motion-reduce:[&_.w-logo_span]:transition-none'
+  'group/nav fixed inset-x-0 top-0 z-50 border-b border-line bg-[color-mix(in_srgb,var(--w-bg)_94%,transparent)] backdrop-blur-[12px] transition-[box-shadow,color,background-color,border-color] duration-[0.3s,0.4s,0.4s,0.4s] ease-[ease] data-[theme=dark]:text-cream data-[theme=dark]:[--w-logo-mark:#fff] data-[theme=dark]:[--w-logo-text:#fff] data-[theme=dark]:[&>div_:focus-visible]:outline-cream motion-reduce:transition-none [&_[data-logo=nav]_svg]:transition-[color,background-color] [&_[data-logo=nav]_svg]:duration-400 [&_[data-logo=nav]_svg]:ease-[ease] motion-reduce:[&_[data-logo=nav]_svg]:transition-none [&_[data-logo=nav]_span]:transition-[color,background-color] [&_[data-logo=nav]_span]:duration-400 [&_[data-logo=nav]_span]:ease-[ease] motion-reduce:[&_[data-logo=nav]_span]:transition-none'
 const HEADER_SCROLLED =
   'shadow-[0_2px_20px_color-mix(in_srgb,var(--w-ink)_10%,transparent)] data-[theme=dark]:border-[rgb(255_255_255/0.12)]'
 const HEADER_TOP = 'data-[theme=dark]:border-transparent data-[theme=dark]:backdrop-filter-none'
@@ -147,7 +147,7 @@ export default function WellnessNav({ branch, items }) {
         >
           <Link
             to={branch.path}
-            className="flex min-h-11 items-center whitespace-nowrap [@media(max-width:359px)]:[&_.w-logo]:[--u:0.18px]"
+            className="flex min-h-11 items-center whitespace-nowrap [@media(max-width:359px)]:[&_[data-logo=nav]]:[--u:0.18px]"
             aria-label="WELLNESS STUDIO 예뻐졌다 처음으로"
             onClick={() => {
               setMenuOpen(false)

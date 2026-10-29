@@ -2,7 +2,6 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { BRAND, STARTUP_CONTACTS, telHref } from './data'
 import { ChoiceChips, ConsentBox, ERROR, FIELD, INPUT, LABEL, PhoneField, TEXTAREA } from './FormParts'
 import { scrollToId } from './scroll'
-import './wellness-consult.css'
 
 // 창업·운영 상담은 문자·전화로 받는다(서버에 저장하지 않는다).
 // - 휴대폰: 문자 앱을 열어 SMS_PHONE으로 보낼 상담 내용을 채워 준다(전송은 손님이 누른다).

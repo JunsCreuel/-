@@ -1,5 +1,4 @@
-// 메인과 하위 페이지가 함께 쓰는 섹션. 스타일이 겹치는 곳이 있어 불러오는 순서(= CSS 순서)를 여기 한 곳에서 지킨다.
-// 섹션 → 기존 wellness CSS → 새 랜딩 공통(wellness-x.css) → 정리(wellness-calm.css) → 메인 전용 블록 순이다.
+// 메인과 하위 페이지가 함께 쓰는 섹션.
 export { default as About } from './About'
 export { default as Branches } from './Branches'
 export { default as Condition } from './Condition'
@@ -13,10 +12,4 @@ export { default as Hero } from './Hero'
 export { default as Offer } from './Offer'
 export { default as Programs } from './Programs'
 export { default as Proof } from './Proof'
-import '../wellness-sections.css'
-import '../wellness-compose.css'
-import '../wellness-merge.css'
-import '../wellness-palette.css'
-import '../wellness-motion.css'
-import '../wellness-x.css'
 export { default as PageHead } from './PageHead'
