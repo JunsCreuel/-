@@ -669,34 +669,19 @@
 
 /* ── 누르는 영역 44px 이상(겉모양은 그대로) ─────────────────── */
 .wellness .w-nav__menu > button,
-.wellness .w-footer__col button,
-.wellness .w-footer__col a,
 .yw-eq .yw-eq__gelbtn,
 .yw-eq .yw-eq__ingbtn,
 .yw-eq .yw-eq__chip {
   min-height: 2.75rem;
 }
 
-.wellness .w-footer__col button,
-.wellness .w-footer__col a,
-.wellness .w-footer__info a {
-  display: inline-flex;
-  align-items: center;
-}
-
-.wellness .w-footer__info a {
-  min-height: 2.75rem;
-}
-
 /* 글자가 짧아 폭이 44px에 못 미치는 버튼: 보이지 않는 영역을 좌우로 넓힌다(겉모양·간격은 그대로) */
 .wellness .w-nav__menu > button,
-.wellness .w-footer__col button,
 .yw-menu .yw-menu__tab {
   position: relative;
 }
 
 .wellness .w-nav__menu > button::before,
-.wellness .w-footer__col button::before,
 .yw-menu .yw-menu__tab::before {
   position: absolute;
   inset: 0 -0.6rem;
