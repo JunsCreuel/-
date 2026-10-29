@@ -29,7 +29,7 @@ export default function WellnessFooter({ items }) {
       data-site-footer
       className="border-t border-line bg-(--w-bg) text-[0.85rem] leading-[2] text-ink [&_.w-logo--nav]:[--u:min(0.46px,calc((100vw_-_2_*_var(--w-gutter))/774))]">
       <div className="px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)]">
-        <div className="w-container">
+        <div className="mx-auto w-full max-w-(--w-max)">
           <BrandLogo variant="nav" />
           <div className="mx-0 mt-[1.8rem] mb-8 h-px bg-line" />
 
@@ -121,7 +121,7 @@ export default function WellnessFooter({ items }) {
       </div>
 
       <div className="border-t border-line bg-(--w-band) px-(--w-gutter) pt-[1.1rem] pb-[calc(1.1rem+env(safe-area-inset-bottom))] min-[900px]:pb-[1.1rem]">
-        <div className="w-container flex flex-wrap items-center justify-between gap-x-8 gap-y-[0.4rem]">
+        <div className="mx-auto w-full max-w-(--w-max) flex flex-wrap items-center justify-between gap-x-8 gap-y-[0.4rem]">
           <p className="m-0 text-[0.75rem] tracking-[0.06em] text-muted">
             ⓒ 2026 {BRAND.ko} {BRAND.name}. All rights reserved.
           </p>

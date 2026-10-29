@@ -119,10 +119,6 @@ body.is-wellness {
   outline-color: var(--w-bg);
 }
 
-.wellness main {
-  padding-top: var(--w-nav-h);
-}
-
 /* 섹션이 아닌 이동 대상(#warm-ritual 등)도 상단 바 아래에 제목이 보이게 */
 .wellness [id]:not(.w-section):not(.yw-section) {
   scroll-margin-top: calc(var(--w-nav-h) + 1.5rem);
@@ -142,12 +138,6 @@ body.is-wellness {
 .w-section--ink {
   background: var(--w-ink-band);
   color: var(--w-bg);
-}
-
-.w-container {
-  width: 100%;
-  max-width: var(--w-max);
-  margin-inline: auto;
 }
 
 /* 타이포 */
