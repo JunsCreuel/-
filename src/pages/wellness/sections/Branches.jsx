@@ -1,6 +1,5 @@
 import { LISTED_BRANCHES, displayAddress, mapHref, telHref } from '../data'
 import { Folio } from '../editorial'
-import './yw-branches.css'
 
 // 지점 안내 — 지점마다 카드 한 장(지점명 · 주소 · 영업시간 · 전화 · 지도 · 예약). 휴대폰 1열, 태블릿부터 2열.
 // 마린시티점은 별도 페이지 없이 이 카드로만 알린다(SHOW_MARINE_INFO).
@@ -10,15 +9,19 @@ export default function Branches() {
   const list = LISTED_BRANCHES
 
   return (
-    <section id="branches" className="yw-section yw-branches" data-theme="light" aria-label="지점 안내">
+    <section id="branches" className="yw-section yw-branches bg-ivory" data-theme="light" aria-label="지점 안내">
       <div className="yw-wrap">
         <Folio ko="지점 안내" />
 
-        <ul className="yw-branches__list">
+        <ul className="m-0 mt-[clamp(1.75rem,4vw,2.5rem)] grid list-none gap-4 p-0 md:grid-cols-2 md:gap-6">
           {list.map((b) => (
-            <li key={b.id} id={`branch-${b.id}`} className="yw-branches__card">
-              <h3 className="yw-branches__name">{b.label}</h3>
-              <dl className="yw-branches__rows">
+            <li
+              key={b.id}
+              id={`branch-${b.id}`}
+              className="flex flex-col rounded-[1.25rem] border border-line bg-white p-[clamp(1.25rem,3vw,2rem)]"
+            >
+              <h3 className="m-0 font-serif text-[clamp(1.25rem,2.4vw,1.5rem)] leading-[1.3] font-medium tracking-[-0.01em]">{b.label}</h3>
+              <dl className="m-0 mt-4 border-t border-line [&_a]:text-inherit [&_a]:underline [&_a]:underline-offset-[0.25em] [&_dd]:m-0 [&_dd]:break-keep [&_dd]:text-ink [&_dt]:text-muted [&>div]:grid [&>div]:grid-cols-[4.5rem_minmax(0,1fr)] [&>div]:gap-3 [&>div]:border-b [&>div]:border-line [&>div]:py-[0.7rem] [&>div]:text-[0.92rem] [&>div]:leading-[1.6]">
                 <div>
                   <dt>주소</dt>
                   <dd>{displayAddress(b.address)}</dd>
@@ -36,15 +39,15 @@ export default function Branches() {
                   </dd>
                 </div>
               </dl>
-              <div className="yw-branches__actions">
+              <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-5">
                 <a className="yw-btn yw-btn--ink" href={telHref(b.phone)}>
                   <span>전화하기</span>
                 </a>
-                <a className="yw-branches__link" href={mapHref(b)} {...NEW_TAB}>
+                <a className="inline-flex min-h-11 items-center text-[0.9rem] text-ink underline underline-offset-[0.25em]" href={mapHref(b)} {...NEW_TAB}>
                   네이버 지도 ↗<span className="sr-only">(새 창)</span>
                 </a>
                 {b.booking && (
-                  <a className="yw-branches__link" href={b.booking} {...NEW_TAB}>
+                  <a className="inline-flex min-h-11 items-center text-[0.9rem] text-ink underline underline-offset-[0.25em]" href={b.booking} {...NEW_TAB}>
                     네이버 예약 ↗<span className="sr-only">(새 창)</span>
                   </a>
                 )}
