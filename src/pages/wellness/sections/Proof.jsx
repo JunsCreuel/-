@@ -26,7 +26,7 @@ function Marked({ text, quote }) {
 }
 
 const CARD =
-  'flex scroll-mt-[calc(var(--w-nav-h)+1rem)] flex-col rounded-[1.25rem] bg-white px-[clamp(1.25rem,3.5vw,1.9rem)] pt-[clamp(1.5rem,4vw,2.1rem)] pb-[clamp(1.25rem,3vw,1.6rem)] shadow-[0_1px_2px_color-mix(in_srgb,var(--w-ink)_4%,transparent)] transition-[translate] duration-200 ease-yw focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent-deep [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_18px_40px_-18px_color-mix(in_srgb,var(--w-espresso)_30%,transparent)]'
+  'flex scroll-mt-[calc(var(--w-nav-h)+1rem)] flex-col  rounded-[1.25rem] bg-white px-[clamp(1.25rem,3.5vw,1.9rem)] pt-[clamp(1.5rem,4vw,2.1rem)] pb-[clamp(1.25rem,3vw,1.6rem)] shadow-[0_1px_2px_color-mix(in_srgb,var(--w-ink)_4%,transparent)] transition-[translate] duration-200 ease-yw motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent-deep [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_18px_40px_-18px_color-mix(in_srgb,var(--w-espresso)_30%,transparent)]'
 // 메인 한 줄 카드: 옆으로 넘길 때 카드 머리에 맞춰 멈추고, 마우스를 올리면 살짝 떠오른다
 const CARD_IN_RAIL = 'snap-start [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
 
@@ -150,7 +150,7 @@ function Stats() {
 }
 
 const ARROW =
-  'grid size-12 cursor-pointer place-items-center rounded-full border-[1.5px] border-ink bg-transparent p-0 font-en text-[1.7rem] leading-none font-light text-ink transition-[background-color,color] duration-250 ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink [@media(hover:hover)_and_(pointer:fine)]:hover:text-white [&>span]:-mt-[0.12em]'
+  'grid size-12 cursor-pointer place-items-center rounded-full border-[1.5px] border-ink bg-transparent p-0 font-en text-[1.7rem] leading-none font-light text-ink transition-[background-color,color] duration-250 ease-[ease] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink [@media(hover:hover)_and_(pointer:fine)]:hover:text-white [&>span]:-mt-[0.12em]'
 
 // summary(메인)면 모든 후기를 옆으로 이어진 한 줄 카드로 두고, 화살표 버튼으로 한 장씩 넘긴다(휴대폰은 손가락으로도 넘어간다).
 // 후기 페이지는 카드 벽에 몇 장만 보이고 '후기 더 보기'로 나머지를 연다.
