@@ -1,9 +1,8 @@
 import { useEffect, useId, useState } from 'react'
 import { BRAND, BRANCHES, telHref } from '../data'
-import './yw-quick.css'
 
-// 히어로(첫 화면)의 간편 상담 카드: 상담 종류(예약·가맹) + 이름 + 연락처 + 동의 한 줄.
-// 휴대폰(64rem 미만)은 제목 아래 흐름 속에, 데스크톱은 첫 화면 오른쪽에 떠 있다(yw-quick.css).
+// 간편 상담 카드(예약 장, 흰 바탕): 상담 종류(예약·가맹) + 이름 + 연락처 + 동의 한 줄.
+// 입력 글자는 16px 이상(iOS가 확대하지 않게). 데스크톱(64rem 이상)은 이름·연락처를 위아래로, 그보다 좁으면 한 줄에 둔다.
 //
 // 접수 연결(구글 폼·Firebase 등) 전까지는 SUBMIT_ENABLED = false로 둔다. 그동안은 내용을 어디에도 저장하지 않고,
 // - 휴대폰: 문자 앱을 열어 매장 번호로 보낼 접수 내용을 채워 준다(전송은 손님이 누른다).
@@ -45,8 +44,19 @@ function smsHref(text) {
   return `sms:${onlyDigits(BRANCHES.zai.phone)}?&body=${encodeURIComponent(text)}`
 }
 
-// variant='light'는 예약 장(흰 바탕)용. listen이면 위에서 고른 관리('w:pick')를 이어받아 접수 내용에 '관심 관리'로 붙인다.
-export default function QuickConsult({ variant = 'dark', listen = false }) {
+// 버튼·링크에 글꼴을 물려받게(브라우저 기본 버튼 글꼴 대신)
+const FONT = '[font-family:inherit] [font-weight:inherit] [line-height:inherit]'
+const CARD =
+  'grid w-full max-w-[36rem] rounded-[1.25rem] border border-line bg-white p-[clamp(1rem,3.5vw,1.4rem)] text-left text-ink [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-2 [&_:focus-visible]:outline-accent-deep'
+const EYEBROW = 'm-0 font-label text-[0.75rem] leading-[1.3] font-normal tracking-[0.2em] text-accent-deep uppercase'
+const TITLE = 'm-0 font-serif text-[clamp(1.1rem,4vw,1.3rem)] leading-[1.35] font-medium tracking-[-0.01em] break-keep text-espresso'
+const SUB = 'm-0 text-[0.86rem] leading-[1.6] break-keep text-muted'
+const TEXT_BTN = `cursor-pointer border-0 bg-transparent p-0 ${FONT} text-[0.8rem] underline underline-offset-[0.2em]`
+const INPUT = `min-h-[2.9rem] w-full min-w-0 rounded-[0.8rem] border border-line-strong bg-white px-[0.85rem] py-0 ${FONT} text-[1rem] text-ink transition-[border-color,background-color] duration-200 ease-[ease] placeholder:text-muted focus:border-accent-deep focus:bg-white aria-invalid:border-[#b4442a]`
+const LINK = 'font-label tracking-[0.04em] text-ink underline underline-offset-[0.25em]'
+
+// listen이면 위에서 고른 관리('w:pick')를 이어받아 접수 내용에 '관심 관리'로 붙인다.
+export default function QuickConsult({ listen = false }) {
   const uid = useId()
   const phone = BRANCHES.zai.phone
   const [form, setForm] = useState({ kind: 'booking', name: '', phone: '', agree: false })
@@ -76,8 +86,7 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
   const invalid = (key) => (shown[key] ? { 'aria-invalid': true, 'aria-describedby': errId } : {})
 
   const message = [`[${BRAND.company} 홈페이지 간편 상담]`, `상담: ${kind.label}`, ...(pick && form.kind === 'booking' ? [`관심 관리: ${pick}`] : []), `이름: ${form.name.trim()}`, `연락처: ${formatPhone(form.phone)}`].join('\n')
-  const cls = `yw-quick${variant === 'light' ? ' yw-quick--light' : ''}`
-  const btn = variant === 'light' ? 'yw-btn yw-btn--ink' : 'yw-btn yw-btn--cream'
+  const btn = 'yw-btn yw-btn--ink'
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -122,23 +131,23 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
 
   if (done) {
     return (
-      <div className={`${cls} yw-quick--done`} role="status">
-        <p className="yw-quick__eyebrow">{kind.label}</p>
+      <div className={`${CARD} gap-[0.6rem]`} role="status">
+        <p className={EYEBROW}>{kind.label}</p>
         {done === 'sent' && (
           <>
-            <p className="yw-quick__title">접수되었습니다</p>
-            <p className="yw-quick__sub">확인 후 {formatPhone(form.phone)}로 연락드리겠습니다.</p>
+            <p className={TITLE}>접수되었습니다</p>
+            <p className={SUB}>확인 후 {formatPhone(form.phone)}로 연락드리겠습니다.</p>
           </>
         )}
         {done === 'sms' && (
           <>
-            <p className="yw-quick__title">문자 앱에 접수 내용을 채워 두었어요</p>
-            <p className="yw-quick__sub">문자 앱에서 전송을 누르시면 매장으로 바로 접수됩니다. 앱이 열리지 않았다면 아래 버튼을 눌러 주세요.</p>
-            <div className="yw-quick__row">
-              <a className={`${btn} yw-quick__go`} href={smsHref(message)}>
+            <p className={TITLE}>문자 앱에 접수 내용을 채워 두었어요</p>
+            <p className={SUB}>문자 앱에서 전송을 누르시면 매장으로 바로 접수됩니다. 앱이 열리지 않았다면 아래 버튼을 눌러 주세요.</p>
+            <div className="mt-[0.2rem] flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a className={`${btn} min-h-[2.9rem] px-[1.4rem]`} href={smsHref(message)}>
                 <span>문자로 보내기</span>
               </a>
-              <a className="yw-quick__link" href={telHref(phone)}>
+              <a className={`${LINK} inline-flex min-h-11 items-center text-[0.9rem]`} href={telHref(phone)}>
                 전화 {phone}
               </a>
             </div>
@@ -146,24 +155,29 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
         )}
         {done === 'pc' && (
           <>
-            <p className="yw-quick__title">PC 온라인 접수는 준비 중이에요</p>
-            <p className="yw-quick__sub">아래 번호로 전화 주시거나, 접수 내용을 복사해 문자로 보내 주시면 바로 연락드리겠습니다.</p>
-            <a className="yw-quick__tel" href={telHref(phone)}>
+            <p className={TITLE}>PC 온라인 접수는 준비 중이에요</p>
+            <p className={SUB}>아래 번호로 전화 주시거나, 접수 내용을 복사해 문자로 보내 주시면 바로 연락드리겠습니다.</p>
+            <a className={`${LINK} justify-self-start text-[1.35rem]`} href={telHref(phone)}>
               {phone}
             </a>
-            <div className="yw-quick__row">
-              <button type="button" className={`${btn} yw-quick__go`} onClick={copyMessage}>
+            <div className="mt-[0.2rem] flex flex-wrap items-center gap-x-4 gap-y-2">
+              <button type="button" className={`${btn} min-h-[2.9rem] px-[1.4rem]`} onClick={copyMessage}>
                 <span>{copied ? '복사했어요' : '접수 내용 복사'}</span>
               </button>
               {form.kind === 'booking' && BRANCHES.zai.booking && (
-                <a className="yw-quick__link" href={BRANCHES.zai.booking} target="_blank" rel="noopener noreferrer">
+                <a
+                  className={`${LINK} inline-flex min-h-11 items-center text-[0.9rem]`}
+                  href={BRANCHES.zai.booking}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   네이버 예약 ↗<span className="sr-only">(새 창)</span>
                 </a>
               )}
             </div>
           </>
         )}
-        <button type="button" className="yw-quick__again" onClick={restart}>
+        <button type="button" className={`${TEXT_BTN} min-h-10 justify-self-start text-muted`} onClick={restart}>
           다시 작성하기
         </button>
       </div>
@@ -171,41 +185,51 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
   }
 
   return (
-    <form className={cls} onSubmit={onSubmit} noValidate aria-labelledby={`${uid}-title`}>
-      <div className="yw-quick__head">
-        <h2 id={`${uid}-title`} className="yw-quick__title">
+    <form className={`${CARD} gap-[0.7rem]`} onSubmit={onSubmit} noValidate aria-labelledby={`${uid}-title`}>
+      <div className="grid gap-[0.2rem]">
+        <h2 id={`${uid}-title`} className={TITLE}>
           간편 상담 신청
         </h2>
-        <p className="yw-quick__sub">이름과 연락처만 남겨 주시면 확인 후 연락드려요.</p>
+        <p className={SUB}>이름과 연락처만 남겨 주시면 확인 후 연락드려요.</p>
       </div>
 
       {pick && form.kind === 'booking' && (
-        <p className="yw-quick__pick">
+        <p className="m-0 flex flex-wrap items-center gap-x-[0.6rem] gap-y-1 text-[0.86rem] [&_b]:font-semibold">
           관심 관리 <b>{pick}</b>
-          <button type="button" className="yw-quick__unpick" onClick={() => setPick('')} aria-label={`관심 관리 ${pick} 지우기`}>
+          <button
+            type="button"
+            className={`${TEXT_BTN} min-h-11 text-inherit opacity-80`}
+            onClick={() => setPick('')}
+            aria-label={`관심 관리 ${pick} 지우기`}
+          >
             지우기
           </button>
         </p>
       )}
 
-      <fieldset className="yw-quick__kinds">
+      <fieldset className="m-0 grid grid-cols-[1fr_1fr] gap-1 rounded-full border border-line p-1">
         <legend className="sr-only">상담 종류</legend>
         {KINDS.map((k) => (
-          <label key={k.id} className={`yw-quick__kind${form.kind === k.id ? ' is-on' : ''}`}>
+          <label
+            key={k.id}
+            className={`relative grid min-h-10 cursor-pointer place-items-center rounded-full text-[0.92rem] font-semibold transition-[background-color,color] duration-250 ease-[ease] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-champagne [&_input]:absolute [&_input]:inset-0 [&_input]:m-0 [&_input]:cursor-pointer [&_input]:opacity-0 ${
+              form.kind === k.id ? 'bg-espresso text-white' : 'text-ink [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[rgb(241_243_228/0.12)]'
+            }`}
+          >
             <input type="radio" name={`${uid}-kind`} value={k.id} checked={form.kind === k.id} onChange={() => set('kind', k.id)} />
             <span>{k.label}</span>
           </label>
         ))}
       </fieldset>
 
-      <div className="yw-quick__fields">
+      <div className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-2 lg:grid-cols-[minmax(0,1fr)]">
         <label className="sr-only" htmlFor={`${uid}-name`}>
           성함
         </label>
         <input
           id={`${uid}-name`}
           data-field="name"
-          className="yw-quick__input"
+          className={INPUT}
           type="text"
           autoComplete="name"
           placeholder="이름"
@@ -220,7 +244,7 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
         <input
           id={`${uid}-phone`}
           data-field="phone"
-          className="yw-quick__input"
+          className={INPUT}
           type="tel"
           inputMode="numeric"
           autoComplete="tel"
@@ -232,9 +256,10 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
         />
       </div>
 
-      <div className="yw-quick__agree">
-        <label>
+      <div className="flex items-center justify-between gap-2 text-[0.82rem]">
+        <label className="inline-flex min-h-9 cursor-pointer items-center gap-2">
           <input
+            className="m-0 size-[1.15rem] flex-none accent-espresso"
             data-field="agree"
             type="checkbox"
             checked={form.agree}
@@ -246,7 +271,7 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
         </label>
         <button
           type="button"
-          className="yw-quick__more"
+          className={`${TEXT_BTN} min-h-11 min-w-11 flex-none text-muted`}
           aria-expanded={termsOpen}
           aria-controls={`${uid}-terms`}
           onClick={() => setTermsOpen((v) => !v)}
@@ -254,7 +279,11 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
           {termsOpen ? '접기' : '보기'}
         </button>
       </div>
-      <div id={`${uid}-terms`} className="yw-quick__terms" hidden={!termsOpen}>
+      <div
+        id={`${uid}-terms`}
+        className="mx-0 -mt-[0.2rem] mb-0 rounded-[0.7rem] bg-(--w-band) px-[0.8rem] py-[0.65rem] text-[0.76rem] leading-[1.6] break-keep text-muted [&_b]:mr-[0.35em] [&_b]:font-semibold [&_ol]:mx-0 [&_ol]:mt-[0.45rem] [&_ol]:mb-0 [&_ol]:grid [&_ol]:gap-[0.3rem] [&_ol]:pl-[1.1rem] [&_p]:m-0"
+        hidden={!termsOpen}
+      >
         <p>
           {BRAND.company}(이하 &lsquo;스튜디오&rsquo;)는 「개인정보 보호법」 제15조에 따라 상담 신청에 필요한 최소한의 개인정보를
           아래와 같이 수집·이용합니다.
@@ -280,11 +309,11 @@ export default function QuickConsult({ variant = 'dark', listen = false }) {
         </ol>
       </div>
 
-      <p id={errId} className="yw-quick__error" aria-live="polite">
+      <p id={errId} className="mx-0 -mt-1 mb-0 text-[0.8rem] leading-[1.4] text-[#b4442a] empty:hidden" aria-live="polite">
         {firstError || ''}
       </p>
 
-      <button type="submit" className={`${btn} yw-quick__submit`}>
+      <button type="submit" className={`${btn} min-h-12 w-full`}>
         <span>{kind.label} 신청</span>
       </button>
     </form>
