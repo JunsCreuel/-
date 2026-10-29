@@ -3,7 +3,6 @@ import { PHOTOS, PICS } from '../data'
 import { Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
-import './yw-equipment.css'
 
 // No. 05 Equipment & Gel — 전신 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
 // 데스크톱은 마우스로 끌어 넘기고(관성 후 카드에 맞춤), 트랙패드·화살표·←→ 키로도 넘긴다. 모바일은 네이티브 스와이프와 scroll-snap.
@@ -132,16 +131,37 @@ const DEVICES = [
 ]
 
 const CARD_COUNT = DEVICES.length + 1
+
+// 앞뒤 화살표(데스크톱): 흰 원, 마우스를 올리면 채워진다. 끝에 닿으면 옅어진다
+const ARROW =
+  'grid size-[3.25rem] cursor-pointer place-items-center rounded-[50%] border-2 border-espresso bg-white p-0 font-en text-[1.9rem] leading-none font-light text-espresso normal-nums [transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-color_0.25s_ease,color_0.25s_ease,opacity_0.25s_ease] focus-visible:rounded-[999px] enabled:active:scale-95 disabled:cursor-default disabled:opacity-35 motion-reduce:transition-none max-lg:hidden [&>span]:-mt-[0.12em] [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:text-white'
 const pad2 = (n) => String(n).padStart(2, '0')
 
 // 카드마다 트랙이 멈출 수 있는 scrollLeft(scroll-padding 반영, 0~max). offsetLeft라 기울기(transform)의 영향을 받지 않는다.
 function snapPoints(track) {
   const max = Math.max(0, track.scrollWidth - track.clientWidth)
-  const cards = Array.from(track.querySelectorAll('.yw-eq__card'))
+  const cards = Array.from(track.querySelectorAll('[data-eq-card]'))
   let padL = parseFloat(getComputedStyle(track).scrollPaddingLeft)
   if (Number.isNaN(padL)) padL = cards[0]?.offsetLeft ?? 0 // 계산값을 px로 못 읽으면 첫 카드 자리를 기준으로
   return cards.map((card) => clamp(card.offsetLeft - padL, 0, max))
 }
+
+// 카드 번호 줄(01 · 온열), 이름, 한 줄 설명
+function CardNo({ no, en }) {
+  return (
+    <p className="flex items-baseline gap-[0.15rem] leading-none text-accent-deep">
+      <span className="font-en text-[1.5rem] leading-none font-light text-ink lining-nums">{no}</span>
+      <span className="text-[0.8rem] whitespace-pre"> · </span>
+      <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.16em] normal-nums">{en}</span>
+    </p>
+  )
+}
+const CARD_NAME = 'mx-0 mt-[0.6rem] mb-0 font-serif leading-[1.35] font-normal tracking-[-0.02em] text-ink normal-nums'
+const CARD_SUB = 'mt-1 text-[0.85rem] leading-[1.6] text-muted'
+
+// 알약 버튼(이용 방식 칩·젤 보기·성분 보기). 공통 :focus-visible(둥근 6px)이 알약 모양을 덮지 않게 둥근 모서리를 그대로 둔다
+const PILL =
+  'cursor-pointer rounded-full border border-line-strong bg-transparent [font-family:inherit] leading-[1.3] font-medium text-ink transition-[background-color,border-color,color] duration-250 ease-[ease] focus-visible:rounded-[999px] active:scale-97 motion-reduce:transition-none'
 
 // 첫 카드: 전신 온열돔(매장 기기 누끼를 디바이스 카드 사진 면과 같은 흰 바탕에 올린다).
 // 이용 방식 칩(radiogroup)을 고르면 한 줄 설명과 버튼 문구가 함께 바뀐다.
@@ -165,29 +185,34 @@ function DomeCard() {
   }
 
   return (
-    <article id="warm-ritual" className="yw-eq__card yw-eq__card--dome">
-      <div className="yw-eq__tilt">
-        <div className="yw-eq__photo">
-          <Pic pic={PICS.domeCut} sizes="(min-width: 64rem) 28rem, 68vw" alt="전신 온열돔" />
+    <article id="warm-ritual" className="min-w-0 flex-[0_0_clamp(22rem,38vw,34rem)] snap-start max-lg:flex-[0_0_min(82%,34rem)]" data-eq-card>
+      <div>
+        {/* 디바이스 카드 사진 면과 같은 흰 바탕 위에 가로로 긴 누끼를 앉히고, 옅은 바닥 그림자로 세운다.
+            높이는 디바이스 사진 칸(폭 × 4:5)과 같아 01~04 번호가 같은 줄에 온다. 아래를 조금 더 두어 그림자 자리를 남긴다 */}
+        <div className="grid h-[calc(var(--eq-card-w)_*_1.25)] overflow-clip rounded-[1.25rem] bg-white px-[9%] pt-[10%] pb-[13%]">
+          <Pic
+            pic={PICS.domeCut}
+            sizes="(min-width: 64rem) 28rem, 68vw"
+            alt="전신 온열돔"
+            className="size-full min-h-0 object-contain [filter:drop-shadow(0_18px_22px_rgb(29_26_23/0.14))]"
+          />
         </div>
-        <div className="yw-eq__body">
-          <p className="yw-eq__no">
-            <span className="yw-eq__num">01</span>
-            <span className="yw-eq__dot"> · </span>
-            <span className="yw-eq__en">온열</span>
+        <div className="px-[0.15rem] pt-[1.1rem] pb-0">
+          <CardNo no="01" en="온열" />
+          <p className="mx-0 mt-0 mb-[0.35rem] font-label text-[0.75rem] leading-[1.4] font-medium tracking-[0.14em] text-accent-deep normal-nums">
+            국내산 · 명신메디칼
           </p>
-          <p className="yw-eq__maker">국내산 · 명신메디칼</p>
-          <h3 className="yw-eq__name">전신 온열돔</h3>
-          <p className="yw-eq__sub">국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
-          <dl className="yw-eq__facts">
+          <h3 className={`${CARD_NAME} text-[1.6rem]`}>전신 온열돔</h3>
+          <p className={CARD_SUB}>국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
+          <dl className="mx-0 mt-4 mb-1 border-t border-line">
             {DOME_FACTS.map(([k, v]) => (
-              <div key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
+              <div key={k} className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 border-b border-line py-[0.55rem] text-[0.85rem] leading-[1.55]">
+                <dt className="text-muted">{k}</dt>
+                <dd className="m-0 break-keep text-ink">{v}</dd>
               </div>
             ))}
           </dl>
-          <div className="yw-eq__uses" role="radiogroup" aria-label="온열돔 이용 방식" onKeyDown={onRadioKey}>
+          <div className="mt-[1.1rem] flex flex-wrap gap-[0.4rem]" role="radiogroup" aria-label="온열돔 이용 방식" onKeyDown={onRadioKey}>
             {DOME_USES.map((u, i) => (
               <button
                 key={u.id}
@@ -198,7 +223,7 @@ function DomeCard() {
                 role="radio"
                 aria-checked={u.id === use}
                 tabIndex={u.id === use ? 0 : -1}
-                className="yw-eq__chip"
+                className={`${PILL} min-h-11 px-4 py-[0.45rem] text-[0.82rem] aria-checked:border-espresso aria-checked:bg-espresso aria-checked:text-white [@media(hover:hover)_and_(pointer:fine)]:aria-[checked=false]:hover:border-espresso`}
                 data-cursor=""
                 onClick={() => setUse(u.id)}
               >
@@ -206,14 +231,14 @@ function DomeCard() {
               </button>
             ))}
           </div>
-          <div className="yw-eq__usebox" aria-live="polite">
-            <p key={use} className="yw-eq__use">
+          <div className="mt-[0.9rem] min-h-[1.6em]" aria-live="polite">
+            <p key={use} className="animate-eq-rise text-[0.95rem] leading-[1.6] text-ink motion-reduce:animate-none">
               {current.text}
             </p>
           </div>
           <button
             type="button"
-            className="yw-btn yw-btn--ink yw-eq__cta"
+            className="yw-btn yw-btn--ink mt-[1.1rem] max-w-full px-6 whitespace-normal"
             data-magnet
             data-cursor=""
             onClick={() => pickForBooking({ area: '온열 웜업', label: current.cta })}
@@ -232,12 +257,25 @@ function DomeCard() {
 function DeviceCard({ d, near, onSheet }) {
   const gelLoading = near ? 'eager' : 'lazy'
   const [gelOn, setGelOn] = useState(false)
+  const two = d.gels.length > 1
   return (
-    <article className={`yw-eq__card${gelOn ? ' is-gel' : ''}`}>
-      <div className="yw-eq__tilt">
-        <div className="yw-eq__media">
-          <img className="yw-eq__device" src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
-          <div className={`yw-eq__gel${d.gels.length > 1 ? ' yw-eq__gel--two' : ''}`} aria-hidden={!gelOn}>
+    <article className="min-w-0 flex-[0_0_var(--eq-card-w)] snap-start" data-eq-card>
+      <div>
+        {/* 기기·제품 사진이 저해상도라 22rem보다 키우지 않는다 */}
+        <div className="relative aspect-[4/5] max-w-[22rem] overflow-clip rounded-[1.25rem] bg-white">
+          <img className="size-full object-contain p-[8%]" src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
+          {/* 젤 면: 왼쪽에서 오른쪽으로 걷히며 덮는다(끄는 중에는 올려도 덮지 않는다).
+              두 제품(웰스파)이면 두 사진을 같은 바닥선에 나란히 세우고 바로 아래 칸마다 이름표를 둔 한 묶음을 면 가운데에 놓는다 */}
+          <div
+            className={`absolute inset-0 grid bg-white transition-[clip-path] duration-350 ease-yw motion-reduce:transition-none ${
+              two ? 'grid-cols-2 grid-rows-[auto_auto] content-center gap-x-3 px-3' : ''
+            } ${
+              gelOn
+                ? '[clip-path:inset(0)]'
+                : '[clip-path:inset(0_100%_0_0)] [@media(hover:hover)_and_(pointer:fine)]:[[data-eq-track]:not(.is-dragging)_[data-eq-card]:hover_&]:[clip-path:inset(0)]'
+            }`}
+            aria-hidden={!gelOn}
+          >
             {d.gels.map((g) => (
               <img
                 key={g.name}
@@ -245,37 +283,50 @@ function DeviceCard({ d, near, onSheet }) {
                 alt={g.alt}
                 width={g.w}
                 height={g.h}
-                className="yw-eq__gelimg"
+                // 젤 사진은 모두 누끼라 잘리지 않게 담고, 아래 이름표(두 줄)를 비켜 조금 위에 둔다(좁은 카드에서도 아래 여백은 4.5rem 이상)
+                className={`w-full min-h-0 object-contain ${two ? 'h-auto self-end p-0' : 'h-full px-[8%] pt-[10%] pb-[max(26%,4.5rem)]'}`}
                 loading={gelLoading}
                 decoding="async"
               />
             ))}
-            {/* 이름표: 제품마다 이름 아래 용량. 두 제품이면 사진 칸마다 하나씩 선다 */}
-            <p className="yw-eq__gelcap">
+            {/* 이름표: 제품마다 이름 아래 용량. 젤 면이 덮인 뒤 살짝 떠오른다 */}
+            <p
+              className={`grid auto-cols-[minmax(0,1fr)] grid-flow-col text-center text-[0.78rem] leading-[1.4] font-medium text-ink motion-reduce:transition-none ${
+                two ? 'static col-span-full items-start gap-x-3 px-0 pt-[0.9rem] pb-0' : 'absolute right-0 bottom-0 left-0 items-end pb-[1.1rem]'
+              } ${
+                gelOn
+                  ? 'translate-y-0 opacity-100 [transition:opacity_0.2s_ease_0.2s,translate_0.3s_var(--yw-ease)_0.2s]'
+                  : 'translate-y-2 opacity-0 [transition:opacity_0.2s_ease,translate_0.3s_var(--yw-ease)] [@media(hover:hover)_and_(pointer:fine)]:[[data-eq-track]:not(.is-dragging)_[data-eq-card]:hover_&]:translate-y-0 [@media(hover:hover)_and_(pointer:fine)]:[[data-eq-track]:not(.is-dragging)_[data-eq-card]:hover_&]:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:[[data-eq-track]:not(.is-dragging)_[data-eq-card]:hover_&]:[transition-delay:0.2s]'
+              }`}
+            >
               {d.gels.map((g) => (
-                <span key={g.name}>
-                  {g.name} <span className="yw-eq__gelvol">{g.volume}</span>
+                <span key={g.name} className={`grid justify-items-center gap-[0.2rem] text-balance ${two ? 'px-[0.15rem]' : 'px-3'}`}>
+                  {g.name}{' '}
+                  <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.08em] text-accent-deep normal-nums">{g.volume}</span>
                 </span>
               ))}
             </p>
           </div>
         </div>
-        <div className="yw-eq__body">
-          <p className="yw-eq__no">
-            <span className="yw-eq__num">{d.no}</span>
-            <span className="yw-eq__dot"> · </span>
-            <span className="yw-eq__en">{d.en}</span>
-          </p>
-          <h3 className="yw-eq__name">{d.name}</h3>
-          <p className="yw-eq__sub">{d.sub}</p>
-          <div className="yw-eq__actions">
-            <button type="button" className="yw-eq__gelbtn" aria-pressed={gelOn} data-cursor="" onClick={() => setGelOn((v) => !v)}>
+        <div className="px-[0.15rem] pt-[1.1rem] pb-0">
+          <CardNo no={d.no} en={d.en} />
+          <h3 className={`${CARD_NAME} text-[1.35rem]`}>{d.name}</h3>
+          <p className={CARD_SUB}>{d.sub}</p>
+          <div className="mt-[0.85rem] flex flex-wrap gap-[0.4rem]">
+            <button
+              type="button"
+              className={`${PILL} inline-flex min-h-11 items-center gap-[0.4rem] px-4 py-[0.35rem] text-[0.78rem] whitespace-nowrap before:size-[0.45rem] before:rounded-[50%] before:border before:border-current before:content-[''] aria-pressed:border-espresso aria-pressed:bg-espresso aria-pressed:text-white aria-pressed:before:bg-current [@media(hover:hover)_and_(pointer:fine)]:aria-[pressed=false]:hover:border-espresso`}
+              aria-pressed={gelOn}
+              data-cursor=""
+              onClick={() => setGelOn((v) => !v)}
+            >
               <span className="sr-only">{d.name} </span>
               {gelOn ? '기기 보기' : '젤 보기'}
             </button>
+            {/* 성분 보기: 뒤에 작은 +(시트가 열린다) */}
             <button
               type="button"
-              className="yw-eq__ingbtn"
+              className={`${PILL} inline-flex min-h-11 items-center gap-[0.4rem] px-4 py-[0.35rem] text-[0.78rem] whitespace-nowrap after:-mr-[0.15rem] after:font-label after:text-[1.05rem] after:leading-none after:font-light after:text-accent-deep after:content-['+'_/_''] [@media(hover:hover)_and_(pointer:fine)]:hover:border-espresso`}
               aria-haspopup="dialog"
               data-cursor=""
               onClick={(e) => onSheet(d, e.currentTarget)}
@@ -292,7 +343,7 @@ function DeviceCard({ d, near, onSheet }) {
   )
 }
 
-// 바텀 시트로 그려지는 폭(yw-equipment.css의 48rem 미만)
+// 바텀 시트로 그려지는 폭(48rem 미만)
 const SHEET_MQ = '(max-width: 47.99rem)'
 
 // 시트 스크롤 가장자리 표시: 본문이 머리 밑으로 지나가면 data-scrolled(머리 아래 선),
@@ -305,7 +356,7 @@ function syncSheetEdges(dlg) {
 }
 
 // '성분 보기' 시트. 네이티브 <dialog>를 showModal()로 열어 포커스 가두기·ESC 닫기·뒤 페이지 비활성은 브라우저에 맡긴다.
-// 모바일(48rem 미만)은 아래에서 올라오는 바텀 시트, 그 위는 가운데 패널(yw-equipment.css). 열린 동안 뒤 페이지 스크롤을 잠근다.
+// 모바일(48rem 미만)은 아래에서 올라오는 바텀 시트(위 모서리만 둥글게, 최대 86svh), 그 위는 가운데 패널(최대 36rem). 열린 동안 뒤 페이지 스크롤을 잠근다.
 // × 버튼·ESC·바깥(배경) 누르기로 닫히고(바텀 시트는 머리를 끌어내려도 닫힌다), 닫히면 onClose가 불린다
 // (여는 쪽이 '성분 보기' 버튼으로 포커스를 돌려준다).
 // 시트는 열 때 마운트되고 닫히면 내려간다. <dialog> 자체가 스크롤 상자라 머리(손잡이·라벨·닫기)는 sticky로 붙는다.
@@ -402,69 +453,93 @@ function GelSheet({ device, onClose }) {
     // 배경 누르기는 마우스·터치용 보조 수단이다. 키보드는 ESC와 닫기 버튼으로 닫는다.
     <dialog
       ref={ref}
-      className="yw-eqs"
+      className="group/eqs fixed inset-x-0 top-auto bottom-0 m-0 h-fit max-h-[86svh] w-full max-w-full overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-3xl border-0 bg-white p-0 text-ink shadow-[0_-0.75rem_2.5rem_rgb(29_26_23/0.12)] [scrollbar-width:thin] backdrop:bg-[rgb(29_26_23/0.45)] backdrop:backdrop-blur-[4px] after:pointer-events-none after:sticky after:bottom-0 after:-mt-14 after:block after:h-14 after:bg-[linear-gradient(rgb(255_255_255/0),#fff_85%)] after:opacity-0 after:transition-opacity after:duration-250 after:ease-[ease] after:content-[''] motion-safe:open:animate-eqs-up motion-safe:open:backdrop:animate-eqs-fade data-more:after:opacity-100 motion-reduce:after:transition-none md:inset-0 md:m-auto md:max-h-[min(86svh,50rem)] md:w-[min(36rem,100%_-_3rem)] md:rounded-3xl md:shadow-[0_1.5rem_4rem_rgb(29_26_23/0.2)] motion-safe:md:open:animate-eqs-pop"
       aria-labelledby={titleId}
       data-cursor-off=""
       onPointerDown={onPointerDown}
       onClick={onClick}
       onScroll={(e) => syncSheetEdges(e.currentTarget)}
     >
+      {/* 머리: 손잡이(모바일, 끌어내려 닫기) · 'GEL · 페이스 갈바닉 전용' 라벨 · 닫기. 본문이 머리 밑으로 지나가기 시작하면 아래에 가는 선 */}
       <div
-        className="yw-eqs__head"
+        className="sticky top-0 z-1 flex items-center justify-between gap-4 bg-white pt-[1.4rem] pr-4 pb-[0.85rem] pl-6 transition-[box-shadow] duration-200 ease-[ease] group-data-scrolled/eqs:shadow-[0_1px_0_var(--w-line)] motion-reduce:transition-none max-md:touch-none md:pt-5 md:pr-5 md:pl-8"
         onPointerDown={onHeadDown}
         onPointerMove={onHeadMove}
         onPointerUp={onHeadEnd}
         onPointerCancel={onHeadEnd}
       >
-        <span className="yw-eqs__grip" aria-hidden="true" />
-        <p className="yw-eqs__folio" id={titleId}>
-          <span className="yw-eqs__folio-en" aria-hidden="true">
+        <span className="absolute top-[0.6rem] left-1/2 h-1 w-10 -translate-x-1/2 rounded-full bg-line md:hidden" aria-hidden="true" />
+        <p className="min-w-0 text-[0.8rem] leading-[1.4] font-medium tracking-[0.02em] text-accent-deep" id={titleId}>
+          <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.2em] normal-nums" aria-hidden="true">
             {device.sheetEn}
           </span>
-          <span className="yw-eqs__folio-dot" aria-hidden="true">
+          <span className="whitespace-pre" aria-hidden="true">
             {' · '}
           </span>
           {device.name} 전용<span className="sr-only"> {device.sheetKo} 성분</span>
         </p>
-        <button type="button" className="yw-eqs__close" aria-label="닫기" onClick={() => ref.current?.close()}>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
+        <button
+          type="button"
+          className="grid size-10 flex-none cursor-pointer place-items-center rounded-[50%] border border-line bg-white p-0 text-ink transition-[background-color,border-color,color] duration-250 ease-[ease] focus-visible:rounded-[50%] active:scale-95 motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:border-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:text-white"
+          aria-label="닫기"
+          onClick={() => ref.current?.close()}
+        >
+          <svg className="size-[1.1rem] fill-none stroke-current [stroke-linecap:round] [stroke-width:1.5]" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
           </svg>
         </button>
       </div>
 
-      <div className="yw-eqs__body">
+      {/* 본문: 제품마다 사진 → 이름·용량 → 사용 설명 → 주요 성분 */}
+      <div className="px-6 pt-[0.15rem] pb-[max(1.75rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8">
         {device.gels.map((g, i, all) => (
-          <div key={g.name} className="yw-eqs__product">
+          <div key={g.name} className={i > 0 ? 'mt-8 border-t border-line pt-8' : undefined}>
+            {/* 제품 누끼는 스튜디오 바탕 패널에 담는다(높이 11rem, 48rem부터 12rem, 낮은 화면은 8.5rem).
+                손바닥 컷은 손이 사진 가장자리에서 잘려 있어 사진 비율 그대로의 프레임에 꽉 채운다 */}
             <div
-              className={`yw-eqs__fig${g.hand ? ' yw-eqs__fig--hand' : ''}`}
+              className={`grid h-(--fig-h) overflow-clip rounded-[1.25rem] [background:var(--yw-eq-studio)] [--fig-h:11rem] [@media(max-height:32rem)]:[--fig-h:8.5rem] [@media(min-width:48rem)_and_(min-height:32.01rem)]:[--fig-h:12rem] ${
+                g.hand ? 'mx-auto w-[min(100%,var(--fig-h)_*_var(--ar,1))] p-0' : 'p-4'
+              }`}
               style={g.hand ? { '--ar': (g.w / g.h).toFixed(4) } : undefined}
             >
-              <img src={g.src} alt={g.alt} width={g.w} height={g.h} decoding="async" />
+              <img
+                src={g.src}
+                alt={g.alt}
+                width={g.w}
+                height={g.h}
+                decoding="async"
+                className={`size-full min-h-0 ${g.hand ? 'object-cover' : 'object-contain [filter:drop-shadow(0_14px_18px_rgb(29_26_23/0.16))]'}`}
+              />
             </div>
             {/* 제품이 둘 이상이면(웰스파) 트랙 카운터처럼 '01 / 02'를 달아 아래에 다음 제품이 있음을 알린다. 구조는 제목(h2)이 전한다 */}
             {all.length > 1 && (
-              <p className="yw-eqs__idx" aria-hidden="true">
+              <p className="mt-[1.15rem] font-en text-[0.95rem] leading-none font-light tracking-[0.02em] whitespace-nowrap text-muted lining-nums tabular-nums [&_b]:font-medium [&_b]:text-ink" aria-hidden="true">
                 <b>{pad2(i + 1)}</b> / {pad2(all.length)}
               </p>
             )}
-            <h2 className="yw-eqs__name">
-              {g.name} <span className="yw-eqs__vol">{g.volume}</span>
+            <h2 className={`${all.length > 1 ? 'mt-[0.3rem]' : 'mt-[1.15rem]'} font-serif text-[1.3rem] leading-[1.4] font-normal tracking-[-0.02em] text-ink normal-nums`}>
+              {g.name}{' '}
+              <span className="ml-[0.3rem] font-label text-[0.75rem] leading-none font-normal tracking-[0.08em] whitespace-nowrap text-accent-deep normal-nums">{g.volume}</span>
             </h2>
-            <p className="yw-eqs__usage">{g.usage}</p>
-            <h3 className="yw-eqs__subhead">주요 성분</h3>
-            <ul className="yw-eqs__ings">
+            <p className="mt-2 text-[0.88rem] leading-[1.7] text-muted">{g.usage}</p>
+            <h3 className="mt-6 flex items-center gap-3 font-sans text-[0.78rem] leading-[1.4] font-semibold tracking-[0.02em] text-ink normal-nums after:h-px after:flex-1 after:bg-line after:content-['']">
+              주요 성분
+            </h3>
+            <ul>
               {g.ingredients.map((ing) => (
-                <li key={ing.name} className={ing.icon ? 'has-icon' : undefined}>
-                  {ing.icon && <img src={ing.icon} alt={ing.iconAlt} width="72" height="72" decoding="async" />}
+                <li
+                  key={ing.name}
+                  className={`grid gap-[0.9rem] border-b border-(--w-hair) py-[0.9rem] last:border-b-0 last:pb-0 ${ing.icon ? 'grid-cols-[2.75rem_minmax(0,1fr)] items-start' : ''}`}
+                >
+                  {ing.icon && <img src={ing.icon} alt={ing.iconAlt} width="72" height="72" decoding="async" className="size-11 rounded-[50%] object-cover" />}
                   <div>
-                    <p className="yw-eqs__ingname">{ing.name}</p>
+                    <p className="text-[0.9rem] leading-[1.5] font-semibold text-ink">{ing.name}</p>
                     {ing.en && (
-                      <p className="yw-eqs__ingen" lang="en">
+                      <p className="mt-[0.1rem] font-label text-[0.75rem] leading-[1.4] font-normal tracking-[0.05em] text-accent-deep normal-nums" lang="en">
                         {ing.en}
                       </p>
                     )}
-                    <p className="yw-eqs__ingdesc">{ing.desc}</p>
+                    <p className="mt-1 text-[0.84rem] leading-[1.6] text-muted">{ing.desc}</p>
                   </div>
                 </li>
               ))}
@@ -483,7 +558,7 @@ export default function Equipment() {
   const [nav, setNav] = useState({ idx: 1, atStart: true, atEnd: false })
   const [sheet, setSheet] = useState(null)
 
-  useDragScroll(trackRef, { itemSelector: '.yw-eq__card' })
+  useDragScroll(trackRef, { itemSelector: '[data-eq-card]' })
   const near = useInView(trackRef, { threshold: 0 })
 
   const openSheet = (device, trigger) => {
@@ -499,7 +574,7 @@ export default function Equipment() {
   }
 
   // 트랙 스크롤을 rAF로 묶어 진행 막대(--p, --vis), 카운터, 양 끝 화살표, 속도 기울기(--skew)를 갱신한다.
-  // 기울기는 카드 안쪽 판(.yw-eq__tilt)에만 걸린다. 스냅 대상인 카드 자체를 기울이면 기울어진 상자로 스냅 위치가 1px씩 바뀌어
+  // 기울기는 카드 안쪽 판에만 걸리게 해 두었다(지금은 차분한 화면을 위해 기울이지 않는다). 스냅 대상인 카드 자체를 기울이면 기울어진 상자로 스냅 위치가 1px씩 바뀌어
   // 스크롤 → 기울기 → 다시 스냅이 끝없이 되풀이된다.
   useEffect(() => {
     const track = trackRef.current
@@ -613,10 +688,17 @@ export default function Equipment() {
   }
 
   return (
-    <section id="equipment" className="yw-section yw-curtain--light yw-eq" data-theme="light">
-      <div className="yw-wrap yw-eq__head">
-        <div className="yw-eq__intro">
-          <h2 className="yw-h2">
+    // 앞의 어두운 온열돔 장을 둥근 윗모서리로 덮으며 올라온다(커튼의 흰 바탕 대신 이 장의 아이보리).
+    // --yw-eq-studio: 성분 시트의 제품 패널 바탕(가운데가 가장 밝고 가장자리로 갈수록 옅은 웜 그레이)
+    <section
+      id="equipment"
+      className="yw-section yw-curtain--light overflow-x-clip bg-(--yw-warm) [--yw-eq-studio:radial-gradient(ellipse_85%_80%_at_50%_40%,#fff_0%,#fbfaf8_48%,#eeeae4_100%)]"
+      data-theme="light"
+    >
+      {/* 머리: 제목·한 줄 | 카운터·화살표. 모바일·태블릿은 카운터를 제목 오른쪽 위에 작게 두고 화살표는 숨긴다 */}
+      <div className="yw-wrap relative grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="min-w-0">
+          <h2 className="yw-h2 max-lg:pr-[3.75rem]">
             따뜻하게 데우고,
             <br />
             섬세하게 다듬습니다.
@@ -625,26 +707,33 @@ export default function Equipment() {
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>
         </div>
-        <div className="yw-eq__nav">
-          <span className="yw-eq__count" aria-hidden="true">
+        <div className="flex items-center gap-3 max-lg:absolute max-lg:top-[calc(0.72rem_+_1.1rem_+_0.55em)] max-lg:right-0 lg:pb-1">
+          <span
+            className="font-en text-[1.6rem] leading-none font-light tracking-[0.02em] whitespace-nowrap text-ink lining-nums tabular-nums max-lg:text-[1.15rem] [&_b]:font-medium"
+            aria-hidden="true"
+          >
             <b>{pad2(nav.idx)}</b> / {pad2(CARD_COUNT)}
           </span>
-          <button type="button" className="yw-eq__arrow" aria-label="이전 장비" data-magnet disabled={nav.atStart} onClick={() => go(-1)}>
+          <button type="button" className={ARROW} aria-label="이전 장비" data-magnet disabled={nav.atStart} onClick={() => go(-1)}>
             <span aria-hidden="true">‹</span>
           </button>
-          <button type="button" className="yw-eq__arrow" aria-label="다음 장비" data-magnet disabled={nav.atEnd} onClick={() => go(1)}>
+          <button type="button" className={ARROW} aria-label="다음 장비" data-magnet disabled={nav.atEnd} onClick={() => go(1)}>
             <span aria-hidden="true">›</span>
           </button>
         </div>
       </div>
 
+      {/* 트랙: 오른쪽 화면 끝까지 흘러넘친다. 섹션 좌우 여백을 음수 마진으로 지우고, 안쪽 여백으로 .yw-wrap 왼쪽 선에 첫 카드를 맞춘다.
+          scroll-padding은 JS(useDragScroll·화살표)가 계산값을 px로 읽어야 해서 %가 아닌 vw로 쓴다.
+          --eq-card-w: 디바이스 카드 폭(폰은 트랙 안쪽 폭의 82%, 태블릿은 22rem까지) */}
       <div
-        className="yw-eq__track"
+        className="relative mx-[calc(-1_*_var(--w-gutter))] mt-[clamp(2rem,5vw,3rem)] mb-0 flex snap-x snap-mandatory scroll-px-[max(var(--w-gutter),calc((100vw_-_var(--yw-max))_/_2))] items-start gap-5 overflow-x-auto overscroll-x-contain px-[max(var(--w-gutter),calc((100%_-_var(--yw-max))_/_2_+_var(--w-gutter)))] pt-4 pb-6 @container [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [--eq-card-w:clamp(17rem,24vw,22rem)] focus-visible:rounded-none focus-visible:-outline-offset-2 focus-visible:outline-bronze motion-reduce:scroll-auto max-lg:[--eq-card-w:min(82cqi,22rem)] [&_img]:[-webkit-user-drag:none] [&::-webkit-scrollbar]:hidden [&.is-dragging]:cursor-grabbing [&.is-dragging]:snap-none [&.is-dragging]:select-none"
         ref={trackRef}
         tabIndex={0}
         role="region"
         aria-label="장비와 전용 젤"
         aria-roledescription="carousel"
+        data-eq-track
         onKeyDown={onTrackKey}
       >
         <DomeCard />
@@ -653,7 +742,12 @@ export default function Equipment() {
         ))}
       </div>
 
-      <div className="yw-eq__bar" ref={barRef} aria-hidden="true" />
+      {/* 진행 막대: 1px 선 위에 지금 보이는 구간만 진하게(--p, --vis) */}
+      <div
+        className="relative mx-auto mt-4 mb-0 h-px max-w-(--yw-max) bg-line after:absolute after:top-[-0.5px] after:left-[calc(var(--p,0)_*_(100%_-_var(--vis,0.3)_*_100%))] after:h-[2px] after:w-[calc(var(--vis,0.3)_*_100%)] after:bg-espresso after:content-['']"
+        ref={barRef}
+        aria-hidden="true"
+      />
 
       {/* 트랙 밖에 둔다(시트 안의 누르기가 트랙 끌기로 번지지 않게). 열렸을 때만 마운트한다. */}
       {sheet && <GelSheet key={sheet.no} device={sheet} onClose={closeSheet} />}
