@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
 import { Folio } from '../editorial'
 import { prefersReducedMotion } from '../motion'
-import './yw-faq.css'
 
 const CUSTOMER_FAQS = [
   { q: '온열돔만 이용할 수도 있나요?', a: '네, 온열돔 단독 이용도 가능합니다. 정기적으로 방문하고 싶으신 분은 이용권 구성을 상담해 주세요. 원하는 부위의 아웃케어를 함께 선택할 수도 있습니다.' },
@@ -60,6 +59,13 @@ const STARTUP_FAQS = [
   },
 ]
 
+// 탭: 2px 에스프레소 알약, 고른 탭은 채움(마우스 기기에서 고르지 않은 탭에 올리면 옅게 물든다)
+const TAB =
+  'min-h-11 cursor-pointer rounded-full border-2 border-espresso px-5 py-[0.45rem] [font-family:inherit] text-[0.92rem] leading-[1.3] font-semibold whitespace-nowrap transition-[background-color,color] duration-250 ease-[ease] focus-visible:rounded-full active:scale-97 motion-reduce:transition-none'
+const TAB_ON = 'bg-espresso text-white'
+const TAB_OFF =
+  'bg-transparent text-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[color-mix(in_srgb,var(--w-espresso)_8%,transparent)]'
+
 const TABS = [
   { id: 'customer', label: '고객 FAQ', faqs: CUSTOMER_FAQS },
   { id: 'startup', label: '창업 FAQ', faqs: STARTUP_FAQS },
@@ -69,7 +75,7 @@ const TABS = [
 function onItemToggle(e) {
   const item = e.currentTarget
   if (!item.open || prefersReducedMotion()) return
-  const ans = item.querySelector('.yw-faq__a')
+  const ans = item.querySelector('[data-faq-answer]')
   if (!ans?.animate) return
   ans.animate([{ height: '0px', opacity: 0 }, { height: `${ans.scrollHeight}px`, opacity: 1 }], {
     duration: 320,
@@ -106,13 +112,18 @@ export default function Faq() {
   }
 
   return (
-    <section id="faq" className="yw-section yw-curtain--light yw-faq" data-theme="light">
-      <div className="yw-wrap yw-faq__grid">
-        <div className="yw-faq__side">
+    <section id="faq" className="yw-section yw-curtain--light" data-theme="light">
+      <div className="yw-wrap grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(16rem,4fr)_8fr] lg:items-start">
+        <div className="min-w-0 lg:sticky lg:top-[calc(var(--w-nav-h)+2rem)] lg:self-start">
           <Folio ko="자주 묻는 질문" />
-          <h2 className="yw-h2 yw-faq__title">궁금한 점을 모았습니다</h2>
+          <h2 className="yw-h2">궁금한 점을 모았습니다</h2>
 
-          <div className="yw-faq__tabs" role="tablist" aria-label="질문 구분" onKeyDown={onTabKey}>
+          <div
+            className="mt-[clamp(1.5rem,4vw,2rem)] grid grid-cols-[1fr_1fr] gap-2 lg:flex lg:flex-wrap"
+            role="tablist"
+            aria-label="질문 구분"
+            onKeyDown={onTabKey}
+          >
             {TABS.map((t, i) => (
               <button
                 key={t.id}
@@ -125,7 +136,7 @@ export default function Faq() {
                 aria-selected={t.id === tab}
                 aria-controls="faq-panel"
                 tabIndex={t.id === tab ? 0 : -1}
-                className={`yw-faq__tab${t.id === tab ? ' is-active' : ''}`}
+                className={`${TAB} ${t.id === tab ? TAB_ON : TAB_OFF}`}
                 onClick={() => select(t.id)}
               >
                 {t.label}
@@ -136,7 +147,7 @@ export default function Faq() {
 
         <div
           key={tab}
-          className={`yw-faq__list${switched ? ' is-switched' : ''}`}
+          className="min-w-0"
           role="tabpanel"
           id="faq-panel"
           aria-labelledby={`faq-tab-${tab}`}
@@ -145,17 +156,22 @@ export default function Faq() {
             <details
               key={item.q}
               name="w-faq"
-              className="yw-faq__item"
+              className={`group/item border-t border-line last:border-b lg:first:border-t-line-strong ${
+                switched ? 'animate-faq-rise [animation-delay:calc(var(--i,0)*60ms)] motion-reduce:animate-none' : ''
+              }`}
               style={{ '--i': i }}
               // 고객 탭의 첫 질문만 처음부터 열어 둔다. 목록은 탭마다 새로 그려지므로 이 값은 마운트 때만 쓰인다.
               open={tab === 'customer' && i === 0}
               onToggle={onItemToggle}
             >
-              <summary>
-                <span className="yw-faq__q">{item.q}</span>
-                <i className="yw-faq__icon" aria-hidden="true" />
+              <summary className="group/sum flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-[1.35rem] focus-visible:outline-offset-2 lg:py-[clamp(1.35rem,1.9vw,1.75rem)] [&::-webkit-details-marker]:hidden">
+                <span className="bg-[linear-gradient(currentColor,currentColor)] bg-size-[0_1px] bg-position-[0_100%] bg-no-repeat pb-[0.1em] font-serif text-[clamp(1.05rem,1.5vw,1.3rem)] leading-[1.55] tracking-[-0.01em] text-ink transition-[background-size] duration-200 ease-yw group-focus-visible/sum:bg-size-[100%_1px] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/sum:bg-size-[100%_1px]">{item.q}</span>
+                <i
+                  className="relative size-7 flex-none rounded-full border border-line-strong transition-[rotate,background-color,border-color] duration-300 ease-yw group-open/item:rotate-45 group-open/item:border-espresso motion-reduce:transition-none before:absolute before:top-1/2 before:left-1/2 before:h-px before:w-[0.7rem] before:-translate-1/2 before:bg-espresso before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:h-px after:w-[0.7rem] after:-translate-1/2 after:rotate-90 after:bg-espresso after:content-['']"
+                  aria-hidden="true"
+                />
               </summary>
-              <div className="yw-faq__a">
+              <div data-faq-answer className="overflow-hidden [&_p]:max-w-[60ch] [&_p]:pt-0 [&_p]:pr-12 [&_p]:pb-6 [&_p]:pl-0 [&_p]:text-[0.97rem] [&_p]:leading-[1.85] [&_p]:text-muted">
                 <p>{item.a}</p>
               </div>
             </details>

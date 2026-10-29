@@ -26,4 +26,35 @@
   --font-label: var(--w-font-label);
 
   --ease-yw: var(--yw-ease);
+
+  /* 자주 묻는 질문: 탭을 바꾸면 질문들이 짧게 올라온다 */
+  --animate-faq-rise: yw-faq-rise 0.25s var(--yw-ease) both;
+  /* 이벤트 팝업: 배경은 옅게 나타나고, 카드는 살짝 커지며 떠오른다 */
+  --animate-pop-fade: yw-pop-fade 0.2s ease both;
+  --animate-pop-rise: yw-pop-rise 0.25s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes yw-pop-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes yw-pop-rise {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes yw-faq-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

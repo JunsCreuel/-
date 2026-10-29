@@ -12,7 +12,7 @@ export default function MobileBar({ branch }) {
 
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return undefined
-    const targets = [document.getElementById('booking'), document.querySelector('.w-footer')].filter(Boolean)
+    const targets = [document.getElementById('booking'), document.querySelector('footer[data-site-footer]')].filter(Boolean)
     if (!targets.length) return undefined
     const seen = new Map()
     const io = new IntersectionObserver(
