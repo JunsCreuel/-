@@ -145,7 +145,7 @@ export default function Startup() {
 
         {/* 아이보리 카드(창업 폼). 짙은 장의 크림 포커스 테두리는 카드 안에서 보이지 않으므로 짙은 브론즈로.
             좁은 폰에서도 연락처 세 칸이 카드 안에 들어오게 한다 */}
-        <div className="mt-[clamp(2rem,6vw,3rem)] min-w-0 rounded-3xl bg-ivory p-[clamp(1.25rem,3vw,2.5rem)] text-ink [&_.w-form]:mt-5 [&_.w-phone]:gap-2 [&_.w-phone_input[type=text]]:w-auto [&_.w-phone_input[type=text]]:max-w-[5.2rem] [&_.w-phone_input[type=text]]:min-w-0 [&_.w-phone_input[type=text]]:flex-[1_1_0] [&_:focus-visible]:outline-accent-deep lg:mt-0 lg:[grid-area:form]">
+        <div className="mt-[clamp(2rem,6vw,3rem)] min-w-0 rounded-3xl bg-ivory p-[clamp(1.25rem,3vw,2.5rem)] text-ink [&_:focus-visible]:outline-accent-deep lg:mt-0 lg:[grid-area:form]">
           <h3 id="startup-form-title" className="font-serif text-[clamp(1.2rem,2.2vw,1.45rem)] leading-[1.35] font-medium tracking-[-0.01em] text-espresso normal-nums">
             창업·운영 상담 신청
           </h3>

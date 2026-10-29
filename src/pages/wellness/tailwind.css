@@ -52,6 +52,10 @@
   --animate-eqs-up: yw-eqs-up 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-eqs-pop: yw-eqs-pop 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-eqs-fade: yw-eqs-fade 0.35s ease both;
+  /* 단계 폼: 다음 단계는 오른쪽에서, 이전 단계는 왼쪽에서 들어온다. 고른 선택지는 한 번 통 튄다 */
+  --animate-step-fwd: w-step-fwd 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-step-back: w-step-back 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-opt-pop: w-pop 0.35s;
 }
 
 /* 이벤트 티켓의 반원 홈: 원형 구멍 두 개(--mask-a, --mask-b)를 겹친다. 선언 순서가 중요해 한 덩어리로 둔다 */
@@ -60,6 +64,44 @@
   -webkit-mask-composite: source-in;
   mask: var(--mask-a), var(--mask-b);
   mask-composite: intersect;
+}
+
+@keyframes w-step-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes w-step-back {
+  from {
+    opacity: 0;
+    transform: translateX(-26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes w-pop {
+  0% {
+    transform: scale(0.94);
+  }
+
+  60% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes yw-eq-rise {
