@@ -1,0 +1,29 @@
+/* Tailwind (웰니스 사이트)
+   기존 CSS에서 Tailwind로 옮기는 중이라, 기본 리셋(preflight)은 빼고 테마·유틸리티만 불러온다(기존 화면이 바뀌지 않게).
+   아직 남아 있는 기존 CSS가 유틸리티를 덮지 않도록 유틸리티에 important를 건다. 전환이 끝나면 둘 다 정리한다. */
+@import 'tailwindcss/theme' layer(theme);
+@import 'tailwindcss/utilities' layer(utilities) important;
+
+/* 사이트 색·글꼴 토큰(wellness.css의 CSS 변수)을 Tailwind 이름으로 연결한다. 값은 기존 변수 한 곳에서만 관리한다. */
+@theme inline {
+  --color-ink: var(--w-ink);
+  --color-ink-soft: var(--w-ink-soft);
+  --color-muted: var(--w-muted);
+  --color-line: var(--w-line);
+  --color-line-strong: var(--w-line-strong);
+  --color-espresso: var(--w-espresso);
+  --color-bronze: var(--w-bronze);
+  --color-champagne: var(--w-champagne);
+  --color-accent: var(--w-accent);
+  --color-accent-deep: var(--w-accent-deep);
+  --color-ivory: var(--yw-ivory);
+  --color-cream: var(--yw-cream);
+
+  --font-sans: var(--w-font);
+  --font-serif: var(--w-font-serif);
+  --font-en: var(--w-font-en);
+  --font-num: var(--w-font-num);
+  --font-label: var(--w-font-label);
+
+  --ease-yw: var(--yw-ease);
+}
