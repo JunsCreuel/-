@@ -4,7 +4,7 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-// 등장 효과(.w-reveal)의 translateY를 뺀, 원래 자리 기준으로 목표까지 남은 거리
+// 등장 효과(Reveal)의 translateY를 뺀, 원래 자리 기준으로 목표까지 남은 거리
 function offsetFromTarget(el) {
   const cs = getComputedStyle(el)
   let ty = 0
