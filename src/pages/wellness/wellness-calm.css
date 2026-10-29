@@ -1,8 +1,7 @@
 /* 차분하게 정리(장식·움직임 줄이기). 다른 웰니스 CSS보다 뒤에 불러온다. */
 
 /* 장 제목 위 작은 이름표는 지점 안내만 남긴다(지점 안내는 이름표가 곧 제목) */
-.wellness .yw-folio,
-.wellness .yw-story .yw-eyebrow {
+.wellness .yw-folio {
   display: none;
 }
 
