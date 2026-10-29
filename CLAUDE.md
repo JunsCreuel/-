@@ -14,18 +14,6 @@ React 19 + Vite, react-router-dom 7(HashRouter), Context+useState 전역 상태
 oxlint. GitHub Pages 배포(`vite.config.js`의 `base: './'`, main 푸시 시 Actions
 자동 배포).
 
-## CSS 작성 방식 (Tailwind)
-
-- 앞으로 CSS는 Tailwind 방식으로 구성한다. 새 화면·컴포넌트를 만들거나 고칠 때 별도 CSS
-  파일에 규칙을 더하지 말고, 유틸리티 클래스를 JSX `className`에 바로 쓴다.
-- 색·글꼴은 기존 토큰을 Tailwind 테마로 연결해 이름으로 쓴다(예: `@theme inline`에서
-  `--color-ivory: var(--yw-ivory)` → `bg-ivory`). 토큰에 없는 색을 임의값으로 새로 만들지 않는다.
-- 반응형은 Tailwind 접두사(`sm:`·`md:`·`lg:`)와 `clamp()` 임의값으로 처리한다(위 반응형 필수 조건은 그대로).
-- 현재 웰니스 사이트는 순수 CSS(`src/pages/wellness/**/*.css`, BEM식 이름)이고 Tailwind는 아직
-  설치되어 있지 않다. 처음 Tailwind 코드를 넣을 때는 도입 방법(`tailwindcss` + `@tailwindcss/vite`,
-  기존 화면이 바뀌지 않게 기본 리셋(preflight) 제외)을 먼저 설명하고 확인받는다.
-  기존 CSS 전체를 Tailwind로 옮길지는 사용자가 정한다.
-
 ## 디자인 시스템
 
 `JunsCreuel/Poppin-Room`(같은 소유자의 이전 프로젝트) UI 구조를 참고: 굵은
