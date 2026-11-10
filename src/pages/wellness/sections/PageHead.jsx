@@ -4,7 +4,7 @@ import { PAGES, pageHref } from '../pages'
 export default function PageHead({ title }) {
   return (
     <header
-      className="border-b border-line bg-white px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)] [&+[data-curtain]]:mt-0"
+      className="px-(--w-gutter) pt-[clamp(3rem,7vw,5.5rem)] pb-[clamp(2.5rem,5vw,4rem)]"
       data-theme="light"
     >
       <div className="mx-auto w-full max-w-(--yw-max)">

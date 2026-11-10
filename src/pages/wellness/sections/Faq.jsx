@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
 import { OFFER_TERM, OFFER_TERM_NOTE, PARENT_STORE_COUNT, SALE_COUNT, SHOW_OFFER, STARTUP_COSTS, STARTUP_COSTS_NOTE } from '../data'
-import { Folio } from '../editorial'
 import { prefersReducedMotion } from '../motion'
-import { CURTAIN_LIGHT, H2, SECTION } from '../tw'
+import { H2, RULE, SECTION } from '../tw'
 
 const CUSTOMER_FAQS = [
   { q: '온열돔만 이용할 수도 있나요?', a: '네, 온열돔 단독 이용도 가능합니다. 정기적으로 방문하고 싶으신 분은 이용권 구성을 상담해 주세요. 원하는 부위의 아웃케어를 함께 선택할 수도 있습니다.' },
@@ -60,9 +59,9 @@ const STARTUP_FAQS = [
   },
 ]
 
-// 탭: 2px 에스프레소 알약, 고른 탭은 채움(마우스 기기에서 고르지 않은 탭에 올리면 옅게 물든다)
+// 탭: 2px 테두리 버튼, 고른 탭은 채움(마우스 기기에서 고르지 않은 탭에 올리면 옅게 물든다)
 const TAB =
-  'min-h-11 cursor-pointer rounded-full border-2 border-espresso px-5 py-[0.45rem] [font-family:inherit] text-[0.92rem] leading-[1.3] font-semibold whitespace-nowrap transition-[background-color,color] duration-250 ease-[ease] focus-visible:rounded-full active:scale-97 motion-reduce:transition-none'
+  'min-h-11 cursor-pointer rounded-btn border-2 border-espresso px-5 py-[0.45rem] [font-family:inherit] text-[0.92rem] leading-[1.3] font-semibold whitespace-nowrap transition-[background-color,color] duration-250 ease-[ease] active:scale-97 motion-reduce:transition-none'
 const TAB_ON = 'bg-espresso text-white'
 const TAB_OFF =
   'bg-transparent text-espresso [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[color-mix(in_srgb,var(--w-espresso)_8%,transparent)]'
@@ -113,10 +112,9 @@ export default function Faq() {
   }
 
   return (
-    <section id="faq" className={`${SECTION} ${CURTAIN_LIGHT} bg-white`} data-theme="light" data-curtain>
+    <section id="faq" className={`${SECTION} ${RULE}`} data-theme="light">
       <div className="mx-auto w-full max-w-(--yw-max) grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(16rem,4fr)_8fr] lg:items-start">
         <div className="min-w-0 lg:sticky lg:top-[calc(var(--w-nav-h)+2rem)] lg:self-start">
-          <Folio ko="자주 묻는 질문" />
           <h2 className={H2}>궁금한 점을 모았습니다</h2>
 
           <div

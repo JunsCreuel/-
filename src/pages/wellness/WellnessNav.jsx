@@ -25,13 +25,11 @@ const BAR_BTN =
   'relative min-h-11 cursor-pointer border-0 bg-transparent px-0 py-[0.4rem] text-[0.93rem] font-medium text-inherit hover:text-accent-deep hover:underline hover:decoration-1 hover:underline-offset-[0.45em] group-data-[theme=dark]/nav:hover:text-champagne'
 // 데스크톱 드롭다운: 메뉴에 올리거나 포커스가 들어오면 살짝 내려앉으며 나타난다
 const DROP =
-  'invisible absolute top-full left-1/2 z-5 m-0 grid min-w-[12.5rem] -translate-x-1/2 translate-y-[0.4rem] list-none rounded-2xl bg-white p-[0.65rem] text-ink opacity-0 shadow-[0_14px_34px_-14px_color-mix(in_srgb,var(--w-ink)_35%,transparent)] transition-[opacity,translate,visibility] duration-180 ease-[ease] group-focus-within/item:visible group-focus-within/item:translate-y-0 group-focus-within/item:opacity-100 group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100 motion-reduce:transition-none'
+  'invisible absolute top-full left-1/2 z-5 m-0 grid min-w-[12.5rem] -translate-x-1/2 translate-y-[0.4rem] list-none rounded-card bg-white p-[0.65rem] text-ink opacity-0 shadow-[0_14px_34px_-14px_color-mix(in_srgb,var(--w-ink)_35%,transparent)] transition-[opacity,translate,visibility] duration-180 ease-[ease] group-focus-within/item:visible group-focus-within/item:translate-y-0 group-focus-within/item:opacity-100 group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100 motion-reduce:transition-none'
 const DROP_BTN =
-  'block w-full cursor-pointer rounded-[0.65rem] border-0 bg-transparent px-[0.9rem] py-[0.6rem] text-left text-[0.9rem] leading-[1.35] font-medium whitespace-nowrap text-ink no-underline hover:bg-ivory'
-// 한글 이름 아래 작은 영문
-const SUB_EN = 'mt-[0.15rem] block font-num text-[0.66rem] leading-[1.3] font-medium tracking-[0.14em] normal-nums text-muted'
+  'block w-full cursor-pointer rounded-card border-0 bg-transparent px-[0.9rem] py-[0.6rem] text-left text-[0.9rem] leading-[1.35] font-medium whitespace-nowrap text-ink no-underline hover:bg-ivory'
 
-// 휴대폰 패널: 큰 줄(번호 + 이름), 하위 메뉴는 그 아래 들여 쓴 두 칸(한글 + 작은 영문)
+// 휴대폰 패널: 큰 줄(이름), 하위 메뉴는 그 아래 들여 쓴 두 칸
 const PANEL_BTN =
   'flex w-full cursor-pointer items-baseline gap-[1.3rem] border-x-0 border-t-0 border-line bg-transparent px-0 py-[1.05rem] text-left text-[clamp(1.15rem,3vw,1.5rem)] text-inherit hover:underline hover:decoration-1 hover:underline-offset-[0.35em]'
 const PANEL_SUB_BTN =
@@ -177,11 +175,6 @@ export default function WellnessNav({ branch, items }) {
                       <li key={c.id}>
                         <button type="button" className={DROP_BTN} onClick={() => goToItem(c)}>
                           {c.label}
-                          {c.en && (
-                            <small lang="en" className={SUB_EN}>
-                              {c.en}
-                            </small>
-                          )}
                         </button>
                       </li>
                     ))}
@@ -194,7 +187,7 @@ export default function WellnessNav({ branch, items }) {
           <div className="flex items-center gap-[0.4rem] justify-self-end">
             <button
               type="button"
-              className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full border border-espresso bg-espresso px-[1.3rem] py-0 text-center [font-family:inherit] text-[0.88rem] leading-[1.3] font-semibold tracking-[0.04em] whitespace-nowrap text-white [transition:background-color_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.2s_ease] focus-visible:rounded-[6px] [&:hover]:border-accent-deep [&:hover]:bg-accent-deep active:[transform:scale(0.98)] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:[transform:translateY(-2px)] group-data-[theme=dark]/nav:border-cream group-data-[theme=dark]/nav:bg-cream group-data-[theme=dark]/nav:text-espresso group-data-[theme=dark]/nav:hover:border-white group-data-[theme=dark]/nav:hover:bg-white group-data-[theme=dark]/nav:hover:text-espresso [@media(min-width:360px)_and_(max-width:380px)]:px-[0.9rem] [@media(max-width:359px)]:px-3 [@media(max-width:359px)]:text-[0.82rem]"
+              className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-btn border border-espresso bg-espresso px-[1.3rem] py-0 text-center [font-family:inherit] text-[0.88rem] leading-[1.3] font-semibold tracking-[0.04em] whitespace-nowrap text-white [transition:background-color_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.2s_ease] focus-visible:rounded-[6px] [&:hover]:border-accent-deep [&:hover]:bg-accent-deep active:[transform:scale(0.98)] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:[transform:translateY(-2px)] group-data-[theme=dark]/nav:border-cream group-data-[theme=dark]/nav:bg-cream group-data-[theme=dark]/nav:text-espresso group-data-[theme=dark]/nav:hover:border-white group-data-[theme=dark]/nav:hover:bg-white group-data-[theme=dark]/nav:hover:text-espresso [@media(min-width:360px)_and_(max-width:380px)]:px-[0.9rem] [@media(max-width:359px)]:px-3 [@media(max-width:359px)]:text-[0.82rem]"
               onClick={() => goTo('booking')}
             >
               상담 예약
@@ -239,7 +232,7 @@ export default function WellnessNav({ branch, items }) {
                 </div>
               )}
               <div className="flex flex-col">
-                {items.map((item, i) => (
+                {items.map((item) => (
                   <div key={item.id}>
                     <button
                       type="button"
@@ -247,21 +240,13 @@ export default function WellnessNav({ branch, items }) {
                       aria-current={current(item)}
                       onClick={() => goToItem(item)}
                     >
-                      <span aria-hidden="true" className="min-w-[1.8rem] font-en text-[0.8rem] text-muted">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
                       {item.label}
                     </button>
                     {item.children && (
-                      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-[0.15rem] border-b border-line pt-0 pr-0 pb-[0.9rem] pl-[3.1rem]">
+                      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-[0.15rem] border-b border-line pt-0 pr-0 pb-[0.9rem] pl-4">
                         {item.children.map((c) => (
                           <button key={c.id} type="button" className={PANEL_SUB_BTN} onClick={() => goToItem(c)}>
                             {c.label}
-                            {c.en && (
-                              <small lang="en" className={SUB_EN}>
-                                {c.en}
-                              </small>
-                            )}
                           </button>
                         ))}
                       </div>

@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react'
 import { BRANCHES, PICS, PROGRAMS } from '../data'
-import { Folio, ParenLink, Pic, PriceLine, SplitLines } from '../editorial'
+import { ParenLink, Pic, PriceLine, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView } from '../motion'
 import { pickForBooking } from '../scroll'
-import { BTN_INK, CURTAIN, DARK, H2, SECTION } from '../tw'
+import { BTN_INK, DARK, H2, SECTION } from '../tw'
 
 // No. 03 Today's Condition — 부위 사진 타일을 고르면 어울리는 관리가 추천 카드로 바뀌고,
 // 그 관리로 상담 예약(w:pick → 예약 장 1단계 미리 선택)까지 이어진다.
@@ -32,7 +32,7 @@ const KEY_STEP = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }
 // 부위 타일: 흑백에 가까운 사진, 아래쪽만 어둡게 해 이름이 읽힌다. 고르면 색이 돌아오고 커지며 샴페인 고리와 체크 원이 붙는다.
 // 화면에 들어오면 타일이 아래에서부터 차례로 열린다(끝나면 clip-path를 남기지 않아 고리·포커스가 잘리지 않는다)
 const TILE =
-  "group/tile relative isolate m-0 flex aspect-[4/5] min-w-0 cursor-pointer flex-col justify-end overflow-clip rounded-[1.25rem] border-0 bg-[#1d1a17] p-3 text-left [font:inherit] text-cream outline-2 outline-offset-3 outline-transparent [-webkit-tap-highlight-color:transparent] [transition:opacity_0.4s_ease,outline-color_0.3s_ease] before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:bg-[linear-gradient(to_top,rgb(29_26_23/0.78),transparent_60%)] before:content-[''] focus-visible:outline-cream aria-checked:outline-champagne aria-checked:focus-visible:outline-cream motion-reduce:transition-none sm:p-[0.9rem] lg:p-4"
+  "group/tile relative isolate m-0 flex aspect-[4/5] min-w-0 cursor-pointer flex-col justify-end overflow-clip rounded-card border-0 bg-[#1d1a17] p-3 text-left [font:inherit] text-cream outline-2 outline-offset-3 outline-transparent [-webkit-tap-highlight-color:transparent] [transition:opacity_0.4s_ease,outline-color_0.3s_ease] before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:bg-[linear-gradient(to_top,rgb(29_26_23/0.78),transparent_60%)] before:content-[''] focus-visible:outline-cream aria-checked:outline-champagne aria-checked:focus-visible:outline-cream motion-reduce:transition-none sm:p-[0.9rem] lg:p-4"
 const TILE_IMG =
   'absolute inset-0 -z-2 size-full max-w-none object-cover [filter:grayscale(0.55)_brightness(0.78)] [transition:filter_0.3s_ease,transform_0.3s_var(--yw-ease)] group-aria-checked/tile:[filter:none] motion-safe:group-aria-checked/tile:[transform:scale(1.04)] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/tile:[filter:none] [@media(hover:hover)_and_(pointer:fine)]:motion-safe:group-hover/tile:[transform:scale(1.04)]'
 
@@ -101,9 +101,8 @@ export default function Condition() {
   }
 
   return (
-    <section id="concern" className={`${SECTION} ${DARK} ${CURTAIN} overflow-clip`} data-theme="dark" data-curtain>
+    <section id="concern" className={`${SECTION} ${DARK} overflow-clip`} data-theme="dark">
       <div className="mx-auto w-full max-w-(--yw-max)">
-        <Folio ko="부위별 추천" tone="light" />
         {/* 좁은 화면에서 제목 줄이 한 글자만 남지 않게 고르게 나눈다 */}
         <SplitLines
           as="h2"
@@ -160,7 +159,7 @@ export default function Condition() {
               휴대폰에서는 아래 고정 바에 가리지 않게 스크롤 여백을 둔다 */}
           <aside
             ref={cardRef}
-            className={`relative min-w-0 scroll-mt-[calc(var(--w-nav-h)_+_1rem)] scroll-mb-4 rounded-3xl max-md:scroll-mb-[5.5rem] lg:sticky lg:top-[calc(var(--w-nav-h)_+_2rem)] [&_:focus-visible]:outline-espresso ${
+            className={`relative min-w-0 scroll-mt-[calc(var(--w-nav-h)_+_1rem)] scroll-mb-4 rounded-card max-md:scroll-mb-[5.5rem] lg:sticky lg:top-[calc(var(--w-nav-h)_+_2rem)] [&_:focus-visible]:outline-espresso ${
               shown
                 ? 'bg-ivory p-[clamp(1.1rem,4vw,1.5rem)] text-ink sm:max-lg:grid sm:max-lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] sm:max-lg:grid-rows-[auto_auto_auto_1fr] sm:max-lg:items-start sm:max-lg:gap-x-[clamp(1.25rem,3vw,2rem)] sm:max-lg:[&>:not(figure)]:col-start-2'
                 : 'border border-dashed border-[rgb(241_243_228/0.38)] bg-transparent px-5 py-4 text-cream'
@@ -172,7 +171,7 @@ export default function Condition() {
                 {/* 사진: 바뀔 때마다 오른쪽에서 왼쪽으로 와이프되며 살짝 줄어든다. 낮은 데스크톱 화면에서는 카드가 화면 안에 들어오도록 사진을 낮춘다 */}
                 <figure
                   key={`photo-${shown.id}`}
-                  className="m-0 aspect-[16/10] animate-cond-wipe overflow-clip rounded-2xl bg-[color-mix(in_srgb,var(--w-champagne)_35%,var(--yw-ivory))] motion-reduce:animate-none sm:max-lg:col-start-1 sm:max-lg:row-[1/-1] sm:max-lg:aspect-[4/5] [@media(min-width:64rem)_and_(max-height:48rem)]:aspect-[2/1] [@media(min-width:64rem)_and_(min-height:58.01rem)]:aspect-[4/3]"
+                  className="m-0 aspect-[16/10] animate-cond-wipe overflow-clip rounded-card bg-[color-mix(in_srgb,var(--w-champagne)_35%,var(--yw-ivory))] motion-reduce:animate-none sm:max-lg:col-start-1 sm:max-lg:row-[1/-1] sm:max-lg:aspect-[4/5] [@media(min-width:64rem)_and_(max-height:48rem)]:aspect-[2/1] [@media(min-width:64rem)_and_(min-height:58.01rem)]:aspect-[4/3]"
                 >
                   <Pic
                     pic={PICS[shown.pic]}
@@ -183,7 +182,7 @@ export default function Condition() {
                 <p className="mt-[1.1rem] text-[0.75rem] font-semibold tracking-[0.14em] text-accent-deep sm:max-lg:mt-1">{eyebrow}</p>
                 {/* 이름·과정·가격: 바뀔 때마다 짧게 올라온다 */}
                 <div key={`info-${shown.id}`} className="animate-cond-rise motion-reduce:animate-none">
-                  <p className="mt-[0.35rem] font-label text-[0.78rem] tracking-[0.04em] text-muted">
+                  <p className="mt-[0.35rem] font-sans text-[0.78rem] tracking-[0.04em] text-muted">
                     {shown.group} · {shown.time}
                   </p>
                   <h3 className="mx-0 mt-[0.2rem] mb-0 font-serif text-[clamp(1.35rem,1.1rem_+_1vw,1.6rem)] leading-[1.35] font-normal tracking-[-0.02em] break-keep">
@@ -210,7 +209,7 @@ export default function Condition() {
                 {other && (
                   <button
                     type="button"
-                    className="group/alt mt-4 flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 border-x-0 border-t border-b-0 border-line bg-transparent px-0 pt-[0.85rem] pb-0 text-left [font-family:inherit] text-[0.88rem] leading-[1.5] text-ink focus-visible:rounded-lg"
+                    className="group/alt mt-4 flex min-h-11 w-full cursor-pointer items-center justify-between gap-3 border-x-0 border-t border-b-0 border-line bg-transparent px-0 pt-[0.85rem] pb-0 text-left [font-family:inherit] text-[0.88rem] leading-[1.5] text-ink focus-visible:rounded-card"
                     onClick={() => setShowAlt((v) => !v)}
                   >
                     <span className={`underline decoration-transparent underline-offset-[0.3em] transition-[text-decoration-color] duration-300 ease-[ease] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/alt:decoration-current`}>

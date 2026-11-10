@@ -78,7 +78,7 @@ export default function EventPopups() {
           {list.map((p, i) => (
             <article
               key={p.id}
-              className="hidden animate-pop-rise overflow-hidden rounded-2xl bg-white shadow-[0_20px_50px_-20px_rgb(29_26_23/0.6)] [grid-area:1/1] data-current:block motion-reduce:animate-none md:block md:[grid-area:auto]"
+              className="hidden animate-pop-rise overflow-hidden rounded-card bg-white shadow-[0_20px_50px_-20px_rgb(29_26_23/0.6)] [grid-area:1/1] data-current:block motion-reduce:animate-none md:block md:[grid-area:auto]"
               data-current={i === cur ? '' : undefined}
             >
               <button

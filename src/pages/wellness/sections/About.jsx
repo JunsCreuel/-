@@ -5,7 +5,7 @@ import { SECTION } from '../tw'
 // 브랜드 소개 — 짧은 한 단락과 사진 한 장. 휴대폰은 위아래, 데스크톱은 글(왼쪽)·사진(오른쪽).
 export default function About() {
   return (
-    <section id="about" className={`${SECTION} bg-white`} data-theme="light" aria-labelledby="about-title">
+    <section id="about" className={SECTION} data-theme="light" aria-labelledby="about-title">
       <div className="mx-auto w-full max-w-(--yw-max) grid items-center gap-[clamp(1.75rem,5vw,3rem)] lg:grid-cols-2 lg:gap-[clamp(3rem,6vw,6rem)]">
         <div>
           <h2
@@ -21,7 +21,7 @@ export default function About() {
             따뜻하게 데운 뒤, 두피·얼굴·바디를 1:1로 관리합니다.
           </p>
         </div>
-        <figure className="m-0 aspect-[4/3] overflow-clip rounded-[1.25rem] lg:aspect-[4/5] [&_img]:h-full [&_img]:w-full [&_img]:max-w-none [&_img]:object-cover">
+        <figure className="m-0 aspect-[4/3] overflow-clip rounded-card lg:aspect-[4/5] [&_img]:h-full [&_img]:w-full [&_img]:max-w-none [&_img]:object-cover">
           <Pic pic={PICS.aboutNeck} sizes="(min-width: 64rem) 40vw, 92vw" />
         </figure>
       </div>
