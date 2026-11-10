@@ -42,6 +42,7 @@ export const PICS = {
   menuLymphNode: pic('menu-neck-v2', [240, 600, 736], 4 / 5),
   menuWarmup: pic('menu-warmup', [240, 600, 1200], 4 / 5), // 첫 화면 온열돔 장
   menuWarmupCare: pic('menu-shoulder-v2', [240, 600, 736], 4 / 5), // 풀 바디 웜업케어 메뉴 사진
+  bizStill: pic('biz-still', [960, 1600], 2 / 3),
   // 마지막 장면: 매장 사진(제공 사진, 로고만 남기고 글자를 지운 뒤 초해상도로 4배 키움). 늘려 붙인 곳 없이 원본 비율(4:5) 그대로 쓴다.
   closing: pic('closing-shop-hd', [720, 1080, 1440, 2160, 2872], 2872 / 3592),
   // 이벤트 팝업 사진(Unsplash 무료: photo-1540555700478 튤립·수건, photo-1706795033849 수건·초)

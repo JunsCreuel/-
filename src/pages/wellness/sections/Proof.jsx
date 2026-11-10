@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { BRANCHES, REVIEWS, REVIEW_STATS, SHOW_CLAIM_REVIEWS } from '../data'
+import { Folio } from '../editorial'
 import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
-import { BTN, H2, RULE, SECTION } from '../tw'
+import { BTN, H2, SECTION } from '../tw'
 
 // No. 06 Voices — 네이버 방문자 리뷰를 베이지 바탕 위 흰 카드로 모아 보여 준다.
 // 카드: 별점 → 관리 꼬리표 → 크게 인용한 한 구절(원문에서 그대로 자른 것) → 원문 전체(인용 구절은 형광펜) → 닉네임·방문일.
@@ -26,7 +27,7 @@ function Marked({ text, quote }) {
 }
 
 const CARD =
-  'flex scroll-mt-[calc(var(--w-nav-h)+1rem)] flex-col  rounded-card bg-white px-[clamp(1.25rem,3.5vw,1.9rem)] pt-[clamp(1.5rem,4vw,2.1rem)] pb-[clamp(1.25rem,3vw,1.6rem)] shadow-[0_1px_2px_color-mix(in_srgb,var(--w-ink)_4%,transparent)] transition-[translate] duration-200 ease-yw motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent-deep [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_18px_40px_-18px_color-mix(in_srgb,var(--w-espresso)_30%,transparent)]'
+  'flex scroll-mt-[calc(var(--w-nav-h)+1rem)] flex-col  rounded-[1.25rem] bg-white px-[clamp(1.25rem,3.5vw,1.9rem)] pt-[clamp(1.5rem,4vw,2.1rem)] pb-[clamp(1.25rem,3vw,1.6rem)] shadow-[0_1px_2px_color-mix(in_srgb,var(--w-ink)_4%,transparent)] transition-[translate] duration-200 ease-yw motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent-deep [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_18px_40px_-18px_color-mix(in_srgb,var(--w-espresso)_30%,transparent)]'
 // 메인 한 줄 카드: 옆으로 넘길 때 카드 머리에 맞춰 멈추고, 마우스를 올리면 살짝 떠오른다
 const CARD_IN_RAIL = 'snap-start [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
 
@@ -58,7 +59,7 @@ function ReviewCard({ review, index, branchLabel, inRail = false }) {
           {review.topic}
         </p>
       )}
-      <h3 className="mx-0 mt-[0.85rem] mb-0 text-center font-sans text-[clamp(1.08rem,3.6vw,1.22rem)] leading-[1.5] font-bold tracking-[-0.02em] text-balance break-keep text-ink [&_span]:font-serif [&_span]:font-medium [&_span]:text-accent">
+      <h3 className="mx-0 mt-[0.85rem] mb-0 text-center font-sans text-[clamp(1.08rem,3.6vw,1.22rem)] leading-[1.5] font-bold tracking-[-0.02em] text-balance break-keep text-ink [&_span]:font-en [&_span]:font-medium [&_span]:text-accent">
         <span aria-hidden="true">“</span>
         {review.quote}
         <span aria-hidden="true">”</span>
@@ -108,10 +109,10 @@ function Stats() {
   const { rating, total, voters, keywords } = REVIEW_STATS
 
   return (
-    <div ref={ref} className="rounded-card bg-[color-mix(in_srgb,#fff_62%,transparent)] p-[clamp(1.25rem,3vw,1.75rem)]">
+    <div ref={ref} className="rounded-[1.25rem] bg-[color-mix(in_srgb,#fff_62%,transparent)] p-[clamp(1.25rem,3vw,1.75rem)]">
       <p className="m-0 inline-flex items-center gap-2 text-[0.84rem] leading-[1.4] font-medium text-ink">
         <i
-          className="grid size-5 flex-none place-items-center rounded-[0.3rem] bg-[#03c75a] font-sans text-[0.75rem] leading-none font-semibold text-white not-italic"
+          className="grid size-5 flex-none place-items-center rounded-[0.3rem] bg-[#03c75a] font-label text-[0.75rem] leading-none font-semibold text-white not-italic"
           aria-hidden="true"
         >
           N
@@ -119,7 +120,7 @@ function Stats() {
         네이버 방문자 리뷰
       </p>
       <p className="mx-0 mt-[0.7rem] mb-0 flex flex-wrap items-baseline gap-x-[0.65rem] gap-y-[0.2rem]">
-        <b className="font-serif text-[clamp(2.4rem,7vw,3rem)] leading-none font-normal tracking-[-0.01em] normal-nums">{rating}</b>
+        <b className="font-en text-[clamp(2.4rem,7vw,3rem)] leading-none font-normal tracking-[-0.01em] normal-nums">{rating}</b>
         <span className="text-[1rem] tracking-[0.12em] text-accent" aria-hidden="true">
           ★★★★★
         </span>
@@ -135,7 +136,7 @@ function Stats() {
         {keywords.map((k, i) => (
           <li
             key={k.label}
-            className={`relative flex justify-between gap-4 overflow-hidden rounded-card bg-[color-mix(in_srgb,var(--w-champagne)_18%,#fff)] px-[0.8rem] py-2 text-[0.86rem] leading-[1.4] before:absolute before:inset-y-0 before:left-0 before:w-[calc(var(--v)*100%)] before:origin-left before:bg-[color-mix(in_srgb,var(--w-champagne)_55%,#fff)] before:content-[''] before:[transition:scale_0.5s_var(--yw-ease)_calc(var(--i)*0.06s)] motion-reduce:before:scale-none motion-reduce:before:transition-none [&>b]:relative [&>b]:font-semibold [&>b]:text-accent-deep [&>b]:tabular-nums [&>span]:relative ${
+            className={`relative flex justify-between gap-4 overflow-hidden rounded-[0.55rem] bg-[color-mix(in_srgb,var(--w-champagne)_18%,#fff)] px-[0.8rem] py-2 text-[0.86rem] leading-[1.4] before:absolute before:inset-y-0 before:left-0 before:w-[calc(var(--v)*100%)] before:origin-left before:bg-[color-mix(in_srgb,var(--w-champagne)_55%,#fff)] before:content-[''] before:[transition:scale_0.5s_var(--yw-ease)_calc(var(--i)*0.06s)] motion-reduce:before:scale-none motion-reduce:before:transition-none [&>b]:relative [&>b]:font-semibold [&>b]:text-accent-deep [&>b]:tabular-nums [&>span]:relative ${
               inView ? 'before:scale-none' : 'before:scale-x-0'
             }`}
             style={{ '--v': k.count / voters, '--i': i }}
@@ -150,7 +151,7 @@ function Stats() {
 }
 
 const ARROW =
-  'grid size-12 cursor-pointer place-items-center rounded-full border-[1.5px] border-ink bg-transparent p-0 font-serif text-[1.7rem] leading-none font-light text-ink transition-[background-color,color] duration-250 ease-[ease] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink [@media(hover:hover)_and_(pointer:fine)]:hover:text-white [&>span]:-mt-[0.12em]'
+  'grid size-12 cursor-pointer place-items-center rounded-full border-[1.5px] border-ink bg-transparent p-0 font-en text-[1.7rem] leading-none font-light text-ink transition-[background-color,color] duration-250 ease-[ease] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:hover:bg-ink [@media(hover:hover)_and_(pointer:fine)]:hover:text-white [&>span]:-mt-[0.12em]'
 
 // summary(메인)면 모든 후기를 옆으로 이어진 한 줄 카드로 두고, 화살표 버튼으로 한 장씩 넘긴다(휴대폰은 손가락으로도 넘어간다).
 // 후기 페이지는 카드 벽에 몇 장만 보이고 '후기 더 보기'로 나머지를 연다.
@@ -193,12 +194,13 @@ export default function Proof({ summary = false }) {
   return (
     <section
       id="reviews"
-      className={`${SECTION} ${RULE} overflow-clip [--yw-vc-gap:clamp(0.9rem,2vw,1.5rem)]`}
+      className={`${SECTION} overflow-clip bg-[color-mix(in_srgb,var(--w-champagne)_30%,var(--yw-ivory))] [--yw-vc-gap:clamp(0.9rem,2vw,1.5rem)]`}
       data-theme="light"
       aria-labelledby="reviews-title"
     >
       <div className="mx-auto w-full max-w-(--yw-max) mb-[clamp(2.25rem,5vw,4rem)] grid gap-[clamp(1.75rem,4vw,2.5rem)] md:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] md:items-end md:gap-[clamp(2rem,4vw,3rem)]">
         <div>
+          <Folio ko="후기" />
           <h2 id="reviews-title" className={H2}>
             다녀가신 분들의 이야기
           </h2>

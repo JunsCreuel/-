@@ -13,22 +13,24 @@ import './tailwind.css'
 // 위쪽 메뉴. page는 옮겨 갈 하위 페이지(맨 위에서 시작), section은 옮겨 간 뒤 내려갈 섹션 id(pages.js)다.
 // children은 데스크톱에서 메뉴에 마우스를 올리면 펼쳐지는 하위 메뉴(휴대폰 패널에서는 들여 쓴 줄)다.
 // page·section이 없는 항목(마린시티점)은 같은 페이지 안의 섹션 id로 내려간다. bar: true인 항목만 상단 바에 나온다.
-// event가 있으면 그 섹션에 도착한 뒤 window 이벤트(detail)로 탭·카드를 고른다.
+// 하위 메뉴의 en은 한글 이름 아래 작은 영문이다. event가 있으면 그 섹션에 도착한 뒤 window 이벤트(detail)로 탭·카드를 고른다.
 
 // 관리 메뉴의 분류 탭. id는 data.js PROGRAMS의 group과 같아야 그 탭이 켜진다(Programs.jsx 'w:program-filter').
 const PROGRAM_GROUPS = [
-  { id: '두피 · 얼굴', key: 'scalp-face', label: '두피 · 얼굴' },
-  { id: '바디', key: 'body', label: '바디' },
-  { id: '온열 웜업', key: 'warmup', label: '온열 웜업' },
+  { id: '두피 · 얼굴', key: 'scalp-face', label: '두피 · 얼굴', en: 'SCALP & FACE' },
+  { id: '바디', key: 'body', label: '바디', en: 'BODY' },
+  { id: '온열 웜업', key: 'warmup', label: '온열 웜업', en: 'WARM-UP' },
 ]
 
 // 장비 카드 순서(Equipment.jsx: 온열돔 카드, DEVICES)와 같다. 고르면 그 카드까지 옆으로 넘긴다('w:equipment-card').
 const EQUIPMENT_MENU = [
-  { label: '전신 온열돔' },
-  { label: '페이스 갈바닉' },
-  { label: '바디 갈바닉' },
-  { label: '웰스파' },
+  { label: '전신 온열돔', en: 'HEAT DOME' },
+  { label: '페이스 갈바닉', en: 'FACE GALVANIC' },
+  { label: '바디 갈바닉', en: 'BODY GALVANIC' },
+  { label: '웰스파', en: 'WELLSPA' },
 ]
+
+const BRANCH_EN = { zai: 'YONGHO ZAI', marine: 'MARINE CITY' }
 
 const NAV_ITEMS = {
   zai: [
@@ -37,7 +39,7 @@ const NAV_ITEMS = {
       label: '브랜드',
       bar: true,
       page: PAGES.brand,
-      children: [{ id: 'about-story', label: '브랜드 소개', section: 'about' }],
+      children: [{ id: 'about-story', label: '브랜드 소개', en: 'ABOUT', section: 'about' }],
     },
     {
       id: 'programs',
@@ -45,15 +47,16 @@ const NAV_ITEMS = {
       bar: true,
       page: PAGES.program,
       children: [
-        { id: 'concern', label: '부위별 추천', section: 'concern' },
+        { id: 'concern', label: '부위별 추천', en: 'BY CONCERN', section: 'concern' },
         ...PROGRAM_GROUPS.map((g) => ({
           id: `programs-${g.key}`,
           label: g.label,
+          en: g.en,
           section: 'programs',
           event: 'w:program-filter',
           detail: { id: g.id },
         })),
-        { id: 'offer', label: '첫 방문 이벤트', section: 'offer' },
+        { id: 'offer', label: '첫 방문 이벤트', en: 'FIRST VISIT', section: 'offer' },
       ],
     },
     {
@@ -64,6 +67,7 @@ const NAV_ITEMS = {
       children: EQUIPMENT_MENU.map((e, i) => ({
         id: `equipment-${i}`,
         label: e.label,
+        en: e.en,
         section: 'equipment',
         event: 'w:equipment-card',
         detail: { index: i },
@@ -74,7 +78,7 @@ const NAV_ITEMS = {
       label: '후기',
       bar: true,
       page: PAGES.review,
-      children: [{ id: 'reviews-visitor', label: '방문자 리뷰', section: 'reviews' }],
+      children: [{ id: 'reviews-visitor', label: '방문자 리뷰', en: 'REVIEWS', section: 'reviews' }],
     },
     {
       id: 'branches',
@@ -82,9 +86,9 @@ const NAV_ITEMS = {
       bar: true,
       page: PAGES.location,
       children: [
-        ...LISTED_BRANCHES.map((b) => ({ id: `branch-${b.id}`, label: b.label, section: `branch-${b.id}` })),
-        { id: 'booking', label: '상담 예약', section: 'booking' },
-        { id: 'faq', label: '자주 묻는 질문', section: 'faq' },
+        ...LISTED_BRANCHES.map((b) => ({ id: `branch-${b.id}`, label: b.label, en: BRANCH_EN[b.id], section: `branch-${b.id}` })),
+        { id: 'booking', label: '상담 예약', en: 'BOOKING', section: 'booking' },
+        { id: 'faq', label: '자주 묻는 질문', en: 'FAQ', section: 'faq' },
       ],
     },
     {
@@ -93,8 +97,8 @@ const NAV_ITEMS = {
       bar: true,
       page: PAGES.startup,
       children: [
-        { id: 'startup-info', label: '창업 안내', section: 'startup' },
-        { id: 'startup-form', label: '창업 상담 신청', section: 'startup-form-title' },
+        { id: 'startup-info', label: '창업 안내', en: 'FRANCHISE', section: 'startup' },
+        { id: 'startup-form', label: '창업 상담 신청', en: 'INQUIRY', section: 'startup-form-title' },
       ],
     },
   ],
@@ -113,7 +117,7 @@ export default function WellnessLayout() {
   const branch = pathname.startsWith(BRANCHES.marine.path) ? BRANCHES.marine : BRANCHES.zai
 
   // 제목용 마루 부리(네이버 한글한글 아름답게, OFL), 본문 프리텐다드(OFL, 쓰는 글자만 받는 dynamic subset),
-  // 첫 화면 영문 한 줄용 Cormorant Garamond(이탤릭)를 이 페이지에 있는 동안만 불러온다.
+  // 숫자·라벨용 Jost, 영문 큰 제목·숫자용 Cormorant Garamond(300·이탤릭 포함)를 이 페이지에 있는 동안만 불러온다.
   useEffect(() => {
     const pre = document.createElement('link')
     pre.rel = 'preconnect'
@@ -122,7 +126,7 @@ export default function WellnessLayout() {
     const sheets = [
       'https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css',
       'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css',
-      'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&display=swap',
+      'https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap',
     ].map((href) => {
       const link = document.createElement('link')
       link.rel = 'stylesheet'

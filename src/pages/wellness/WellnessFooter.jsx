@@ -15,9 +15,10 @@ const SHOW_MARINE = MARINE_OPEN || SHOW_MARINE_INFO
 
 // 사업자 정보 사이의 '|'. 좁은 화면(600px 미만)에서는 숨기고 항목마다 줄을 바꾼다(줄 끝에 '|'가 남지 않게).
 const SEP = 'mx-[0.55em] text-line-strong max-[599px]:hidden'
-// 메뉴·바로가기 링크(누르는 영역 44px 이상, 겉모양은 글자만)
+// 오른쪽 링크 두 열의 항목(누르는 영역 44px 이상, 겉모양은 글자만)
 const COL_ITEM =
   'inline-flex min-h-11 cursor-pointer items-center border-0 bg-transparent p-0 text-left [font-family:inherit] [font-size:inherit] [font-weight:inherit] [line-height:inherit] text-ink hover:underline hover:underline-offset-[0.3em]'
+const COL = 'flex flex-col items-start'
 
 export default function WellnessFooter({ items }) {
   const { zai, marine } = BRANCHES
@@ -32,7 +33,7 @@ export default function WellnessFooter({ items }) {
           <BrandLogo variant="nav" />
           <div className="mx-0 mt-[1.8rem] mb-8 h-px bg-line" />
 
-          <div className="grid gap-[2.6rem] min-[900px]:grid-cols-[1.5fr_1fr] min-[900px]:gap-16">
+          <div className="grid gap-[2.6rem] min-[900px]:grid-cols-[1.7fr_1fr] min-[900px]:gap-16">
             <div className="max-[599px]:[&_p>span:not([aria-hidden])]:block [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center [&_a]:underline [&_a]:underline-offset-[0.25em] [&_p]:m-0 [&_p]:text-muted">
               <p>상호명 : {BRAND.company}</p>
               <p>
@@ -67,55 +68,59 @@ export default function WellnessFooter({ items }) {
                 </p>
               )}
               <p>
-                <span>
-                  영업시간 : {SHOW_MARINE && `${zai.label} `}
-                  {zai.hours}
-                </span>
+                영업시간 : {SHOW_MARINE && `${zai.label} `}
+                {zai.hours}
                 {SHOW_MARINE && marine.hours && (
                   <>
                     <span className={SEP} aria-hidden="true">
-                      |
-                    </span>
-                    <span>
-                      {marine.label} {marine.hours}
-                    </span>
+                  |
+                </span>
+                    {marine.label} {marine.hours}
                   </>
                 )}
               </p>
             </div>
 
-            <ul className="m-0 flex list-none flex-wrap content-start gap-x-6 gap-y-0 p-0 min-[900px]:justify-end">
-              {items.map((item) => (
-                <li key={item.id}>
-                  <button type="button" className={COL_ITEM} onClick={() => goToMenu(item)}>
-                    {item.label}
-                  </button>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-0 min-[900px]:ml-auto min-[900px]:max-w-96">
+              <ul className={COL}>
+                <li>
+                  <a className={`${COL_ITEM} after:text-[0.8em] after:content-['_↗']`} href={naver.href} target="_blank" rel="noopener noreferrer">
+                    네이버 예약
+                  </a>
                 </li>
-              ))}
-              {OPEN_BRANCHES.length > 1 &&
-                OPEN_BRANCHES.map((b) => (
-                  <li key={b.id}>
-                    <Link to={b.path} className={COL_ITEM}>
-                      {b.label}
-                    </Link>
+                <li>
+                  <a className={`${COL_ITEM} after:text-[0.8em] after:content-['_↗']`} href={mapHref(zai)} target="_blank" rel="noopener noreferrer">
+                    네이버 지도
+                  </a>
+                </li>
+              </ul>
+              <ul className={COL}>
+                {items.map((item) => (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      className={`${COL_ITEM} relative before:absolute before:inset-y-0 before:-inset-x-[0.6rem] before:content-['']`}
+                      onClick={() => goToMenu(item)}
+                    >
+                      {item.label}
+                    </button>
                   </li>
                 ))}
-              <li>
-                <a className={`${COL_ITEM} after:text-[0.8em] after:content-['_↗']`} href={naver.href} target="_blank" rel="noopener noreferrer">
-                  네이버 예약
-                </a>
-              </li>
-              <li>
-                <a className={`${COL_ITEM} after:text-[0.8em] after:content-['_↗']`} href={mapHref(zai)} target="_blank" rel="noopener noreferrer">
-                  네이버 지도
-                </a>
-              </li>
-            </ul>
+                {OPEN_BRANCHES.length > 1 &&
+                  OPEN_BRANCHES.map((b) => (
+                    <li key={b.id}>
+                      <Link to={b.path} className={COL_ITEM}>
+                        {b.label}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-line px-(--w-gutter) pt-[1.1rem] pb-[calc(1.1rem+env(safe-area-inset-bottom))] min-[900px]:pb-[1.1rem]">
+      <div className="border-t border-line bg-(--w-band) px-(--w-gutter) pt-[1.1rem] pb-[calc(1.1rem+env(safe-area-inset-bottom))] min-[900px]:pb-[1.1rem]">
         <div className="mx-auto w-full max-w-(--w-max) flex flex-wrap items-center justify-between gap-x-8 gap-y-[0.4rem]">
           <p className="m-0 text-[0.75rem] tracking-[0.06em] text-muted">
             ⓒ 2026 {BRAND.ko} {BRAND.name}. All rights reserved.

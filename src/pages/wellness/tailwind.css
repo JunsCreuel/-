@@ -22,18 +22,20 @@
   --font-sans: var(--w-font);
   --font-serif: var(--w-font-serif);
   --font-en: var(--w-font-en);
+  --font-num: var(--w-font-num);
+  --font-label: var(--w-font-label);
 
   --ease-yw: var(--yw-ease);
-
-  /* 모서리: 사진·패널은 6px, 버튼·입력칸은 4px(둥근 알약·큰 둥근 카드는 쓰지 않는다) */
-  --radius-card: 6px;
-  --radius-btn: 4px;
 
   /* 자주 묻는 질문: 탭을 바꾸면 질문들이 짧게 올라온다 */
   --animate-faq-rise: yw-faq-rise 0.25s var(--yw-ease) both;
   /* 이벤트 팝업: 배경은 옅게 나타나고, 카드는 살짝 커지며 떠오른다 */
   --animate-pop-fade: yw-pop-fade 0.2s ease both;
   --animate-pop-rise: yw-pop-rise 0.25s cubic-bezier(0.23, 1, 0.32, 1) both;
+  /* 이벤트 티켓: 50%에 그라데이션이 한 번 흐른다 */
+  --animate-ticket-grad: yw-ticket-grad 1s ease-out both;
+  /* 온열돔: 고른 구성의 설명이 바뀔 때 살짝 떠오른다 */
+  --animate-dome-text: yw-dome-text 0.25s var(--yw-ease) both;
   /* 첫 화면: 물빛이 어둠 속에서 밝아지고 → 로고가 떠오르고 → 빛줄기가 한 번 스치고 → 문구가 나타난다 */
   --animate-hero-dawn: yw-hero-dawn 2.6s cubic-bezier(0.33, 0.7, 0.3, 1) both;
   --animate-logo-rise: yw-logo-rise 2.4s cubic-bezier(0.22, 0.8, 0.3, 1) 0.9s backwards;
@@ -50,6 +52,10 @@
   --animate-eqs-up: yw-eqs-up 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-eqs-pop: yw-eqs-pop 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-eqs-fade: yw-eqs-fade 0.35s ease both;
+  /* 단계 폼: 다음 단계는 오른쪽에서, 이전 단계는 왼쪽에서 들어온다. 고른 선택지는 한 번 통 튄다 */
+  --animate-step-fwd: w-step-fwd 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-step-back: w-step-back 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-opt-pop: w-pop 0.35s;
 }
 
 /* 이벤트 티켓의 반원 홈: 원형 구멍 두 개(--mask-a, --mask-b)를 겹친다. 선언 순서가 중요해 한 덩어리로 둔다 */
@@ -64,7 +70,7 @@
   --w-highlight: #ecefcf; /* 제목 강조어 형광펜 */
 
   --w-ink: #1d1a17;
-  --w-bg: #f5f6ec; /* 바탕은 아이보리 한 가지. 흰색은 입력 패널·후기 카드처럼 올려 둔 면에만 쓴다 */
+  --w-bg: #ffffff;
   --w-band: #f5f6f0;
   --w-accent: var(--w-bronze);
   /* 흰 바탕 위 작은 글자·링크는 대비를 위해 한 단계 짙은 브론즈 */
@@ -89,11 +95,15 @@
   --w-font: 'Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   /* 제목용 명조체: 마루 부리. 웹폰트를 불러오기 전에는 기기에 있는 명조 계열로 보인다 */
   --w-font-serif: 'MaruBuri', 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
-  /* 첫 화면 영문 한 줄에만 쓰는 세리프. 웹폰트를 불러오기 전에는 Georgia로 보인다 */
+  /* 영문 큰 제목용 세리프. 웹폰트를 불러오기 전에는 Georgia로 보인다 */
   --w-font-en: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  /* 작은 영문 라벨(대문자·넓은 자간) */
+  --w-font-label: 'Jost', 'Pretendard Variable', 'Pretendard', sans-serif;
 
   --yw-ivory: #f5f6ec;
+  --yw-warm: #f5f6ec;
   --yw-cream: #f1f3e4; /* 어두운 면 위 글자 */
+  --yw-r: clamp(1.25rem, 3vw, 2.5rem); /* 커튼 둥근 모서리 */
   --yw-pad: clamp(4.5rem, 12vh, 9rem); /* 섹션 위아래 여백 */
   --yw-max: 82.5rem;
   --yw-ease: cubic-bezier(0.23, 1, 0.32, 1);
@@ -106,6 +116,8 @@ body.is-wellness {
 }
 
 .wellness {
+  /* 숫자용 Jost. 한글은 Jost에 없으므로 본문 서체로 이어진다 */
+  --w-font-num: 'Jost', var(--w-font);
   min-height: 100vh;
   /* 영문 세리프(Cormorant)의 숫자가 높낮이가 다른 올드스타일로 나오지 않도록 가지런한 숫자로 고정 */
   font-variant-numeric: lining-nums;
@@ -210,6 +222,44 @@ body.is-wellness {
   mask-composite: intersect;
 }
 
+@keyframes w-step-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes w-step-back {
+  from {
+    opacity: 0;
+    transform: translateX(-26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes w-pop {
+  0% {
+    transform: scale(0.94);
+  }
+
+  60% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes yw-eq-rise {
   from {
     opacity: 0;
@@ -238,11 +288,11 @@ body.is-wellness {
 
 @keyframes yw-cond-tile-in {
   from {
-    clip-path: inset(100% 0 0 0 round 6px);
+    clip-path: inset(100% 0 0 0 round 1.25rem);
   }
 
   to {
-    clip-path: inset(0 round 6px);
+    clip-path: inset(0 round 1.25rem);
   }
 }
 
@@ -258,11 +308,11 @@ body.is-wellness {
 
 @keyframes yw-cond-wipe {
   from {
-    clip-path: inset(0 0 0 100% round 6px);
+    clip-path: inset(0 0 0 100% round 1rem);
   }
 
   to {
-    clip-path: inset(0 round 6px);
+    clip-path: inset(0 round 1rem);
   }
 }
 
@@ -285,6 +335,23 @@ body.is-wellness {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes yw-ticket-grad {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes yw-dome-text {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
   }
 }
 

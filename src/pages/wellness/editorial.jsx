@@ -2,6 +2,20 @@ import { OFFER_TERM, SHOW_OFFER, SHOW_PRICES, won } from './data'
 
 // 새 섹션이 함께 쓰는 잡지식 부품.
 
+// 섹션 머리의 작은 이름표. 차분한 화면을 위해 평소에는 숨기고, show일 때만(지점 안내: 이름표가 곧 제목) 보인다.
+// tone='light'는 어두운 장 위의 샴페인 색이다.
+export function Folio({ ko, tone = 'ink', show = false, className = '' }) {
+  return (
+    <p
+      className={`mx-0 mt-0 mb-[0.9rem] text-[0.85rem] leading-[1.4] font-semibold tracking-[0.02em] ${tone === 'light' ? 'text-champagne' : 'text-accent-deep'} ${
+        show ? '' : 'hidden'
+      } ${className}`}
+    >
+      {ko}
+    </p>
+  )
+}
+
 // 줄 단위로 끊어 쓰는 제목. lines에는 문자열이나 노드를 줄마다 넣는다(차분한 화면을 위해 처음부터 보인다).
 export function SplitLines({ as: Tag = 'h2', lines, className = '', ...rest }) {
   return (
@@ -92,12 +106,12 @@ export function PriceLine({ program, inline = true, className = '' }) {
   return (
     <span className={`${inline ? 'inline-flex' : 'flex'} flex-wrap items-baseline gap-x-3 gap-y-[0.3rem] lining-nums tabular-nums ${className}`}>
       <span className="contents" aria-hidden="true">
-        <strong className="font-sans text-[1.08em] font-medium tracking-[0.01em] whitespace-nowrap">{won(program.price)}</strong>
+        <strong className="font-label text-[1.08em] font-medium tracking-[0.01em] whitespace-nowrap">{won(program.price)}</strong>
         {onSale && (
           <>
             {' '}
             <span className="flex min-w-0 basis-full flex-wrap items-baseline gap-x-[1.1em] gap-y-[0.15rem] overflow-clip text-[0.88em] leading-[1.45] text-accent-deep">
-              <span className="font-sans font-medium tracking-[0.01em] whitespace-nowrap [&_b]:font-sans [&_b]:font-semibold [&_b]:tracking-[0]">
+              <span className="font-label font-medium tracking-[0.01em] whitespace-nowrap [&_b]:font-sans [&_b]:font-semibold [&_b]:tracking-[0]">
                 <b>첫 방문가</b> {won(program.sale)}
               </span>{' '}
               <small className="relative text-[0.86em] tracking-[0] whitespace-nowrap text-muted before:absolute before:right-full before:mr-[0.45em] before:content-['·']">

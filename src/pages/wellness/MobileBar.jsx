@@ -7,7 +7,7 @@ import { scrollToId } from './scroll'
 // 상담 예약 장(#booking)이나 푸터가 보이면 아래로 숨고, 숨은 동안에는 키보드 포커스도 받지 않는다(inert).
 // 아주 좁은 폰(22rem 이하)에서는 아이콘을 빼고 글자를 줄인다.
 const ITEM =
-  'inline-flex min-h-12 min-w-0 cursor-pointer items-center justify-center gap-[0.35rem] rounded-btn border-0 px-2 py-0 [font-family:inherit] text-[0.86rem] leading-[1.2] font-semibold whitespace-nowrap no-underline active:scale-97 [&_svg]:size-4 [&_svg]:flex-none [@media(max-width:22rem)]:gap-1 [@media(max-width:22rem)]:text-[0.8rem] [@media(max-width:22rem)]:[&_svg]:hidden'
+  'inline-flex min-h-12 min-w-0 cursor-pointer items-center justify-center gap-[0.35rem] rounded-full border-0 px-2 py-0 [font-family:inherit] text-[0.86rem] leading-[1.2] font-semibold whitespace-nowrap no-underline active:scale-97 [&_svg]:size-4 [&_svg]:flex-none [@media(max-width:22rem)]:gap-1 [@media(max-width:22rem)]:text-[0.8rem] [@media(max-width:22rem)]:[&_svg]:hidden'
 export default function MobileBar({ branch }) {
   const { pathname } = useLocation()
   const [hidden, setHidden] = useState(false)
@@ -31,7 +31,7 @@ export default function MobileBar({ branch }) {
 
   return (
     <nav
-      className={`fixed right-4 bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-4 z-40 grid gap-1 rounded-card border border-line-strong bg-[rgb(255_255_255/0.92)] p-[0.3rem] shadow-[0_10px_30px_rgb(29_26_23/0.16)] backdrop-blur-[12px] transition-[translate] duration-350 ease-yw motion-reduce:transition-none md:hidden ${
+      className={`fixed right-4 bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-4 z-40 grid gap-1 rounded-full border-2 border-espresso bg-[rgb(255_255_255/0.85)] p-[0.3rem] shadow-[0_10px_30px_rgb(29_26_23/0.16)] backdrop-blur-[12px] transition-[translate] duration-350 ease-yw motion-reduce:transition-none md:hidden ${
         naver.external ? 'grid-cols-[0.8fr_1fr_1.2fr]' : 'grid-cols-[0.8fr_1.2fr]'
       } ${hidden ? 'translate-y-[140%]' : ''}`}
       data-dock

@@ -1,7 +1,8 @@
 import { LISTED_BRANCHES, displayAddress, mapHref, telHref } from '../data'
-import { BTN_INK, H2, RULE, SECTION } from '../tw'
+import { Folio } from '../editorial'
+import { BTN_INK, SECTION } from '../tw'
 
-// 지점 안내 — 지점마다 한 칸(지점명 · 주소 · 영업시간 · 전화 · 지도 · 예약). 휴대폰 1열, 태블릿부터 2열. 카드 없이 선으로만 나눈다.
+// 지점 안내 — 지점마다 카드 한 장(지점명 · 주소 · 영업시간 · 전화 · 지도 · 예약). 휴대폰 1열, 태블릿부터 2열.
 // 마린시티점은 별도 페이지 없이 이 카드로만 알린다(SHOW_MARINE_INFO).
 const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' }
 
@@ -9,21 +10,19 @@ export default function Branches() {
   const list = LISTED_BRANCHES
 
   return (
-    <section id="branches" className={`${SECTION} ${RULE}`} data-theme="light" aria-labelledby="branches-title">
+    <section id="branches" className={`${SECTION} bg-ivory`} data-theme="light" aria-label="지점 안내">
       <div className="mx-auto w-full max-w-(--yw-max)">
-        <h2 id="branches-title" className={`${H2} m-0`}>
-          지점 안내
-        </h2>
+        <Folio ko="지점 안내" show />
 
-        <ul className="m-0 mt-[clamp(1.75rem,4vw,2.5rem)] grid list-none gap-10 p-0 md:grid-cols-2 md:gap-[clamp(2rem,5vw,4.5rem)]">
+        <ul className="m-0 mt-[clamp(1.75rem,4vw,2.5rem)] grid list-none gap-4 p-0 md:grid-cols-2 md:gap-6">
           {list.map((b) => (
             <li
               key={b.id}
               id={`branch-${b.id}`}
-              className="flex flex-col"
+              className="flex flex-col rounded-[1.25rem] border border-line bg-white p-[clamp(1.25rem,3vw,2rem)]"
             >
               <h3 className="m-0 font-serif text-[clamp(1.25rem,2.4vw,1.5rem)] leading-[1.3] font-medium tracking-[-0.01em]">{b.label}</h3>
-              <dl className="m-0 mt-4 border-t border-line-strong [&_a]:text-inherit [&_a]:underline [&_a]:underline-offset-[0.25em] [&_dd]:m-0 [&_dd]:break-keep [&_dd]:text-ink [&_dt]:text-muted [&>div]:grid [&>div]:grid-cols-[4.5rem_minmax(0,1fr)] [&>div]:gap-3 [&>div]:border-b [&>div]:border-line [&>div]:py-[0.7rem] [&>div]:text-[0.92rem] [&>div]:leading-[1.6]">
+              <dl className="m-0 mt-4 border-t border-line [&_a]:text-inherit [&_a]:underline [&_a]:underline-offset-[0.25em] [&_dd]:m-0 [&_dd]:break-keep [&_dd]:text-ink [&_dt]:text-muted [&>div]:grid [&>div]:grid-cols-[4.5rem_minmax(0,1fr)] [&>div]:gap-3 [&>div]:border-b [&>div]:border-line [&>div]:py-[0.7rem] [&>div]:text-[0.92rem] [&>div]:leading-[1.6]">
                 <div>
                   <dt>주소</dt>
                   <dd>{displayAddress(b.address)}</dd>

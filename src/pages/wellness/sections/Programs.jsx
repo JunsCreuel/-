@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import {
+  BRANCHES,
   OFFER_TERM,
   OFFER_TERM_FULL,
   PICS,
@@ -9,10 +10,10 @@ import {
   SHOW_PRICES,
   won,
 } from '../data'
-import { Pic } from '../editorial'
+import { Folio, ParenLink, Pic, SplitLines } from '../editorial'
 import { prefersReducedMotion, useInView, useMediaQuery } from '../motion'
 import { pickForBooking } from '../scroll'
-import { BTN_INK, H2, SECTION } from '../tw'
+import { BTN_INK, CURTAIN_LIGHT, H2, SECTION } from '../tw'
 
 // 펼친 줄 사진(모바일·태블릿)의 대체 텍스트. 분위기 사진이라 장면만 적고 '마사지' 같은 말은 쓰지 않는다.
 const ALT = {
@@ -26,6 +27,8 @@ const ALT = {
   warmup: '목 뒤에 손을 얹은 물기 어린 어깨',
 }
 
+const TOTAL = String(PROGRAMS.length).padStart(2, '0')
+const numberOf = (i) => String(i + 1).padStart(2, '0')
 
 
 // 필터 탭: 전체 + PROGRAMS.group 순서대로. 탭 글자는 가운뎃점 앞뒤 공백을 뺀다(두피 · 얼굴 → 두피·얼굴).
@@ -78,11 +81,11 @@ const FRAME_OFF = 'z-0 scale-106 [clip-path:inset(0_100%_0_0)] [transition:clip-
 const FRAME_PREV = 'z-1 scale-100 [clip-path:inset(0)] [transition:clip-path_0s_linear_0.4s,scale_0s_linear_0.4s]'
 const FRAME_ON = 'z-2 scale-100 [clip-path:inset(0)] [transition:clip-path_0.4s_var(--yw-ease),scale_0.5s_var(--yw-ease)]'
 
-// 한 줄은 두 단이다. 윗단 [이름(+BEST) · 정가 · 얇은 +], 아랫단 [소요 시간 ····· 첫 방문가].
-// 윗단은 이름 첫 줄 기준선에 정가를 맞추고, +는 이름 첫 글줄 가운데에 둔다(줄 높이가 달라도 같은 자리).
+// 한 줄은 두 단이다. 윗단 [이름(+BEST) · 정가 · 얇은 +], 아랫단 [소요 시간 ····· 첫 방문가]. 데스크톱은 번호 칸이 앞에 붙는다.
+// 윗단은 이름 첫 줄 기준선에 정가(데스크톱은 번호도)를 맞추고, +는 이름 첫 글줄 가운데에 둔다(줄 높이가 달라도 같은 자리).
 // 줄 전체가 버튼이라 누르는 면은 44px보다 넓다. 포커스 링은 줄 바깥으로 살짝 띄운다(링은 줄의 clip 여유 0.4rem 안)
 const TOGGLE =
-  "group/toggle grid min-h-11 w-full cursor-pointer grid-cols-[minmax(0,1fr)_auto_1.25rem] items-baseline gap-x-[clamp(0.85rem,3vw,1.25rem)] border-x-0 border-t border-b-0 border-line bg-transparent px-0 py-[clamp(1.15rem,2.6vw,1.4rem)] text-left [font:inherit] text-inherit [-webkit-tap-highlight-color:transparent] [--yw-menu-name:clamp(1.05rem,4.2vw,1.3rem)] [grid-template-areas:'name_regular_plus'_'meta_meta_.'] focus-visible:outline-offset-[0.2rem] lg:gap-x-6 lg:[--yw-menu-name:clamp(1.25rem,1.6vw,1.5rem)]"
+  "group/toggle grid min-h-11 w-full cursor-pointer grid-cols-[minmax(0,1fr)_auto_1.25rem] items-baseline gap-x-[clamp(0.85rem,3vw,1.25rem)] border-x-0 border-t border-b-0 border-line bg-transparent px-0 py-[clamp(1.15rem,2.6vw,1.4rem)] text-left [font:inherit] text-inherit [-webkit-tap-highlight-color:transparent] [--yw-menu-name:clamp(1.05rem,4.2vw,1.3rem)] [grid-template-areas:'name_regular_plus'_'meta_meta_.'] focus-visible:outline-offset-[0.2rem] lg:grid-cols-[2.25rem_minmax(0,1fr)_auto_1.25rem] lg:gap-x-6 lg:[--yw-menu-name:clamp(1.25rem,1.6vw,1.5rem)] lg:[grid-template-areas:'no_name_regular_plus'_'._meta_meta_.']"
 
 // 글자 탭: 비활성은 muted, 활성은 잉크 + 아래 1.5px 브론즈 밑줄. 글자가 짧아도 누르는 면이 넓도록 보이지 않는 영역을 좌우로 넓힌다
 const TAB =
@@ -111,8 +114,8 @@ function MenuFrame({ frame, imgRefs, onWiped }) {
       {/* 화면이 낮은 노트북에서도 프레임과 캡션이 한 화면에 들어오도록 폭을 높이에 맞춰 줄인다 */}
       <figure ref={figRef} className="m-0 w-[min(100%,calc((100svh_-_var(--w-nav-h)_-_7rem)_*_0.8))]" data-menu-figure>
         <div
-          className={`relative aspect-[4/5] overflow-clip rounded-card bg-ivory transition-[clip-path] duration-400 ease-yw motion-reduce:[clip-path:none] motion-reduce:transition-none ${
-            inView ? '[clip-path:inset(0_round_6px)]' : '[clip-path:inset(0_100%_0_0_round_6px)]'
+          className={`relative aspect-[4/5] overflow-clip rounded-[1.25rem] bg-ivory transition-[clip-path] duration-400 ease-yw motion-reduce:[clip-path:none] motion-reduce:transition-none ${
+            inView ? '[clip-path:inset(0_round_1.25rem)]' : '[clip-path:inset(0_100%_0_0_round_1.25rem)]'
           }`}
           onTransitionEnd={(e) => {
             if (e.propertyName === 'clip-path' && e.target.hasAttribute('data-on')) onWiped()
@@ -134,8 +137,8 @@ function MenuFrame({ frame, imgRefs, onWiped }) {
             />
           ))}
         </div>
-        <figcaption className="mt-[0.9rem] text-[0.85rem] leading-[1.4] text-muted">
-          {current.label}
+        <figcaption className="mt-[0.9rem] font-label text-[0.75rem] leading-[1.4] font-normal tracking-[0.12em] text-muted lining-nums tabular-nums [&_b]:font-medium [&_b]:text-ink">
+          {current.group} · <b>{numberOf(frame.on)}</b> / {TOTAL}
         </figcaption>
       </figure>
     </aside>
@@ -232,7 +235,7 @@ export default function Programs() {
   }
 
   return (
-    <section id="programs" className={`${SECTION} overflow-clip`} data-theme="light">
+    <section id="programs" className={`${SECTION} ${CURTAIN_LIGHT} overflow-clip bg-white`} data-theme="light" data-curtain>
       <div className="mx-auto w-full max-w-(--yw-max) grid gap-[clamp(2rem,5vw,5rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {wide && <MenuFrame frame={frame} imgRefs={imgRefs} onWiped={clearPrev} />}
 
@@ -240,7 +243,8 @@ export default function Programs() {
           {/* 64rem 미만: 머리는 세로로, 탭은 한 줄로 두고 좁으면 가로로 민다 */}
           <div className="mb-[clamp(1rem,2.4vw,1.6rem)] flex flex-wrap items-end justify-between gap-x-8 gap-y-4 max-lg:block">
             <div>
-              <h2 className={H2}>첫 방문 관리 메뉴</h2>
+              <Folio ko="관리 프로그램" />
+              <SplitLines as="h2" className={H2} lines={['첫 방문 관리 메뉴']} />
             </div>
             <div
               className="flex gap-x-[clamp(1.25rem,3.6vw,2rem)] gap-y-0 max-lg:mx-[calc(-1_*_var(--w-gutter))] max-lg:mt-3 max-lg:mb-0 max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:px-(--w-gutter) max-lg:py-0 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
@@ -308,8 +312,16 @@ export default function Programs() {
                       data-cursor=""
                       onClick={() => toggle(p.id)}
                     >
-                      {/* 윗단: 이름 · 정가 · + / 아랫단: 소요 시간 · 첫 방문가. 보조기기는 이름 → 시간 → 가격 문장 순으로 읽는다.
-                          활성 줄(마우스·포커스·화면 가운데 줄)은 바탕을 칠하지 않고 이름만 짙은 브론즈(데스크톱) */}
+                      {/* 윗단: (번호) 이름 · 정가 · + / 아랫단: 소요 시간 · 첫 방문가. 보조기기는 이름 → 시간 → 가격 문장 순으로 읽는다.
+                          활성 줄(마우스·포커스·화면 가운데 줄)은 바탕을 칠하지 않고 이름과 번호만 짙은 브론즈(데스크톱) */}
+                      <span
+                        className={`hidden font-en text-[1.05rem] leading-none font-normal tracking-[0.02em] lining-nums transition-[color] duration-300 ease-[ease] [grid-area:no] motion-reduce:transition-none lg:block ${
+                          on ? 'text-muted lg:text-accent-deep' : 'text-muted'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {numberOf(i)}
+                      </span>
                       {/* 이름 뒤 여백: 이름과 정가 사이가 정가와 + 사이보다 늘 넓게 남는다 */}
                       <span
                         className={`block min-w-0 pr-2 font-serif text-(length:--yw-menu-name) leading-[1.4] font-normal tracking-[-0.01em] text-balance break-keep normal-nums transition-[color] duration-300 ease-[ease] [grid-area:name] [overflow-wrap:break-word] motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/toggle:text-accent-deep ${
@@ -319,7 +331,7 @@ export default function Programs() {
                         <DisplayName label={p.label} />
                         {/* 인기 표시: 알약 대신 이름 옆 작은 브론즈 글자 하나 */}
                         {p.badge && (
-                          <span className="ml-[0.6em] align-[0.32em] font-sans text-[0.75rem] leading-none font-medium tracking-[0.14em] whitespace-nowrap text-accent-deep normal-nums">
+                          <span className="ml-[0.6em] align-[0.32em] font-label text-[0.75rem] leading-none font-medium tracking-[0.14em] whitespace-nowrap text-accent-deep normal-nums">
                             {p.badge}
                           </span>
                         )}
@@ -352,7 +364,7 @@ export default function Programs() {
                       </span>
                       {/* 아랫단: 왼쪽 소요 시간, 오른쪽 첫 방문가(정가 아래, 오른쪽 끝 맞춤). 자리가 모자라면 첫 방문가만 다음 줄 오른쪽으로 */}
                       <span className="mt-[0.3rem] flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-[0.15rem] [grid-area:meta]">
-                        <span className="font-sans text-[0.8rem] leading-[1.4] font-normal tracking-[0.03em] whitespace-nowrap text-muted normal-nums">{p.time}</span>
+                        <span className="font-label text-[0.8rem] leading-[1.4] font-normal tracking-[0.03em] whitespace-nowrap text-muted normal-nums">{p.time}</span>
                         {sale && (
                           <span className="ml-auto text-right text-[0.82rem] leading-[1.4] whitespace-nowrap text-accent-deep lining-nums tabular-nums [&_b]:font-medium" aria-hidden="true">
                             첫 방문가 <b>{won(p.sale)}</b>
@@ -375,12 +387,12 @@ export default function Programs() {
                       inert={!open}
                     >
                       <div className="min-h-0 overflow-clip">
-                        <div className="grid gap-[1.1rem] pb-[1.6rem] sm:max-lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] sm:max-lg:content-center sm:max-lg:gap-x-7 sm:max-lg:gap-y-4 sm:max-lg:[grid-template-areas:'fig_text'_'fig_actions'] lg:gap-5 lg:pt-0 lg:pr-11 lg:pb-[1.9rem] lg:pl-0">
+                        <div className="grid gap-[1.1rem] pb-[1.6rem] sm:max-lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] sm:max-lg:content-center sm:max-lg:gap-x-7 sm:max-lg:gap-y-4 sm:max-lg:[grid-template-areas:'fig_text'_'fig_actions'] lg:gap-5 lg:pt-0 lg:pr-11 lg:pb-[1.9rem] lg:pl-[3.75rem]">
                           {/* 모바일·태블릿의 펼침 사진: 위에서 아래로 열린다 */}
                           {!wide && (
                             <figure
-                              className={`m-0 aspect-[16/10] overflow-clip rounded-card bg-ivory transition-[clip-path] duration-300 ease-yw motion-reduce:transition-none sm:max-lg:[grid-area:fig] ${
-                                open ? '[clip-path:inset(0_round_6px)] motion-reduce:[clip-path:none]' : '[clip-path:inset(0_0_100%_0_round_6px)]'
+                              className={`m-0 aspect-[16/10] overflow-clip rounded-2xl bg-ivory transition-[clip-path] duration-300 ease-yw motion-reduce:transition-none sm:max-lg:[grid-area:fig] ${
+                                open ? '[clip-path:inset(0_round_1rem)] motion-reduce:[clip-path:none]' : '[clip-path:inset(0_0_100%_0_round_1rem)]'
                               }`}
                             >
                               {seen.has(p.id) && (
@@ -417,6 +429,9 @@ export default function Programs() {
                             >
                               <span>이 관리로 상담</span>
                             </button>
+                            <ParenLink href={BRANCHES.zai.booking} external className="max-sm:justify-center">
+                              네이버 예약
+                            </ParenLink>
                           </div>
                         </div>
                       </div>
@@ -427,6 +442,11 @@ export default function Programs() {
             })}
           </ul>
 
+          <div className="mt-7 flex flex-wrap items-start justify-end gap-x-10 gap-y-3">
+            <ParenLink href={BRANCHES.zai.booking} external className="flex-none">
+              네이버에서 예약하기
+            </ParenLink>
+          </div>
         </div>
       </div>
     </section>

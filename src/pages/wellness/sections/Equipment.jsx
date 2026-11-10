@@ -3,7 +3,7 @@ import { PHOTOS, PICS } from '../data'
 import { Pic } from '../editorial'
 import { clamp, prefersReducedMotion, useDragScroll, useInView } from '../motion'
 import { lockPageScroll, pickForBooking } from '../scroll'
-import { BTN_CORE, H2, LEAD, RULE, SECTION, TONE_INK } from '../tw'
+import { BTN_CORE, CURTAIN_LIGHT, H2, LEAD, SECTION, TONE_INK } from '../tw'
 
 // No. 05 Equipment & Gel — 전신 온열돔 카드와 디바이스 3종을 한 줄 트랙으로 묶는다.
 // 데스크톱은 마우스로 끌어 넘기고(관성 후 카드에 맞춤), 트랙패드·화살표·←→ 키로도 넘긴다. 모바일은 네이티브 스와이프와 scroll-snap.
@@ -94,33 +94,39 @@ const ACTIVATING_GEL = {
 }
 
 // 디바이스와 기기별 전용 제품. 페이스 갈바닉과 바디 갈바닉은 같은 쉐이핑 젤을 쓴다.
-// sheetKo는 성분 시트 머리에 붙는 제품 종류('페이스 갈바닉 전용 젤')다.
+// sheetEn·sheetKo는 성분 시트 머리 라벨('GEL · 페이스 갈바닉 전용')과 보조기기용 시트 이름('페이스 갈바닉 전용 젤 성분')이다.
 const DEVICES = [
   {
+    no: '02',
     en: '얼굴',
     name: '페이스 갈바닉',
     sub: '얼굴 · 교체형 헤드',
     photo: PHOTOS.faceGalvanic,
     alt: '갈바닉 기기 본체와 교체형 헤드 3종',
     gels: [SHAPING_GEL],
+    sheetEn: 'GEL',
     sheetKo: '젤',
   },
   {
+    no: '03',
     en: '바디',
     name: '바디 갈바닉',
     sub: '바디 · 넓은 면적 컨덕터',
     photo: PHOTOS.bodyGalvanic,
     alt: '바디 갈바닉 기기 앞면',
     gels: [SHAPING_GEL],
+    sheetEn: 'GEL',
     sheetKo: '젤',
   },
   {
+    no: '04',
     en: '바디',
     name: '웰스파',
     sub: '하체 · 팔뚝 · 복부',
     photo: PHOTOS.wellspa,
     alt: '웰스파 바디 디바이스 앞면과 헤드',
     gels: [BODY_SERUM, ACTIVATING_GEL],
+    sheetEn: 'SERUM & GEL',
     sheetKo: '세럼과 젤',
   },
 ]
@@ -129,7 +135,8 @@ const CARD_COUNT = DEVICES.length + 1
 
 // 앞뒤 화살표(데스크톱): 흰 원, 마우스를 올리면 채워진다. 끝에 닿으면 옅어진다
 const ARROW =
-  'grid size-[3.25rem] cursor-pointer place-items-center rounded-[50%] border-2 border-espresso bg-white p-0 font-serif text-[1.9rem] leading-none font-light text-espresso normal-nums [transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-color_0.25s_ease,color_0.25s_ease,opacity_0.25s_ease] focus-visible:rounded-[999px] enabled:active:scale-95 disabled:cursor-default disabled:opacity-35 motion-reduce:transition-none max-lg:hidden [&>span]:-mt-[0.12em] [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:text-white'
+  'grid size-[3.25rem] cursor-pointer place-items-center rounded-[50%] border-2 border-espresso bg-white p-0 font-en text-[1.9rem] leading-none font-light text-espresso normal-nums [transition:transform_0.55s_cubic-bezier(0.2,0.8,0.2,1),background-color_0.25s_ease,color_0.25s_ease,opacity_0.25s_ease] focus-visible:rounded-[999px] enabled:active:scale-95 disabled:cursor-default disabled:opacity-35 motion-reduce:transition-none max-lg:hidden [&>span]:-mt-[0.12em] [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:bg-espresso [@media(hover:hover)_and_(pointer:fine)]:enabled:hover:text-white'
+const pad2 = (n) => String(n).padStart(2, '0')
 
 // 카드마다 트랙이 멈출 수 있는 scrollLeft(scroll-padding 반영, 0~max). offsetLeft라 기울기(transform)의 영향을 받지 않는다.
 function snapPoints(track) {
@@ -140,14 +147,22 @@ function snapPoints(track) {
   return cards.map((card) => clamp(card.offsetLeft - padL, 0, max))
 }
 
-// 카드의 분류 한 줄(온열·얼굴·바디), 이름, 한 줄 설명
-const CARD_KIND = 'm-0 text-[0.8rem] leading-[1.4] font-semibold text-accent-deep'
-const CARD_NAME = 'mx-0 mt-[0.3rem] mb-0 font-serif leading-[1.35] font-normal tracking-[-0.02em] text-ink normal-nums'
+// 카드 번호 줄(01 · 온열), 이름, 한 줄 설명
+function CardNo({ no, en }) {
+  return (
+    <p className="flex items-baseline gap-[0.15rem] leading-none text-accent-deep">
+      <span className="font-en text-[1.5rem] leading-none font-light text-ink lining-nums">{no}</span>
+      <span className="text-[0.8rem] whitespace-pre"> · </span>
+      <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.16em] normal-nums">{en}</span>
+    </p>
+  )
+}
+const CARD_NAME = 'mx-0 mt-[0.6rem] mb-0 font-serif leading-[1.35] font-normal tracking-[-0.02em] text-ink normal-nums'
 const CARD_SUB = 'mt-1 text-[0.85rem] leading-[1.6] text-muted'
 
 // 알약 버튼(이용 방식 칩·젤 보기·성분 보기). 공통 :focus-visible(둥근 6px)이 알약 모양을 덮지 않게 둥근 모서리를 그대로 둔다
 const PILL =
-  'cursor-pointer rounded-btn border border-line-strong bg-transparent [font-family:inherit] leading-[1.3] font-medium text-ink transition-[background-color,border-color,color] duration-250 ease-[ease] active:scale-97 motion-reduce:transition-none'
+  'cursor-pointer rounded-full border border-line-strong bg-transparent [font-family:inherit] leading-[1.3] font-medium text-ink transition-[background-color,border-color,color] duration-250 ease-[ease] focus-visible:rounded-[999px] active:scale-97 motion-reduce:transition-none'
 
 // 첫 카드: 전신 온열돔(매장 기기 누끼를 디바이스 카드 사진 면과 같은 흰 바탕에 올린다).
 // 이용 방식 칩(radiogroup)을 고르면 한 줄 설명과 버튼 문구가 함께 바뀐다.
@@ -175,7 +190,7 @@ function DomeCard() {
       <div>
         {/* 디바이스 카드 사진 면과 같은 흰 바탕 위에 가로로 긴 누끼를 앉히고, 옅은 바닥 그림자로 세운다.
             높이는 디바이스 사진 칸(폭 × 4:5)과 같아 01~04 번호가 같은 줄에 온다. 아래를 조금 더 두어 그림자 자리를 남긴다 */}
-        <div className="grid h-[calc(var(--eq-card-w)_*_1.25)] overflow-clip rounded-card bg-white px-[9%] pt-[10%] pb-[13%]">
+        <div className="grid h-[calc(var(--eq-card-w)_*_1.25)] overflow-clip rounded-[1.25rem] bg-white px-[9%] pt-[10%] pb-[13%]">
           <Pic
             pic={PICS.domeCut}
             sizes="(min-width: 64rem) 28rem, 68vw"
@@ -184,7 +199,10 @@ function DomeCard() {
           />
         </div>
         <div className="px-[0.15rem] pt-[1.1rem] pb-0">
-          <p className={CARD_KIND}>온열 · 국내산 명신메디칼</p>
+          <CardNo no="01" en="온열" />
+          <p className="mx-0 mt-0 mb-[0.35rem] font-label text-[0.75rem] leading-[1.4] font-medium tracking-[0.14em] text-accent-deep normal-nums">
+            국내산 · 명신메디칼
+          </p>
           <h3 className={`${CARD_NAME} text-[1.6rem]`}>전신 온열돔</h3>
           <p className={CARD_SUB}>국내 원적외선 온열기 전문 제조사 명신메디칼의 돔형 온열기입니다.</p>
           <dl className="mx-0 mt-4 mb-1 border-t border-line">
@@ -245,7 +263,7 @@ function DeviceCard({ d, near, onSheet }) {
     <article className="min-w-0 flex-[0_0_var(--eq-card-w)] snap-start" data-eq-card>
       <div>
         {/* 기기·제품 사진이 저해상도라 22rem보다 키우지 않는다 */}
-        <div className="relative aspect-[4/5] max-w-[22rem] overflow-clip rounded-card bg-white">
+        <div className="relative aspect-[4/5] max-w-[22rem] overflow-clip rounded-[1.25rem] bg-white">
           <img className="size-full object-contain p-[8%]" src={d.photo} alt={d.alt} loading="lazy" decoding="async" />
           {/* 젤 면: 왼쪽에서 오른쪽으로 걷히며 덮는다(끄는 중에는 올려도 덮지 않는다).
               두 제품(웰스파)이면 두 사진을 같은 바닥선에 나란히 세우고 바로 아래 칸마다 이름표를 둔 한 묶음을 면 가운데에 놓는다 */}
@@ -285,14 +303,14 @@ function DeviceCard({ d, near, onSheet }) {
               {d.gels.map((g) => (
                 <span key={g.name} className={`grid justify-items-center gap-[0.2rem] text-balance ${two ? 'px-[0.15rem]' : 'px-3'}`}>
                   {g.name}{' '}
-                  <span className="font-sans text-[0.75rem] leading-none font-normal tracking-[0.08em] text-accent-deep normal-nums">{g.volume}</span>
+                  <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.08em] text-accent-deep normal-nums">{g.volume}</span>
                 </span>
               ))}
             </p>
           </div>
         </div>
         <div className="px-[0.15rem] pt-[1.1rem] pb-0">
-          <p className={CARD_KIND}>{d.en}</p>
+          <CardNo no={d.no} en={d.en} />
           <h3 className={`${CARD_NAME} text-[1.35rem]`}>{d.name}</h3>
           <p className={CARD_SUB}>{d.sub}</p>
           <div className="mt-[0.85rem] flex flex-wrap gap-[0.4rem]">
@@ -309,7 +327,7 @@ function DeviceCard({ d, near, onSheet }) {
             {/* 성분 보기: 뒤에 작은 +(시트가 열린다) */}
             <button
               type="button"
-              className={`${PILL} inline-flex min-h-11 items-center gap-[0.4rem] px-4 py-[0.35rem] text-[0.78rem] whitespace-nowrap after:-mr-[0.15rem] after:font-sans after:text-[1.05rem] after:leading-none after:font-light after:text-accent-deep after:content-['+'_/_''] [@media(hover:hover)_and_(pointer:fine)]:hover:border-espresso`}
+              className={`${PILL} inline-flex min-h-11 items-center gap-[0.4rem] px-4 py-[0.35rem] text-[0.78rem] whitespace-nowrap after:-mr-[0.15rem] after:font-label after:text-[1.05rem] after:leading-none after:font-light after:text-accent-deep after:content-['+'_/_''] [@media(hover:hover)_and_(pointer:fine)]:hover:border-espresso`}
               aria-haspopup="dialog"
               data-cursor=""
               onClick={(e) => onSheet(d, e.currentTarget)}
@@ -436,7 +454,7 @@ function GelSheet({ device, onClose }) {
     // 배경 누르기는 마우스·터치용 보조 수단이다. 키보드는 ESC와 닫기 버튼으로 닫는다.
     <dialog
       ref={ref}
-      className="group/eqs fixed inset-x-0 top-auto bottom-0 m-0 h-fit max-h-[86svh] w-full max-w-full overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-card border-0 bg-white p-0 text-ink shadow-[0_-0.75rem_2.5rem_rgb(29_26_23/0.12)] [scrollbar-width:thin] backdrop:bg-[rgb(29_26_23/0.45)] backdrop:backdrop-blur-[4px] after:pointer-events-none after:sticky after:bottom-0 after:-mt-14 after:block after:h-14 after:bg-[linear-gradient(rgb(255_255_255/0),#fff_85%)] after:opacity-0 after:transition-opacity after:duration-250 after:ease-[ease] after:content-[''] motion-safe:open:animate-eqs-up motion-safe:open:backdrop:animate-eqs-fade data-more:after:opacity-100 motion-reduce:after:transition-none md:inset-0 md:m-auto md:max-h-[min(86svh,50rem)] md:w-[min(36rem,100%_-_3rem)] md:rounded-card md:shadow-[0_1.5rem_4rem_rgb(29_26_23/0.2)] motion-safe:md:open:animate-eqs-pop"
+      className="group/eqs fixed inset-x-0 top-auto bottom-0 m-0 h-fit max-h-[86svh] w-full max-w-full overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-3xl border-0 bg-white p-0 text-ink shadow-[0_-0.75rem_2.5rem_rgb(29_26_23/0.12)] [scrollbar-width:thin] backdrop:bg-[rgb(29_26_23/0.45)] backdrop:backdrop-blur-[4px] after:pointer-events-none after:sticky after:bottom-0 after:-mt-14 after:block after:h-14 after:bg-[linear-gradient(rgb(255_255_255/0),#fff_85%)] after:opacity-0 after:transition-opacity after:duration-250 after:ease-[ease] after:content-[''] motion-safe:open:animate-eqs-up motion-safe:open:backdrop:animate-eqs-fade data-more:after:opacity-100 motion-reduce:after:transition-none md:inset-0 md:m-auto md:max-h-[min(86svh,50rem)] md:w-[min(36rem,100%_-_3rem)] md:rounded-3xl md:shadow-[0_1.5rem_4rem_rgb(29_26_23/0.2)] motion-safe:md:open:animate-eqs-pop"
       aria-labelledby={titleId}
       data-cursor-off=""
       onPointerDown={onPointerDown}
@@ -453,7 +471,13 @@ function GelSheet({ device, onClose }) {
       >
         <span className="absolute top-[0.6rem] left-1/2 h-1 w-10 -translate-x-1/2 rounded-full bg-line md:hidden" aria-hidden="true" />
         <p className="min-w-0 text-[0.8rem] leading-[1.4] font-medium tracking-[0.02em] text-accent-deep" id={titleId}>
-          {device.name} 전용 {device.sheetKo}<span className="sr-only"> 성분</span>
+          <span className="font-label text-[0.75rem] leading-none font-normal tracking-[0.2em] normal-nums" aria-hidden="true">
+            {device.sheetEn}
+          </span>
+          <span className="whitespace-pre" aria-hidden="true">
+            {' · '}
+          </span>
+          {device.name} 전용<span className="sr-only"> {device.sheetKo} 성분</span>
         </p>
         <button
           type="button"
@@ -469,12 +493,12 @@ function GelSheet({ device, onClose }) {
 
       {/* 본문: 제품마다 사진 → 이름·용량 → 사용 설명 → 주요 성분 */}
       <div className="px-6 pt-[0.15rem] pb-[max(1.75rem,env(safe-area-inset-bottom))] md:px-8 md:pb-8">
-        {device.gels.map((g, i) => (
+        {device.gels.map((g, i, all) => (
           <div key={g.name} className={i > 0 ? 'mt-8 border-t border-line pt-8' : undefined}>
             {/* 제품 누끼는 스튜디오 바탕 패널에 담는다(높이 11rem, 48rem부터 12rem, 낮은 화면은 8.5rem).
                 손바닥 컷은 손이 사진 가장자리에서 잘려 있어 사진 비율 그대로의 프레임에 꽉 채운다 */}
             <div
-              className={`grid h-(--fig-h) overflow-clip rounded-card [background:var(--yw-eq-studio)] [--fig-h:11rem] [@media(max-height:32rem)]:[--fig-h:8.5rem] [@media(min-width:48rem)_and_(min-height:32.01rem)]:[--fig-h:12rem] ${
+              className={`grid h-(--fig-h) overflow-clip rounded-[1.25rem] [background:var(--yw-eq-studio)] [--fig-h:11rem] [@media(max-height:32rem)]:[--fig-h:8.5rem] [@media(min-width:48rem)_and_(min-height:32.01rem)]:[--fig-h:12rem] ${
                 g.hand ? 'mx-auto w-[min(100%,var(--fig-h)_*_var(--ar,1))] p-0' : 'p-4'
               }`}
               style={g.hand ? { '--ar': (g.w / g.h).toFixed(4) } : undefined}
@@ -488,9 +512,15 @@ function GelSheet({ device, onClose }) {
                 className={`size-full min-h-0 ${g.hand ? 'object-cover' : 'object-contain [filter:drop-shadow(0_14px_18px_rgb(29_26_23/0.16))]'}`}
               />
             </div>
-            <h2 className={`mt-[1.15rem] font-serif text-[1.3rem] leading-[1.4] font-normal tracking-[-0.02em] text-ink normal-nums`}>
+            {/* 제품이 둘 이상이면(웰스파) 트랙 카운터처럼 '01 / 02'를 달아 아래에 다음 제품이 있음을 알린다. 구조는 제목(h2)이 전한다 */}
+            {all.length > 1 && (
+              <p className="mt-[1.15rem] font-en text-[0.95rem] leading-none font-light tracking-[0.02em] whitespace-nowrap text-muted lining-nums tabular-nums [&_b]:font-medium [&_b]:text-ink" aria-hidden="true">
+                <b>{pad2(i + 1)}</b> / {pad2(all.length)}
+              </p>
+            )}
+            <h2 className={`${all.length > 1 ? 'mt-[0.3rem]' : 'mt-[1.15rem]'} font-serif text-[1.3rem] leading-[1.4] font-normal tracking-[-0.02em] text-ink normal-nums`}>
               {g.name}{' '}
-              <span className="ml-[0.3rem] font-sans text-[0.75rem] leading-none font-normal tracking-[0.08em] whitespace-nowrap text-accent-deep normal-nums">{g.volume}</span>
+              <span className="ml-[0.3rem] font-label text-[0.75rem] leading-none font-normal tracking-[0.08em] whitespace-nowrap text-accent-deep normal-nums">{g.volume}</span>
             </h2>
             <p className="mt-2 text-[0.88rem] leading-[1.7] text-muted">{g.usage}</p>
             <h3 className="mt-6 flex items-center gap-3 font-sans text-[0.78rem] leading-[1.4] font-semibold tracking-[0.02em] text-ink normal-nums after:h-px after:flex-1 after:bg-line after:content-['']">
@@ -506,7 +536,7 @@ function GelSheet({ device, onClose }) {
                   <div>
                     <p className="text-[0.9rem] leading-[1.5] font-semibold text-ink">{ing.name}</p>
                     {ing.en && (
-                      <p className="mt-[0.1rem] font-sans text-[0.75rem] leading-[1.4] font-normal tracking-[0.05em] text-accent-deep normal-nums" lang="en">
+                      <p className="mt-[0.1rem] font-label text-[0.75rem] leading-[1.4] font-normal tracking-[0.05em] text-accent-deep normal-nums" lang="en">
                         {ing.en}
                       </p>
                     )}
@@ -663,13 +693,14 @@ export default function Equipment() {
     // --yw-eq-studio: 성분 시트의 제품 패널 바탕(가운데가 가장 밝고 가장자리로 갈수록 옅은 웜 그레이)
     <section
       id="equipment"
-      className={`${SECTION} ${RULE} overflow-x-clip [--yw-eq-studio:radial-gradient(ellipse_85%_80%_at_50%_40%,#fff_0%,#fbfaf8_48%,#eeeae4_100%)]`}
+      className={`${SECTION} ${CURTAIN_LIGHT} overflow-x-clip bg-(--yw-warm) [--yw-eq-studio:radial-gradient(ellipse_85%_80%_at_50%_40%,#fff_0%,#fbfaf8_48%,#eeeae4_100%)]`}
       data-theme="light"
+      data-curtain
     >
-      {/* 머리: 제목·한 줄 | 화살표(데스크톱). 모바일·태블릿은 손가락으로 넘긴다 */}
+      {/* 머리: 제목·한 줄 | 카운터·화살표. 모바일·태블릿은 카운터를 제목 오른쪽 위에 작게 두고 화살표는 숨긴다 */}
       <div className="mx-auto w-full max-w-(--yw-max) relative grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div className="min-w-0">
-          <h2 className={H2}>
+          <h2 className={`${H2} max-lg:pr-[3.75rem]`}>
             따뜻하게 데우고,
             <br />
             섬세하게 다듬습니다.
@@ -678,7 +709,13 @@ export default function Equipment() {
             오일 대신 디바이스마다 맞춘 전용 젤을 사용합니다.
           </p>
         </div>
-        <div className="flex items-center gap-3 max-lg:hidden lg:pb-1">
+        <div className="flex items-center gap-3 max-lg:absolute max-lg:top-[calc(0.72rem_+_1.1rem_+_0.55em)] max-lg:right-0 lg:pb-1">
+          <span
+            className="font-en text-[1.6rem] leading-none font-light tracking-[0.02em] whitespace-nowrap text-ink lining-nums tabular-nums max-lg:text-[1.15rem] [&_b]:font-medium"
+            aria-hidden="true"
+          >
+            <b>{pad2(nav.idx)}</b> / {pad2(CARD_COUNT)}
+          </span>
           <button type="button" className={ARROW} aria-label="이전 장비" data-magnet disabled={nav.atStart} onClick={() => go(-1)}>
             <span aria-hidden="true">‹</span>
           </button>
@@ -703,7 +740,7 @@ export default function Equipment() {
       >
         <DomeCard />
         {DEVICES.map((d) => (
-          <DeviceCard key={d.name} d={d} near={near} onSheet={openSheet} />
+          <DeviceCard key={d.no} d={d} near={near} onSheet={openSheet} />
         ))}
       </div>
 
@@ -715,7 +752,7 @@ export default function Equipment() {
       />
 
       {/* 트랙 밖에 둔다(시트 안의 누르기가 트랙 끌기로 번지지 않게). 열렸을 때만 마운트한다. */}
-      {sheet && <GelSheet key={sheet.name} device={sheet} onClose={closeSheet} />}
+      {sheet && <GelSheet key={sheet.no} device={sheet} onClose={closeSheet} />}
     </section>
   )
 }
